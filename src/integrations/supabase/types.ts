@@ -14,7 +14,128 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      campaigns: {
+        Row: {
+          created_at: string | null
+          description: string
+          event_id: string
+          id: string
+          recommended_end: string
+          recommended_start: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          description: string
+          event_id: string
+          id?: string
+          recommended_end: string
+          recommended_start: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string
+          event_id?: string
+          id?: string
+          recommended_end?: string
+          recommended_start?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaigns_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          category: string
+          created_at: string | null
+          description: string | null
+          end_time: string
+          expected_attendance: number
+          id: string
+          start_time: string
+          title: string
+          venue_lat: number
+          venue_lon: number
+          venue_name: string
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          description?: string | null
+          end_time: string
+          expected_attendance: number
+          id?: string
+          start_time: string
+          title: string
+          venue_lat: number
+          venue_lon: number
+          venue_name: string
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          end_time?: string
+          expected_attendance?: number
+          id?: string
+          start_time?: string
+          title?: string
+          venue_lat?: number
+          venue_lon?: number
+          venue_name?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          address: string
+          business_name: string
+          business_type: string
+          created_at: string | null
+          email: string
+          id: string
+          lat: number
+          lon: number
+          opening_hours: Json | null
+          updated_at: string | null
+        }
+        Insert: {
+          address: string
+          business_name: string
+          business_type: string
+          created_at?: string | null
+          email: string
+          id: string
+          lat: number
+          lon: number
+          opening_hours?: Json | null
+          updated_at?: string | null
+        }
+        Update: {
+          address?: string
+          business_name?: string
+          business_type?: string
+          created_at?: string | null
+          email?: string
+          id?: string
+          lat?: number
+          lon?: number
+          opening_hours?: Json | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
