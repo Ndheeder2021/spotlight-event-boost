@@ -587,7 +587,7 @@ export type Database = {
         | "community"
         | "other"
       notification_channel: "email" | "inapp"
-      plan_type: "starter" | "pro" | "business"
+      plan_type: "starter" | "pro" | "business" | "professional" | "enterprise"
       tenant_status: "trial" | "active" | "past_due" | "canceled"
     }
     CompositeTypes: {
@@ -729,7 +729,7 @@ export const Constants = {
         "other",
       ],
       notification_channel: ["email", "inapp"],
-      plan_type: ["starter", "pro", "business"],
+      plan_type: ["starter", "pro", "business", "professional", "enterprise"],
       tenant_status: ["trial", "active", "past_due", "canceled"],
     },
   },
