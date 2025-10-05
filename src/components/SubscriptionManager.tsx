@@ -16,7 +16,9 @@ const planDetails = {
   starter: {
     name: "Starter",
     icon: Sparkles,
-    price: "Gratis",
+    monthlyPrice: "299 kr/mån",
+    yearlyPrice: "3 229 kr/år",
+    yearlyDiscount: "10% rabatt",
     features: [
       "Spara kampanjer till databasen",
       "Grundläggande kampanjvy",
@@ -27,7 +29,9 @@ const planDetails = {
   professional: {
     name: "Professional",
     icon: Crown,
-    price: "999 kr/mån",
+    monthlyPrice: "499 kr/mån",
+    yearlyPrice: "3 592 kr/år",
+    yearlyDiscount: "40% rabatt",
     features: [
       "Alla Starter-funktioner",
       "PDF-export med professionell design",
@@ -44,7 +48,9 @@ const planDetails = {
   enterprise: {
     name: "Enterprise",
     icon: Zap,
-    price: "Kontakta oss",
+    monthlyPrice: "Kontakta oss",
+    yearlyPrice: null,
+    yearlyDiscount: null,
     features: [
       "Alla Professional-funktioner",
       "Dedikerad support",
@@ -128,9 +134,23 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                   <Icon className={`h-6 w-6 ${plan === "professional" ? "text-accent" : ""}`} />
                   <CardTitle>{details.name}</CardTitle>
                 </div>
-                <CardDescription className="text-2xl font-bold">
-                  {details.price}
-                </CardDescription>
+                <div className="space-y-2">
+                  <div className="text-2xl font-bold">
+                    {details.monthlyPrice}
+                  </div>
+                  {details.yearlyPrice && (
+                    <div className="space-y-1">
+                      <div className="text-lg font-semibold text-muted-foreground">
+                        {details.yearlyPrice}
+                      </div>
+                      {details.yearlyDiscount && (
+                        <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/20 text-accent text-xs font-bold">
+                          {details.yearlyDiscount}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2 min-h-[300px]">
