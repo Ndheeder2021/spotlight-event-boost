@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Switch } from "@/components/ui/switch";
 import { AuthForm } from "@/components/AuthForm";
 import { OnboardingForm } from "@/components/OnboardingForm";
-import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight } from "lucide-react";
+import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 
 const testimonials = [
@@ -520,27 +520,46 @@ const Index = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16 animate-on-scroll">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Vanliga frågor</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Hittar du inte svar på din fråga? Kontakta oss gärna!
-          </p>
-        </div>
+      <section className="relative container mx-auto px-4 py-20 overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+        
+        <div className="relative z-10">
+          <div className="text-center mb-16 animate-on-scroll">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent mb-4">
+              <HelpCircle className="h-4 w-4" />
+              <span className="text-sm font-medium">Vanliga frågor</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 gradient-text">
+              Frågor & Svar
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Hittar du inte svar på din fråga? <a href="/contact" className="text-primary hover:underline">Kontakta oss gärna!</a>
+            </p>
+          </div>
 
-        <div className="max-w-3xl mx-auto animate-on-scroll">
-          <Accordion type="single" collapsible className="space-y-4">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="glass-card rounded-lg px-6 border-0">
-                <AccordionTrigger className="text-left font-medium hover:no-underline text-base">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <div className="max-w-3xl mx-auto animate-on-scroll">
+            <Accordion type="single" collapsible className="space-y-4">
+              {faqs.map((faq, index) => (
+                <AccordionItem 
+                  key={index} 
+                  value={`item-${index}`} 
+                  className="glass-card rounded-xl px-6 border-0 group hover:shadow-premium transition-all duration-300"
+                >
+                  <AccordionTrigger className="text-left font-semibold hover:no-underline text-base py-6 group-hover:text-primary transition-colors">
+                    <div className="flex items-start gap-3">
+                      <Sparkles className="h-5 w-5 mt-0.5 text-accent group-hover:text-primary transition-colors flex-shrink-0" />
+                      <span>{faq.question}</span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed pb-6 pl-8">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </div>
       </section>
 
