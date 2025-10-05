@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Save } from "lucide-react";
 import { toast } from "sonner";
+import { SubscriptionManager } from "@/components/SubscriptionManager";
 
 export default function Settings() {
   const [loading, setLoading] = useState(true);
@@ -170,23 +171,15 @@ export default function Settings() {
           <Card>
             <CardHeader>
               <CardTitle>Team & Abonnemang</CardTitle>
-              <CardDescription>Hantera teammedlemmar och abonnemang</CardDescription>
+              <CardDescription>Hantera ditt abonnemang och välj rätt plan för dina behov</CardDescription>
             </CardHeader>
             <CardContent>
               {tenant && (
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Plan</p>
-                    <p className="text-lg font-semibold capitalize">{tenant.plan}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Status</p>
-                    <p className="text-lg font-semibold capitalize">{tenant.status}</p>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Team-hantering och Stripe billing kommer snart
-                  </p>
-                </div>
+                <SubscriptionManager
+                  currentPlan={tenant.plan}
+                  tenantId={tenant.id}
+                  onPlanChange={loadData}
+                />
               )}
             </CardContent>
           </Card>
