@@ -9,63 +9,66 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 48 100% 8%;
+    --foreground: 0 0% 7%;
     --card: 0 0% 100%;
-    --card-foreground: 48 100% 8%;
+    --card-foreground: 0 0% 7%;
     --popover: 0 0% 100%;
-    --popover-foreground: 48 100% 8%;
-    --primary: 48 100% 41%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 48 15% 92%;
-    --secondary-foreground: 48 100% 8%;
-    --muted: 48 15% 95%;
-    --muted-foreground: 48 10% 40%;
-    --accent: 48 100% 50%;
-    --accent-foreground: 0 0% 0%;
-    --destructive: 0 84% 60%;
+    --popover-foreground: 0 0% 7%;
+    
+    /* Spotlight brand colors - primary #111111 (almost black) */
+    --primary: 0 0% 7%;
+    --primary-foreground: 0 0% 98%;
+    
+    /* Spotlight accent - golden #d1b300 */
+    --accent: 48 100% 41%;
+    --accent-foreground: 0 0% 7%;
+    
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 7%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 48 20% 85%;
-    --input: 48 20% 85%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
     --ring: 48 100% 41%;
-    --radius: 0.75rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 48 100% 8%;
-    --sidebar-primary: 48 100% 41%;
-    --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 48 15% 92%;
-    --sidebar-accent-foreground: 48 100% 8%;
-    --sidebar-border: 48 20% 85%;
-    --sidebar-ring: 48 100% 41%;
+    --chart-1: 48 100% 41%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
   }
-
   .dark {
     --background: 0 0% 7%;
-    --foreground: 48 100% 82%;
+    --foreground: 0 0% 98%;
     --card: 0 0% 10%;
-    --card-foreground: 48 100% 82%;
-    --popover: 0 0% 10%;
-    --popover-foreground: 48 100% 82%;
-    --primary: 48 100% 41%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 48 100% 82%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 48 30% 60%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 98%;
+    
+    /* Spotlight brand colors in dark mode */
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 7%;
+    
+    /* Spotlight accent - golden */
     --accent: 48 100% 50%;
-    --accent-foreground: 0 0% 0%;
-    --destructive: 0 62% 31%;
+    --accent-foreground: 0 0% 7%;
+    
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 48 100% 41%;
-    --sidebar-background: 0 0% 7%;
-    --sidebar-foreground: 48 100% 82%;
-    --sidebar-primary: 48 100% 41%;
-    --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 0 0% 15%;
-    --sidebar-accent-foreground: 48 100% 82%;
-    --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 48 100% 41%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 48 100% 50%;
+    --chart-1: 48 100% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 

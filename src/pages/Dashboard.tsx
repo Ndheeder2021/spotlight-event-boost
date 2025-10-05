@@ -49,13 +49,13 @@ export default function Dashboard() {
         return;
       }
 
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
+      const { data: location, error: locationError } = await supabase
+        .from("locations")
         .select("lat, lon")
         .eq("id", user.id)
         .single();
 
-      if (profileError) throw profileError;
+      if (locationError) throw locationError;
 
       const { data: allEvents, error: eventsError } = await supabase
         .from("events")
@@ -67,8 +67,8 @@ export default function Dashboard() {
       // Filter events within 10km radius
       const nearbyEvents = allEvents?.filter(event => {
         const distance = calculateDistance(
-          profile.lat,
-          profile.lon,
+          location.lat,
+          location.lon,
           event.venue_lat,
           event.venue_lon
         );

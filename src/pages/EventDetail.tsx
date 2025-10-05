@@ -32,16 +32,16 @@ export default function EventDetail() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const [eventRes, profileRes] = await Promise.all([
+      const [eventRes, locationRes] = await Promise.all([
         supabase.from("events").select("*").eq("id", id).single(),
-        supabase.from("profiles").select("*").eq("id", user.id).single(),
+        supabase.from("locations").select("*").eq("id", user.id).single(),
       ]);
 
       if (eventRes.error) throw eventRes.error;
-      if (profileRes.error) throw profileRes.error;
+      if (locationRes.error) throw locationRes.error;
 
       setEvent(eventRes.data);
-      setProfile(profileRes.data);
+      setProfile(locationRes.data);
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -54,34 +54,32 @@ export default function EventDetail() {
     
     setGenerating(true);
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
+      // Get user's tenant_id
+      const { data: userRole } = await supabase
+        .from("user_roles")
+        .select("tenant_id")
+        .eq("user_id", user.id)
+        .single();
+
+      if (!userRole) throw new Error("No tenant found");
+
       const { data, error } = await supabase.functions.invoke("generate-campaign", {
         body: {
           eventId: event.id,
-          eventTitle: event.title,
-          businessType: profile.business_type,
-          expectedAttendance: event.expected_attendance,
+          locationId: profile.id,
         },
       });
 
       if (error) throw error;
 
       setCampaigns(data.campaigns);
-      
-      for (const camp of data.campaigns) {
-        const { error: insertError } = await supabase.from("campaigns").insert({
-          user_id: profile.id,
-          event_id: event.id,
-          title: camp.title,
-          description: camp.description,
-          recommended_start: new Date(event.start_time).toISOString(),
-          recommended_end: new Date(event.end_time).toISOString(),
-        });
-        if (insertError) console.error(insertError);
-      }
-
       toast.success("Kampanjer genererade!");
     } catch (error: any) {
-      toast.error(error.message);
+      console.error("Campaign generation error:", error);
+      toast.error(error.message || "Kunde inte generera kampanjer");
     } finally {
       setGenerating(false);
     }

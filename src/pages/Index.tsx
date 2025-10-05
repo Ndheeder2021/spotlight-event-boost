@@ -38,14 +38,14 @@ const Index = () => {
 
     try {
       const { data, error } = await supabase
-        .from("profiles")
-        .select("business_name")
+        .from("locations")
+        .select("name")
         .eq("id", user.id)
         .single();
 
       if (error) throw error;
 
-      if (!data?.business_name || data.business_name === "My Business") {
+      if (!data?.name || data.name === "My Business") {
         setNeedsOnboarding(true);
       } else {
         navigate("/dashboard");

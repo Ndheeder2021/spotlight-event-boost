@@ -14,36 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: string | null
+          actor_user_id: string | null
+          created_at: string | null
+          entity: string | null
+          entity_id: string | null
+          id: string
+          metadata_json: Json | null
+          tenant_id: string | null
+        }
+        Insert: {
+          action?: string | null
+          actor_user_id?: string | null
+          created_at?: string | null
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+          metadata_json?: Json | null
+          tenant_id?: string | null
+        }
+        Update: {
+          action?: string | null
+          actor_user_id?: string | null
+          created_at?: string | null
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+          metadata_json?: Json | null
+          tenant_id?: string | null
+        }
+        Relationships: []
+      }
       campaigns: {
         Row: {
           created_at: string | null
           description: string
           event_id: string
           id: string
+          location_id: string | null
           recommended_end: string
           recommended_start: string
+          status: Database["public"]["Enums"]["campaign_status"] | null
+          tenant_id: string | null
           title: string
-          user_id: string
         }
         Insert: {
           created_at?: string | null
           description: string
           event_id: string
           id?: string
+          location_id?: string | null
           recommended_end: string
           recommended_start: string
+          status?: Database["public"]["Enums"]["campaign_status"] | null
+          tenant_id?: string | null
           title: string
-          user_id: string
         }
         Update: {
           created_at?: string | null
           description?: string
           event_id?: string
           id?: string
+          location_id?: string | null
           recommended_end?: string
           recommended_start?: string
+          status?: Database["public"]["Enums"]["campaign_status"] | null
+          tenant_id?: string | null
           title?: string
-          user_id?: string
         }
         Relationships: [
           {
@@ -53,16 +92,36 @@ export type Database = {
             referencedRelation: "events"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "campaigns_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaigns_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
         ]
       }
       events: {
         Row: {
-          category: string
+          category: Database["public"]["Enums"]["event_category"]
+          city: string | null
           created_at: string | null
           description: string | null
           end_time: string
           expected_attendance: number
           id: string
+          p10: number | null
+          p90: number | null
+          raw_url: string | null
+          source: string | null
+          source_id: string | null
           start_time: string
           title: string
           venue_lat: number
@@ -70,12 +129,18 @@ export type Database = {
           venue_name: string
         }
         Insert: {
-          category: string
+          category: Database["public"]["Enums"]["event_category"]
+          city?: string | null
           created_at?: string | null
           description?: string | null
           end_time: string
           expected_attendance: number
           id?: string
+          p10?: number | null
+          p90?: number | null
+          raw_url?: string | null
+          source?: string | null
+          source_id?: string | null
           start_time: string
           title: string
           venue_lat: number
@@ -83,12 +148,18 @@ export type Database = {
           venue_name: string
         }
         Update: {
-          category?: string
+          category?: Database["public"]["Enums"]["event_category"]
+          city?: string | null
           created_at?: string | null
           description?: string | null
           end_time?: string
           expected_attendance?: number
           id?: string
+          p10?: number | null
+          p90?: number | null
+          raw_url?: string | null
+          source?: string | null
+          source_id?: string | null
           start_time?: string
           title?: string
           venue_lat?: number
@@ -97,54 +168,245 @@ export type Database = {
         }
         Relationships: []
       }
-      profiles: {
+      locations: {
         Row: {
           address: string
-          business_name: string
-          business_type: string
+          address_line: string | null
+          business_type: Database["public"]["Enums"]["business_type"] | null
+          city: string | null
+          country: string | null
           created_at: string | null
-          email: string
           id: string
           lat: number
           lon: number
-          opening_hours: Json | null
+          name: string | null
+          open_hours_text: string | null
+          radius_km: number | null
+          tenant_id: string | null
           updated_at: string | null
         }
         Insert: {
           address: string
-          business_name: string
-          business_type: string
+          address_line?: string | null
+          business_type?: Database["public"]["Enums"]["business_type"] | null
+          city?: string | null
+          country?: string | null
           created_at?: string | null
-          email: string
           id: string
           lat: number
           lon: number
-          opening_hours?: Json | null
+          name?: string | null
+          open_hours_text?: string | null
+          radius_km?: number | null
+          tenant_id?: string | null
           updated_at?: string | null
         }
         Update: {
           address?: string
-          business_name?: string
-          business_type?: string
+          address_line?: string | null
+          business_type?: Database["public"]["Enums"]["business_type"] | null
+          city?: string | null
+          country?: string | null
           created_at?: string | null
-          email?: string
           id?: string
           lat?: number
           lon?: number
-          opening_hours?: Json | null
+          name?: string | null
+          open_hours_text?: string | null
+          radius_km?: number | null
+          tenant_id?: string | null
           updated_at?: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "locations_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_rules: {
+        Row: {
+          channel: Database["public"]["Enums"]["notification_channel"] | null
+          created_at: string | null
+          enabled: boolean | null
+          id: string
+          last_fired_at: string | null
+          location_id: string | null
+          min_attendance: number | null
+          radius_km: number | null
+          tenant_id: string | null
+        }
+        Insert: {
+          channel?: Database["public"]["Enums"]["notification_channel"] | null
+          created_at?: string | null
+          enabled?: boolean | null
+          id?: string
+          last_fired_at?: string | null
+          location_id?: string | null
+          min_attendance?: number | null
+          radius_km?: number | null
+          tenant_id?: string | null
+        }
+        Update: {
+          channel?: Database["public"]["Enums"]["notification_channel"] | null
+          created_at?: string | null
+          enabled?: boolean | null
+          id?: string
+          last_fired_at?: string | null
+          location_id?: string | null
+          min_attendance?: number | null
+          radius_km?: number | null
+          tenant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_rules_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_rules_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscriptions: {
+        Row: {
+          created_at: string | null
+          current_period_end: string | null
+          id: string
+          plan: string | null
+          status: string | null
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          tenant_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          current_period_end?: string | null
+          id?: string
+          plan?: string | null
+          status?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tenant_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          current_period_end?: string | null
+          id?: string
+          plan?: string | null
+          status?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tenant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tenants: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          plan: Database["public"]["Enums"]["plan_type"] | null
+          status: Database["public"]["Enums"]["tenant_status"] | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          plan?: Database["public"]["Enums"]["plan_type"] | null
+          status?: Database["public"]["Enums"]["tenant_status"] | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          plan?: Database["public"]["Enums"]["plan_type"] | null
+          status?: Database["public"]["Enums"]["tenant_status"] | null
+        }
         Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          tenant_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          tenant_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          tenant_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_tenant_id: {
+        Args: { _user_id: string }
+        Returns: string
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "owner" | "staff" | "admin"
+      business_type: "cafe" | "bar" | "restaurant"
+      campaign_status: "draft" | "scheduled" | "published"
+      event_category:
+        | "concert"
+        | "sports"
+        | "conference"
+        | "festival"
+        | "theatre"
+        | "community"
+        | "other"
+      notification_channel: "email" | "inapp"
+      plan_type: "starter" | "pro" | "business"
+      tenant_status: "trial" | "active" | "past_due" | "canceled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -271,6 +533,22 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["owner", "staff", "admin"],
+      business_type: ["cafe", "bar", "restaurant"],
+      campaign_status: ["draft", "scheduled", "published"],
+      event_category: [
+        "concert",
+        "sports",
+        "conference",
+        "festival",
+        "theatre",
+        "community",
+        "other",
+      ],
+      notification_channel: ["email", "inapp"],
+      plan_type: ["starter", "pro", "business"],
+      tenant_status: ["trial", "active", "past_due", "canceled"],
+    },
   },
 } as const

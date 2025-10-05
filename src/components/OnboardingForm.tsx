@@ -15,7 +15,13 @@ interface OnboardingFormProps {
 
 export const OnboardingForm = ({ userId, onComplete }: OnboardingFormProps) => {
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    businessName: string;
+    businessType: "restaurant" | "cafe" | "bar";
+    address: string;
+    lat: number;
+    lon: number;
+  }>({
     businessName: "",
     businessType: "restaurant",
     address: "",
@@ -29,11 +35,11 @@ export const OnboardingForm = ({ userId, onComplete }: OnboardingFormProps) => {
 
     try {
       const { error } = await supabase
-        .from("profiles")
+        .from("locations")
         .update({
-          business_name: formData.businessName,
+          name: formData.businessName,
           business_type: formData.businessType,
-          address: formData.address,
+          address_line: formData.address,
           lat: formData.lat,
           lon: formData.lon,
         })
@@ -69,7 +75,7 @@ export const OnboardingForm = ({ userId, onComplete }: OnboardingFormProps) => {
             <Label htmlFor="businessType">Typ av verksamhet</Label>
             <Select
               value={formData.businessType}
-              onValueChange={(value) => setFormData({ ...formData, businessType: value })}
+              onValueChange={(value) => setFormData({ ...formData, businessType: value as "restaurant" | "cafe" | "bar" })}
             >
               <SelectTrigger>
                 <SelectValue />
