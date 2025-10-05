@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import EventDetail from "./pages/EventDetail";
 import Campaigns from "./pages/Campaigns";
 import CampaignDetail from "./pages/CampaignDetail";
+import CampaignDashboard from "./pages/CampaignDashboard";
 import Notifications from "./pages/Notifications";
 import Calendar from "./pages/Calendar";
 import Reports from "./pages/Reports";
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/events/:id" element={<EventDetail />} />
             <Route path="/campaigns" element={<Campaigns />} />
             <Route path="/campaigns/:id" element={<CampaignDetail />} />
+            <Route path="/campaign-analytics" element={<CampaignDashboard />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/reports" element={<Reports />} />

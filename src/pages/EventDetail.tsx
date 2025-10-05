@@ -7,6 +7,7 @@ import { ArrowLeft, Calendar, MapPin, Users, Sparkles, Loader2 } from "lucide-re
 import { format } from "date-fns";
 import { sv } from "date-fns/locale";
 import { toast } from "sonner";
+import { CampaignActions } from "@/components/CampaignActions";
 
 interface AdIdea {
   platform: "Meta" | "TikTok";
@@ -324,6 +325,11 @@ export default function EventDetail() {
                         </li>
                       ))}
                     </ol>
+                  </div>
+
+                  {/* Campaign Actions */}
+                  <div className="mb-6">
+                    <CampaignActions campaign={campaign} eventId={event.id} />
                   </div>
 
                   <div className="border-t-2 border-accent/10 pt-6 mt-6">

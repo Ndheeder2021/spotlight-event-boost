@@ -1,15 +1,16 @@
 import { Outlet, useNavigate, NavLink, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LogOut, Home, Calendar, Megaphone, Bell, Settings, BarChart, Zap } from "lucide-react";
+import { LogOut, Home, Calendar, Megaphone, Bell, Settings, BarChart, Zap, TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const navItems = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
   { title: "Kampanjer", url: "/campaigns", icon: Megaphone },
+  { title: "Analytics", url: "/campaign-analytics", icon: TrendingUp },
   { title: "Kalender", url: "/calendar", icon: Calendar },
-  { title: "Notifieringar", url: "/notifications", icon: Bell },
   { title: "Rapporter", url: "/reports", icon: BarChart },
+  { title: "Notifieringar", url: "/notifications", icon: Bell },
   { title: "Inställningar", url: "/settings", icon: Settings },
 ];
 

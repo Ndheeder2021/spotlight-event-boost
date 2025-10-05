@@ -47,42 +47,224 @@ export type Database = {
         }
         Relationships: []
       }
+      campaign_analytics: {
+        Row: {
+          campaign_id: string
+          id: string
+          metadata: Json | null
+          metric_type: string
+          metric_value: number
+          recorded_at: string | null
+          tenant_id: string
+        }
+        Insert: {
+          campaign_id: string
+          id?: string
+          metadata?: Json | null
+          metric_type: string
+          metric_value: number
+          recorded_at?: string | null
+          tenant_id: string
+        }
+        Update: {
+          campaign_id?: string
+          id?: string
+          metadata?: Json | null
+          metric_type?: string
+          metric_value?: number
+          recorded_at?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_analytics_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_attachments: {
+        Row: {
+          campaign_id: string
+          created_at: string | null
+          file_data: string | null
+          file_name: string
+          file_type: string
+          id: string
+          metadata: Json | null
+          storage_path: string | null
+          tenant_id: string
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string | null
+          file_data?: string | null
+          file_name: string
+          file_type: string
+          id?: string
+          metadata?: Json | null
+          storage_path?: string | null
+          tenant_id: string
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string | null
+          file_data?: string | null
+          file_name?: string
+          file_type?: string
+          id?: string
+          metadata?: Json | null
+          storage_path?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_attachments_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_comments: {
+        Row: {
+          author_email: string | null
+          author_name: string
+          campaign_id: string
+          content: string
+          created_at: string | null
+          id: string
+          is_internal: boolean | null
+          tenant_id: string
+          user_id: string | null
+        }
+        Insert: {
+          author_email?: string | null
+          author_name: string
+          campaign_id: string
+          content: string
+          created_at?: string | null
+          id?: string
+          is_internal?: boolean | null
+          tenant_id: string
+          user_id?: string | null
+        }
+        Update: {
+          author_email?: string | null
+          author_name?: string
+          campaign_id?: string
+          content?: string
+          created_at?: string | null
+          id?: string
+          is_internal?: boolean | null
+          tenant_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_comments_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_shares: {
+        Row: {
+          campaign_id: string
+          created_at: string | null
+          created_by: string | null
+          expires_at: string | null
+          id: string
+          password_hash: string | null
+          share_token: string
+          tenant_id: string
+          view_count: number | null
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string | null
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          password_hash?: string | null
+          share_token: string
+          tenant_id: string
+          view_count?: number | null
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string | null
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          password_hash?: string | null
+          share_token?: string
+          tenant_id?: string
+          view_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_shares_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaigns: {
         Row: {
+          ai_generated_data: Json | null
           created_at: string | null
           description: string
           event_id: string
           id: string
+          is_template: boolean | null
           location_id: string | null
           recommended_end: string
           recommended_start: string
           status: Database["public"]["Enums"]["campaign_status"] | null
           tenant_id: string | null
           title: string
+          updated_at: string | null
+          user_edited_data: Json | null
         }
         Insert: {
+          ai_generated_data?: Json | null
           created_at?: string | null
           description: string
           event_id: string
           id?: string
+          is_template?: boolean | null
           location_id?: string | null
           recommended_end: string
           recommended_start: string
           status?: Database["public"]["Enums"]["campaign_status"] | null
           tenant_id?: string | null
           title: string
+          updated_at?: string | null
+          user_edited_data?: Json | null
         }
         Update: {
+          ai_generated_data?: Json | null
           created_at?: string | null
           description?: string
           event_id?: string
           id?: string
+          is_template?: boolean | null
           location_id?: string | null
           recommended_end?: string
           recommended_start?: string
           status?: Database["public"]["Enums"]["campaign_status"] | null
           tenant_id?: string | null
           title?: string
+          updated_at?: string | null
+          user_edited_data?: Json | null
         }
         Relationships: [
           {
