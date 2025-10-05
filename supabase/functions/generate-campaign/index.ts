@@ -68,14 +68,24 @@ serve(async (req) => {
 
     console.log("Generating campaigns for event:", eventTitle);
 
-    const prompt = `You are a marketing strategist for hospitality businesses.
-Suggest 2 campaign ideas for a ${businessType} near an event titled "${eventTitle}" with ${expectedAttendance} people.
-Each idea must include:
-- title
-- description (max 40 words)
-- recommended_time_window
+    const businessTypeText = businessType === 'restaurant' ? 'restaurang' : 
+                             businessType === 'bar' ? 'bar' : 
+                             businessType === 'cafe' ? 'kafé' : 'verksamhet';
 
-Output in JSON array format.`;
+    const prompt = `Du är en marknadsföringsstrateg för besöksnäringen i Sverige.
+Skapa 2 detaljerade kampanjidéer för en ${businessTypeText} nära eventet "${eventTitle}" med ${expectedAttendance} förväntade besökare.
+
+Varje kampanjidé ska vara specifik för verksamhetstypen och inkludera:
+- title: En catchy titel på svenska
+- description: Detaljerad beskrivning (60-80 ord) som förklarar kampanjens koncept, målgrupp och genomförande
+- target_audience: Vem riktar sig kampanjen till
+- recommended_timing: När kampanjen ska köras (t.ex. "2 veckor före eventet")
+- channels: Vilka kanaler som ska användas (t.ex. "Sociala medier, email, affischer")
+- expected_outcome: Förväntade resultat
+- action_steps: Konkreta steg för att genomföra kampanjen (3-4 punkter)
+
+Anpassa kampanjerna specifikt för en ${businessTypeText}.`;
+
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -93,7 +103,7 @@ Output in JSON array format.`;
           type: "function",
           function: {
             name: "suggest_campaigns",
-            description: "Generate campaign suggestions",
+            description: "Generate detailed campaign suggestions for hospitality businesses",
             parameters: {
               type: "object",
               properties: {
@@ -104,9 +114,16 @@ Output in JSON array format.`;
                     properties: {
                       title: { type: "string" },
                       description: { type: "string" },
-                      recommended_time_window: { type: "string" }
+                      target_audience: { type: "string" },
+                      recommended_timing: { type: "string" },
+                      channels: { type: "string" },
+                      expected_outcome: { type: "string" },
+                      action_steps: {
+                        type: "array",
+                        items: { type: "string" }
+                      }
                     },
-                    required: ["title", "description", "recommended_time_window"],
+                    required: ["title", "description", "target_audience", "recommended_timing", "channels", "expected_outcome", "action_steps"],
                     additionalProperties: false
                   }
                 }
@@ -146,7 +163,19 @@ Output in JSON array format.`;
     const campaignsData = JSON.parse(toolCall.function.arguments);
     console.log("Generated campaigns:", campaignsData);
 
-    return new Response(JSON.stringify(campaignsData), {
+    // Add event contact information
+    const responseData = {
+      ...campaignsData,
+      event_contact: {
+        title: event.title,
+        venue: event.venue_name,
+        date: event.start_time,
+        expected_attendance: event.expected_attendance,
+        description: event.description || "Ingen beskrivning tillgänglig"
+      }
+    };
+
+    return new Response(JSON.stringify(responseData), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
 

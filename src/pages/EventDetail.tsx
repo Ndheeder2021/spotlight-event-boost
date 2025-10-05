@@ -11,7 +11,19 @@ import { toast } from "sonner";
 interface Campaign {
   title: string;
   description: string;
-  recommended_time_window: string;
+  target_audience: string;
+  recommended_timing: string;
+  channels: string;
+  expected_outcome: string;
+  action_steps: string[];
+}
+
+interface EventContact {
+  title: string;
+  venue: string;
+  date: string;
+  expected_attendance: number;
+  description: string;
 }
 
 export default function EventDetail() {
@@ -20,6 +32,7 @@ export default function EventDetail() {
   const [event, setEvent] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [eventContact, setEventContact] = useState<EventContact | null>(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
 
@@ -76,6 +89,7 @@ export default function EventDetail() {
       if (error) throw error;
 
       setCampaigns(data.campaigns);
+      setEventContact(data.event_contact);
       toast.success("Kampanjer genererade!");
     } catch (error: any) {
       console.error("Campaign generation error:", error);
@@ -149,16 +163,72 @@ export default function EventDetail() {
         </Button>
 
         {campaigns.length > 0 && (
-          <div className="space-y-4">
+          <div className="space-y-6">
+            {eventContact && (
+              <Card className="bg-primary/5 border-primary/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Users className="h-5 w-5" />
+                    Event-kontakt & Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <div>
+                    <span className="font-semibold">Event:</span> {eventContact.title}
+                  </div>
+                  <div>
+                    <span className="font-semibold">Plats:</span> {eventContact.venue}
+                  </div>
+                  <div>
+                    <span className="font-semibold">Datum:</span> {format(new Date(eventContact.date), "PPP", { locale: sv })}
+                  </div>
+                  <div>
+                    <span className="font-semibold">Förväntade besökare:</span> {eventContact.expected_attendance.toLocaleString()}
+                  </div>
+                  <div>
+                    <span className="font-semibold">Beskrivning:</span> {eventContact.description}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             <h3 className="text-2xl font-bold">AI-genererade kampanjidéer</h3>
             {campaigns.map((campaign, idx) => (
-              <Card key={idx}>
+              <Card key={idx} className="border-2">
                 <CardHeader>
-                  <CardTitle>{campaign.title}</CardTitle>
-                  <CardDescription>{campaign.recommended_time_window}</CardDescription>
+                  <CardTitle className="text-xl">{campaign.title}</CardTitle>
+                  <CardDescription className="text-base">{campaign.target_audience}</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <p>{campaign.description}</p>
+                <CardContent className="space-y-4">
+                  <div>
+                    <h4 className="font-semibold mb-1">Beskrivning</h4>
+                    <p className="text-muted-foreground">{campaign.description}</p>
+                  </div>
+                  
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="font-semibold mb-1">Timing</h4>
+                      <p className="text-sm text-muted-foreground">{campaign.recommended_timing}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Kanaler</h4>
+                      <p className="text-sm text-muted-foreground">{campaign.channels}</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold mb-1">Förväntade resultat</h4>
+                    <p className="text-sm text-muted-foreground">{campaign.expected_outcome}</p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold mb-2">Genomförande (steg-för-steg)</h4>
+                    <ol className="list-decimal list-inside space-y-1">
+                      {campaign.action_steps.map((step, stepIdx) => (
+                        <li key={stepIdx} className="text-sm text-muted-foreground">{step}</li>
+                      ))}
+                    </ol>
+                  </div>
                 </CardContent>
               </Card>
             ))}
