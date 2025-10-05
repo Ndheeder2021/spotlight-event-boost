@@ -13,7 +13,7 @@ import { Session, User } from "@supabase/supabase-js";
 const plans = [
   {
     name: "Starter",
-    price: "990 kr",
+    price: "290 kr",
     period: "/månad",
     description: "Perfekt för små företag som vill komma igång",
     features: [
@@ -31,7 +31,7 @@ const plans = [
   },
   {
     name: "Professional",
-    price: "2 490 kr",
+    price: "490 kr",
     period: "/månad",
     description: "För växande företag med högre ambitioner",
     features: [
@@ -99,6 +99,11 @@ const Index = () => {
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showAuthDialog, setShowAuthDialog] = useState(false);
+
+  const scrollToFeatures = () => {
+    const featuresSection = document.getElementById('features');
+    featuresSection?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -208,7 +213,7 @@ const Index = () => {
             <Button size="lg" onClick={() => setShowAuthDialog(true)}>
               Kom igång gratis
             </Button>
-            <Button size="lg" variant="outline">
+            <Button size="lg" variant="outline" onClick={scrollToFeatures}>
               Se hur det fungerar
             </Button>
           </div>
@@ -216,7 +221,7 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section id="features" className="container mx-auto px-4 py-20">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">Varför välja Spotlight?</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
