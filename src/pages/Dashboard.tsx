@@ -137,7 +137,7 @@ export default function Dashboard() {
               <EventCard
                 key={event.id}
                 event={event}
-                onClick={() => navigate(`/event/${event.id}`)}
+                onClick={() => navigate(`/events/${event.id}`)}
               />
             ))}
           </div>
