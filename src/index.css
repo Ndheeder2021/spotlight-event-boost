@@ -22,6 +22,7 @@ All colors MUST be HSL.
     /* Spotlight accent - golden #d1b300 */
     --accent: 48 100% 41%;
     --accent-foreground: 0 0% 7%;
+    --accent-glow: 48 100% 50%;
     
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 7%;
@@ -37,7 +38,14 @@ All colors MUST be HSL.
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+    
+    /* Premium design tokens */
+    --gradient-premium: linear-gradient(135deg, hsl(48 100% 41%), hsl(48 100% 50%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 98%));
+    --shadow-premium: 0 20px 60px -15px hsl(48 100% 41% / 0.15);
+    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.08);
+    --shadow-glow: 0 0 40px hsl(48 100% 50% / 0.2);
   }
   .dark {
     --background: 0 0% 7%;
@@ -54,6 +62,7 @@ All colors MUST be HSL.
     /* Spotlight accent - golden */
     --accent: 48 100% 50%;
     --accent-foreground: 0 0% 7%;
+    --accent-glow: 48 100% 60%;
     
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
@@ -69,6 +78,13 @@ All colors MUST be HSL.
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    
+    /* Premium design tokens - dark mode */
+    --gradient-premium: linear-gradient(135deg, hsl(48 100% 50%), hsl(48 100% 60%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 7%), hsl(0 0% 10%));
+    --shadow-premium: 0 20px 60px -15px hsl(48 100% 50% / 0.25);
+    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.3);
+    --shadow-glow: 0 0 40px hsl(48 100% 60% / 0.3);
   }
 }
 
