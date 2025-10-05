@@ -8,6 +8,15 @@ import { format } from "date-fns";
 import { sv } from "date-fns/locale";
 import { toast } from "sonner";
 
+interface AdIdea {
+  platform: "Meta" | "TikTok";
+  ad_copy: string;
+  visual_concept: string;
+  cta: string;
+  targeting: string;
+  budget_recommendation: string;
+}
+
 interface Campaign {
   title: string;
   description: string;
@@ -16,6 +25,7 @@ interface Campaign {
   channels: string;
   expected_outcome: string;
   action_steps: string[];
+  ad_ideas: AdIdea[];
 }
 
 interface EventContact {
@@ -241,6 +251,45 @@ export default function EventDetail() {
                         <li key={stepIdx} className="text-sm text-muted-foreground">{step}</li>
                       ))}
                     </ol>
+                  </div>
+
+                  <div className="border-t pt-4 mt-4">
+                    <h4 className="font-semibold mb-3 text-lg">📱 Annonsidéer för Sociala Medier</h4>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {campaign.ad_ideas.map((ad, adIdx) => (
+                        <Card key={adIdx} className={ad.platform === "Meta" ? "border-blue-200 bg-blue-50/50" : "border-pink-200 bg-pink-50/50"}>
+                          <CardHeader className="pb-3">
+                            <CardTitle className="text-base flex items-center gap-2">
+                              {ad.platform === "Meta" ? "📘" : "🎵"} {ad.platform}
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent className="space-y-3 text-sm">
+                            <div>
+                              <span className="font-semibold">Annonstext:</span>
+                              <p className="text-muted-foreground italic mt-1">"{ad.ad_copy}"</p>
+                            </div>
+                            <div>
+                              <span className="font-semibold">Visuellt koncept:</span>
+                              <p className="text-muted-foreground mt-1">{ad.visual_concept}</p>
+                            </div>
+                            <div>
+                              <span className="font-semibold">Call-to-action:</span>
+                              <Button variant="outline" size="sm" className="mt-1 w-full">
+                                {ad.cta}
+                              </Button>
+                            </div>
+                            <div>
+                              <span className="font-semibold">Målgrupp:</span>
+                              <p className="text-muted-foreground mt-1">{ad.targeting}</p>
+                            </div>
+                            <div>
+                              <span className="font-semibold">Budget:</span>
+                              <p className="text-muted-foreground mt-1">{ad.budget_recommendation}</p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
                   </div>
                 </CardContent>
               </Card>

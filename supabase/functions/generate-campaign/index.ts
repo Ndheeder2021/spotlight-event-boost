@@ -83,6 +83,13 @@ Varje kampanjidé ska vara specifik för verksamhetstypen och inkludera:
 - channels: Vilka kanaler som ska användas (t.ex. "Sociala medier, email, affischer")
 - expected_outcome: Förväntade resultat
 - action_steps: Konkreta steg för att genomföra kampanjen (3-4 punkter)
+- ad_ideas: Två annonsidéer (en för Meta och en för TikTok) med följande för varje:
+  * platform: "Meta" eller "TikTok"
+  * ad_copy: Annonstext (max 125 tecken för Meta, max 100 för TikTok)
+  * visual_concept: Detaljerad beskrivning av visuellt koncept för bilden/videon
+  * cta: Call-to-action text
+  * targeting: Målgruppsspecifikation
+  * budget_recommendation: Rekommenderad budget i SEK
 
 Anpassa kampanjerna specifikt för en ${businessTypeText}.`;
 
@@ -121,9 +128,24 @@ Anpassa kampanjerna specifikt för en ${businessTypeText}.`;
                       action_steps: {
                         type: "array",
                         items: { type: "string" }
+                      },
+                      ad_ideas: {
+                        type: "array",
+                        items: {
+                          type: "object",
+                          properties: {
+                            platform: { type: "string", enum: ["Meta", "TikTok"] },
+                            ad_copy: { type: "string" },
+                            visual_concept: { type: "string" },
+                            cta: { type: "string" },
+                            targeting: { type: "string" },
+                            budget_recommendation: { type: "string" }
+                          },
+                          required: ["platform", "ad_copy", "visual_concept", "cta", "targeting", "budget_recommendation"]
+                        }
                       }
                     },
-                    required: ["title", "description", "target_audience", "recommended_timing", "channels", "expected_outcome", "action_steps"],
+                    required: ["title", "description", "target_audience", "recommended_timing", "channels", "expected_outcome", "action_steps", "ad_ideas"],
                     additionalProperties: false
                   }
                 }
