@@ -57,23 +57,61 @@ serve(async (req) => {
       throw new Error("Location not found");
     }
 
+    // Calculate distance between event and location
+    const eventLat = event.venue_lat;
+    const eventLon = event.venue_lon;
+    const locationLat = location.lat;
+    const locationLon = location.lon;
+    
+    // Haversine formula for distance calculation
+    const R = 6371; // Earth's radius in km
+    const dLat = (locationLat - eventLat) * Math.PI / 180;
+    const dLon = (locationLon - eventLon) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(eventLat * Math.PI / 180) * Math.cos(locationLat * Math.PI / 180) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const distanceKm = R * c;
+
+    // Estimate potential customers based on event attendance and distance
+    // Closer = higher conversion rate
+    let estimatedCustomerRate = 0;
+    if (distanceKm <= 0.5) estimatedCustomerRate = 0.15; // 15% within 500m
+    else if (distanceKm <= 1) estimatedCustomerRate = 0.10; // 10% within 1km
+    else if (distanceKm <= 2) estimatedCustomerRate = 0.05; // 5% within 2km
+    else if (distanceKm <= 5) estimatedCustomerRate = 0.02; // 2% within 5km
+    else estimatedCustomerRate = 0.01; // 1% beyond 5km
+
+    const estimatedCustomers = Math.round(event.expected_attendance * estimatedCustomerRate);
+
     const eventTitle = event.title;
     const businessType = location.business_type || "restaurant";
     const expectedAttendance = event.expected_attendance;
+    const eventCity = event.city || "staden";
+    const venueName = event.venue_name;
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY not configured");
     }
 
-    console.log("Generating campaigns for event:", eventTitle);
+    console.log("Generating campaigns for event:", eventTitle, "Distance:", distanceKm.toFixed(2), "km");
 
     const businessTypeText = businessType === 'restaurant' ? 'restaurang' : 
                              businessType === 'bar' ? 'bar' : 
                              businessType === 'cafe' ? 'kafé' : 'verksamhet';
 
-    const prompt = `Du är en marknadsföringsstrateg för besöksnäringen i Sverige.
-Skapa 2 detaljerade kampanjidéer för en ${businessTypeText} nära eventet "${eventTitle}" med ${expectedAttendance} förväntade besökare.
+    const prompt = `Du är en marknadsföringsstrateg för besöksnäringen.
+
+KONTEXT:
+- Event: "${eventTitle}" i ${eventCity}
+- Plats: ${venueName}
+- Förväntade eventbesökare: ${expectedAttendance.toLocaleString()}
+- Verksamhet: ${businessTypeText}
+- Avstånd från verksamhet till event: ${distanceKm.toFixed(1)} km
+- Uppskattat antal potentiella kunder från eventet: ${estimatedCustomers.toLocaleString()} personer (${(estimatedCustomerRate * 100).toFixed(1)}% konverteringsgrad baserat på avstånd)
+
+Skapa 2 detaljerade kampanjidéer för denna ${businessTypeText} som kan dra nytta av närheten till eventet.
 
 Varje kampanjidé ska vara specifik för verksamhetstypen och inkludera:
 - title: En catchy titel på svenska
@@ -81,23 +119,29 @@ Varje kampanjidé ska vara specifik för verksamhetstypen och inkludera:
 - target_audience: Vem riktar sig kampanjen till
 - recommended_timing: När kampanjen ska köras (t.ex. "2 veckor före eventet")
 - channels: Vilka kanaler som ska användas (t.ex. "Sociala medier, email, affischer")
-- expected_outcome: Förväntade resultat
+- expected_outcome: Förväntade resultat baserat på ${estimatedCustomers} potentiella kunder
 - action_steps: Konkreta steg för att genomföra kampanjen (3-4 punkter)
 - ad_ideas: Två annonsidéer (en för Meta och en för TikTok) med följande för varje:
   * platform: "Meta" eller "TikTok"
   * ad_copy: Annonstext (max 125 tecken för Meta, max 100 för TikTok)
   * visual_concept: Detaljerad beskrivning av visuellt koncept för bilden/videon
   * cta: Call-to-action text
-  * targeting: Målgruppsspecifikation
-  * budget_recommendation: Rekommenderad budget i SEK (baserat på svenska marknaden, t.ex. "3 000-5 000 SEK för en 7-dagars kampanj" eller "500-800 SEK/dag i 14 dagar")
+  * targeting: Målgruppsspecifikation (geografisk: ${distanceKm.toFixed(0)} km radie, demografisk baserat på eventtyp)
+  * budget_recommendation: Rekommenderad budget i lokal valuta med realistic beräkning baserat på:
+    - ${estimatedCustomers} potentiella kunder
+    - Cost-per-click/impression för regionen
+    - Kampanjens längd
+    - Förväntad räckvidd
+    Format: "X-Y [valuta] för en Z-dagars kampanj" eller "X-Y [valuta]/dag i Z dagar"
 
-VIKTIGT: Budgetrekommendationer ska vara realistiska för svenska marknaden och baseras på:
-- Kampanjens längd och timing
-- Förväntad räckvidd och antal besökare
-- Plattformens kostnad per klick/visning i Sverige
-- Verksamhetstypen och dess typiska marginaler
+VIKTIGT för budgetrekommendationer:
+- Basera budget på faktisk räckvidd: ${estimatedCustomers} personer är målgruppen
+- Använd realistiska CPC/CPM för regionen (ex: Meta CPC $0.50-2.00, TikTok CPM $5-15)
+- Räkna: Budget = (Målgrupp × Önskad frekvens × Kostnad per kontakt)
+- Var specifik med valutor och tidsperioder
+- Högre budget för större events och närmare avstånd
 
-Anpassa kampanjerna specifikt för en ${businessTypeText}.`;
+Anpassa kampanjerna specifikt för en ${businessTypeText} på ${distanceKm.toFixed(1)} km avstånd.`;
 
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
