@@ -8,9 +8,7 @@ const corsHeaders = {
 
 interface CampaignRequest {
   eventId: string;
-  eventTitle: string;
-  businessType: string;
-  expectedAttendance: number;
+  locationId: string;
 }
 
 serve(async (req) => {
@@ -26,7 +24,7 @@ serve(async (req) => {
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? "",
+      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
       { global: { headers: { Authorization: authHeader } } }
     );
 
@@ -35,7 +33,33 @@ serve(async (req) => {
       throw new Error("Unauthorized");
     }
 
-    const { eventId, eventTitle, businessType, expectedAttendance }: CampaignRequest = await req.json();
+    const { eventId, locationId }: CampaignRequest = await req.json();
+
+    // Fetch event data
+    const { data: event, error: eventError } = await supabase
+      .from("events")
+      .select("*")
+      .eq("id", eventId)
+      .single();
+
+    if (eventError || !event) {
+      throw new Error("Event not found");
+    }
+
+    // Fetch location data
+    const { data: location, error: locationError } = await supabase
+      .from("locations")
+      .select("*")
+      .eq("id", locationId)
+      .single();
+
+    if (locationError || !location) {
+      throw new Error("Location not found");
+    }
+
+    const eventTitle = event.title;
+    const businessType = location.business_type || "restaurant";
+    const expectedAttendance = event.expected_attendance;
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
