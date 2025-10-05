@@ -89,7 +89,13 @@ Varje kampanjidé ska vara specifik för verksamhetstypen och inkludera:
   * visual_concept: Detaljerad beskrivning av visuellt koncept för bilden/videon
   * cta: Call-to-action text
   * targeting: Målgruppsspecifikation
-  * budget_recommendation: Rekommenderad budget i SEK
+  * budget_recommendation: Rekommenderad budget i SEK (baserat på svenska marknaden, t.ex. "3 000-5 000 SEK för en 7-dagars kampanj" eller "500-800 SEK/dag i 14 dagar")
+
+VIKTIGT: Budgetrekommendationer ska vara realistiska för svenska marknaden och baseras på:
+- Kampanjens längd och timing
+- Förväntad räckvidd och antal besökare
+- Plattformens kostnad per klick/visning i Sverige
+- Verksamhetstypen och dess typiska marginaler
 
 Anpassa kampanjerna specifikt för en ${businessTypeText}.`;
 
