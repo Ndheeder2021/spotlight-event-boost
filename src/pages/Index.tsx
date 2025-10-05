@@ -5,10 +5,39 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Switch } from "@/components/ui/switch";
 import { AuthForm } from "@/components/AuthForm";
 import { OnboardingForm } from "@/components/OnboardingForm";
-import { Zap, TrendingUp, Bell, BarChart, Check, X } from "lucide-react";
+import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
+
+const testimonials = [
+  {
+    name: "Anna Svensson",
+    role: "Ägare, Café Bröd & Salt",
+    content: "Spotlight har ökat vår försäljning med 40% under lokala evenemang. Vi vet alltid när det händer något i området och kan snabbt sätta igång kampanjer.",
+    rating: 5,
+  },
+  {
+    name: "Erik Lundberg",
+    role: "Marknadsansvarig, Restaurant Smak",
+    content: "AI-funktionen sparar oss timmar varje vecka. Kampanjerna känns personliga och träffsäkra. Bästa investeringen vi gjort!",
+    rating: 5,
+  },
+  {
+    name: "Maria Andersson",
+    role: "VD, Urban Bar & Grill",
+    content: "Professionell, användarvänlig och resultatrik. Vi har fördubblat vårt antal kampanjer utan att öka arbetstiden.",
+    rating: 5,
+  },
+];
+
+const stats = [
+  { value: "500+", label: "Nöjda företag" },
+  { value: "10,000+", label: "Kampanjer skapade" },
+  { value: "40%", label: "Genomsnittlig försäljningsökning" },
+  { value: "15min", label: "Sparad tid per kampanj" },
+];
 
 const plans = [
   {
@@ -105,11 +134,34 @@ const Index = () => {
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showAuthDialog, setShowAuthDialog] = useState(false);
+  const [isYearly, setIsYearly] = useState(false);
 
   const scrollToFeatures = () => {
     const featuresSection = document.getElementById('features');
     featuresSection?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // Scroll animations
+  useEffect(() => {
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    });
+
+    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [loading]);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -206,76 +258,110 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
-        <div className="max-w-3xl mx-auto space-y-6">
-          <h1 className="text-5xl font-bold tracking-tight">
-            Förvandla lokala evenemang till ökad försäljning
-          </h1>
-          <p className="text-xl text-muted-foreground">
-            Spotlight hjälper ditt företag att automatiskt upptäcka närliggande evenemang och skapa effektiva marknadsföringskampanjer för att dra nytta av det ökade kundflödet.
-          </p>
-          <div className="flex gap-4 justify-center pt-4">
-            <Button size="lg" onClick={() => setShowAuthDialog(true)}>
-              Kom igång gratis
-            </Button>
-            <Button size="lg" variant="outline" onClick={scrollToFeatures}>
-              Se hur det fungerar
-            </Button>
+      {/* Hero Section with Premium Gradient */}
+      <section className="relative overflow-hidden">
+        {/* Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-background to-background pointer-events-none" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-glow" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+        
+        <div className="container relative mx-auto px-4 py-24 md:py-32 text-center">
+          <div className="max-w-4xl mx-auto space-y-8 animate-on-scroll">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
+              <Star className="h-4 w-4 text-accent fill-accent" />
+              <span className="text-sm font-medium">Lita på av 500+ lokala företag</span>
+            </div>
+            
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
+              Förvandla lokala evenemang till{" "}
+              <span className="gradient-text">ökad försäljning</span>
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Spotlight hjälper ditt företag att automatiskt upptäcka närliggande evenemang och skapa effektiva marknadsföringskampanjer för att dra nytta av det ökade kundflödet.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
+              <Button size="lg" className="text-lg px-8 h-14 shadow-premium hover:shadow-glow transition-all duration-300" onClick={() => setShowAuthDialog(true)}>
+                Kom igång gratis
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button size="lg" variant="outline" className="text-lg px-8 h-14" onClick={scrollToFeatures}>
+                Se hur det fungerar
+              </Button>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="container mx-auto px-4 py-16 animate-on-scroll">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {stats.map((stat, index) => (
+            <div key={index} className="text-center space-y-2">
+              <div className="text-4xl md:text-5xl font-bold gradient-text">{stat.value}</div>
+              <div className="text-sm text-muted-foreground">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* Features Section */}
       <section id="features" className="container mx-auto px-4 py-20">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Varför välja Spotlight?</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+        <div className="text-center mb-16 animate-on-scroll">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Varför välja Spotlight?</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Vi ger dig verktygen för att ligga steget före konkurrenterna och maximera din försäljning vid lokala evenemang.
           </p>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
-          <Card>
+          <Card className="glass-card hover:shadow-premium transition-all duration-300 animate-on-scroll group">
             <CardHeader>
-              <Bell className="h-10 w-10 text-primary mb-4" />
-              <CardTitle>Smarta Notifieringar</CardTitle>
+              <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <Bell className="h-6 w-6 text-accent" />
+              </div>
+              <CardTitle className="text-xl">Smarta Notifieringar</CardTitle>
               <CardDescription>
                 Få varningar om relevanta evenemang i ditt område automatiskt
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 Vi övervakar kontinuerligt lokala evenemang och meddelar dig när det finns möjligheter att nå fler kunder.
               </p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass-card hover:shadow-premium transition-all duration-300 animate-on-scroll group">
             <CardHeader>
-              <TrendingUp className="h-10 w-10 text-primary mb-4" />
-              <CardTitle>AI-genererade Kampanjer</CardTitle>
+              <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <TrendingUp className="h-6 w-6 text-accent" />
+              </div>
+              <CardTitle className="text-xl">AI-genererade Kampanjer</CardTitle>
               <CardDescription>
                 Skapa professionella kampanjer på sekunder
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 Vår AI hjälper dig att skapa engagerande marknadsföringstext anpassad för varje evenemang och din målgrupp.
               </p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass-card hover:shadow-premium transition-all duration-300 animate-on-scroll group">
             <CardHeader>
-              <BarChart className="h-10 w-10 text-primary mb-4" />
-              <CardTitle>Detaljerad Analys</CardTitle>
+              <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <BarChart className="h-6 w-6 text-accent" />
+              </div>
+              <CardTitle className="text-xl">Detaljerad Analys</CardTitle>
               <CardDescription>
                 Följ resultat och optimera dina kampanjer
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 Se vilka kampanjer som fungerar bäst och få insikter för att kontinuerligt förbättra dina resultat.
               </p>
             </CardContent>
@@ -284,63 +370,99 @@ const Index = () => {
       </section>
 
       {/* Pricing Section */}
-      <section className="container mx-auto px-4 py-20 bg-muted/30">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Välj rätt plan för ditt företag</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+      <section className="relative container mx-auto px-4 py-20">
+        <div className="text-center mb-12 animate-on-scroll">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Välj rätt plan för ditt företag</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
             Alla planer inkluderar 14 dagars gratis testperiod. Inget kreditkort krävs.
           </p>
+          
+          {/* Pricing Toggle */}
+          <div className="inline-flex items-center gap-4 p-1 rounded-full bg-muted">
+            <button
+              onClick={() => setIsYearly(false)}
+              className={`px-6 py-2 rounded-full transition-all ${
+                !isYearly ? 'bg-background shadow-sm font-medium' : 'text-muted-foreground'
+              }`}
+            >
+              Månadsvis
+            </button>
+            <button
+              onClick={() => setIsYearly(true)}
+              className={`px-6 py-2 rounded-full transition-all flex items-center gap-2 ${
+                isYearly ? 'bg-background shadow-sm font-medium' : 'text-muted-foreground'
+              }`}
+            >
+              Årsvis
+              <span className="px-2 py-0.5 bg-accent/20 text-accent text-xs font-bold rounded-full">
+                Spara upp till 40%
+              </span>
+            </button>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {plans.map((plan) => (
-            <Card key={plan.name} className={plan.popular ? "border-primary shadow-lg" : ""}>
+          {plans.map((plan, index) => (
+            <Card 
+              key={plan.name} 
+              className={`glass-card hover:shadow-premium transition-all duration-300 animate-on-scroll ${
+                plan.popular ? "border-2 border-accent shadow-glow scale-105" : ""
+              }`}
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
               {plan.popular && (
-                <div className="bg-primary text-primary-foreground text-center py-1 text-sm font-medium">
-                  Mest populär
+                <div className="bg-gradient-to-r from-accent to-accent-glow text-primary-foreground text-center py-2 text-sm font-bold">
+                  MEST POPULÄR
                 </div>
               )}
               <CardHeader>
-                <CardTitle>{plan.name}</CardTitle>
-                <CardDescription>{plan.description}</CardDescription>
-                <div className="pt-4 space-y-2">
-                  <div>
-                    <span className="text-4xl font-bold">{plan.monthlyPrice}</span>
-                    <span className="text-muted-foreground">/månad</span>
-                  </div>
-                  {plan.yearlyPrice && (
-                    <div className="space-y-1">
-                      <div className="text-lg font-semibold text-muted-foreground">
-                        {plan.yearlyPrice}/år
+                <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                <CardDescription className="text-base">{plan.description}</CardDescription>
+                <div className="pt-6 space-y-2">
+                  {isYearly && plan.yearlyPrice ? (
+                    <>
+                      <div>
+                        <span className="text-5xl font-bold">{plan.yearlyPrice.split(' ')[0]}</span>
+                        <span className="text-muted-foreground text-lg ml-1">/år</span>
                       </div>
                       {plan.yearlyDiscount && (
-                        <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/20 text-accent text-xs font-bold">
-                          {plan.yearlyDiscount}
+                        <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-bold">
+                          💰 {plan.yearlyDiscount}
                         </div>
                       )}
+                      <div className="text-sm text-muted-foreground">
+                        {Math.round(parseInt(plan.yearlyPrice.replace(/\D/g, '')) / 12)} kr/månad
+                      </div>
+                    </>
+                  ) : (
+                    <div>
+                      <span className="text-5xl font-bold">{plan.monthlyPrice.split(' ')[0]}</span>
+                      <span className="text-muted-foreground text-lg ml-1">
+                        {plan.monthlyPrice === "Kontakta oss" ? "" : "/månad"}
+                      </span>
                     </div>
                   )}
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {plan.features.map((feature) => (
-                    <div key={feature} className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">{feature}</span>
+                    <div key={feature} className="flex items-start gap-3">
+                      <Check className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                      <span className="text-sm leading-relaxed">{feature}</span>
                     </div>
                   ))}
                   {plan.notIncluded.map((feature) => (
-                    <div key={feature} className="flex items-start gap-2 text-muted-foreground">
+                    <div key={feature} className="flex items-start gap-3 text-muted-foreground/60">
                       <X className="h-5 w-5 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">{feature}</span>
+                      <span className="text-sm leading-relaxed">{feature}</span>
                     </div>
                   ))}
                 </div>
               </CardContent>
               <CardFooter>
                 <Button 
-                  className="w-full" 
+                  className="w-full h-12 text-base font-medium" 
                   variant={plan.popular ? "default" : "outline"}
                   onClick={() => setShowAuthDialog(true)}
                 >
@@ -352,23 +474,61 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section className="container mx-auto px-4 py-20 bg-muted/30">
+        <div className="text-center mb-16 animate-on-scroll">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Vad våra kunder säger</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Över 500 lokala företag litar på Spotlight för att öka sin försäljning
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {testimonials.map((testimonial, index) => (
+            <Card key={index} className="glass-card hover:shadow-premium transition-all duration-300 animate-on-scroll">
+              <CardHeader>
+                <div className="flex gap-1 mb-4">
+                  {Array.from({ length: testimonial.rating }).map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-accent fill-accent" />
+                  ))}
+                </div>
+                <CardDescription className="text-base leading-relaxed text-foreground">
+                  "{testimonial.content}"
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center">
+                    <Users className="h-6 w-6 text-accent" />
+                  </div>
+                  <div>
+                    <div className="font-semibold">{testimonial.name}</div>
+                    <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section className="container mx-auto px-4 py-20">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Vanliga frågor</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+        <div className="text-center mb-16 animate-on-scroll">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Vanliga frågor</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Hittar du inte svar på din fråga? Kontakta oss gärna!
           </p>
         </div>
 
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto animate-on-scroll">
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border rounded-lg px-6">
-                <AccordionTrigger className="text-left font-medium hover:no-underline">
+              <AccordionItem key={index} value={`item-${index}`} className="glass-card rounded-lg px-6 border-0">
+                <AccordionTrigger className="text-left font-medium hover:no-underline text-base">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
+                <AccordionContent className="text-muted-foreground leading-relaxed">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -378,17 +538,28 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
-        <div className="max-w-3xl mx-auto space-y-6 bg-primary/10 rounded-2xl p-12">
-          <h2 className="text-3xl font-bold">
-            Redo att öka din försäljning?
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            Gå med tusentals företag som redan använder Spotlight för att dra nytta av lokala evenemang.
-          </p>
-          <Button size="lg" onClick={() => setShowAuthDialog(true)}>
-            Kom igång idag - helt gratis
-          </Button>
+      <section className="container mx-auto px-4 py-20">
+        <div className="max-w-4xl mx-auto text-center space-y-8 relative overflow-hidden rounded-3xl p-12 md:p-16 animate-on-scroll">
+          <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-background to-background" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-accent/30 rounded-full blur-3xl animate-glow" />
+          
+          <div className="relative z-10 space-y-6">
+            <Target className="h-16 w-16 text-accent mx-auto" />
+            <h2 className="text-4xl md:text-5xl font-bold">
+              Redo att öka din försäljning?
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Gå med 500+ företag som redan använder Spotlight för att dra nytta av lokala evenemang.
+            </p>
+            <Button 
+              size="lg" 
+              className="text-lg px-10 h-14 shadow-premium hover:shadow-glow transition-all duration-300" 
+              onClick={() => setShowAuthDialog(true)}
+            >
+              Kom igång idag - helt gratis
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </section>
 
