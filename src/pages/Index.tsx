@@ -13,53 +13,59 @@ import { Session, User } from "@supabase/supabase-js";
 const plans = [
   {
     name: "Starter",
-    price: "290 kr",
-    period: "/månad",
+    monthlyPrice: "299 kr",
+    yearlyPrice: "3 229 kr",
+    yearlyDiscount: "10% rabatt",
     description: "Perfekt för små företag som vill komma igång",
     features: [
-      "Upp till 50 kampanjer/månad",
-      "Eventnotifieringar",
-      "Grundläggande analys",
-      "Email support",
-      "1 användare"
+      "Spara kampanjer till databasen",
+      "Grundläggande kampanjvy",
+      "Redigera kampanjförslag",
+      "Upp till 10 kampanjer"
     ],
     notIncluded: [
-      "AI-genererade kampanjer",
-      "Prioriterad support",
-      "Obegränsade användare"
+      "PDF-export",
+      "Dela kampanjer",
+      "Analytics & ROI-tracking",
+      "AI-genererade visuella mockups"
     ]
   },
   {
     name: "Professional",
-    price: "490 kr",
-    period: "/månad",
+    monthlyPrice: "499 kr",
+    yearlyPrice: "3 592 kr",
+    yearlyDiscount: "40% rabatt",
     description: "För växande företag med högre ambitioner",
     features: [
-      "Obegränsade kampanjer",
-      "AI-genererade kampanjer",
-      "Avancerad analys & rapporter",
-      "Prioriterad support",
-      "Upp till 5 användare",
-      "Anpassade notifieringar"
+      "Alla Starter-funktioner",
+      "PDF-export med professionell design",
+      "Dela kampanjer via länk (lösenordsskydd)",
+      "Skicka kampanjer via email",
+      "Analytics & ROI-tracking",
+      "AI-genererade visuella mockups",
+      "Flerspråksstöd",
+      "A/B-testning",
+      "Kommentarer från klienter",
+      "Obegränsat antal kampanjer"
     ],
     notIncluded: [
-      "Dedikerad account manager"
+      "Dedikerad support"
     ],
     popular: true
   },
   {
     name: "Enterprise",
-    price: "Kontakta oss",
-    period: "",
+    monthlyPrice: "Kontakta oss",
+    yearlyPrice: null,
+    yearlyDiscount: null,
     description: "För stora organisationer med specialbehov",
     features: [
-      "Allt i Professional",
-      "Obegränsade användare",
-      "Dedikerad account manager",
-      "Custom integrationer",
-      "API access",
-      "SLA garanti",
-      "Skräddarsydd onboarding"
+      "Alla Professional-funktioner",
+      "Dedikerad support",
+      "Anpassade integrationer",
+      "White-label lösning",
+      "Avancerad rollhantering",
+      "SLA-garantier"
     ],
     notIncluded: []
   }
@@ -297,9 +303,23 @@ const Index = () => {
               <CardHeader>
                 <CardTitle>{plan.name}</CardTitle>
                 <CardDescription>{plan.description}</CardDescription>
-                <div className="pt-4">
-                  <span className="text-4xl font-bold">{plan.price}</span>
-                  <span className="text-muted-foreground">{plan.period}</span>
+                <div className="pt-4 space-y-2">
+                  <div>
+                    <span className="text-4xl font-bold">{plan.monthlyPrice}</span>
+                    <span className="text-muted-foreground">/månad</span>
+                  </div>
+                  {plan.yearlyPrice && (
+                    <div className="space-y-1">
+                      <div className="text-lg font-semibold text-muted-foreground">
+                        {plan.yearlyPrice}/år
+                      </div>
+                      {plan.yearlyDiscount && (
+                        <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/20 text-accent text-xs font-bold">
+                          {plan.yearlyDiscount}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -324,7 +344,7 @@ const Index = () => {
                   variant={plan.popular ? "default" : "outline"}
                   onClick={() => setShowAuthDialog(true)}
                 >
-                  {plan.price === "Kontakta oss" ? "Kontakta oss" : "Starta gratis test"}
+                  {plan.monthlyPrice === "Kontakta oss" ? "Kontakta oss" : "Starta gratis test"}
                 </Button>
               </CardFooter>
             </Card>
