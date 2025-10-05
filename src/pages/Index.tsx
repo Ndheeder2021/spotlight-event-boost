@@ -374,8 +374,26 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="border-t py-12">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© 2025 Spotlight. Alla rättigheter reserverade.</p>
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-muted-foreground">
+              © 2025 Spotlight. Alla rättigheter reserverade.
+            </p>
+            <div className="flex flex-wrap gap-6 justify-center">
+              <Button variant="link" className="text-sm text-muted-foreground h-auto p-0" asChild>
+                <a href="/privacy">Integritetspolicy</a>
+              </Button>
+              <Button variant="link" className="text-sm text-muted-foreground h-auto p-0" asChild>
+                <a href="/gdpr">GDPR</a>
+              </Button>
+              <Button variant="link" className="text-sm text-muted-foreground h-auto p-0" asChild>
+                <a href="/terms">Användarvillkor</a>
+              </Button>
+              <Button variant="link" className="text-sm text-muted-foreground h-auto p-0" asChild>
+                <a href="/cookies">Cookies</a>
+              </Button>
+            </div>
+          </div>
         </div>
       </footer>
 
