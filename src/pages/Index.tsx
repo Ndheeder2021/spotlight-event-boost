@@ -67,6 +67,7 @@ const plans = [
     description: "För växande företag med högre ambitioner",
     features: [
       "Alla Starter-funktioner",
+      "AI Live Support",
       "PDF-export med professionell design",
       "Dela kampanjer via länk (lösenordsskydd)",
       "Skicka kampanjer via email",
@@ -90,6 +91,7 @@ const plans = [
     description: "För stora organisationer med specialbehov",
     features: [
       "Alla Professional-funktioner",
+      "AI Live Support",
       "Dedikerad support",
       "Anpassade integrationer",
       "White-label lösning",
@@ -252,9 +254,14 @@ const Index = () => {
             <Zap className="h-6 w-6 text-primary" fill="currentColor" />
             <span className="text-xl font-bold">Spotlight</span>
           </div>
-          <Button onClick={() => setShowAuthDialog(true)}>
-            Logga in
-          </Button>
+          <div className="flex items-center gap-4">
+            <a href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              Kontakt
+            </a>
+            <Button onClick={() => setShowAuthDialog(true)}>
+              Logga in
+            </Button>
+          </div>
         </div>
       </header>
 

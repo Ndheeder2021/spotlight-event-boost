@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { LogOut, Home, Calendar, Megaphone, Bell, Settings, BarChart, Zap, TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useState, useEffect } from "react";
+import { AILiveSupport } from "./AILiveSupport";
+import { usePlanFeatures } from "@/hooks/usePlanFeatures";
 
 const navItems = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
@@ -16,6 +19,16 @@ const navItems = [
 
 export function AppLayout() {
   const navigate = useNavigate();
+  const { features, loading } = usePlanFeatures();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    checkUser();
+  }, []);
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -25,6 +38,9 @@ export function AppLayout() {
       navigate("/");
     }
   };
+
+  // Show AI support only for professional and enterprise plans
+  const showAISupport = !loading && user && (features.plan === "professional" || features.plan === "enterprise");
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -63,6 +79,9 @@ export function AppLayout() {
       <main className="flex-1 overflow-auto">
         <Outlet />
       </main>
+      
+      {/* AI Live Support for paid users */}
+      {showAISupport && <AILiveSupport />}
     </div>
   );
 }
