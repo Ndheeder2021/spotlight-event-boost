@@ -24,6 +24,7 @@ interface EventContact {
   date: string;
   expected_attendance: number;
   description: string;
+  event_url: string | null;
 }
 
 export default function EventDetail() {
@@ -188,6 +189,18 @@ export default function EventDetail() {
                   <div>
                     <span className="font-semibold">Beskrivning:</span> {eventContact.description}
                   </div>
+                  {eventContact.event_url && (
+                    <div className="pt-2 border-t">
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => window.open(eventContact.event_url!, '_blank')}
+                      >
+                        <MapPin className="h-4 w-4 mr-2" />
+                        Besök eventsidan
+                      </Button>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             )}

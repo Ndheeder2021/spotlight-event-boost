@@ -171,7 +171,8 @@ Anpassa kampanjerna specifikt för en ${businessTypeText}.`;
         venue: event.venue_name,
         date: event.start_time,
         expected_attendance: event.expected_attendance,
-        description: event.description || "Ingen beskrivning tillgänglig"
+        description: event.description || "Ingen beskrivning tillgänglig",
+        event_url: event.raw_url || null
       }
     };
 
