@@ -188,13 +188,66 @@ export default function Settings() {
         <TabsContent value="integrations">
           <Card>
             <CardHeader>
-              <CardTitle>Integrationer</CardTitle>
-              <CardDescription>Koppla externa tjänster</CardDescription>
+              <CardTitle>Eventbrite Integration</CardTitle>
+              <CardDescription>Importera events från Eventbrite till din eventkalender</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Integrationer för Eventbrite, Google Maps och fler kommer snart
-              </p>
+            <CardContent className="space-y-6">
+              <div className="flex items-start gap-4 p-4 border rounded-lg bg-muted/30">
+                <div className="flex-1 space-y-2">
+                  <h4 className="font-semibold">Hämta Events från Eventbrite</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Importera lokala events baserat på din affärs plats och radius. 
+                    Events kommer att läggas till i din kalender automatiskt.
+                  </p>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <span>✓ Eventnamn och kategori</span>
+                    <span>•</span>
+                    <span>✓ Datum & tid</span>
+                    <span>•</span>
+                    <span>✓ Plats och förväntad publik</span>
+                  </div>
+                </div>
+                <Button
+                  onClick={async () => {
+                    if (!location) {
+                      toast.error("Ingen plats konfigurerad. Vänligen ställ in din affärs plats först");
+                      return;
+                    }
+
+                    toast.loading("Importerar events från Eventbrite...");
+
+                    try {
+                      const { data, error } = await supabase.functions.invoke(
+                        'import-eventbrite-events',
+                        {
+                          body: {
+                            latitude: location.lat,
+                            longitude: location.lon,
+                            radius: location.radius_km || 10,
+                            startDate: new Date().toISOString(),
+                            endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(), // 90 days ahead
+                          },
+                        }
+                      );
+
+                      if (error) throw error;
+
+                      toast.success(`✓ Import lyckades! ${data.imported} events importerades från Eventbrite`);
+                    } catch (error) {
+                      console.error('Import error:', error);
+                      toast.error(error instanceof Error ? error.message : "Ett fel uppstod vid import");
+                    }
+                  }}
+                  className="whitespace-nowrap"
+                >
+                  Importera Events
+                </Button>
+              </div>
+              
+              <div className="text-xs text-muted-foreground p-4 bg-accent/5 rounded-lg">
+                <strong>Tips:</strong> Events importeras baserat på din konfigurerade plats och radius. 
+                Dubbletter filtreras automatiskt bort. Du kan köra importen när som helst för att hämta nya events.
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
