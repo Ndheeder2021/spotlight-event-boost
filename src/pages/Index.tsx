@@ -553,7 +553,13 @@ const Index = () => {
                 <Button 
                   className="w-full h-12 text-base font-medium" 
                   variant={plan.popular ? "default" : "outline"}
-                  onClick={() => setShowAuthDialog(true)}
+                  onClick={() => {
+                    if (plan.monthlyPrice === "Kontakta oss") {
+                      navigate("/contact");
+                    } else {
+                      setShowAuthDialog(true);
+                    }
+                  }}
                 >
                   {plan.monthlyPrice === "Kontakta oss" ? "Kontakta oss" : "Starta gratis test"}
                 </Button>
