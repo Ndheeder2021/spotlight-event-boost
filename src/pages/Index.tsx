@@ -143,27 +143,32 @@ const Index = () => {
     featuresSection?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Scroll animations
+  // Scroll animations - trigger immediately on mount
   useEffect(() => {
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-        }
+    // Small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      const observerCallback = (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      };
+
+      const observer = new IntersectionObserver(observerCallback, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
       });
-    };
 
-    const observer = new IntersectionObserver(observerCallback, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px',
-    });
+      document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+        observer.observe(el);
+      });
 
-    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
-      observer.observe(el);
-    });
+      return () => observer.disconnect();
+    }, 100);
 
-    return () => observer.disconnect();
-  }, [loading]);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -266,70 +271,127 @@ const Index = () => {
       </header>
 
       {/* Hero Section with Premium Gradient */}
-      <section className="relative overflow-hidden">
-        {/* Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-background to-background pointer-events-none" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-glow" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+      <section className="relative overflow-hidden bg-gradient-to-b from-background via-accent/5 to-background">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-10 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 left-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        </div>
         
-        <div className="container relative mx-auto px-4 py-24 md:py-32 text-center">
-          <div className="max-w-4xl mx-auto space-y-8 animate-on-scroll">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
-              <Star className="h-4 w-4 text-accent fill-accent" />
-              <span className="text-sm font-medium">Lita på av 500+ lokala företag</span>
+        <div className="container relative mx-auto px-4 py-24 md:py-32">
+          <div className="max-w-5xl mx-auto">
+            {/* Badge */}
+            <div className="flex justify-center mb-8 animate-on-scroll">
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent/10 border-2 border-accent/30 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                <Star className="h-5 w-5 text-accent fill-accent animate-pulse" />
+                <span className="text-sm font-semibold bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent">
+                  Betrodd av 500+ lokala företag
+                </span>
+              </div>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
-              Förvandla lokala evenemang till{" "}
-              <span className="gradient-text">ökad försäljning</span>
-            </h1>
+            {/* Main Heading */}
+            <div className="text-center space-y-6 animate-on-scroll">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.1]">
+                Förvandla lokala
+                <br />
+                evenemang till{" "}
+                <span className="relative inline-block">
+                  <span className="gradient-text">ökad försäljning</span>
+                  <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 8 Q50 12, 100 8 T200 8" stroke="currentColor" strokeWidth="3" fill="none" className="text-accent/50" />
+                  </svg>
+                </span>
+              </h1>
+              
+              <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
+                Spotlight hjälper ditt företag att <span className="text-foreground font-medium">automatiskt upptäcka</span> närliggande evenemang och <span className="text-foreground font-medium">skapa effektiva kampanjer</span> för att dra nytta av det ökade kundflödet.
+              </p>
+            </div>
             
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Spotlight hjälper ditt företag att automatiskt upptäcka närliggande evenemang och skapa effektiva marknadsföringskampanjer för att dra nytta av det ökade kundflödet.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
-              <Button size="lg" className="text-lg px-8 h-14 shadow-premium hover:shadow-glow transition-all duration-300" onClick={() => setShowAuthDialog(true)}>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-10 animate-on-scroll">
+              <Button 
+                size="lg" 
+                className="text-lg px-10 h-16 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 bg-gradient-to-r from-accent to-accent-glow" 
+                onClick={() => setShowAuthDialog(true)}
+              >
+                <Zap className="mr-2 h-5 w-5" fill="currentColor" />
                 Kom igång gratis
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 h-14" onClick={scrollToFeatures}>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-10 h-16 border-2 hover:bg-accent/10 hover:border-accent transition-all duration-300 hover:scale-105" 
+                onClick={scrollToFeatures}
+              >
                 Se hur det fungerar
               </Button>
+            </div>
+
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap justify-center items-center gap-8 mt-16 pt-8 border-t border-border/50 animate-on-scroll">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Check className="h-5 w-5 text-accent" />
+                <span className="text-sm">Ingen bindningstid</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Check className="h-5 w-5 text-accent" />
+                <span className="text-sm">14 dagar gratis</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Check className="h-5 w-5 text-accent" />
+                <span className="text-sm">Inget kreditkort krävs</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="container mx-auto px-4 py-16 animate-on-scroll">
+      <section className="container mx-auto px-4 py-20 animate-on-scroll">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
-            <div key={index} className="text-center space-y-2">
-              <div className="text-4xl md:text-5xl font-bold gradient-text">{stat.value}</div>
-              <div className="text-sm text-muted-foreground">{stat.label}</div>
+            <div 
+              key={index} 
+              className="text-center space-y-3 p-6 rounded-2xl hover:bg-accent/5 transition-all duration-300 hover:scale-105 group"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <div className="text-5xl md:text-6xl font-extrabold gradient-text group-hover:scale-110 transition-transform">
+                {stat.value}
+              </div>
+              <div className="text-sm md:text-base text-muted-foreground font-medium">
+                {stat.label}
+              </div>
             </div>
           ))}
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16 animate-on-scroll">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Varför välja Spotlight?</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+      <section id="features" className="container mx-auto px-4 py-24 bg-gradient-to-b from-background to-accent/5">
+        <div className="text-center mb-20 animate-on-scroll">
+          <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
+            <span className="text-sm font-semibold text-accent">Våra Funktioner</span>
+          </div>
+          <h2 className="text-4xl md:text-6xl font-bold mb-6">
+            Varför välja <span className="gradient-text">Spotlight</span>?
+          </h2>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Vi ger dig verktygen för att ligga steget före konkurrenterna och maximera din försäljning vid lokala evenemang.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
-          <Card className="glass-card hover:shadow-premium transition-all duration-300 animate-on-scroll group">
+        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <Card className="glass-card hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-on-scroll group border-2 hover:border-accent/50">
             <CardHeader>
-              <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Bell className="h-6 w-6 text-accent" />
+              <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                <Bell className="h-8 w-8 text-accent" />
               </div>
-              <CardTitle className="text-xl">Smarta Notifieringar</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-2xl mb-3">Smarta Notifieringar</CardTitle>
+              <CardDescription className="text-base">
                 Få varningar om relevanta evenemang i ditt område automatiskt
               </CardDescription>
             </CardHeader>
@@ -340,13 +402,13 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          <Card className="glass-card hover:shadow-premium transition-all duration-300 animate-on-scroll group">
+          <Card className="glass-card hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-on-scroll group border-2 hover:border-accent/50" style={{ animationDelay: '100ms' }}>
             <CardHeader>
-              <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <TrendingUp className="h-6 w-6 text-accent" />
+              <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                <TrendingUp className="h-8 w-8 text-accent" />
               </div>
-              <CardTitle className="text-xl">AI-genererade Kampanjer</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-2xl mb-3">AI-genererade Kampanjer</CardTitle>
+              <CardDescription className="text-base">
                 Skapa professionella kampanjer på sekunder
               </CardDescription>
             </CardHeader>
@@ -357,13 +419,13 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          <Card className="glass-card hover:shadow-premium transition-all duration-300 animate-on-scroll group">
+          <Card className="glass-card hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-on-scroll group border-2 hover:border-accent/50" style={{ animationDelay: '200ms' }}>
             <CardHeader>
-              <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <BarChart className="h-6 w-6 text-accent" />
+              <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                <BarChart className="h-8 w-8 text-accent" />
               </div>
-              <CardTitle className="text-xl">Detaljerad Analys</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-2xl mb-3">Detaljerad Analys</CardTitle>
+              <CardDescription className="text-base">
                 Följ resultat och optimera dina kampanjer
               </CardDescription>
             </CardHeader>
