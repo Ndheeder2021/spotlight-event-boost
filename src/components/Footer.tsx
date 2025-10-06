@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Zap, Linkedin, Facebook, Twitter, Instagram } from "lucide-react";
+import { Zap, Linkedin, Facebook, X, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Footer() {
@@ -100,8 +100,8 @@ export function Footer() {
               </a>
             </Button>
             <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                <Twitter className="h-5 w-5" />
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+                <X className="h-5 w-5" />
               </a>
             </Button>
             <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
