@@ -1,6 +1,6 @@
 import { Outlet, useNavigate, NavLink, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LogOut, Home, Calendar, Megaphone, Bell, Settings, BarChart, Zap, TrendingUp } from "lucide-react";
+import { LogOut, Home, Calendar, Megaphone, Bell, Settings, BarChart, Zap, TrendingUp, Shield } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
@@ -21,11 +21,23 @@ export function AppLayout() {
   const navigate = useNavigate();
   const { features, loading } = usePlanFeatures();
   const [user, setUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const checkUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
+      
+      if (user) {
+        // Check if user is admin
+        const { data: roles } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", user.id)
+          .eq("role", "admin");
+        
+        setIsAdmin(roles && roles.length > 0);
+      }
     };
     checkUser();
   }, []);
@@ -67,6 +79,19 @@ export function AppLayout() {
                   {item.title}
                 </NavLink>
               ))}
+              {isAdmin && (
+                <NavLink
+                  to="/admin"
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 text-sm transition-colors hover:text-primary ${
+                      isActive ? "text-primary font-medium" : "text-muted-foreground"
+                    }`
+                  }
+                >
+                  <Shield className="h-4 w-4" />
+                  Admin
+                </NavLink>
+              )}
             </nav>
             
             <Button variant="ghost" size="sm" onClick={handleLogout}>
