@@ -192,10 +192,15 @@ export default function Settings() {
                     <Input
                       id="radius"
                       type="number"
-                      step="0.5"
-                      value={location.radius_km || 2}
+                      step="5"
+                      min="5"
+                      max="100"
+                      value={location.radius_km || 10}
                       onChange={(e) => setLocation({ ...location, radius_km: parseFloat(e.target.value) })}
                     />
+                    <p className="text-xs text-muted-foreground">
+                      Större radie ger fler events (rekommenderat: 10-20 km)
+                    </p>
                   </div>
 
                   <Button onClick={handleSaveLocation} disabled={saving} className="w-full">

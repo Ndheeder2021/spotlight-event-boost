@@ -57,7 +57,7 @@ serve(async (req) => {
 
     console.log(`Fetching events from Ticketmaster: lat=${latitude}, lon=${longitude}, radius=${radius}km`);
 
-    // Build Ticketmaster API URL
+    // Build Ticketmaster API URL - Use EU endpoint for European markets
     const params = new URLSearchParams({
       'apikey': ticketmasterApiKey,
       'latlong': `${latitude},${longitude}`,
@@ -65,7 +65,7 @@ serve(async (req) => {
       'unit': 'km',
       'size': '200',
       'sort': 'date,asc',
-      'countryCode': 'SE', // Sweden
+      'countryCode': 'SE',
     });
 
     if (startDate) {
@@ -75,9 +75,10 @@ serve(async (req) => {
       params.append('endDateTime', new Date(endDate).toISOString().replace(/\.\d{3}Z$/, 'Z'));
     }
 
-    const ticketmasterUrl = `https://app.ticketmaster.com/discovery/v2/events.json?${params.toString()}`;
+    // Use EU endpoint for Sweden and other European countries
+    const ticketmasterUrl = `https://app.ticketmaster.eu/discovery/v2/events.json?${params.toString()}`;
 
-    console.log('Calling Ticketmaster API');
+    console.log('Calling Ticketmaster EU API:', ticketmasterUrl.replace(ticketmasterApiKey, 'API_KEY_HIDDEN'));
 
     // Fetch events from Ticketmaster
     const response = await fetch(ticketmasterUrl);
