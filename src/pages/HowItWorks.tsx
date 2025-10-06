@@ -26,9 +26,19 @@ export default function HowItWorks() {
       </header>
 
       {/* Hero */}
-      <section className="container mx-auto px-4 py-24">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-4">
+      <section className="relative container mx-auto px-4 py-24 overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/5 to-accent/5 rounded-full blur-3xl" />
+        </div>
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 grid-pattern opacity-30 -z-10" />
+        
+        <div className="max-w-4xl mx-auto text-center space-y-6 relative">
+          <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-4 backdrop-blur-sm">
             <span className="text-sm font-semibold text-accent">Hur Det Fungerar</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold">
@@ -54,13 +64,13 @@ export default function HowItWorks() {
                   1
                 </div>
               </div>
-              <Card className="p-8 border-2 hover:border-accent/50 transition-all hover:shadow-xl">
+              <Card className="p-8 border-2 glass-card hover:border-accent/50 transition-all hover:shadow-xl premium-glow group">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                     <Bell className="h-6 w-6 text-accent" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold mb-2">Registrera ditt företag</h3>
+                    <h3 className="text-2xl font-bold mb-2 group-hover:text-accent transition-colors">Registrera ditt företag</h3>
                     <p className="text-muted-foreground text-lg">
                       Skapa ett konto och ange din affärs plats, typ av verksamhet och målgrupp. Det tar mindre än 2 minuter.
                     </p>
@@ -93,13 +103,13 @@ export default function HowItWorks() {
                   2
                 </div>
               </div>
-              <Card className="p-8 border-2 hover:border-accent/50 transition-all hover:shadow-xl">
+              <Card className="p-8 border-2 glass-card hover:border-accent/50 transition-all hover:shadow-xl premium-glow group">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                     <Sparkles className="h-6 w-6 text-accent" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold mb-2">Ta emot notifieringar</h3>
+                    <h3 className="text-2xl font-bold mb-2 group-hover:text-accent transition-colors">Ta emot notifieringar</h3>
                     <p className="text-muted-foreground text-lg">
                       Spotlight övervakar automatiskt lokala evenemang och skickar dig notifieringar när något relevant upptäcks.
                     </p>
@@ -132,13 +142,13 @@ export default function HowItWorks() {
                   3
                 </div>
               </div>
-              <Card className="p-8 border-2 hover:border-accent/50 transition-all hover:shadow-xl">
+              <Card className="p-8 border-2 glass-card hover:border-accent/50 transition-all hover:shadow-xl premium-glow group">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                     <Send className="h-6 w-6 text-accent" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold mb-2">Generera & lansera kampanjer</h3>
+                    <h3 className="text-2xl font-bold mb-2 group-hover:text-accent transition-colors">Generera & lansera kampanjer</h3>
                     <p className="text-muted-foreground text-lg">
                       Använd vår AI för att skapa professionella kampanjer på sekunder, eller skriv egna. Redigera, godkänn och lansera.
                     </p>
@@ -170,13 +180,13 @@ export default function HowItWorks() {
                   4
                 </div>
               </div>
-              <Card className="p-8 border-2 hover:border-accent/50 transition-all hover:shadow-xl">
+              <Card className="p-8 border-2 glass-card hover:border-accent/50 transition-all hover:shadow-xl premium-glow group">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                     <BarChart className="h-6 w-6 text-accent" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold mb-2">Följ resultat & optimera</h3>
+                    <h3 className="text-2xl font-bold mb-2 group-hover:text-accent transition-colors">Följ resultat & optimera</h3>
                     <p className="text-muted-foreground text-lg">
                       Se hur dina kampanjer presterar i realtid och lär dig vad som fungerar bäst för just ditt företag.
                     </p>
@@ -212,38 +222,38 @@ export default function HowItWorks() {
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            <Card className="p-6 border-2 hover:border-accent/50 transition-all">
-              <h3 className="font-bold text-lg mb-2">Smart Kalendervy</h3>
+            <Card className="p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
+              <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">Smart Kalendervy</h3>
               <p className="text-sm text-muted-foreground">
                 Se alla kommande evenemang och dina kampanjer i en överskådlig kalender
               </p>
             </Card>
-            <Card className="p-6 border-2 hover:border-accent/50 transition-all">
-              <h3 className="font-bold text-lg mb-2">Kampanjbibliotek</h3>
+            <Card className="p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
+              <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">Kampanjbibliotek</h3>
               <p className="text-sm text-muted-foreground">
                 Spara och återanvänd framgångsrika kampanjer för liknande evenemang
               </p>
             </Card>
-            <Card className="p-6 border-2 hover:border-accent/50 transition-all">
-              <h3 className="font-bold text-lg mb-2">Teamsamarbete</h3>
+            <Card className="p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
+              <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">Teamsamarbete</h3>
               <p className="text-sm text-muted-foreground">
                 Bjud in teammedlemmar och samarbeta kring kampanjer
               </p>
             </Card>
-            <Card className="p-6 border-2 hover:border-accent/50 transition-all">
-              <h3 className="font-bold text-lg mb-2">PDF Export</h3>
+            <Card className="p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
+              <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">PDF Export</h3>
               <p className="text-sm text-muted-foreground">
                 Exportera kampanjer till professionella PDF:er för utskrift
               </p>
             </Card>
-            <Card className="p-6 border-2 hover:border-accent/50 transition-all">
-              <h3 className="font-bold text-lg mb-2">Delningslänkar</h3>
+            <Card className="p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
+              <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">Delningslänkar</h3>
               <p className="text-sm text-muted-foreground">
                 Dela kampanjer med klienter via säkra, lösenordsskyddade länkar
               </p>
             </Card>
-            <Card className="p-6 border-2 hover:border-accent/50 transition-all">
-              <h3 className="font-bold text-lg mb-2">AI Live Support</h3>
+            <Card className="p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
+              <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">AI Live Support</h3>
               <p className="text-sm text-muted-foreground">
                 Få hjälp direkt i plattformen med vår AI-assistent (Pro & Enterprise)
               </p>
@@ -253,15 +263,16 @@ export default function HowItWorks() {
       </section>
 
       {/* CTA */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="max-w-4xl mx-auto text-center space-y-8 glass-card p-12 rounded-3xl border-2">
+      <section className="relative container mx-auto px-4 py-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-background -z-10" />
+        <div className="max-w-4xl mx-auto text-center space-y-8 glass-card p-12 rounded-3xl border-2 premium-glow-lg">
           <h2 className="text-4xl md:text-5xl font-bold">
-            Redo att komma igång?
+            Redo att <span className="gradient-text">komma igång</span>?
           </h2>
           <p className="text-xl text-muted-foreground">
             Prova Spotlight gratis i 14 dagar. Inget kreditkort krävs.
           </p>
-          <Button size="lg" className="text-lg px-8 h-14" asChild>
+          <Button size="lg" className="text-lg px-8 h-14 hover:scale-105 transition-transform" asChild>
             <Link to="/">
               Starta din gratisperiod
             </Link>

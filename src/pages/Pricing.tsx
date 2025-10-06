@@ -98,9 +98,19 @@ export default function Pricing() {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-24">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-4">
+      <section className="relative container mx-auto px-4 py-24 overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/5 to-accent/5 rounded-full blur-3xl" />
+        </div>
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 grid-pattern opacity-30 -z-10" />
+        
+        <div className="max-w-4xl mx-auto text-center space-y-6 relative">
+          <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-4 backdrop-blur-sm">
             <span className="text-sm font-semibold text-accent">Priser</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold">
@@ -147,8 +157,8 @@ export default function Pricing() {
           {plans.map((plan, index) => (
             <Card 
               key={plan.name} 
-              className={`flex flex-col ${
-                plan.popular ? "border-2 border-accent shadow-xl scale-105 relative" : "border-2"
+              className={`flex flex-col glass-card transition-all hover:scale-105 ${
+                plan.popular ? "border-2 border-accent shadow-xl scale-105 relative premium-glow-lg" : "border-2 hover:border-accent/30 premium-glow"
               }`}
             >
               {plan.popular && (
@@ -228,32 +238,32 @@ export default function Pricing() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Vanliga frågor om priser</h2>
           </div>
           <div className="space-y-6">
-            <Card className="p-6">
-              <h3 className="font-bold text-lg mb-2">Kan jag byta plan senare?</h3>
+            <Card className="p-6 glass-card border-2 hover:border-accent/30 transition-all group">
+              <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">Kan jag byta plan senare?</h3>
               <p className="text-muted-foreground">
                 Ja, du kan när som helst uppgradera eller nedgradera din plan. Ändringar träder i kraft omedelbart och vi justerar faktureringen proportionellt.
               </p>
             </Card>
-            <Card className="p-6">
-              <h3 className="font-bold text-lg mb-2">Finns det någon bindningstid?</h3>
+            <Card className="p-6 glass-card border-2 hover:border-accent/30 transition-all group">
+              <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">Finns det någon bindningstid?</h3>
               <p className="text-muted-foreground">
                 Nej, vi har inga bindningstider. Du kan när som helst avsluta ditt abonnemang från inställningar i din dashboard.
               </p>
             </Card>
-            <Card className="p-6">
-              <h3 className="font-bold text-lg mb-2">Vad händer efter gratisperioden?</h3>
+            <Card className="p-6 glass-card border-2 hover:border-accent/30 transition-all group">
+              <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">Vad händer efter gratisperioden?</h3>
               <p className="text-muted-foreground">
                 Efter 14 dagar övergår du automatiskt till den valda betalplanen. Du kan när som helst avsluta innan gratisperioden är slut utan att betala något.
               </p>
             </Card>
-            <Card className="p-6">
-              <h3 className="font-bold text-lg mb-2">Vilka betalmetoder accepterar ni?</h3>
+            <Card className="p-6 glass-card border-2 hover:border-accent/30 transition-all group">
+              <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">Vilka betalmetoder accepterar ni?</h3>
               <p className="text-muted-foreground">
                 Vi accepterar alla större kreditkort (Visa, Mastercard, American Express) samt Swish och faktura för årsabonnemang.
               </p>
             </Card>
-            <Card className="p-6">
-              <h3 className="font-bold text-lg mb-2">Får jag en faktura?</h3>
+            <Card className="p-6 glass-card border-2 hover:border-accent/30 transition-all group">
+              <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">Får jag en faktura?</h3>
               <p className="text-muted-foreground">
                 Ja, du får automatiskt en faktura via email efter varje betalning. Du kan också ladda ner alla dina fakturor från din dashboard.
               </p>
@@ -263,15 +273,16 @@ export default function Pricing() {
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="max-w-4xl mx-auto text-center space-y-8 glass-card p-12 rounded-3xl border-2">
+      <section className="relative container mx-auto px-4 py-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-background -z-10" />
+        <div className="max-w-4xl mx-auto text-center space-y-8 glass-card p-12 rounded-3xl border-2 premium-glow-lg">
           <h2 className="text-4xl md:text-5xl font-bold">
-            Redo att komma igång?
+            Redo att <span className="gradient-text">komma igång</span>?
           </h2>
           <p className="text-xl text-muted-foreground">
             Prova Spotlight gratis i 14 dagar. Inget kreditkort krävs.
           </p>
-          <Button size="lg" className="text-lg px-8 h-14" onClick={() => setShowAuthDialog(true)}>
+          <Button size="lg" className="text-lg px-8 h-14 hover:scale-105 transition-transform" onClick={() => setShowAuthDialog(true)}>
             Starta din gratisperiod
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>

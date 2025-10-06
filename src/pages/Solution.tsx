@@ -26,9 +26,19 @@ export default function Solution() {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-24">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-4">
+      <section className="relative container mx-auto px-4 py-24 overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/5 to-accent/5 rounded-full blur-3xl" />
+        </div>
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 grid-pattern opacity-30 -z-10" />
+        
+        <div className="max-w-4xl mx-auto text-center space-y-6 relative">
+          <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-4 backdrop-blur-sm">
             <span className="text-sm font-semibold text-accent">Vår Lösning</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold">
@@ -52,9 +62,9 @@ export default function Solution() {
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            <Card className="border-2">
+            <Card className="border-2 glass-card hover:border-accent/30 transition-all hover:scale-105 hover:shadow-xl group">
               <CardHeader>
-                <CardTitle className="text-xl">Missade evenemang</CardTitle>
+                <CardTitle className="text-xl group-hover:text-accent transition-colors">Missade evenemang</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
@@ -62,9 +72,9 @@ export default function Solution() {
                 </p>
               </CardContent>
             </Card>
-            <Card className="border-2">
+            <Card className="border-2 glass-card hover:border-accent/30 transition-all hover:scale-105 hover:shadow-xl group">
               <CardHeader>
-                <CardTitle className="text-xl">Tidskrävande kampanjer</CardTitle>
+                <CardTitle className="text-xl group-hover:text-accent transition-colors">Tidskrävande kampanjer</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
@@ -72,9 +82,9 @@ export default function Solution() {
                 </p>
               </CardContent>
             </Card>
-            <Card className="border-2">
+            <Card className="border-2 glass-card hover:border-accent/30 transition-all hover:scale-105 hover:shadow-xl group">
               <CardHeader>
-                <CardTitle className="text-xl">Ingen insikt</CardTitle>
+                <CardTitle className="text-xl group-hover:text-accent transition-colors">Ingen insikt</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
@@ -132,8 +142,11 @@ export default function Solution() {
                 </ul>
               </div>
               <div className="order-1 md:order-2">
-                <div className="glass-card p-8 rounded-2xl border-2 border-accent/20">
-                  <Bell className="h-16 w-16 text-accent mb-4 mx-auto" />
+                <div className="glass-card p-8 rounded-2xl border-2 border-accent/20 premium-glow hover:scale-105 transition-all">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-accent/10 rounded-full blur-2xl" />
+                    <Bell className="h-16 w-16 text-accent mb-4 mx-auto relative animate-pulse" />
+                  </div>
                   <p className="text-center text-muted-foreground">
                     Få notifieringar om relevanta evenemang innan de händer
                   </p>
@@ -144,8 +157,11 @@ export default function Solution() {
             {/* Step 2 */}
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <div className="glass-card p-8 rounded-2xl border-2 border-accent/20">
-                  <Sparkles className="h-16 w-16 text-accent mb-4 mx-auto" />
+                <div className="glass-card p-8 rounded-2xl border-2 border-accent/20 premium-glow hover:scale-105 transition-all">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-accent/10 rounded-full blur-2xl" />
+                    <Sparkles className="h-16 w-16 text-accent mb-4 mx-auto relative animate-pulse" />
+                  </div>
                   <p className="text-center text-muted-foreground">
                     AI skapar skräddarsydda kampanjer på sekunder
                   </p>
@@ -220,8 +236,11 @@ export default function Solution() {
                 </ul>
               </div>
               <div className="order-1 md:order-2">
-                <div className="glass-card p-8 rounded-2xl border-2 border-accent/20">
-                  <Target className="h-16 w-16 text-accent mb-4 mx-auto" />
+                <div className="glass-card p-8 rounded-2xl border-2 border-accent/20 premium-glow hover:scale-105 transition-all">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-accent/10 rounded-full blur-2xl" />
+                    <Target className="h-16 w-16 text-accent mb-4 mx-auto relative animate-pulse" />
+                  </div>
                   <p className="text-center text-muted-foreground">
                     Se exakt vilka kampanjer som ger bäst resultat
                   </p>
@@ -239,20 +258,20 @@ export default function Solution() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Resultat du kan förvänta dig</h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105">
-              <div className="text-5xl font-bold gradient-text mb-2">40%</div>
+            <Card className="text-center p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
+              <div className="text-5xl font-bold gradient-text mb-2 group-hover:scale-110 transition-transform">40%</div>
               <p className="text-sm text-muted-foreground">Ökad försäljning under evenemang</p>
             </Card>
-            <Card className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105">
-              <div className="text-5xl font-bold gradient-text mb-2">15min</div>
+            <Card className="text-center p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
+              <div className="text-5xl font-bold gradient-text mb-2 group-hover:scale-110 transition-transform">15min</div>
               <p className="text-sm text-muted-foreground">Sparad tid per kampanj</p>
             </Card>
-            <Card className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105">
-              <div className="text-5xl font-bold gradient-text mb-2">3x</div>
+            <Card className="text-center p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
+              <div className="text-5xl font-bold gradient-text mb-2 group-hover:scale-110 transition-transform">3x</div>
               <p className="text-sm text-muted-foreground">Fler kampanjer per månad</p>
             </Card>
-            <Card className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105">
-              <div className="text-5xl font-bold gradient-text mb-2">500+</div>
+            <Card className="text-center p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
+              <div className="text-5xl font-bold gradient-text mb-2 group-hover:scale-110 transition-transform">500+</div>
               <p className="text-sm text-muted-foreground">Nöjda företag</p>
             </Card>
           </div>
@@ -260,21 +279,22 @@ export default function Solution() {
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="max-w-4xl mx-auto text-center space-y-8 glass-card p-12 rounded-3xl border-2">
+      <section className="relative container mx-auto px-4 py-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-background -z-10" />
+        <div className="max-w-4xl mx-auto text-center space-y-8 glass-card p-12 rounded-3xl border-2 premium-glow-lg">
           <h2 className="text-4xl md:text-5xl font-bold">
-            Redo att öka din försäljning?
+            Redo att öka din <span className="gradient-text">försäljning</span>?
           </h2>
           <p className="text-xl text-muted-foreground">
             Börja använda Spotlight idag och se resultat redan vid nästa lokala evenemang.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8 h-14" asChild>
+            <Button size="lg" className="text-lg px-8 h-14 hover:scale-105 transition-transform" asChild>
               <Link to="/">
                 Kom igång gratis
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 h-14" asChild>
+            <Button size="lg" variant="outline" className="text-lg px-8 h-14 hover:scale-105 transition-transform" asChild>
               <Link to="/contact">
                 Kontakta oss
               </Link>
