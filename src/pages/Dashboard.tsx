@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { EventCard } from "@/components/EventCard";
+import { EventMap } from "@/components/EventMap";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { LogOut, Sparkles } from "lucide-react";
@@ -24,6 +25,7 @@ export default function Dashboard() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [bigEvent, setBigEvent] = useState<Event | null>(null);
+  const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
 
   useEffect(() => {
     loadEvents();
@@ -56,6 +58,8 @@ export default function Dashboard() {
         .single();
 
       if (locationError) throw locationError;
+
+      setUserLocation({ lat: location.lat, lon: location.lon });
 
       const { data: allEvents, error: eventsError } = await supabase
         .from("events")
@@ -117,9 +121,9 @@ export default function Dashboard() {
         )}
 
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-2">Kommande event</h2>
+          <h2 className="text-3xl font-bold mb-2">Event Radar</h2>
           <p className="text-muted-foreground">
-            Event i närheten av din verksamhet
+            Event i närheten av din verksamhet (inom 10 km)
           </p>
         </div>
 
@@ -132,15 +136,30 @@ export default function Dashboard() {
             <p className="text-muted-foreground">Inga event hittades</p>
           </div>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {events.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                onClick={() => navigate(`/events/${event.id}`)}
-              />
-            ))}
-          </div>
+          <>
+            {userLocation && (
+              <div className="mb-6">
+                <EventMap 
+                  events={events}
+                  userLocation={userLocation}
+                  onEventClick={(eventId) => navigate(`/events/${eventId}`)}
+                />
+              </div>
+            )}
+            
+            <div className="mb-4">
+              <h3 className="text-xl font-semibold">Alla event</h3>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {events.map((event) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  onClick={() => navigate(`/events/${event.id}`)}
+                />
+              ))}
+            </div>
+          </>
         )}
       </main>
     </div>
