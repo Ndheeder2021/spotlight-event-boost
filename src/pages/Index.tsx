@@ -137,6 +137,7 @@ const Index = () => {
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showAuthDialog, setShowAuthDialog] = useState(false);
+  const [authMode, setAuthMode] = useState<"login" | "signup" | null>(null);
   const [isYearly, setIsYearly] = useState(false);
 
   const scrollToFeatures = () => {
@@ -656,7 +657,10 @@ const Index = () => {
       <Footer />
 
       {/* Auth Dialog */}
-      <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
+      <Dialog open={showAuthDialog} onOpenChange={(open) => {
+        setShowAuthDialog(open);
+        if (!open) setAuthMode(null);
+      }}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
@@ -667,7 +671,39 @@ const Index = () => {
               Logga in eller skapa ett konto för att komma igång
             </DialogDescription>
           </DialogHeader>
-          <AuthForm onSuccess={handleAuthSuccess} />
+          {!authMode ? (
+            <div className="space-y-3 pt-2">
+              <Button 
+                className="w-full" 
+                size="lg"
+                onClick={() => setAuthMode("login")}
+              >
+                Logga in
+              </Button>
+              <Button 
+                className="w-full" 
+                variant="outline" 
+                size="lg"
+                onClick={() => setAuthMode("signup")}
+              >
+                Skapa konto
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <Button 
+                variant="ghost" 
+                onClick={() => setAuthMode(null)}
+                className="px-0"
+              >
+                ← Tillbaka
+              </Button>
+              <AuthForm 
+                onSuccess={handleAuthSuccess} 
+                initialMode={authMode}
+              />
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
