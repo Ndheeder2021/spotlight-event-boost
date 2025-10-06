@@ -265,6 +265,9 @@ export default function Settings() {
                       return;
                     }
 
+                    // Säkerställ en minsta radie vid import för bättre träffar
+                    const effectiveRadius = Math.max(Number(location.radius_km) || 10, 15);
+
                     toast.loading("Importerar events från Ticketmaster...");
 
                     try {
@@ -274,7 +277,7 @@ export default function Settings() {
                           body: {
                             latitude: location.lat,
                             longitude: location.lon,
-                            radius: location.radius_km || 10,
+                            radius: effectiveRadius,
                             startDate: new Date().toISOString(),
                             endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(), // 90 days ahead
                           },
@@ -283,7 +286,11 @@ export default function Settings() {
 
                       if (error) throw error;
 
-                      toast.success(`✓ Import lyckades! ${data.imported} events importerades från Ticketmaster`);
+                      if (data?.imported === 0) {
+                        toast.info(`0 events hittades. Vi använde ${effectiveRadius} km. Öka gärna radien till 20–50 km för fler träffar.`);
+                      } else {
+                        toast.success(`✓ Import lyckades! ${data.imported} events importerades från Ticketmaster`);
+                      }
                     } catch (error) {
                       console.error('Import error:', error);
                       toast.error(error instanceof Error ? error.message : "Ett fel uppstod vid import");
