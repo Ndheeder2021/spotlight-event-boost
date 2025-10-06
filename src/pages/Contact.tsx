@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { MessageSquare, Send, Loader2 } from "lucide-react";
+import { MessageSquare, Send, Loader2, Zap } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -41,6 +41,28 @@ const Contact = () => {
     },
   });
 
+  // Scroll animations
+  useEffect(() => {
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    });
+
+    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     try {
@@ -73,8 +95,9 @@ const Contact = () => {
       {/* Header */}
       <header className="border-b border-border/40 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4">
-          <a href="/" className="text-2xl font-display font-bold gradient-text">
-            EventLead
+          <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <Zap className="h-6 w-6 text-primary" fill="currentColor" />
+            <span className="text-xl font-bold">Spotlight</span>
           </a>
         </div>
       </header>
