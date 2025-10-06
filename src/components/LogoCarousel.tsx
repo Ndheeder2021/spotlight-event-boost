@@ -67,7 +67,7 @@ export const LogoCarousel = () => {
             key={`${customer}-${index}`}
             className="inline-flex items-center justify-center px-8 py-4 min-w-[200px] group"
           >
-            <span className="text-2xl font-bold text-muted-foreground/40 group-hover:text-foreground transition-colors duration-300 font-display">
+            <span className="text-2xl font-bold text-muted-foreground/70 group-hover:text-foreground transition-colors duration-300 font-display">
               {customer}
             </span>
           </div>
