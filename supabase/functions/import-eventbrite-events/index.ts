@@ -60,12 +60,13 @@ serve(async (req) => {
 
     console.log(`Fetching events from Eventbrite: lat=${latitude}, lon=${longitude}, radius=${radius}km`);
 
-    // Build Eventbrite API URL
+    // Build Eventbrite API URL - correct endpoint structure
     const params = new URLSearchParams({
       'location.latitude': latitude.toString(),
       'location.longitude': longitude.toString(),
       'location.within': `${radius}km`,
       'expand': 'venue,category',
+      'sort_by': 'date',
     });
 
     if (startDate) {
@@ -75,7 +76,7 @@ serve(async (req) => {
       params.append('start_date.range_end', endDate);
     }
 
-    const eventbriteUrl = `https://www.eventbriteapi.com/v3/events/search/?${params.toString()}`;
+    const eventbriteUrl = `https://www.eventbriteapi.com/v3/events/search?${params.toString()}`;
 
     console.log('Calling Eventbrite API:', eventbriteUrl);
 
