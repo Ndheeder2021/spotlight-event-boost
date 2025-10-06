@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Zap, Calendar, ArrowRight, TrendingUp, Users, Target, Lightbulb } from "lucide-react";
+import { Zap, Calendar, ArrowRight, TrendingUp, Users, Target, Lightbulb, Mail } from "lucide-react";
 import { Footer } from "@/components/Footer";
+import { useToast } from "@/hooks/use-toast";
 import blogLocalEvents from "@/assets/blog-local-events.jpg";
 import blogAiMarketing from "@/assets/blog-ai-marketing.jpg";
 import blogCafeCase from "@/assets/blog-cafe-case.jpg";
@@ -74,6 +76,28 @@ const blogPosts = [
 ];
 
 export default function Blog() {
+  const [email, setEmail] = useState("");
+  const { toast } = useToast();
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email && email.includes("@")) {
+      toast({
+        title: "🎉 Tack för din prenumeration!",
+        description: `Vi har skickat en bekräftelse till ${email}. Välkommen till Spotlight-communityn!`,
+        duration: 5000,
+      });
+      setEmail("");
+    } else {
+      toast({
+        title: "Ogiltig e-postadress",
+        description: "Vänligen ange en giltig e-postadress.",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -242,14 +266,23 @@ export default function Blog() {
             Prenumerera på vårt nyhetsbrev och få värdefulla tips om eventdriven marknadsföring varje vecka.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Din e-postadress"
-              className="flex-1 px-4 py-3 rounded-lg border-2 bg-background focus:border-accent outline-none"
-            />
-            <button className="px-6 py-3 bg-accent hover:bg-accent-glow text-primary-foreground font-semibold rounded-lg transition-colors">
-              Prenumerera
-            </button>
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 w-full">
+              <input
+                type="email"
+                placeholder="Din e-postadress"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 px-4 py-3 rounded-lg border-2 bg-background focus:border-accent outline-none transition-colors"
+                required
+              />
+              <button 
+                type="submit"
+                className="px-6 py-3 bg-accent hover:bg-accent-glow text-primary-foreground font-semibold rounded-lg transition-all hover:scale-105 flex items-center justify-center gap-2"
+              >
+                <Mail className="h-4 w-4" />
+                Prenumerera
+              </button>
+            </form>
           </div>
         </div>
       </section>
