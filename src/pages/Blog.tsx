@@ -3,6 +3,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Zap, Calendar, ArrowRight, TrendingUp, Users, Target, Lightbulb } from "lucide-react";
 import { Footer } from "@/components/Footer";
+import blogLocalEvents from "@/assets/blog-local-events.jpg";
+import blogAiMarketing from "@/assets/blog-ai-marketing.jpg";
+import blogCafeCase from "@/assets/blog-cafe-case.jpg";
+import blogTimingStrategy from "@/assets/blog-timing-strategy.jpg";
+import blogCopywriting from "@/assets/blog-copywriting.jpg";
+import blogEventGuide from "@/assets/blog-event-guide.jpg";
 
 const blogPosts = [
   {
@@ -13,6 +19,7 @@ const blogPosts = [
     date: "2025-01-15",
     readTime: "5 min läsning",
     icon: TrendingUp,
+    image: blogLocalEvents,
   },
   {
     id: 2,
@@ -22,6 +29,7 @@ const blogPosts = [
     date: "2025-01-10",
     readTime: "7 min läsning",
     icon: Lightbulb,
+    image: blogAiMarketing,
   },
   {
     id: 3,
@@ -31,6 +39,7 @@ const blogPosts = [
     date: "2025-01-05",
     readTime: "6 min läsning",
     icon: Users,
+    image: blogCafeCase,
   },
   {
     id: 4,
@@ -40,6 +49,7 @@ const blogPosts = [
     date: "2024-12-28",
     readTime: "4 min läsning",
     icon: Target,
+    image: blogTimingStrategy,
   },
   {
     id: 5,
@@ -49,6 +59,7 @@ const blogPosts = [
     date: "2024-12-20",
     readTime: "8 min läsning",
     icon: TrendingUp,
+    image: blogCopywriting,
   },
   {
     id: 6,
@@ -58,6 +69,7 @@ const blogPosts = [
     date: "2024-12-15",
     readTime: "10 min läsning",
     icon: Lightbulb,
+    image: blogEventGuide,
   },
 ];
 
@@ -105,36 +117,39 @@ export default function Blog() {
           <div className="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-bold mb-6">
             Utvalda artiklar
           </div>
-          <Card className="overflow-hidden border-2 hover:border-accent/50 transition-all hover:shadow-xl">
-            <div className="grid md:grid-cols-2 gap-0">
-              <div className="bg-gradient-to-br from-accent/20 to-accent/5 p-12 flex items-center justify-center">
-                <TrendingUp className="h-32 w-32 text-accent" />
-              </div>
-              <div className="p-8 flex flex-col justify-center">
-                <Badge className="w-fit mb-4">Tips & Tricks</Badge>
-                <h2 className="text-3xl font-bold mb-4">
-                  5 sätt att maximera försäljningen vid lokala evenemang
-                </h2>
-                <p className="text-muted-foreground mb-6">
-                  Lär dig hur du kan utnyttja lokala evenemang för att öka trafiken till din butik och öka försäljningen med upp till 40%. Vi delar med oss av beprövade strategier från framgångsrika företag.
-                </p>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4" />
-                    15 jan 2025
-                  </div>
-                  <span>5 min läsning</span>
+          <Link to="/blog/1">
+            <Card className="overflow-hidden border-2 hover:border-accent/50 transition-all hover:shadow-xl group cursor-pointer">
+              <div className="grid md:grid-cols-2 gap-0">
+                <div className="relative overflow-hidden h-80 md:h-auto">
+                  <img 
+                    src={blogLocalEvents} 
+                    alt="Lokala evenemang" 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
-                <Link 
-                  to="/blog/1" 
-                  className="text-accent hover:text-accent-glow flex items-center gap-2 font-semibold"
-                >
-                  Läs mer
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+                <div className="p-8 flex flex-col justify-center">
+                  <Badge className="w-fit mb-4">Tips & Tricks</Badge>
+                  <h2 className="text-3xl font-bold mb-4 group-hover:text-accent transition-colors">
+                    5 sätt att maximera försäljningen vid lokala evenemang
+                  </h2>
+                  <p className="text-muted-foreground mb-6">
+                    Lär dig hur du kan utnyttja lokala evenemang för att öka trafiken till din butik och öka försäljningen med upp till 40%. Vi delar med oss av beprövade strategier från framgångsrika företag.
+                  </p>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      15 jan 2025
+                    </div>
+                    <span>5 min läsning</span>
+                  </div>
+                  <div className="text-accent group-hover:text-accent-glow flex items-center gap-2 font-semibold">
+                    Läs mer
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          </Link>
         </div>
       </section>
 
@@ -142,47 +157,46 @@ export default function Blog() {
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold mb-8">Senaste artiklarna</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogPosts.slice(1).map((post) => {
-              const Icon = post.icon;
               return (
-                <Card 
-                  key={post.id} 
-                  className="flex flex-col border-2 hover:border-accent/50 transition-all hover:shadow-xl group"
-                >
-                  <CardHeader>
-                    <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <Icon className="h-6 w-6 text-accent" />
+                <Link key={post.id} to={`/blog/${post.id}`}>
+                  <Card className="flex flex-col border-2 hover:border-accent/50 transition-all hover:shadow-xl group cursor-pointer h-full overflow-hidden">
+                    <div className="relative overflow-hidden h-48">
+                      <img 
+                        src={post.image} 
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
                     </div>
-                    <Badge className="w-fit mb-2">{post.category}</Badge>
-                    <CardTitle className="text-xl group-hover:text-accent transition-colors">
-                      {post.title}
-                    </CardTitle>
-                    <CardDescription className="text-base">
-                      {post.excerpt}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="mt-auto">
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4" />
-                        {new Date(post.date).toLocaleDateString('sv-SE', { 
-                          day: 'numeric', 
-                          month: 'short', 
-                          year: 'numeric' 
-                        })}
+                    <CardHeader className="flex-1">
+                      <Badge className="w-fit mb-2">{post.category}</Badge>
+                      <CardTitle className="text-xl group-hover:text-accent transition-colors mb-3">
+                        {post.title}
+                      </CardTitle>
+                      <CardDescription className="text-base">
+                        {post.excerpt}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-4 w-4" />
+                          {new Date(post.date).toLocaleDateString('sv-SE', { 
+                            day: 'numeric', 
+                            month: 'short', 
+                            year: 'numeric' 
+                          })}
+                        </div>
+                        <span>{post.readTime}</span>
                       </div>
-                      <span>{post.readTime}</span>
-                    </div>
-                    <Link 
-                      to={`/blog/${post.id}`}
-                      className="text-accent hover:text-accent-glow flex items-center gap-2 font-semibold"
-                    >
-                      Läs mer
-                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  </CardContent>
-                </Card>
+                      <div className="text-accent group-hover:text-accent-glow flex items-center gap-2 font-semibold">
+                        Läs mer
+                        <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
               );
             })}
           </div>
