@@ -105,6 +105,11 @@ export default function Settings() {
       lat: coordinates?.lat || location.lat,
       lon: coordinates?.lon || location.lon,
     });
+
+    // Autospara direkt när en adress valts
+    setTimeout(() => {
+      handleSaveLocation();
+    }, 300);
   };
 
   if (loading) {
