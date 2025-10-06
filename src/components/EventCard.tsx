@@ -1,6 +1,7 @@
-import { Calendar, MapPin, Users } from "lucide-react";
+import { Calendar, MapPin, Users, Sparkles, Bookmark } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
 import { format } from "date-fns";
 import { sv } from "date-fns/locale";
 
@@ -14,9 +15,12 @@ interface EventCardProps {
     expected_attendance: number;
   };
   onClick: () => void;
+  onGenerateCampaign?: (eventId: string) => void;
+  onSaveEvent?: (eventId: string) => void;
+  isSaved?: boolean;
 }
 
-export const EventCard = ({ event, onClick }: EventCardProps) => {
+export const EventCard = ({ event, onClick, onGenerateCampaign, onSaveEvent, isSaved }: EventCardProps) => {
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       music: "bg-purple-500",
@@ -28,30 +32,59 @@ export const EventCard = ({ event, onClick }: EventCardProps) => {
   };
 
   return (
-    <Card 
-      className="cursor-pointer hover:shadow-lg transition-shadow"
-      onClick={onClick}
-    >
+    <Card className="hover:shadow-lg transition-shadow">
       <CardHeader>
         <div className="flex items-start justify-between">
-          <CardTitle className="text-lg">{event.title}</CardTitle>
+          <CardTitle className="text-lg cursor-pointer" onClick={onClick}>
+            {event.title}
+          </CardTitle>
           <Badge className={getCategoryColor(event.category)}>
             {event.category}
           </Badge>
         </div>
       </CardHeader>
-      <CardContent className="space-y-2">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Calendar className="h-4 w-4" />
-          {format(new Date(event.start_time), "PPP", { locale: sv })}
+      <CardContent className="space-y-3">
+        <div className="space-y-2 cursor-pointer" onClick={onClick}>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Calendar className="h-4 w-4" />
+            {format(new Date(event.start_time), "PPP", { locale: sv })}
+          </div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <MapPin className="h-4 w-4" />
+            {event.venue_name}
+          </div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Users className="h-4 w-4" />
+            {event.expected_attendance.toLocaleString()} förväntade gäster
+          </div>
         </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <MapPin className="h-4 w-4" />
-          {event.venue_name}
-        </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Users className="h-4 w-4" />
-          {event.expected_attendance.toLocaleString()} förväntade gäster
+        
+        <div className="flex gap-2 pt-2">
+          {onGenerateCampaign && (
+            <Button
+              size="sm"
+              className="flex-1"
+              onClick={(e) => {
+                e.stopPropagation();
+                onGenerateCampaign(event.id);
+              }}
+            >
+              <Sparkles className="h-4 w-4 mr-1" />
+              Skapa kampanj
+            </Button>
+          )}
+          {onSaveEvent && (
+            <Button
+              size="sm"
+              variant={isSaved ? "secondary" : "outline"}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSaveEvent(event.id);
+              }}
+            >
+              <Bookmark className={`h-4 w-4 ${isSaved ? 'fill-current' : ''}`} />
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>

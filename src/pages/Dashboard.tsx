@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { EventCard } from "@/components/EventCard";
 import { EventMap } from "@/components/EventMap";
+import { EventFilters } from "@/components/EventFilters";
+import { EventMetrics } from "@/components/EventMetrics";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { LogOut, Sparkles } from "lucide-react";
@@ -23,13 +25,26 @@ interface Event {
 export default function Dashboard() {
   const navigate = useNavigate();
   const [events, setEvents] = useState<Event[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [bigEvent, setBigEvent] = useState<Event | null>(null);
   const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
+  const [savedEvents, setSavedEvents] = useState<string[]>([]);
+  
+  // Filter states
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [distanceFilter, setDistanceFilter] = useState(10);
+  const [minAttendanceFilter, setMinAttendanceFilter] = useState(0);
 
   useEffect(() => {
     loadEvents();
+    loadSavedEvents();
   }, []);
+
+  useEffect(() => {
+    applyFilters();
+  }, [events, searchQuery, categoryFilter, distanceFilter, minAttendanceFilter, userLocation]);
 
   const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
     const R = 6371; // Earth's radius in km
@@ -90,6 +105,85 @@ export default function Dashboard() {
     }
   };
 
+  const loadSavedEvents = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data } = await supabase
+        .from("campaigns")
+        .select("event_id")
+        .eq("tenant_id", (await supabase.from("user_roles").select("tenant_id").eq("user_id", user.id).single()).data?.tenant_id);
+
+      if (data) {
+        setSavedEvents(data.map((c: any) => c.event_id));
+      }
+    } catch (error: any) {
+      console.error("Error loading saved events:", error);
+    }
+  };
+
+  const applyFilters = () => {
+    if (!userLocation) {
+      setFilteredEvents(events);
+      return;
+    }
+
+    let filtered = events.filter(event => {
+      // Distance filter
+      const distance = calculateDistance(
+        userLocation.lat,
+        userLocation.lon,
+        event.venue_lat,
+        event.venue_lon
+      );
+      if (distance > distanceFilter) return false;
+
+      // Search filter
+      if (searchQuery && !event.title.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return false;
+      }
+
+      // Category filter
+      if (categoryFilter !== "all" && event.category.toLowerCase() !== categoryFilter) {
+        return false;
+      }
+
+      // Attendance filter
+      if (event.expected_attendance < minAttendanceFilter) {
+        return false;
+      }
+
+      return true;
+    });
+
+    setFilteredEvents(filtered);
+  };
+
+  const handleGenerateCampaign = async (eventId: string) => {
+    navigate(`/events/${eventId}`);
+  };
+
+  const handleSaveEvent = async (eventId: string) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error("Du måste vara inloggad");
+        return;
+      }
+
+      if (savedEvents.includes(eventId)) {
+        toast.info("Event är redan sparat");
+        return;
+      }
+
+      setSavedEvents([...savedEvents, eventId]);
+      toast.success("Event sparat!");
+    } catch (error: any) {
+      toast.error("Kunde inte spara event");
+    }
+  };
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/");
@@ -123,7 +217,7 @@ export default function Dashboard() {
         <div className="mb-6">
           <h2 className="text-3xl font-bold mb-2">Event Radar</h2>
           <p className="text-muted-foreground">
-            Event i närheten av din verksamhet (inom 10 km)
+            Event i närheten av din verksamhet
           </p>
         </div>
 
@@ -137,25 +231,47 @@ export default function Dashboard() {
           </div>
         ) : (
           <>
+            <div className="mb-6">
+              <EventMetrics events={filteredEvents} />
+            </div>
+
+            <div className="mb-6">
+              <EventFilters
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                category={categoryFilter}
+                onCategoryChange={setCategoryFilter}
+                distance={distanceFilter}
+                onDistanceChange={setDistanceFilter}
+                minAttendance={minAttendanceFilter}
+                onMinAttendanceChange={setMinAttendanceFilter}
+              />
+            </div>
+
             {userLocation && (
               <div className="mb-6">
                 <EventMap 
-                  events={events}
+                  events={filteredEvents}
                   userLocation={userLocation}
                   onEventClick={(eventId) => navigate(`/events/${eventId}`)}
                 />
               </div>
             )}
             
-            <div className="mb-4">
-              <h3 className="text-xl font-semibold">Alla event</h3>
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-xl font-semibold">
+                Alla event ({filteredEvents.length})
+              </h3>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {events.map((event) => (
+              {filteredEvents.map((event) => (
                 <EventCard
                   key={event.id}
                   event={event}
                   onClick={() => navigate(`/events/${event.id}`)}
+                  onGenerateCampaign={handleGenerateCampaign}
+                  onSaveEvent={handleSaveEvent}
+                  isSaved={savedEvents.includes(event.id)}
                 />
               ))}
             </div>
