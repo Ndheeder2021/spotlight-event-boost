@@ -16,6 +16,10 @@ import Calendar from "./pages/Calendar";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Admin from "./pages/Admin";
+import Solution from "./pages/Solution";
+import HowItWorks from "./pages/HowItWorks";
+import Pricing from "./pages/Pricing";
+import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
 import Privacy from "./pages/Privacy";
 import GDPR from "./pages/GDPR";
@@ -33,6 +37,10 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/solution" element={<Solution />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/blog" element={<Blog />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/gdpr" element={<GDPR />} />
           <Route path="/terms" element={<Terms />} />
