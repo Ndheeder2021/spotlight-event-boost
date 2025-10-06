@@ -7,26 +7,23 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Map Eventbrite categories to our event_category enum
+// Map Ticketmaster classifications to our event_category enum
 const categoryMapping: { [key: string]: string } = {
   'music': 'concert',
-  'concerts': 'concert',
-  'performing-arts': 'concert',
-  'sports-fitness': 'sport',
+  'concert': 'concert',
   'sports': 'sport',
-  'food-drink': 'food',
-  'food': 'food',
-  'festivals': 'festival',
+  'sport': 'sport',
+  'arts & theatre': 'concert',
+  'film': 'other',
+  'miscellaneous': 'other',
+  'food & drink': 'food',
+  'festival': 'festival',
   'community': 'community',
-  'business': 'other',
-  'film-media': 'other',
-  'arts': 'other',
-  'science-tech': 'other',
   'default': 'other'
 };
 
-function mapCategory(eventbriteCategory: string): string {
-  const normalizedCategory = eventbriteCategory?.toLowerCase() || '';
+function mapCategory(classification: string): string {
+  const normalizedCategory = classification?.toLowerCase() || '';
   return categoryMapping[normalizedCategory] || categoryMapping['default'];
 }
 
@@ -36,11 +33,11 @@ serve(async (req) => {
   }
 
   try {
-    const eventbriteApiKey = Deno.env.get('EVENTBRITE_API_KEY');
-    if (!eventbriteApiKey) {
-      console.error('EVENTBRITE_API_KEY not found');
+    const ticketmasterApiKey = Deno.env.get('TICKETMASTER_API_KEY');
+    if (!ticketmasterApiKey) {
+      console.error('TICKETMASTER_API_KEY not found');
       return new Response(
-        JSON.stringify({ error: 'Eventbrite API key not configured' }),
+        JSON.stringify({ error: 'Ticketmaster API key not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -58,49 +55,46 @@ serve(async (req) => {
       );
     }
 
-    console.log(`Fetching events from Eventbrite: lat=${latitude}, lon=${longitude}, radius=${radius}km`);
+    console.log(`Fetching events from Ticketmaster: lat=${latitude}, lon=${longitude}, radius=${radius}km`);
 
-    // Build Eventbrite API URL - correct endpoint structure
+    // Build Ticketmaster API URL
     const params = new URLSearchParams({
-      'location.latitude': latitude.toString(),
-      'location.longitude': longitude.toString(),
-      'location.within': `${radius}km`,
-      'expand': 'venue,category',
-      'sort_by': 'date',
+      'apikey': ticketmasterApiKey,
+      'latlong': `${latitude},${longitude}`,
+      'radius': radius.toString(),
+      'unit': 'km',
+      'size': '100',
+      'sort': 'date,asc',
     });
 
     if (startDate) {
-      params.append('start_date.range_start', startDate);
+      params.append('startDateTime', new Date(startDate).toISOString());
     }
     if (endDate) {
-      params.append('start_date.range_end', endDate);
+      params.append('endDateTime', new Date(endDate).toISOString());
     }
 
-    const eventbriteUrl = `https://www.eventbriteapi.com/v3/events/search?${params.toString()}`;
+    const ticketmasterUrl = `https://app.ticketmaster.com/discovery/v2/events.json?${params.toString()}`;
 
-    console.log('Calling Eventbrite API:', eventbriteUrl);
+    console.log('Calling Ticketmaster API');
 
-    // Fetch events from Eventbrite
-    const response = await fetch(eventbriteUrl, {
-      headers: {
-        'Authorization': `Bearer ${eventbriteApiKey}`,
-        'Content-Type': 'application/json',
-      },
-    });
+    // Fetch events from Ticketmaster
+    const response = await fetch(ticketmasterUrl);
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Eventbrite API error:', response.status, errorText);
+      console.error('Ticketmaster API error:', response.status, errorText);
       return new Response(
-        JSON.stringify({ error: `Eventbrite API error: ${response.status}`, details: errorText }),
+        JSON.stringify({ error: `Ticketmaster API error: ${response.status}`, details: errorText }),
         { status: response.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
     const data = await response.json();
-    console.log(`Found ${data.events?.length || 0} events from Eventbrite`);
+    const events = data._embedded?.events || [];
+    console.log(`Found ${events.length} events from Ticketmaster`);
 
-    if (!data.events || data.events.length === 0) {
+    if (events.length === 0) {
       return new Response(
         JSON.stringify({ message: 'No events found', imported: 0 }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -108,28 +102,33 @@ serve(async (req) => {
     }
 
     // Transform and insert events into our database
-    const eventsToInsert = data.events
-      .filter((event: any) => event.venue && event.venue.address) // Only events with valid venue
+    const eventsToInsert = events
+      .filter((event: any) => {
+        const venue = event._embedded?.venues?.[0];
+        return venue && venue.location;
+      })
       .map((event: any) => {
-        const venue = event.venue;
-        const category = event.category?.name || 'Other';
-        const capacity = event.capacity || 100; // Default capacity if not provided
+        const venue = event._embedded?.venues?.[0];
+        const classification = event.classifications?.[0]?.segment?.name || 'Other';
+        
+        // Calculate capacity from priceRanges or use default
+        const capacity = event.seatmap?.staticUrl ? 500 : 200;
 
         return {
-          source: 'eventbrite',
+          source: 'ticketmaster',
           source_id: event.id,
-          title: event.name?.text || 'Untitled Event',
-          description: event.description?.text || event.summary || '',
-          category: mapCategory(category),
-          start_time: event.start?.utc || event.start?.local,
-          end_time: event.end?.utc || event.end?.local,
+          title: event.name || 'Untitled Event',
+          description: event.info || event.pleaseNote || '',
+          category: mapCategory(classification),
+          start_time: event.dates?.start?.dateTime || event.dates?.start?.localDate,
+          end_time: event.dates?.end?.dateTime || event.dates?.end?.approximate?.endDateTime || event.dates?.start?.dateTime,
           venue_name: venue.name || 'Unknown Venue',
-          venue_lat: parseFloat(venue.latitude) || 0,
-          venue_lon: parseFloat(venue.longitude) || 0,
-          city: venue.address?.city || venue.address?.region || '',
+          venue_lat: parseFloat(venue.location?.latitude) || 0,
+          venue_lon: parseFloat(venue.location?.longitude) || 0,
+          city: venue.city?.name || venue.address?.city || '',
           expected_attendance: capacity,
-          p10: Math.floor(capacity * 0.5), // Estimate 50% for p10
-          p90: Math.floor(capacity * 0.9), // Estimate 90% for p90
+          p10: Math.floor(capacity * 0.5),
+          p90: Math.floor(capacity * 0.9),
           raw_url: event.url || '',
         };
       });
@@ -159,7 +158,7 @@ serve(async (req) => {
       JSON.stringify({ 
         message: 'Events imported successfully',
         imported: insertedEvents?.length || 0,
-        total_found: data.events.length,
+        total_found: events.length,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

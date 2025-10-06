@@ -188,15 +188,15 @@ export default function Settings() {
         <TabsContent value="integrations">
           <Card>
             <CardHeader>
-              <CardTitle>Eventbrite Integration</CardTitle>
-              <CardDescription>Importera events från Eventbrite till din eventkalender</CardDescription>
+              <CardTitle>Ticketmaster Integration</CardTitle>
+              <CardDescription>Importera events från Ticketmaster till din eventkalender</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-start gap-4 p-4 border rounded-lg bg-muted/30">
                 <div className="flex-1 space-y-2">
-                  <h4 className="font-semibold">Hämta Events från Eventbrite</h4>
+                  <h4 className="font-semibold">Hämta Events från Ticketmaster</h4>
                   <p className="text-sm text-muted-foreground">
-                    Importera lokala events baserat på din affärs plats och radius. 
+                    Importera konserter, sportevenemang, festivaler och mer baserat på din affärs plats och radius. 
                     Events kommer att läggas till i din kalender automatiskt.
                   </p>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -214,7 +214,7 @@ export default function Settings() {
                       return;
                     }
 
-                    toast.loading("Importerar events från Eventbrite...");
+                    toast.loading("Importerar events från Ticketmaster...");
 
                     try {
                       const { data, error } = await supabase.functions.invoke(
@@ -232,7 +232,7 @@ export default function Settings() {
 
                       if (error) throw error;
 
-                      toast.success(`✓ Import lyckades! ${data.imported} events importerades från Eventbrite`);
+                      toast.success(`✓ Import lyckades! ${data.imported} events importerades från Ticketmaster`);
                     } catch (error) {
                       console.error('Import error:', error);
                       toast.error(error instanceof Error ? error.message : "Ett fel uppstod vid import");
