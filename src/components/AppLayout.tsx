@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { AILiveSupport } from "./AILiveSupport";
 import { usePlanFeatures } from "@/hooks/usePlanFeatures";
+import { Footer } from "./Footer";
 
 const navItems = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
@@ -104,6 +105,8 @@ export function AppLayout() {
       <main className="flex-1 overflow-auto">
         <Outlet />
       </main>
+      
+      <Footer />
       
       {/* AI Live Support for paid users */}
       {showAISupport && <AILiveSupport />}

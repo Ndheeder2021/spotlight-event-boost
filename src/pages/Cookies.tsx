@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Footer } from "@/components/Footer";
 
 const Cookies = () => {
   return (
@@ -139,6 +140,7 @@ const Cookies = () => {
           </section>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

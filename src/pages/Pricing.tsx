@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Zap, Check, X, ArrowRight } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AuthForm } from "@/components/AuthForm";
+import { Footer } from "@/components/Footer";
 
 const plans = [
   {
@@ -278,11 +279,7 @@ export default function Pricing() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-8">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>&copy; 2025 Spotlight. Alla rättigheter förbehållna.</p>
-        </div>
-      </footer>
+      <Footer />
 
       {/* Auth Dialog */}
       <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Zap, TrendingUp, Bell, Target, Users, BarChart, MapPin, Calendar, Sparkles } from "lucide-react";
+import { Footer } from "@/components/Footer";
 
 export default function Solution() {
   return (
@@ -283,11 +284,7 @@ export default function Solution() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-8">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>&copy; 2025 Spotlight. Alla rättigheter förbehållna.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

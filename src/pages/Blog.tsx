@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Zap, Calendar, ArrowRight, TrendingUp, Users, Target, Lightbulb } from "lucide-react";
+import { Footer } from "@/components/Footer";
 
 const blogPosts = [
   {
@@ -240,11 +241,7 @@ export default function Blog() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-8">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>&copy; 2025 Spotlight. Alla rättigheter förbehållna.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -17,6 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Footer } from "@/components/Footer";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Namn är obligatoriskt").max(100, "Namn får vara max 100 tecken"),
@@ -200,6 +201,9 @@ const Contact = () => {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
