@@ -10,6 +10,7 @@ import { AuthForm } from "@/components/AuthForm";
 import { OnboardingForm } from "@/components/OnboardingForm";
 import { Footer } from "@/components/Footer";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LogoCarousel } from "@/components/LogoCarousel";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 
@@ -365,6 +366,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Logo Carousel */}
+      <LogoCarousel />
 
       {/* Stats Section */}
       <section className="container mx-auto px-6 py-24 animate-on-scroll">
