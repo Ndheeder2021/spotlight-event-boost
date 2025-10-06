@@ -93,116 +93,189 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border/40 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <header className="border-b sticky top-0 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 z-50">
+        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Zap className="h-6 w-6 text-primary" fill="currentColor" />
-            <span className="text-xl font-bold">Spotlight</span>
+            <Zap className="h-7 w-7 text-accent" fill="currentColor" />
+            <span className="text-2xl font-bold gradient-text">Spotlight</span>
           </a>
           <ThemeToggle />
         </div>
       </header>
 
-      {/* Contact Form */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-12 animate-on-scroll">
-            <MessageSquare className="w-16 h-16 mx-auto mb-4 text-primary" />
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 gradient-text">
-              Kontakta Oss
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              Har du frågor? Vi hjälper dig gärna!
-            </p>
-          </div>
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-background via-background to-accent/5 py-20">
+        {/* Grid Pattern Background */}
+        <div className="absolute inset-0 grid-pattern opacity-30" />
+        
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse premium-glow" />
+          <div className="absolute bottom-20 left-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+        </div>
 
-          <div className="glass-card p-8 animate-on-scroll">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Namn</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ditt namn" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+        <div className="container relative mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-16 animate-on-scroll">
+              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-card/80 backdrop-blur-xl border border-accent/30 shadow-xl mb-8">
+                <MessageSquare className="h-5 w-5 text-accent" />
+                <span className="text-sm font-semibold gradient-text">
+                  Vi är här för att hjälpa dig
+                </span>
+              </div>
+              
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-display mb-6">
+                Kontakta{" "}
+                <span className="gradient-text">Spotlight</span>
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                Har du frågor om våra tjänster? Vi svarar inom 24 timmar.
+              </p>
+            </div>
 
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>E-post</FormLabel>
-                      <FormControl>
-                        <Input type="email" placeholder="din@email.se" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            {/* Benefits Grid */}
+            <div className="grid md:grid-cols-3 gap-6 mb-16 animate-on-scroll">
+              <div className="text-center p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/50 transition-all hover:scale-105">
+                <div className="h-14 w-14 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+                  <Send className="h-7 w-7 text-accent" />
+                </div>
+                <h3 className="font-semibold text-lg mb-2">Snabb respons</h3>
+                <p className="text-sm text-muted-foreground">Svar inom 24 timmar på alla förfrågningar</p>
+              </div>
+              
+              <div className="text-center p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/50 transition-all hover:scale-105">
+                <div className="h-14 w-14 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+                  <MessageSquare className="h-7 w-7 text-accent" />
+                </div>
+                <h3 className="font-semibold text-lg mb-2">Personlig support</h3>
+                <p className="text-sm text-muted-foreground">Dedikerad hjälp från vårt expertteam</p>
+              </div>
+              
+              <div className="text-center p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/50 transition-all hover:scale-105">
+                <div className="h-14 w-14 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+                  <Zap className="h-7 w-7 text-accent" fill="currentColor" />
+                </div>
+                <h3 className="font-semibold text-lg mb-2">Lösningsfokuserad</h3>
+                <p className="text-sm text-muted-foreground">Vi hjälper dig att lyckas med Spotlight</p>
+              </div>
+            </div>
 
-                <FormField
-                  control={form.control}
-                  name="subject"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Ämne</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Vad gäller det?" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            {/* Contact Form */}
+            <div className="glass-card p-8 md:p-12 shadow-2xl animate-on-scroll border-2 border-accent/20">
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold">Namn</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Ditt namn" 
+                              className="h-12 text-base" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Meddelande</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Skriv ditt meddelande här..."
-                          className="min-h-[150px]"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold">E-post</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="email" 
+                              placeholder="din@email.se" 
+                              className="h-12 text-base"
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Skickar...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="mr-2 h-4 w-4" />
-                      Skicka Meddelande
-                    </>
-                  )}
-                </Button>
-              </form>
-            </Form>
+                  <FormField
+                    control={form.control}
+                    name="subject"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-base font-semibold">Ämne</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Vad gäller det?" 
+                            className="h-12 text-base"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-base font-semibold">Meddelande</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Berätta mer om din fråga eller förfrågan..."
+                            className="min-h-[200px] text-base resize-none"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-accent via-accent-glow to-accent hover:opacity-90 transition-all premium-glow"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Skickar meddelande...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-5 w-5" />
+                        Skicka Meddelande
+                      </>
+                    )}
+                  </Button>
+                </form>
+              </Form>
+            </div>
+
+            {/* Additional Contact Info */}
+            <div className="mt-12 text-center text-muted-foreground animate-on-scroll">
+              <p className="text-base">
+                Föredrar du e-post? Skicka direkt till{" "}
+                <a href="mailto:support@spotlight.se" className="text-accent hover:underline font-semibold">
+                  support@spotlight.se
+                </a>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Footer */}
       <Footer />
