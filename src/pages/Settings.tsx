@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Save } from "lucide-react";
 import { toast } from "sonner";
 import { SubscriptionManager } from "@/components/SubscriptionManager";
+import { AddressAutocomplete } from "@/components/AddressAutocomplete";
 
 export default function Settings() {
   const [loading, setLoading] = useState(true);
@@ -49,6 +50,21 @@ export default function Settings() {
 
   const handleSaveLocation = async () => {
     if (!location) return;
+    
+    // Validation
+    if (!location.name?.trim()) {
+      toast.error("Verksamhetens namn krävs");
+      return;
+    }
+    if (!location.address_line?.trim()) {
+      toast.error("Adress krävs");
+      return;
+    }
+    if (!location.city?.trim()) {
+      toast.error("Stad krävs");
+      return;
+    }
+    
     setSaving(true);
     try {
       const { error } = await supabase
@@ -57,7 +73,10 @@ export default function Settings() {
           name: location.name,
           business_type: location.business_type,
           address_line: location.address_line,
+          address: location.address_line, // Update main address field too
           city: location.city,
+          lat: location.lat,
+          lon: location.lon,
           radius_km: location.radius_km,
         })
         .eq("id", location.id);
@@ -69,6 +88,23 @@ export default function Settings() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleAddressChange = (address: string, coordinates?: { lat: number; lon: number }) => {
+    if (!location) return;
+    
+    // Extract city from address (usually after first comma)
+    const addressParts = address.split(',');
+    const city = addressParts.length > 1 ? addressParts[1].trim() : location.city || '';
+    
+    setLocation({
+      ...location,
+      address_line: address,
+      address: address,
+      city: city,
+      lat: coordinates?.lat || location.lat,
+      lon: coordinates?.lon || location.lon,
+    });
   };
 
   if (loading) {
@@ -130,11 +166,15 @@ export default function Settings() {
 
                   <div className="space-y-2">
                     <Label htmlFor="address">Adress</Label>
-                    <Input
-                      id="address"
+                    <AddressAutocomplete
                       value={location.address_line || ""}
-                      onChange={(e) => setLocation({ ...location, address_line: e.target.value })}
+                      onChange={handleAddressChange}
+                      placeholder="Sök adress..."
+                      required
                     />
+                    <p className="text-xs text-muted-foreground">
+                      Börja skriva för att söka adress. Staden uppdateras automatiskt.
+                    </p>
                   </div>
 
                   <div className="space-y-2">
@@ -143,6 +183,7 @@ export default function Settings() {
                       id="city"
                       value={location.city || ""}
                       onChange={(e) => setLocation({ ...location, city: e.target.value })}
+                      placeholder="Uppdateras automatiskt när du väljer adress"
                     />
                   </div>
 
