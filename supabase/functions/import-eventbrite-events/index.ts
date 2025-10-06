@@ -68,10 +68,10 @@ serve(async (req) => {
     });
 
     if (startDate) {
-      params.append('startDateTime', new Date(startDate).toISOString());
+      params.append('startDateTime', new Date(startDate).toISOString().replace(/\.\d{3}Z$/, 'Z'));
     }
     if (endDate) {
-      params.append('endDateTime', new Date(endDate).toISOString());
+      params.append('endDateTime', new Date(endDate).toISOString().replace(/\.\d{3}Z$/, 'Z'));
     }
 
     const ticketmasterUrl = `https://app.ticketmaster.com/discovery/v2/events.json?${params.toString()}`;
