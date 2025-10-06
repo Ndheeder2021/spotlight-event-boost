@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Input } from "./ui/input";
 
 interface AddressAutocompleteProps {
@@ -25,10 +26,16 @@ export const AddressAutocomplete = ({
     }
 
     try {
-      const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?country=SE&types=address,place&access_token=pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbTc4OXNiemYwMW1iMmtzNWI2Y2RqMnJpIn0.4kCLSULg0-S9W0hM_cw7qg`
-      );
-      const data = await response.json();
+      const { data, error } = await supabase.functions.invoke("geocode-address", {
+        body: { query },
+      });
+
+      if (error) {
+        console.error("Error fetching address suggestions:", error);
+        setSuggestions([]);
+        return;
+      }
+
       setSuggestions(data.features || []);
       setShowSuggestions(true);
     } catch (error) {
