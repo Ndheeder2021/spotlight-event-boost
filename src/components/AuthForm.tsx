@@ -4,8 +4,10 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { AddressAutocomplete } from "./AddressAutocomplete";
 
 interface AuthFormProps {
   onSuccess: () => void;
@@ -18,6 +20,9 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
   const [password, setPassword] = useState("");
   const [businessName, setBusinessName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [businessType, setBusinessType] = useState("restaurant");
+  const [address, setAddress] = useState("");
+  const [coordinates, setCoordinates] = useState<{ lat: number; lon: number } | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -45,6 +50,16 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
           setLoading(false);
           return;
         }
+        if (!address.trim()) {
+          toast.error("Adress är obligatorisk");
+          setLoading(false);
+          return;
+        }
+        if (!businessType) {
+          toast.error("Typ av verksamhet är obligatorisk");
+          setLoading(false);
+          return;
+        }
 
         const { error } = await supabase.auth.signUp({
           email,
@@ -54,6 +69,10 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
             data: {
               business_name: businessName,
               phone_number: phoneNumber,
+              business_type: businessType,
+              address: address,
+              lat: coordinates?.lat,
+              lon: coordinates?.lon,
             },
           },
         });
@@ -98,6 +117,36 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
                   onChange={(e) => setBusinessName(e.target.value)}
                   required
                   placeholder="Ex: Café Bröd & Salt"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="businessType">Typ av verksamhet</Label>
+                <Select value={businessType} onValueChange={setBusinessType} required>
+                  <SelectTrigger id="businessType">
+                    <SelectValue placeholder="Välj typ av verksamhet" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-background z-50">
+                    <SelectItem value="restaurant">Restaurant</SelectItem>
+                    <SelectItem value="cafe">Café</SelectItem>
+                    <SelectItem value="bar">Bar</SelectItem>
+                    <SelectItem value="fastfood">Snabbmat</SelectItem>
+                    <SelectItem value="bakery">Bageri</SelectItem>
+                    <SelectItem value="hotel">Hotell</SelectItem>
+                    <SelectItem value="retail">Butik</SelectItem>
+                    <SelectItem value="other">Annat</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="address">Adress</Label>
+                <AddressAutocomplete
+                  value={address}
+                  onChange={(newAddress, coords) => {
+                    setAddress(newAddress);
+                    if (coords) setCoordinates(coords);
+                  }}
+                  placeholder="Ex: Drottninggatan 1, Stockholm"
+                  required
                 />
               </div>
               <div className="space-y-2">
