@@ -5,7 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Users, MessageSquare, Building2, BarChart } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Users, MessageSquare, Building2, BarChart, Eye } from "lucide-react";
 import { toast } from "sonner";
 
 interface Tenant {
@@ -41,6 +43,7 @@ export default function Admin() {
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
   const [userRoles, setUserRoles] = useState<UserRole[]>([]);
+  const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
 
   useEffect(() => {
     checkAdminAccess();
@@ -280,28 +283,68 @@ export default function Admin() {
                     <TableHead>Ämne</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Datum</TableHead>
+                    <TableHead className="text-right">Åtgärd</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {contactMessages.map((message) => (
-                    <TableRow key={message.id}>
-                      <TableCell className="font-medium">{message.name}</TableCell>
-                      <TableCell>{message.email}</TableCell>
-                      <TableCell>{message.subject}</TableCell>
-                      <TableCell>
-                        <Badge variant={message.status === 'new' ? 'default' : 'secondary'}>
-                          {message.status}
-                        </Badge>
+                  {contactMessages.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
+                        Inga meddelanden ännu
                       </TableCell>
-                      <TableCell>{new Date(message.created_at).toLocaleDateString('sv-SE')}</TableCell>
                     </TableRow>
-                  ))}
+                  ) : (
+                    contactMessages.map((message) => (
+                      <TableRow key={message.id}>
+                        <TableCell className="font-medium">{message.name}</TableCell>
+                        <TableCell>{message.email}</TableCell>
+                        <TableCell className="max-w-xs truncate">{message.subject}</TableCell>
+                        <TableCell>
+                          <Badge variant={message.status === 'new' ? 'default' : 'secondary'}>
+                            {message.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>{new Date(message.created_at).toLocaleDateString('sv-SE')}</TableCell>
+                        <TableCell className="text-right">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => setSelectedMessage(message)}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
                 </TableBody>
               </Table>
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Message Detail Dialog */}
+      <Dialog open={!!selectedMessage} onOpenChange={() => setSelectedMessage(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Meddelande från {selectedMessage?.name}</DialogTitle>
+            <DialogDescription>
+              {selectedMessage?.email} • {selectedMessage && new Date(selectedMessage.created_at).toLocaleString('sv-SE')}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-semibold mb-2">Ämne</h4>
+              <p className="text-muted-foreground">{selectedMessage?.subject}</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">Meddelande</h4>
+              <p className="text-muted-foreground whitespace-pre-wrap">{selectedMessage?.message}</p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
