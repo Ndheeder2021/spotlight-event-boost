@@ -59,19 +59,19 @@ export function AppLayout() {
     <div className="min-h-screen flex flex-col">
       <header className="border-b bg-background">
         <div className="container mx-auto px-4">
-          <div className="flex h-16 items-center justify-between">
-            <Link to="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <div className="flex h-16 items-center justify-between gap-4">
+            <Link to="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity flex-shrink-0">
               <Zap className="h-6 w-6 text-primary" fill="currentColor" />
               <span className="text-xl font-bold">Spotlight</span>
             </Link>
             
-            <nav className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+            <nav className="hidden lg:flex items-center gap-4 xl:gap-6 flex-1 justify-center">
               {navItems.map((item) => (
                 <NavLink
                   key={item.url}
                   to={item.url}
                   className={({ isActive }) =>
-                    `flex items-center gap-2 text-sm transition-colors hover:text-primary ${
+                    `flex items-center gap-2 text-sm transition-colors hover:text-primary whitespace-nowrap ${
                       isActive ? "text-primary font-medium" : "text-muted-foreground"
                     }`
                   }
@@ -84,7 +84,7 @@ export function AppLayout() {
                 <NavLink
                   to="/admin"
                   className={({ isActive }) =>
-                    `flex items-center gap-2 text-sm transition-colors hover:text-primary ${
+                    `flex items-center gap-2 text-sm transition-colors hover:text-primary whitespace-nowrap ${
                       isActive ? "text-primary font-medium" : "text-muted-foreground"
                     }`
                   }
@@ -95,7 +95,7 @@ export function AppLayout() {
               )}
             </nav>
             
-            <Button variant="ghost" size="sm" onClick={handleLogout}>
+            <Button variant="ghost" size="sm" onClick={handleLogout} className="flex-shrink-0">
               <LogOut className="h-4 w-4 mr-2" />
               Logga ut
             </Button>
