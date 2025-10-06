@@ -63,8 +63,9 @@ serve(async (req) => {
       'latlong': `${latitude},${longitude}`,
       'radius': radius.toString(),
       'unit': 'km',
-      'size': '100',
+      'size': '200',
       'sort': 'date,asc',
+      'countryCode': 'SE', // Sweden
     });
 
     if (startDate) {
