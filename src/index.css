@@ -22,7 +22,7 @@ All colors MUST be HSL.
     /* Spotlight accent - golden #d1b300 */
     --accent: 48 100% 41%;
     --accent-foreground: 0 0% 7%;
-    --accent-glow: 48 100% 50%;
+    --accent-glow: 48 100% 60%;
     
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 7%;
@@ -41,18 +41,21 @@ All colors MUST be HSL.
     --radius: 0.75rem;
     
     /* Premium design tokens */
-    --gradient-premium: linear-gradient(135deg, hsl(48 100% 41%), hsl(48 100% 50%));
+    --gradient-premium: linear-gradient(135deg, hsl(48 100% 41%), hsl(48 100% 60%));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 98%) 0%, hsl(48 100% 98%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 98%));
     --shadow-premium: 0 20px 60px -15px hsl(48 100% 41% / 0.15);
     --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.08);
-    --shadow-glow: 0 0 40px hsl(48 100% 50% / 0.2);
+    --shadow-glow: 0 0 60px hsl(48 100% 50% / 0.25);
+    --shadow-glow-lg: 0 0 100px hsl(48 100% 50% / 0.3);
   }
+  
   .dark {
-    --background: 0 0% 7%;
+    --background: 0 0% 3%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 10%;
+    --card: 0 0% 7%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 7%;
+    --popover: 0 0% 3%;
     --popover-foreground: 0 0% 98%;
     
     /* Spotlight brand colors in dark mode */
@@ -60,9 +63,9 @@ All colors MUST be HSL.
     --primary-foreground: 0 0% 7%;
     
     /* Spotlight accent - golden */
-    --accent: 48 100% 50%;
+    --accent: 48 100% 60%;
     --accent-foreground: 0 0% 7%;
-    --accent-glow: 48 100% 60%;
+    --accent-glow: 48 100% 70%;
     
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
@@ -81,10 +84,12 @@ All colors MUST be HSL.
     
     /* Premium design tokens - dark mode */
     --gradient-premium: linear-gradient(135deg, hsl(48 100% 50%), hsl(48 100% 60%));
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 7%), hsl(0 0% 10%));
-    --shadow-premium: 0 20px 60px -15px hsl(48 100% 50% / 0.25);
-    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.3);
-    --shadow-glow: 0 0 40px hsl(48 100% 60% / 0.3);
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 5%) 0%, hsl(48 100% 10%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 3%), hsl(0 0% 7%));
+    --shadow-premium: 0 20px 60px -15px hsl(48 100% 50% / 0.3);
+    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 80px hsl(48 100% 60% / 0.4);
+    --shadow-glow-lg: 0 0 120px hsl(48 100% 60% / 0.5);
   }
 }
 
@@ -104,11 +109,19 @@ All colors MUST be HSL.
 
 @layer utilities {
   .glass-card {
-    @apply bg-card/60 backdrop-blur-xl border border-border/50;
+    @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-card;
   }
   
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-accent to-accent-glow;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-accent via-accent-glow to-accent;
+  }
+  
+  .premium-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .premium-glow-lg {
+    box-shadow: var(--shadow-glow-lg);
   }
   
   .animate-on-scroll {
@@ -117,5 +130,12 @@ All colors MUST be HSL.
   
   .animate-on-scroll.is-visible {
     @apply opacity-100 translate-y-0;
+  }
+  
+  .grid-pattern {
+    background-image: 
+      linear-gradient(to right, hsl(var(--border) / 0.3) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.3) 1px, transparent 1px);
+    background-size: 4rem 4rem;
   }
 }

@@ -256,98 +256,110 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <header className="border-b sticky top-0 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 z-50">
+        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Zap className="h-6 w-6 text-primary" fill="currentColor" />
-            <span className="text-xl font-bold">Spotlight</span>
+            <Zap className="h-7 w-7 text-accent" fill="currentColor" />
+            <span className="text-2xl font-bold gradient-text">Spotlight</span>
           </Link>
-          <div className="flex items-center gap-4">
-            <a href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+          <div className="flex items-center gap-6">
+            <a href="/contact" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Kontakt
             </a>
             <ThemeToggle />
-            <Button onClick={() => setShowAuthDialog(true)}>
-              Logga in
+            <Button 
+              onClick={() => setShowAuthDialog(true)}
+              size="lg"
+              className="premium-glow bg-gradient-to-r from-accent to-accent-glow hover:opacity-90 transition-all"
+            >
+              Kom igång →
             </Button>
           </div>
         </div>
       </header>
 
       {/* Hero Section with Premium Gradient */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-background via-accent/5 to-background">
+      <section className="relative overflow-hidden bg-gradient-to-b from-background via-background to-accent/5">
+        {/* Grid Pattern Background */}
+        <div className="absolute inset-0 grid-pattern opacity-30" />
+        
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-10 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 left-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse premium-glow" />
+          <div className="absolute bottom-20 left-10 w-[500px] h-[500px] bg-accent/10 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
         </div>
         
-        <div className="container relative mx-auto px-4 py-24 md:py-32">
+        <div className="container relative mx-auto px-6 py-32 md:py-40">
           <div className="max-w-5xl mx-auto">
             {/* Badge */}
-            <div className="flex justify-center mb-8 animate-on-scroll">
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent/10 border-2 border-accent/30 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                <Star className="h-5 w-5 text-accent fill-accent animate-pulse" />
-                <span className="text-sm font-semibold bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent">
-                  Betrodd av 500+ lokala företag
+            <div className="flex justify-center mb-10 animate-on-scroll">
+              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-card/80 backdrop-blur-xl border border-accent/30 shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+                <Sparkles className="h-5 w-5 text-accent fill-accent animate-pulse" />
+                <span className="text-sm font-semibold gradient-text">
+                  AI-Driven Event Marketing Platform
                 </span>
               </div>
             </div>
             
             {/* Main Heading */}
-            <div className="text-center space-y-6 animate-on-scroll">
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.1]">
+            <div className="text-center space-y-8 animate-on-scroll">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold font-display tracking-tight leading-[1.05]">
                 Förvandla lokala
                 <br />
-                evenemang till{" "}
-                <span className="relative inline-block">
-                  <span className="gradient-text">ökad försäljning</span>
-                  <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0 8 Q50 12, 100 8 T200 8" stroke="currentColor" strokeWidth="3" fill="none" className="text-accent/50" />
-                  </svg>
+                <span className="relative inline-block mt-2">
+                  <span className="gradient-text">evenemang</span>
+                  <div className="absolute -bottom-3 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
                 </span>
+                {" "}till{" "}
+                <span className="gradient-text">ökad försäljning</span>
               </h1>
               
               <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
-                Spotlight hjälper ditt företag att <span className="text-foreground font-medium">automatiskt upptäcka</span> närliggande evenemang och <span className="text-foreground font-medium">skapa effektiva kampanjer</span> för att dra nytta av det ökade kundflödet.
+                Låt vår <span className="text-foreground font-semibold">AI-plattform</span> automatiskt upptäcka närliggande evenemang och skapa <span className="text-foreground font-semibold">datadrivna kampanjer</span> som maximerar ditt kundflöde.
               </p>
             </div>
             
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-10 animate-on-scroll">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center pt-12 animate-on-scroll">
               <Button 
                 size="lg" 
-                className="text-lg px-10 h-16 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 bg-gradient-to-r from-accent to-accent-glow" 
+                className="text-lg px-12 h-16 shadow-2xl hover:shadow-accent/50 transition-all duration-300 hover:scale-105 bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground font-semibold premium-glow-lg" 
                 onClick={() => setShowAuthDialog(true)}
               >
-                <Zap className="mr-2 h-5 w-5" fill="currentColor" />
-                Kom igång gratis
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <Zap className="mr-2 h-6 w-6" fill="currentColor" />
+                Starta gratis
+                <ArrowRight className="ml-2 h-6 w-6" />
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="text-lg px-10 h-16 border-2 hover:bg-accent/10 hover:border-accent transition-all duration-300 hover:scale-105" 
+                className="text-lg px-12 h-16 border-2 border-border hover:bg-accent/10 hover:border-accent transition-all duration-300 hover:scale-105 backdrop-blur-xl bg-card/50 font-semibold" 
                 onClick={scrollToFeatures}
               >
-                Se hur det fungerar
+                Se demo
               </Button>
             </div>
 
             {/* Trust Indicators */}
-            <div className="flex flex-wrap justify-center items-center gap-8 mt-16 pt-8 border-t border-border/50 animate-on-scroll">
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Check className="h-5 w-5 text-accent" />
-                <span className="text-sm">Ingen bindningstid</span>
+            <div className="flex flex-wrap justify-center items-center gap-10 mt-20 pt-10 border-t border-border/50 animate-on-scroll">
+              <div className="flex items-center gap-3 text-muted-foreground group hover:text-foreground transition-colors">
+                <div className="h-10 w-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Check className="h-5 w-5 text-accent" />
+                </div>
+                <span className="text-base font-medium">Ingen bindningstid</span>
               </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Check className="h-5 w-5 text-accent" />
-                <span className="text-sm">14 dagar gratis</span>
+              <div className="flex items-center gap-3 text-muted-foreground group hover:text-foreground transition-colors">
+                <div className="h-10 w-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Check className="h-5 w-5 text-accent" />
+                </div>
+                <span className="text-base font-medium">14 dagar gratis</span>
               </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Check className="h-5 w-5 text-accent" />
-                <span className="text-sm">Inget kreditkort krävs</span>
+              <div className="flex items-center gap-3 text-muted-foreground group hover:text-foreground transition-colors">
+                <div className="h-10 w-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Check className="h-5 w-5 text-accent" />
+                </div>
+                <span className="text-base font-medium">Inget kreditkort krävs</span>
               </div>
             </div>
           </div>
@@ -355,18 +367,18 @@ const Index = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="container mx-auto px-4 py-20 animate-on-scroll">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <section className="container mx-auto px-6 py-24 animate-on-scroll">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
           {stats.map((stat, index) => (
             <div 
               key={index} 
-              className="text-center space-y-3 p-6 rounded-2xl hover:bg-accent/5 transition-all duration-300 hover:scale-105 group"
+              className="text-center space-y-4 p-8 rounded-3xl hover:bg-accent/5 transition-all duration-300 hover:scale-105 group border border-transparent hover:border-accent/20"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="text-5xl md:text-6xl font-extrabold gradient-text group-hover:scale-110 transition-transform">
+              <div className="text-6xl md:text-7xl font-bold gradient-text group-hover:scale-110 transition-transform font-display">
                 {stat.value}
               </div>
-              <div className="text-sm md:text-base text-muted-foreground font-medium">
+              <div className="text-base md:text-lg text-muted-foreground font-medium">
                 {stat.label}
               </div>
             </div>
