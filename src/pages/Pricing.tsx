@@ -173,8 +173,8 @@ export default function Pricing() {
                   {isYearly && plan.yearlyPrice ? (
                     <>
                       <div className="mb-2">
-                        <span className="text-5xl font-bold">{plan.yearlyPrice.split(' ')[0]}</span>
-                        <span className="text-muted-foreground text-lg ml-1">/år</span>
+                        <span className="text-5xl font-bold">{plan.yearlyPrice.replace(' kr', '')}</span>
+                        <span className="text-muted-foreground text-lg ml-1"> kr/år</span>
                       </div>
                       {plan.yearlyDiscount && (
                         <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-bold">
