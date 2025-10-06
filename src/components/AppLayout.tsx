@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { AILiveSupport } from "./AILiveSupport";
 import { usePlanFeatures } from "@/hooks/usePlanFeatures";
 import { Footer } from "./Footer";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
@@ -95,10 +96,13 @@ export function AppLayout() {
               )}
             </nav>
             
-            <Button variant="ghost" size="sm" onClick={handleLogout} className="flex-shrink-0">
-              <LogOut className="h-4 w-4 mr-2" />
-              Logga ut
-            </Button>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <ThemeToggle />
+              <Button variant="ghost" size="sm" onClick={handleLogout}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Logga ut
+              </Button>
+            </div>
           </div>
         </div>
       </header>

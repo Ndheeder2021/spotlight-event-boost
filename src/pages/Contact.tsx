@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Footer } from "@/components/Footer";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Namn är obligatoriskt").max(100, "Namn får vara max 100 tecken"),
@@ -95,11 +96,12 @@ const Contact = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5">
       {/* Header */}
       <header className="border-b border-border/40 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Zap className="h-6 w-6 text-primary" fill="currentColor" />
             <span className="text-xl font-bold">Spotlight</span>
           </a>
+          <ThemeToggle />
         </div>
       </header>
 

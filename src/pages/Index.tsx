@@ -9,6 +9,7 @@ import { Switch } from "@/components/ui/switch";
 import { AuthForm } from "@/components/AuthForm";
 import { OnboardingForm } from "@/components/OnboardingForm";
 import { Footer } from "@/components/Footer";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 
@@ -265,6 +266,7 @@ const Index = () => {
             <a href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Kontakt
             </a>
+            <ThemeToggle />
             <Button onClick={() => setShowAuthDialog(true)}>
               Logga in
             </Button>
