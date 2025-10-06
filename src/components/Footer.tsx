@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Zap } from "lucide-react";
+import { Zap, Linkedin, Facebook, Twitter, Instagram } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function Footer() {
   return (
@@ -85,7 +86,32 @@ export function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="pt-8 border-t text-center">
+        <div className="pt-8 border-t flex flex-col md:flex-row items-center justify-between gap-4">
+          {/* Social Media Links */}
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <Linkedin className="h-5 w-5" />
+              </a>
+            </Button>
+            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <Facebook className="h-5 w-5" />
+              </a>
+            </Button>
+            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                <Twitter className="h-5 w-5" />
+              </a>
+            </Button>
+            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <Instagram className="h-5 w-5" />
+              </a>
+            </Button>
+          </div>
+
+          {/* Copyright */}
           <p className="text-sm text-muted-foreground">
             © 2025 Spotlight. Alla rättigheter reserverade.
           </p>
