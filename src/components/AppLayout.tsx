@@ -47,7 +47,7 @@ export function AppLayout() {
       <header className="border-b bg-background">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
-            <Link to="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Zap className="h-6 w-6 text-primary" fill="currentColor" />
               <span className="text-xl font-bold">Spotlight</span>
             </Link>

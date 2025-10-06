@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -250,10 +250,10 @@ const Index = () => {
       {/* Header */}
       <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Zap className="h-6 w-6 text-primary" fill="currentColor" />
             <span className="text-xl font-bold">Spotlight</span>
-          </div>
+          </Link>
           <div className="flex items-center gap-4">
             <a href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Kontakt
