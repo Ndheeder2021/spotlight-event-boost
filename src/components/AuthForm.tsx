@@ -18,12 +18,32 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
   const [isLogin, setIsLogin] = useState(initialMode === "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [businessName, setBusinessName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [businessType, setBusinessType] = useState("restaurant");
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState<{ lat: number; lon: number } | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const validatePassword = (pwd: string) => {
+    const minLength = pwd.length >= 8;
+    const hasUpperCase = /[A-Z]/.test(pwd);
+    const hasLowerCase = /[a-z]/.test(pwd);
+    const hasNumber = /\d/.test(pwd);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(pwd);
+    
+    return {
+      minLength,
+      hasUpperCase,
+      hasLowerCase,
+      hasNumber,
+      hasSpecialChar,
+      isValid: minLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar
+    };
+  };
+
+  const passwordValidation = validatePassword(password);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,6 +77,20 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
         }
         if (!businessType) {
           toast.error("Typ av verksamhet är obligatorisk");
+          setLoading(false);
+          return;
+        }
+        
+        // Validate password
+        if (!passwordValidation.isValid) {
+          toast.error("Lösenordet uppfyller inte säkerhetskraven");
+          setLoading(false);
+          return;
+        }
+        
+        // Validate password confirmation
+        if (password !== confirmPassword) {
+          toast.error("Lösenorden matchar inte");
           setLoading(false);
           return;
         }
@@ -170,9 +204,47 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              minLength={6}
+              minLength={8}
             />
+            {!isLogin && password && (
+              <div className="text-xs space-y-1 mt-2">
+                <p className="font-medium text-muted-foreground">Lösenordskrav:</p>
+                <div className="space-y-0.5">
+                  <p className={passwordValidation.minLength ? "text-green-600" : "text-muted-foreground"}>
+                    {passwordValidation.minLength ? "✓" : "○"} Minst 8 tecken
+                  </p>
+                  <p className={passwordValidation.hasUpperCase ? "text-green-600" : "text-muted-foreground"}>
+                    {passwordValidation.hasUpperCase ? "✓" : "○"} En stor bokstav
+                  </p>
+                  <p className={passwordValidation.hasLowerCase ? "text-green-600" : "text-muted-foreground"}>
+                    {passwordValidation.hasLowerCase ? "✓" : "○"} En liten bokstav
+                  </p>
+                  <p className={passwordValidation.hasNumber ? "text-green-600" : "text-muted-foreground"}>
+                    {passwordValidation.hasNumber ? "✓" : "○"} En siffra
+                  </p>
+                  <p className={passwordValidation.hasSpecialChar ? "text-green-600" : "text-muted-foreground"}>
+                    {passwordValidation.hasSpecialChar ? "✓" : "○"} Ett specialtecken (!@#$%...)
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
+          {!isLogin && (
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Bekräfta lösenord</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                minLength={8}
+              />
+              {confirmPassword && password !== confirmPassword && (
+                <p className="text-xs text-destructive">Lösenorden matchar inte</p>
+              )}
+            </div>
+          )}
           <Button type="submit" className="w-full" disabled={loading}>
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isLogin ? "Logga in" : "Skapa konto"}
