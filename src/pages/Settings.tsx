@@ -34,13 +34,36 @@ export default function Settings() {
 
       if (!userRole) throw new Error("No tenant found");
 
-      const [locationRes, tenantRes] = await Promise.all([
-        supabase.from("locations").select("*").eq("tenant_id", userRole.tenant_id).single(),
-        supabase.from("tenants").select("*").eq("id", userRole.tenant_id).single(),
-      ]);
+      const { data: locationByTenant, error: locByTenantErr } = await supabase
+        .from("locations")
+        .select("*")
+        .eq("tenant_id", userRole.tenant_id)
+        .maybeSingle();
 
-      if (locationRes.data) setLocation(locationRes.data);
-      if (tenantRes.data) setTenant(tenantRes.data);
+      let resolvedLocation = locationByTenant;
+      if (!resolvedLocation) {
+        // Fallback: vissa konton har location-id = user-id
+        const { data: locationByUser } = await supabase
+          .from("locations")
+          .select("*")
+          .eq("id", user.id)
+          .maybeSingle();
+        resolvedLocation = locationByUser || null;
+      }
+
+      // Prefill address_line från address om tom
+      if (resolvedLocation && !resolvedLocation.address_line && resolvedLocation.address) {
+        resolvedLocation = { ...resolvedLocation, address_line: resolvedLocation.address };
+      }
+
+      if (resolvedLocation) setLocation(resolvedLocation);
+
+      const { data: tenantData } = await supabase
+        .from("tenants")
+        .select("*")
+        .eq("id", userRole.tenant_id)
+        .single();
+      if (tenantData) setTenant(tenantData);
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -172,7 +195,7 @@ export default function Settings() {
                   <div className="space-y-2">
                     <Label htmlFor="address">Adress</Label>
                     <AddressAutocomplete
-                      value={location.address_line || ""}
+                      value={location.address_line ?? location.address ?? ""}
                       onChange={handleAddressChange}
                       placeholder="Sök adress..."
                       required
