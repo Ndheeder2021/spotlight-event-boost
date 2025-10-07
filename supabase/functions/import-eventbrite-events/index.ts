@@ -46,7 +46,10 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { latitude, longitude, radius = 10, startDate, endDate } = await req.json();
+    const { latitude, longitude, radius = 25, startDate, endDate } = await req.json();
+
+    // Normalize and clamp radius between 20 and 150 km
+    const searchRadius = Math.max(20, Math.min(Number(radius) || 25, 150));
 
     if (!latitude || !longitude) {
       return new Response(
@@ -55,46 +58,77 @@ serve(async (req) => {
       );
     }
 
-    console.log(`Fetching events from Ticketmaster: lat=${latitude}, lon=${longitude}, radius=${radius}km`);
+    console.log(`Fetching events from Ticketmaster: lat=${latitude}, lon=${longitude}, radius=${searchRadius}km`);
 
-    // Build Ticketmaster API URL - Use EU endpoint for European markets
-    const params = new URLSearchParams({
-      'apikey': ticketmasterApiKey,
-      'latlong': `${latitude},${longitude}`,
-      'radius': radius.toString(),
-      'unit': 'km',
-      'size': '200',
-      'sort': 'date,asc',
-      'countryCode': 'SE',
+    // Build common params
+    const baseParams = new URLSearchParams({
+      apikey: ticketmasterApiKey,
+      latlong: `${latitude},${longitude}`,
+      unit: 'km',
+      size: '200',
+      sort: 'date,asc',
+      locale: 'sv-se',
     });
 
-    if (startDate) {
-      params.append('startDateTime', new Date(startDate).toISOString().replace(/\.\d{3}Z$/, 'Z'));
+    // Date window: default to next 180 days if not provided
+    const startISO = startDate
+      ? new Date(startDate).toISOString().replace(/\.\d{3}Z$/, 'Z')
+      : new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+    const endISO = endDate
+      ? new Date(endDate).toISOString().replace(/\.\d{3}Z$/, 'Z')
+      : new Date(Date.now() + 1000 * 60 * 60 * 24 * 180)
+          .toISOString()
+          .replace(/\.\d{3}Z$/, 'Z');
+
+    baseParams.append('startDateTime', startISO);
+    baseParams.append('endDateTime', endISO);
+
+    // Helper to call an endpoint with a given radius
+    const callDiscovery = async (baseUrl: string, radiusKm: number) => {
+      const params = new URLSearchParams(baseParams);
+      params.set('radius', String(radiusKm));
+      const url = `${baseUrl}?${params.toString()}`;
+      console.log('Calling Ticketmaster API:', url.replace(ticketmasterApiKey, 'API_KEY_HIDDEN'));
+      const res = await fetch(url);
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error('Ticketmaster API error:', res.status, errorText);
+        return { events: [], status: res.status, errorText };
+      }
+      const data = await res.json();
+      const evts = data._embedded?.events || [];
+      console.log(`Ticketmaster returned ${evts.length} events from ${baseUrl}`);
+      return { events: evts };
+    };
+
+    // Attempt 1: EU endpoint without explicit country filter
+    const EU_BASE = 'https://app.ticketmaster.eu/discovery/v2/events.json';
+    const GLOBAL_BASE = 'https://app.ticketmaster.com/discovery/v2/events.json';
+
+    let combined: any[] = [];
+    let { events: ev1 } = await callDiscovery(EU_BASE, searchRadius);
+    combined = ev1;
+
+    // Attempt 2: increase radius to 100km if none
+    if (combined.length === 0 && searchRadius < 100) {
+      const { events: ev2 } = await callDiscovery(EU_BASE, 100);
+      combined = ev2;
     }
-    if (endDate) {
-      params.append('endDateTime', new Date(endDate).toISOString().replace(/\.\d{3}Z$/, 'Z'));
+
+    // Attempt 3: fallback to global endpoint
+    if (combined.length === 0) {
+      const { events: ev3 } = await callDiscovery(GLOBAL_BASE, Math.max(searchRadius, 100));
+      combined = ev3;
     }
 
-    // Use EU endpoint for Sweden and other European countries
-    const ticketmasterUrl = `https://app.ticketmaster.eu/discovery/v2/events.json?${params.toString()}`;
-
-    console.log('Calling Ticketmaster EU API:', ticketmasterUrl.replace(ticketmasterApiKey, 'API_KEY_HIDDEN'));
-
-    // Fetch events from Ticketmaster
-    const response = await fetch(ticketmasterUrl);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Ticketmaster API error:', response.status, errorText);
-      return new Response(
-        JSON.stringify({ error: `Ticketmaster API error: ${response.status}`, details: errorText }),
-        { status: response.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const data = await response.json();
-    const events = data._embedded?.events || [];
-    console.log(`Found ${events.length} events from Ticketmaster`);
+    // Deduplicate by id and finalize
+    const seen = new Set<string>();
+    const events = combined.filter((e: any) => {
+      if (!e?.id || seen.has(e.id)) return false;
+      seen.add(e.id);
+      return true;
+    });
+    console.log(`Found ${events.length} events after fallbacks`);
 
     if (events.length === 0) {
       return new Response(
