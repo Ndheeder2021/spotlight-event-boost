@@ -11,8 +11,9 @@ import { OnboardingForm } from "@/components/OnboardingForm";
 import { Footer } from "@/components/Footer";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LogoCarousel } from "@/components/LogoCarousel";
-import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
+import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles, Menu } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const testimonials = [
   {
@@ -141,6 +142,7 @@ const Index = () => {
   const [showAuthDialog, setShowAuthDialog] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup" | null>(null);
   const [isYearly, setIsYearly] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToFeatures = () => {
     const featuresSection = document.getElementById('features');
@@ -258,12 +260,14 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b sticky top-0 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 z-50">
-        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="container mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Zap className="h-7 w-7 text-accent" fill="currentColor" />
-            <span className="text-2xl font-bold gradient-text">Spotlight</span>
+            <Zap className="h-6 w-6 sm:h-7 sm:w-7 text-accent" fill="currentColor" />
+            <span className="text-xl sm:text-2xl font-bold gradient-text">Spotlight</span>
           </Link>
-          <div className="flex items-center gap-6">
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-4 lg:gap-6">
             <a href="/contact" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Kontakt
             </a>
@@ -275,6 +279,39 @@ const Index = () => {
             >
               Kom igång →
             </Button>
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="flex md:hidden items-center gap-2">
+            <ThemeToggle />
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px]">
+                <div className="flex flex-col gap-6 mt-8">
+                  <a 
+                    href="/contact" 
+                    className="text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Kontakt
+                  </a>
+                  <Button 
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setShowAuthDialog(true);
+                    }}
+                    size="lg"
+                    className="premium-glow bg-gradient-to-r from-accent to-accent-glow hover:opacity-90 transition-all w-full"
+                  >
+                    Kom igång →
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </header>

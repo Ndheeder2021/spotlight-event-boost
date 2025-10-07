@@ -1,6 +1,6 @@
 import { Outlet, useNavigate, NavLink, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LogOut, Home, Calendar, Megaphone, Bell, Settings, BarChart, Zap, TrendingUp, Shield } from "lucide-react";
+import { LogOut, Home, Calendar, Megaphone, Bell, Settings, BarChart, Zap, TrendingUp, Shield, Menu } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
@@ -8,6 +8,7 @@ import { AILiveSupport } from "./AILiveSupport";
 import { usePlanFeatures } from "@/hooks/usePlanFeatures";
 import { Footer } from "./Footer";
 import { ThemeToggle } from "./ThemeToggle";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const navItems = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
@@ -24,6 +25,7 @@ export function AppLayout() {
   const { features, loading } = usePlanFeatures();
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -66,6 +68,7 @@ export function AppLayout() {
               <span className="text-xl font-bold">Spotlight</span>
             </Link>
             
+            {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-4 xl:gap-6 flex-1 justify-center">
               {navItems.map((item) => (
                 <NavLink
@@ -96,12 +99,71 @@ export function AppLayout() {
               )}
             </nav>
             
-            <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Desktop Actions */}
+            <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
               <ThemeToggle />
               <Button variant="ghost" size="sm" onClick={handleLogout}>
                 <LogOut className="h-4 w-4 mr-2" />
                 Logga ut
               </Button>
+            </div>
+
+            {/* Mobile Menu */}
+            <div className="flex lg:hidden items-center gap-2">
+              <ThemeToggle />
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[300px]">
+                  <nav className="flex flex-col gap-4 mt-8">
+                    {navItems.map((item) => (
+                      <NavLink
+                        key={item.url}
+                        to={item.url}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={({ isActive }) =>
+                          `flex items-center gap-3 text-base transition-colors hover:text-primary px-2 py-2 rounded-md ${
+                            isActive ? "text-primary font-medium bg-accent/10" : "text-muted-foreground"
+                          }`
+                        }
+                      >
+                        <item.icon className="h-5 w-5" />
+                        {item.title}
+                      </NavLink>
+                    ))}
+                    {isAdmin && (
+                      <NavLink
+                        to="/admin"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={({ isActive }) =>
+                          `flex items-center gap-3 text-base transition-colors hover:text-primary px-2 py-2 rounded-md ${
+                            isActive ? "text-primary font-medium bg-accent/10" : "text-muted-foreground"
+                          }`
+                        }
+                      >
+                        <Shield className="h-5 w-5" />
+                        Admin
+                      </NavLink>
+                    )}
+                    <div className="pt-4 mt-4 border-t">
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start gap-3" 
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          handleLogout();
+                        }}
+                      >
+                        <LogOut className="h-5 w-5" />
+                        Logga ut
+                      </Button>
+                    </div>
+                  </nav>
+                </SheetContent>
+              </Sheet>
             </div>
           </div>
         </div>
