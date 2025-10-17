@@ -447,7 +447,7 @@ const Index = () => {
               className="text-center space-y-4 p-8 rounded-3xl hover:bg-accent/5 transition-all duration-300 hover:scale-105 group border border-transparent hover:border-accent/20"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="text-6xl md:text-7xl font-bold gradient-text group-hover:scale-110 transition-transform font-display">
+              <div className="text-6xl md:text-7xl font-bold text-primary group-hover:gradient-text-animated group-hover:scale-110 transition-all duration-300 font-display drop-shadow-sm">
                 {stat.value}
               </div>
               <div className="text-base md:text-lg text-muted-foreground font-medium">
