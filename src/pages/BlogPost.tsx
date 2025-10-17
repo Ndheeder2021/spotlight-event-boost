@@ -246,10 +246,10 @@ export default function BlogPost() {
             <span className="inline-block px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-bold mb-4">
               {article.category}
             </span>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-lg">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary-foreground drop-shadow-lg">
               {article.title}
             </h1>
-            <div className="flex items-center gap-6 text-sm text-white/90">
+            <div className="flex items-center gap-6 text-sm text-primary-foreground/90">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
                 {new Date(article.date).toLocaleDateString('sv-SE', { 
