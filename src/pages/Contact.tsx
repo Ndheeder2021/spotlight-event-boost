@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -97,10 +98,10 @@ const Contact = () => {
       {/* Header */}
       <header className="border-b sticky top-0 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 z-50">
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Zap className="h-7 w-7 text-accent" fill="currentColor" />
             <span className="text-2xl font-bold gradient-text">Spotlight</span>
-          </a>
+          </Link>
           <ThemeToggle />
         </div>
       </header>
