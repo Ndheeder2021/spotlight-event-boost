@@ -5,9 +5,8 @@ import { EventCard } from "@/components/EventCard";
 import { EventMap } from "@/components/EventMap";
 import { EventFilters } from "@/components/EventFilters";
 import { EventMetrics } from "@/components/EventMetrics";
-import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { LogOut, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 interface Event {
@@ -184,27 +183,8 @@ export default function Dashboard() {
     }
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/");
-  };
-
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl font-bold">Spotlight</h1>
-          </div>
-          <Button variant="outline" onClick={handleLogout}>
-            <LogOut className="h-4 w-4 mr-2" />
-            Logga ut
-          </Button>
-        </div>
-      </header>
-
-      <main className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
         {bigEvent && (
           <Alert className="mb-6 border-primary bg-primary/10">
             <Sparkles className="h-4 w-4 text-primary" />
@@ -277,7 +257,6 @@ export default function Dashboard() {
             </div>
           </>
         )}
-      </main>
     </div>
   );
 }
