@@ -110,24 +110,29 @@ export function AppLayout() {
               </Button>
             </div>
 
-            {/* Mobile Menu */}
+            {/* Mobile Navigation */}
             <div className="flex lg:hidden items-center gap-2">
               <ThemeToggle />
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" aria-label="Öppna navigation">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    aria-label="Öppna navigation"
+                    className="h-11 w-11 md:h-10 md:w-10"
+                  >
                     <Menu className="h-5 w-5" />
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-[300px]">
-                  <nav className="flex flex-col gap-4 mt-8">
+                  <nav className="flex flex-col gap-2 mt-8 mobile-stack" aria-label="Mobil navigation">
                     {navItems.map((item) => (
                       <NavLink
                         key={item.url}
                         to={item.url}
                         onClick={() => setMobileMenuOpen(false)}
                         className={({ isActive }) =>
-                          `flex items-center gap-3 text-base transition-colors hover:text-primary px-2 py-2 rounded-md ${
+                          `mobile-menu-item flex items-center gap-3 text-base transition-colors hover:text-primary px-3 py-3 rounded-md ${
                             isActive ? "text-primary font-medium bg-accent/10" : "text-muted-foreground"
                           }`
                         }
@@ -141,7 +146,7 @@ export function AppLayout() {
                         to="/admin"
                         onClick={() => setMobileMenuOpen(false)}
                         className={({ isActive }) =>
-                          `flex items-center gap-3 text-base transition-colors hover:text-primary px-2 py-2 rounded-md ${
+                          `mobile-menu-item flex items-center gap-3 text-base transition-colors hover:text-primary px-3 py-3 rounded-md ${
                             isActive ? "text-primary font-medium bg-accent/10" : "text-muted-foreground"
                           }`
                         }
@@ -153,7 +158,7 @@ export function AppLayout() {
                     <div className="pt-4 mt-4 border-t">
                       <Button 
                         variant="outline" 
-                        className="w-full justify-start gap-3" 
+                        className="w-full justify-start gap-3 h-12" 
                         onClick={() => {
                           setMobileMenuOpen(false);
                           handleLogout();

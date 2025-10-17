@@ -312,26 +312,31 @@ const Index = () => {
             <ThemeToggle />
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Öppna meny">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  aria-label="Öppna meny"
+                  className="h-11 w-11"
+                >
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px]">
-                <div className="flex flex-col gap-6 mt-8">
-                  <a 
-                    href="/contact" 
-                    className="text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
+                <div className="flex flex-col gap-2 mt-8 mobile-stack">
+                  <Link
+                    to="/contact" 
+                    className="mobile-menu-item text-lg font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-3 rounded-md"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Kontakt
-                  </a>
+                  </Link>
                   <Button 
                     onClick={() => {
                       setMobileMenuOpen(false);
                       setShowAuthDialog(true);
                     }}
                     size="lg"
-                    className="premium-glow bg-gradient-to-r from-accent to-accent-glow hover:opacity-90 transition-all w-full"
+                    className="premium-glow bg-gradient-to-r from-accent to-accent-glow hover:opacity-90 transition-all w-full h-12"
                   >
                     Kom igång →
                   </Button>
@@ -388,17 +393,17 @@ const Index = () => {
             <div className="flex flex-col sm:flex-row gap-6 justify-center pt-12 animate-on-scroll">
               <Button 
                 size="lg" 
-                className="text-lg px-12 h-16 shadow-2xl hover:shadow-accent/50 transition-all duration-300 hover:scale-105 bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground font-semibold premium-glow-lg" 
+                className="text-base sm:text-lg px-8 sm:px-12 h-14 sm:h-16 shadow-2xl hover:shadow-accent/50 transition-all duration-300 hover:scale-105 bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground font-semibold premium-glow-lg" 
                 onClick={() => setShowAuthDialog(true)}
               >
-                <Zap className="mr-2 h-6 w-6" fill="currentColor" />
+                <Zap className="mr-2 h-5 w-5 sm:h-6 sm:w-6" fill="currentColor" />
                 Starta gratis
-                <ArrowRight className="ml-2 h-6 w-6" />
+                <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6" />
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="text-lg px-12 h-16 border-2 border-border hover:bg-accent/10 hover:border-accent transition-all duration-300 hover:scale-105 backdrop-blur-xl bg-card/50 font-semibold" 
+                className="text-base sm:text-lg px-8 sm:px-12 h-14 sm:h-16 border-2 border-border hover:bg-accent/10 hover:border-accent transition-all duration-300 hover:scale-105 backdrop-blur-xl bg-card/50 font-semibold" 
                 onClick={scrollToFeatures}
               >
                 Se demo

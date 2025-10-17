@@ -1,0 +1,169 @@
+/* Mobile-first responsive improvements */
+
+/* Touch targets - minimum 44x44px for better mobile UX */
+@media (max-width: 768px) {
+  /* Buttons should be larger on mobile */
+  button, 
+  a[role="button"],
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Increase padding for better touch targets on mobile */
+  button:not(.btn-icon-only) {
+    padding: 0.75rem 1.25rem;
+  }
+  
+  /* Interactive elements spacing */
+  .mobile-touch-target {
+    min-height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Form inputs should be larger */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  textarea,
+  select {
+    min-height: 48px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Improve text readability on small screens */
+  .text-xs {
+    font-size: 0.8125rem; /* 13px instead of 12px */
+  }
+  
+  /* Card padding on mobile */
+  .card-mobile-spacing {
+    padding: 1rem;
+  }
+  
+  /* Navigation items should be easier to tap */
+  nav a,
+  nav button {
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Improve spacing between clickable items */
+  .mobile-stack > * + * {
+    margin-top: 0.75rem;
+  }
+  
+  /* Better footer spacing on mobile */
+  footer {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  footer nav ul {
+    gap: 0.75rem;
+  }
+  
+  /* Improve table touch targets */
+  table button,
+  table a {
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Small phones (< 375px) */
+@media (max-width: 374px) {
+  /* Even larger touch targets for very small screens */
+  button:not(.btn-icon-only),
+  a[role="button"]:not(.btn-icon-only) {
+    min-height: 48px;
+    padding: 0.875rem 1.5rem;
+  }
+  
+  /* Reduce font sizes slightly on very small screens */
+  h1 {
+    font-size: 2rem; /* 32px */
+  }
+  
+  h2 {
+    font-size: 1.5rem; /* 24px */
+  }
+  
+  /* Ensure content doesn't overflow */
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Improve scrolling on mobile */
+@media (max-width: 768px) {
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Reduce animation on mobile for better performance */
+  * {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+  }
+  
+  /* Better mobile menu */
+  .mobile-menu-item {
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0.875rem 1rem;
+    border-radius: 0.5rem;
+  }
+}
+
+/* Landscape phone orientation */
+@media (max-width: 896px) and (orientation: landscape) {
+  /* Reduce vertical spacing in landscape */
+  .py-24 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  .py-32 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* Tablet improvements */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Ensure touch targets are still comfortable on tablets */
+  button,
+  a[role="button"] {
+    min-height: 42px;
+  }
+}
+
+/* Prevent text size adjust on rotation */
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Fix for safe areas on notched devices */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+  
+  header,
+  footer {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
