@@ -127,8 +127,8 @@ const Cookies = () => {
             <h2 className="text-2xl font-semibold mb-4">Kontakt</h2>
             <p className="text-muted-foreground">
               Om du har frågor om vår användning av cookies, kontakta oss på:
-              <a href="mailto:privacy@spotlight.se" className="text-primary hover:underline ml-1">
-                privacy@spotlight.se
+              <a href="mailto:privacy@spotlightevents.online" className="text-primary hover:underline ml-1">
+                privacy@spotlightevents.online
               </a>
             </p>
           </section>

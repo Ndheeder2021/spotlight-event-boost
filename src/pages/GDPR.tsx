@@ -37,7 +37,7 @@ const GDPR = () => {
             <div className="mt-4 text-muted-foreground">
               <p>Spotlight AB</p>
               <p>Org.nr: 559XXX-XXXX</p>
-              <p>E-post: gdpr@spotlight.se</p>
+              <p>E-post: gdpr@spotlightevents.online</p>
             </div>
           </section>
 
@@ -111,8 +111,8 @@ const GDPR = () => {
             <h2 className="text-2xl font-semibold mb-4">Kontakta oss</h2>
             <p className="text-muted-foreground">
               För att utöva dina rättigheter eller om du har frågor, kontakta oss på:
-              <a href="mailto:gdpr@spotlight.se" className="text-primary hover:underline ml-1">
-                gdpr@spotlight.se
+              <a href="mailto:gdpr@spotlightevents.online" className="text-primary hover:underline ml-1">
+                gdpr@spotlightevents.online
               </a>
             </p>
           </section>

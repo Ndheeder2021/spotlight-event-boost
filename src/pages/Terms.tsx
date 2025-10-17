@@ -123,8 +123,8 @@ const Terms = () => {
             <h2 className="text-2xl font-semibold mb-4">11. Kontakt</h2>
             <p className="text-muted-foreground">
               För frågor om dessa villkor, kontakta oss på:
-              <a href="mailto:support@spotlight.se" className="text-primary hover:underline ml-1">
-                support@spotlight.se
+              <a href="mailto:support@spotlightevents.online" className="text-primary hover:underline ml-1">
+                support@spotlightevents.online
               </a>
             </p>
           </section>

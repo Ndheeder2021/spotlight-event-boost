@@ -269,8 +269,8 @@ const Contact = () => {
             <div className="mt-12 text-center text-muted-foreground animate-on-scroll">
               <p className="text-base">
                 Föredrar du e-post? Skicka direkt till{" "}
-                <a href="mailto:support@spotlight.se" className="text-accent hover:underline font-semibold">
-                  support@spotlight.se
+                <a href="mailto:support@spotlightevents.online" className="text-accent hover:underline font-semibold">
+                  support@spotlightevents.online
                 </a>
               </p>
             </div>
