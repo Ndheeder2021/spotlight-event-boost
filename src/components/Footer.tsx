@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export function Footer() {
   return (
-    <footer className="border-t py-12 bg-muted/20">
+    <footer className="border-t py-12 bg-muted/20" role="contentinfo">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-12 mb-8">
           {/* Brand */}
@@ -21,7 +21,8 @@ export function Footer() {
           {/* Product */}
           <div>
             <h3 className="font-semibold mb-4">Produkt</h3>
-            <ul className="space-y-3">
+            <nav aria-label="Produkt navigation">
+              <ul className="space-y-3">
               <li>
                 <Link to="/solution" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Lösning
@@ -37,13 +38,15 @@ export function Footer() {
                   Priser
                 </Link>
               </li>
-            </ul>
+              </ul>
+            </nav>
           </div>
 
           {/* Resources */}
           <div>
             <h3 className="font-semibold mb-4">Resurser</h3>
-            <ul className="space-y-3">
+            <nav aria-label="Resurser navigation">
+              <ul className="space-y-3">
               <li>
                 <Link to="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Blogg
@@ -54,13 +57,15 @@ export function Footer() {
                   Kontakt
                 </Link>
               </li>
-            </ul>
+              </ul>
+            </nav>
           </div>
 
           {/* Legal */}
           <div>
             <h3 className="font-semibold mb-4">Juridiskt</h3>
-            <ul className="space-y-3">
+            <nav aria-label="Juridiskt navigation">
+              <ul className="space-y-3">
               <li>
                 <Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Integritetspolicy
@@ -81,14 +86,16 @@ export function Footer() {
                   Cookies
                 </Link>
               </li>
-            </ul>
+              </ul>
+            </nav>
           </div>
         </div>
 
         {/* Bottom */}
         <div className="pt-8 border-t flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Social Media Links */}
-          <div className="flex items-center gap-2">
+          <nav aria-label="Sociala medier">
+            <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <Linkedin className="h-5 w-5" />
@@ -108,8 +115,9 @@ export function Footer() {
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <Instagram className="h-5 w-5" />
               </a>
-            </Button>
-          </div>
+              </Button>
+            </div>
+          </nav>
 
           {/* Copyright */}
           <p className="text-sm text-muted-foreground">

@@ -8,6 +8,7 @@ import { AILiveSupport } from "./AILiveSupport";
 import { usePlanFeatures } from "@/hooks/usePlanFeatures";
 import { Footer } from "./Footer";
 import { ThemeToggle } from "./ThemeToggle";
+import { SkipToContent } from "./SkipToContent";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const navItems = [
@@ -60,16 +61,17 @@ export function AppLayout() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="border-b bg-background">
+      <SkipToContent />
+      <header className="border-b bg-background" role="banner">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between gap-4">
-            <Link to="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity flex-shrink-0">
+            <Link to="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity flex-shrink-0" aria-label="Spotlight - Hem">
               <Zap className="h-6 w-6 text-primary" fill="currentColor" />
               <span className="text-xl font-bold">Spotlight</span>
             </Link>
             
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-4 xl:gap-6 flex-1 justify-center">
+            <nav className="hidden lg:flex items-center gap-4 xl:gap-6 flex-1 justify-center" aria-label="Huvudnavigation">
               {navItems.map((item) => (
                 <NavLink
                   key={item.url}
@@ -113,7 +115,7 @@ export function AppLayout() {
               <ThemeToggle />
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
+                  <Button variant="ghost" size="icon" aria-label="Öppna navigation">
                     <Menu className="h-5 w-5" />
                   </Button>
                 </SheetTrigger>
@@ -168,7 +170,7 @@ export function AppLayout() {
           </div>
         </div>
       </header>
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-auto" id="main-content" role="main">
         <Outlet />
       </main>
       

@@ -12,6 +12,7 @@ import { Footer } from "@/components/Footer";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LogoCarousel } from "@/components/LogoCarousel";
 import { SEO } from "@/components/SEO";
+import { SkipToContent } from "@/components/SkipToContent";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles, Menu } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -259,6 +260,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SkipToContent />
       <SEO
         title="Spotlight - AI-Driven Event Marketing för Lokala Företag"
         description="Förvandla lokala evenemang till ökad försäljning med AI. Spotlight hjälper dig automatiskt upptäcka närliggande evenemang och skapa datadrivna kampanjer som maximerar ditt kundflöde."
@@ -310,7 +312,7 @@ const Index = () => {
             <ThemeToggle />
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" aria-label="Öppna meny">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
@@ -341,7 +343,7 @@ const Index = () => {
       </header>
 
       {/* Hero Section with Premium Gradient */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-background via-background to-accent/5">
+      <section id="main-content" className="relative overflow-hidden bg-gradient-to-b from-background via-background to-accent/5">
         {/* Grid Pattern Background */}
         <div className="absolute inset-0 grid-pattern opacity-30" />
         
