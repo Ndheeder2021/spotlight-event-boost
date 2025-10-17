@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Footer } from "@/components/Footer";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { SEO } from "@/components/SEO";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Namn är obligatoriskt").max(100, "Namn får vara max 100 tecken"),
@@ -95,6 +96,17 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Kontakta Oss - Spotlight"
+        description="Har du frågor om Spotlight? Kontakta oss så svarar vi inom 24 timmar. Vi hjälper dig att lyckas med event-driven marknadsföring."
+        keywords="kontakt, support, kundtjänst, spotlight kontakt"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Kontakta Spotlight",
+          "description": "Kontakta Spotlight för support och frågor"
+        }}
+      />
       {/* Header */}
       <header className="border-b sticky top-0 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 z-50">
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">

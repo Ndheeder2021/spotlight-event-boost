@@ -6,6 +6,7 @@ import { Zap, Check, X, ArrowRight } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AuthForm } from "@/components/AuthForm";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 
 const plans = [
   {
@@ -76,6 +77,33 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Priser - Spotlight Event Marketing"
+        description="Välj den plan som passar ditt företag bäst. Alla planer inkluderar 14 dagars gratis testperiod. Från 299 kr/mån. Ingen bindningstid."
+        keywords="priser, abonnemang, event marketing pris, kampanjverktyg kostnad"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": "Spotlight Professional Plan",
+          "description": "AI-driven event marketing plattform",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Starter",
+              "price": "299",
+              "priceCurrency": "SEK",
+              "priceValidUntil": "2025-12-31"
+            },
+            {
+              "@type": "Offer",
+              "name": "Professional",
+              "price": "499",
+              "priceCurrency": "SEK",
+              "priceValidUntil": "2025-12-31"
+            }
+          ]
+        }}
+      />
       {/* Header */}
       <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
