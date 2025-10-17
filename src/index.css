@@ -8,88 +8,119 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 7%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 7%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 7%;
+    /* Neutral base - warm whites with subtle cream undertones */
+    --background: 40 20% 99%;
+    --foreground: 0 0% 5%;
+    --card: 40 15% 98%;
+    --card-foreground: 0 0% 5%;
+    --popover: 40 15% 98%;
+    --popover-foreground: 0 0% 5%;
     
-    /* Spotlight brand colors - primary #111111 (almost black) */
-    --primary: 0 0% 7%;
-    --primary-foreground: 0 0% 98%;
+    /* Spotlight brand colors - deep charcoal with warmth */
+    --primary: 20 5% 12%;
+    --primary-foreground: 40 20% 98%;
     
-    /* Spotlight accent - golden #d1b300 */
-    --accent: 48 100% 41%;
-    --accent-foreground: 0 0% 7%;
-    --accent-glow: 48 100% 60%;
+    /* Refined golden palette - sophisticated champagne gold */
+    --accent: 45 75% 52%;
+    --accent-foreground: 20 5% 12%;
+    --accent-glow: 45 85% 62%;
+    --accent-dark: 42 65% 42%;
+    --accent-muted: 45 55% 85%;
     
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 7%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 48 100% 41%;
-    --chart-1: 48 100% 41%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.75rem;
+    /* Sophisticated secondary palette */
+    --secondary: 40 12% 94%;
+    --secondary-foreground: 20 5% 12%;
+    --muted: 40 10% 92%;
+    --muted-foreground: 0 0% 42%;
+    --destructive: 0 70% 52%;
+    --destructive-foreground: 40 20% 98%;
+    --border: 40 15% 88%;
+    --input: 40 15% 90%;
+    --ring: 45 75% 52%;
     
-    /* Premium design tokens */
-    --gradient-premium: linear-gradient(135deg, hsl(48 100% 41%), hsl(48 100% 60%));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 98%) 0%, hsl(48 100% 98%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 98%));
-    --shadow-premium: 0 20px 60px -15px hsl(48 100% 41% / 0.15);
-    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.08);
-    --shadow-glow: 0 0 60px hsl(48 100% 50% / 0.25);
-    --shadow-glow-lg: 0 0 100px hsl(48 100% 50% / 0.3);
+    /* Chart colors - sophisticated palette */
+    --chart-1: 45 75% 52%;
+    --chart-2: 205 65% 48%;
+    --chart-3: 160 55% 45%;
+    --chart-4: 280 45% 55%;
+    --chart-5: 25 70% 55%;
+    
+    --radius: 0.5rem;
+    
+    /* Premium design tokens - refined and subtle */
+    --gradient-premium: linear-gradient(135deg, hsl(42 65% 42%) 0%, hsl(45 75% 52%) 50%, hsl(45 85% 62%) 100%);
+    --gradient-hero: linear-gradient(160deg, hsl(40 20% 99%) 0%, hsl(45 30% 96%) 50%, hsl(40 25% 97%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(40 20% 99%), hsl(40 15% 97%));
+    --gradient-glass: linear-gradient(135deg, hsla(40 20% 99% / 0.9), hsla(40 15% 97% / 0.85));
+    --gradient-overlay: linear-gradient(135deg, hsla(45 75% 52% / 0.05) 0%, hsla(45 85% 62% / 0.03) 100%);
+    
+    /* Enhanced shadow system - layered and dimensional */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.04);
+    --shadow-md: 0 4px 8px -2px hsl(0 0% 0% / 0.08), 0 2px 4px -2px hsl(0 0% 0% / 0.04);
+    --shadow-lg: 0 10px 24px -4px hsl(0 0% 0% / 0.12), 0 4px 8px -4px hsl(0 0% 0% / 0.06);
+    --shadow-xl: 0 20px 40px -8px hsl(0 0% 0% / 0.16), 0 8px 16px -8px hsl(0 0% 0% / 0.08);
+    --shadow-premium: 0 24px 48px -12px hsl(45 75% 52% / 0.12), 0 12px 24px -8px hsl(0 0% 0% / 0.08);
+    --shadow-card: 0 2px 12px -2px hsl(0 0% 0% / 0.06), 0 1px 4px -1px hsl(0 0% 0% / 0.04);
+    --shadow-glow: 0 0 48px -12px hsl(45 75% 52% / 0.3), 0 0 24px -8px hsl(45 85% 62% / 0.2);
+    --shadow-glow-lg: 0 0 72px -12px hsl(45 75% 52% / 0.4), 0 0 36px -8px hsl(45 85% 62% / 0.3);
+    --shadow-inner: inset 0 2px 4px 0 hsl(0 0% 0% / 0.05);
   }
   
   .dark {
-    --background: 0 0% 3%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3%;
-    --popover-foreground: 0 0% 98%;
+    /* Rich dark palette - warm blacks with depth */
+    --background: 20 8% 8%;
+    --foreground: 40 15% 95%;
+    --card: 20 10% 12%;
+    --card-foreground: 40 15% 95%;
+    --popover: 20 10% 10%;
+    --popover-foreground: 40 15% 95%;
     
-    /* Spotlight brand colors in dark mode */
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 7%;
+    /* Spotlight brand colors in dark mode - refined */
+    --primary: 40 15% 95%;
+    --primary-foreground: 20 8% 8%;
     
-    /* Spotlight accent - golden */
-    --accent: 48 100% 60%;
-    --accent-foreground: 0 0% 7%;
-    --accent-glow: 48 100% 70%;
+    /* Refined golden in dark mode */
+    --accent: 45 80% 58%;
+    --accent-foreground: 20 8% 8%;
+    --accent-glow: 45 90% 68%;
+    --accent-dark: 42 70% 48%;
+    --accent-muted: 45 40% 28%;
     
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 48 100% 50%;
-    --chart-1: 48 100% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    /* Sophisticated secondary palette - dark */
+    --secondary: 20 8% 18%;
+    --secondary-foreground: 40 15% 95%;
+    --muted: 20 8% 20%;
+    --muted-foreground: 40 8% 65%;
+    --destructive: 0 65% 48%;
+    --destructive-foreground: 40 15% 95%;
+    --border: 20 10% 22%;
+    --input: 20 10% 18%;
+    --ring: 45 80% 58%;
     
-    /* Premium design tokens - dark mode */
-    --gradient-premium: linear-gradient(135deg, hsl(48 100% 50%), hsl(48 100% 60%));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 5%) 0%, hsl(48 100% 10%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 3%), hsl(0 0% 7%));
-    --shadow-premium: 0 20px 60px -15px hsl(48 100% 50% / 0.3);
-    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.5);
-    --shadow-glow: 0 0 80px hsl(48 100% 60% / 0.4);
-    --shadow-glow-lg: 0 0 120px hsl(48 100% 60% / 0.5);
+    /* Chart colors - dark mode */
+    --chart-1: 45 80% 58%;
+    --chart-2: 205 70% 58%;
+    --chart-3: 160 60% 52%;
+    --chart-4: 280 50% 62%;
+    --chart-5: 25 75% 60%;
+    
+    /* Premium design tokens - refined dark mode */
+    --gradient-premium: linear-gradient(135deg, hsl(42 70% 48%) 0%, hsl(45 80% 58%) 50%, hsl(45 90% 68%) 100%);
+    --gradient-hero: linear-gradient(160deg, hsl(20 8% 8%) 0%, hsl(45 20% 12%) 50%, hsl(20 12% 10%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(20 8% 8%), hsl(20 10% 12%));
+    --gradient-glass: linear-gradient(135deg, hsla(20 10% 12% / 0.95), hsla(20 8% 10% / 0.9));
+    --gradient-overlay: linear-gradient(135deg, hsla(45 80% 58% / 0.08) 0%, hsla(45 90% 68% / 0.05) 100%);
+    
+    /* Enhanced shadow system - dark mode with more contrast */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.2);
+    --shadow-md: 0 4px 8px -2px hsl(0 0% 0% / 0.3), 0 2px 4px -2px hsl(0 0% 0% / 0.15);
+    --shadow-lg: 0 10px 24px -4px hsl(0 0% 0% / 0.4), 0 4px 8px -4px hsl(0 0% 0% / 0.2);
+    --shadow-xl: 0 20px 40px -8px hsl(0 0% 0% / 0.5), 0 8px 16px -8px hsl(0 0% 0% / 0.25);
+    --shadow-premium: 0 24px 48px -12px hsl(45 80% 58% / 0.25), 0 12px 24px -8px hsl(0 0% 0% / 0.3);
+    --shadow-card: 0 2px 12px -2px hsl(0 0% 0% / 0.4), 0 1px 4px -1px hsl(0 0% 0% / 0.2);
+    --shadow-glow: 0 0 48px -12px hsl(45 80% 58% / 0.5), 0 0 24px -8px hsl(45 90% 68% / 0.35);
+    --shadow-glow-lg: 0 0 72px -12px hsl(45 80% 58% / 0.6), 0 0 36px -8px hsl(45 90% 68% / 0.45);
+    --shadow-inner: inset 0 2px 4px 0 hsl(0 0% 0% / 0.25);
   }
 }
 
@@ -108,35 +139,134 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
+  /* Premium glass morphism effects */
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-card;
+    background: var(--gradient-glass);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid hsl(var(--border) / 0.4);
+    box-shadow: var(--shadow-card), var(--shadow-inner);
   }
   
+  .glass-premium {
+    background: linear-gradient(135deg, hsla(40 15% 98% / 0.95), hsla(40 10% 96% / 0.9));
+    backdrop-filter: blur(32px) saturate(200%);
+    border: 1px solid hsl(var(--accent) / 0.15);
+    box-shadow: var(--shadow-xl), var(--shadow-inner);
+  }
+  
+  /* Elegant gradient text effects */
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-accent via-accent-glow to-accent;
+    background: linear-gradient(135deg, 
+      hsl(var(--accent-dark)) 0%, 
+      hsl(var(--accent)) 45%, 
+      hsl(var(--accent-glow)) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
   }
   
+  .gradient-text-animated {
+    background: linear-gradient(90deg, 
+      hsl(var(--accent-dark)) 0%, 
+      hsl(var(--accent)) 25%, 
+      hsl(var(--accent-glow)) 50%,
+      hsl(var(--accent)) 75%,
+      hsl(var(--accent-dark)) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: shimmer 3s linear infinite;
+  }
+  
+  @keyframes shimmer {
+    to { background-position: 200% center; }
+  }
+  
+  /* Sophisticated glow effects */
   .premium-glow {
     box-shadow: var(--shadow-glow);
+    transition: box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .premium-glow:hover {
+    box-shadow: var(--shadow-glow-lg);
   }
   
   .premium-glow-lg {
     box-shadow: var(--shadow-glow-lg);
   }
   
+  /* Refined scroll animations */
   .animate-on-scroll {
-    @apply opacity-0 translate-y-8 transition-all duration-700;
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
   
   .animate-on-scroll.is-visible {
-    @apply opacity-100 translate-y-0;
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
   
+  /* Elegant grid pattern */
   .grid-pattern {
     background-image: 
-      linear-gradient(to right, hsl(var(--border) / 0.3) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--border) / 0.3) 1px, transparent 1px);
-    background-size: 4rem 4rem;
+      linear-gradient(to right, hsl(var(--border) / 0.15) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.15) 1px, transparent 1px);
+    background-size: 3rem 3rem;
+  }
+  
+  /* Luxury gradient overlay */
+  .gradient-overlay {
+    position: relative;
+  }
+  
+  .gradient-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-overlay);
+    pointer-events: none;
+  }
+  
+  /* Premium border effects */
+  .border-gradient {
+    position: relative;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+  }
+  
+  .border-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, 
+      hsl(var(--accent) / 0.5), 
+      hsl(var(--accent-glow) / 0.3)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  
+  /* Enhanced hover transitions */
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: var(--shadow-xl);
   }
   
   /* Accessibility - Screen reader only */
