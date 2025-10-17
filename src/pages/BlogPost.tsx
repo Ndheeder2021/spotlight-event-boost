@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { Zap, Calendar, Clock, ArrowLeft, Share2, TrendingUp, Users, Target, Lightbulb } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { OptimizedImage } from "@/components/OptimizedImage";
 import blogLocalEvents from "@/assets/blog-local-events.jpg";
 import blogAiMarketing from "@/assets/blog-ai-marketing.jpg";
 import blogCafeCase from "@/assets/blog-cafe-case.jpg";
@@ -231,9 +232,12 @@ export default function BlogPost() {
 
       {/* Article Hero */}
       <section className="relative h-[500px] overflow-hidden">
-        <img 
+        <OptimizedImage
           src={article.image} 
           alt={article.title}
+          width={1920}
+          height={500}
+          priority
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />

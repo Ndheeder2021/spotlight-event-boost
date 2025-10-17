@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Zap, Calendar, ArrowRight, TrendingUp, Users, Target, Lightbulb, Mail } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { OptimizedImage } from "@/components/OptimizedImage";
 import blogLocalEvents from "@/assets/blog-local-events.jpg";
 import blogAiMarketing from "@/assets/blog-ai-marketing.jpg";
 import blogCafeCase from "@/assets/blog-cafe-case.jpg";
@@ -145,9 +146,12 @@ export default function Blog() {
             <Card className="overflow-hidden border-2 hover:border-accent/50 transition-all hover:shadow-xl group cursor-pointer">
               <div className="grid md:grid-cols-2 gap-0">
                 <div className="relative overflow-hidden h-80 md:h-auto">
-                  <img 
+                  <OptimizedImage
                     src={blogLocalEvents} 
                     alt="Lokala evenemang" 
+                    width={800}
+                    height={600}
+                    priority
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -187,9 +191,11 @@ export default function Blog() {
                 <Link key={post.id} to={`/blog/${post.id}`}>
                   <Card className="flex flex-col border-2 hover:border-accent/50 transition-all hover:shadow-xl group cursor-pointer h-full overflow-hidden">
                     <div className="relative overflow-hidden h-48">
-                      <img 
+                      <OptimizedImage
                         src={post.image} 
                         alt={post.title}
+                        width={600}
+                        height={400}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
