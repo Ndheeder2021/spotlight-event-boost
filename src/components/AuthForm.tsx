@@ -26,6 +26,8 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState<{ lat: number; lon: number } | null>(null);
   const [loading, setLoading] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
 
   const validatePassword = (pwd: string) => {
     const minLength = pwd.length >= 8;
@@ -111,6 +113,18 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
         // Validate password confirmation
         if (password !== confirmPassword) {
           toast.error("Lösenorden matchar inte");
+          setLoading(false);
+          return;
+        }
+
+        // Validate terms and privacy acceptance
+        if (!acceptTerms) {
+          toast.error("Du måste acceptera användarvillkoren");
+          setLoading(false);
+          return;
+        }
+        if (!acceptPrivacy) {
+          toast.error("Du måste acceptera integritetspolicyn");
           setLoading(false);
           return;
         }
@@ -309,7 +323,55 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
               )}
             </div>
           )}
-          <Button type="submit" className="w-full" disabled={loading}>
+          {!isLogin && (
+            <div className="space-y-4 pt-4 border-t border-border">
+              <div className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  id="acceptTerms"
+                  checked={acceptTerms}
+                  onChange={(e) => setAcceptTerms(e.target.checked)}
+                  className="mt-1 h-4 w-4 rounded border-input accent-accent"
+                  required
+                />
+                <label htmlFor="acceptTerms" className="text-sm leading-relaxed">
+                  Jag accepterar{" "}
+                  <a
+                    href="/terms"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:text-accent-glow underline font-medium"
+                  >
+                    användarvillkoren
+                  </a>
+                  <span className="text-destructive ml-1">*</span>
+                </label>
+              </div>
+              <div className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  id="acceptPrivacy"
+                  checked={acceptPrivacy}
+                  onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                  className="mt-1 h-4 w-4 rounded border-input accent-accent"
+                  required
+                />
+                <label htmlFor="acceptPrivacy" className="text-sm leading-relaxed">
+                  Jag accepterar{" "}
+                  <a
+                    href="/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:text-accent-glow underline font-medium"
+                  >
+                    integritetspolicyn
+                  </a>
+                  <span className="text-destructive ml-1">*</span>
+                </label>
+              </div>
+            </div>
+          )}
+          <Button type="submit" className="w-full" disabled={loading || (!isLogin && (!acceptTerms || !acceptPrivacy))}>
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isLogin ? "Logga in" : "Skapa konto"}
           </Button>
