@@ -16,6 +16,8 @@ export default function Settings() {
   const [saving, setSaving] = useState(false);
   const [location, setLocation] = useState<any>(null);
   const [tenant, setTenant] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [importing, setImporting] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -28,11 +30,14 @@ export default function Settings() {
 
       const { data: userRole } = await supabase
         .from("user_roles")
-        .select("tenant_id")
+        .select("tenant_id, role")
         .eq("user_id", user.id)
         .single();
 
       if (!userRole) throw new Error("No tenant found");
+      
+      // Check if user is admin
+      setIsAdmin(userRole.role === 'admin');
 
       const { data: locationByTenant, error: locByTenantErr } = await supabase
         .from("locations")
@@ -257,6 +262,61 @@ export default function Settings() {
                   </div>
                 </div>
               </div>
+              
+              {isAdmin && (
+                <div className="flex items-start gap-4 p-4 border-2 border-primary/20 rounded-lg bg-primary/5">
+                  <div className="flex-1 space-y-2">
+                    <h4 className="font-semibold text-primary">Admin: Manuell import</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Som administratör kan du köra en manuell import av events direkt istället för att vänta på den automatiska importen.
+                    </p>
+                  </div>
+                  <Button
+                    onClick={async () => {
+                      if (!location) {
+                        toast.error("Ingen plats konfigurerad. Vänligen ställ in din affärs plats först");
+                        return;
+                      }
+
+                      const effectiveRadius = Number(location.radius_km) || 20;
+                      setImporting(true);
+                      toast.loading("Importerar events...");
+
+                      try {
+                        const { data, error } = await supabase.functions.invoke(
+                          'import-eventbrite-events',
+                          {
+                            body: {
+                              latitude: location.lat,
+                              longitude: location.lon,
+                              radius: effectiveRadius,
+                              startDate: new Date().toISOString(),
+                              endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+                            },
+                          }
+                        );
+
+                        if (error) throw error;
+
+                        if (data?.imported === 0) {
+                          toast.info(`0 events hittades. Prova att öka radien för fler träffar.`);
+                        } else {
+                          toast.success(`✓ Import lyckades! ${data.imported} events importerades`);
+                        }
+                      } catch (error) {
+                        console.error('Import error:', error);
+                        toast.error(error instanceof Error ? error.message : "Ett fel uppstod vid import");
+                      } finally {
+                        setImporting(false);
+                      }
+                    }}
+                    disabled={importing}
+                    className="whitespace-nowrap"
+                  >
+                    {importing ? "Importerar..." : "Importera nu"}
+                  </Button>
+                </div>
+              )}
               
               <div className="text-xs text-muted-foreground p-4 bg-accent/5 rounded-lg">
                 <strong>Info:</strong> Events importeras automatiskt baserat på din konfigurerade plats och radie. 
