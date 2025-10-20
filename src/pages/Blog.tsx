@@ -78,6 +78,7 @@ const blogPosts = [
 
 export default function Blog() {
   const [email, setEmail] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -184,9 +185,24 @@ export default function Blog() {
       {/* Blog Posts Grid */}
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8">Senaste artiklarna</h2>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold">
+              {selectedCategory ? `${selectedCategory}` : "Senaste artiklarna"}
+            </h2>
+            {selectedCategory && (
+              <button
+                onClick={() => setSelectedCategory(null)}
+                className="text-sm text-accent hover:text-accent-glow transition-colors font-semibold"
+              >
+                Visa alla
+              </button>
+            )}
+          </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.slice(1).map((post) => {
+            {blogPosts
+              .filter((post) => !selectedCategory || post.category === selectedCategory)
+              .slice(selectedCategory ? 0 : 1)
+              .map((post) => {
               return (
                 <Link key={post.id} to={`/blog/${post.id}`}>
                   <Card className="flex flex-col border-2 hover:border-accent/50 transition-all hover:shadow-xl group cursor-pointer h-full overflow-hidden">
@@ -238,25 +254,45 @@ export default function Blog() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center">Utforska kategorier</h2>
           <div className="grid md:grid-cols-4 gap-6">
-            <Card className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105 cursor-pointer">
+            <Card 
+              onClick={() => setSelectedCategory("Tips & Tricks")}
+              className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105 cursor-pointer"
+            >
               <TrendingUp className="h-8 w-8 text-accent mx-auto mb-3" />
               <h3 className="font-bold mb-1">Tips & Tricks</h3>
-              <p className="text-sm text-muted-foreground">12 artiklar</p>
+              <p className="text-sm text-muted-foreground">
+                {blogPosts.filter(p => p.category === "Tips & Tricks").length} artiklar
+              </p>
             </Card>
-            <Card className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105 cursor-pointer">
+            <Card 
+              onClick={() => setSelectedCategory("AI & Teknologi")}
+              className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105 cursor-pointer"
+            >
               <Lightbulb className="h-8 w-8 text-accent mx-auto mb-3" />
               <h3 className="font-bold mb-1">AI & Teknologi</h3>
-              <p className="text-sm text-muted-foreground">8 artiklar</p>
+              <p className="text-sm text-muted-foreground">
+                {blogPosts.filter(p => p.category === "AI & Teknologi").length} artiklar
+              </p>
             </Card>
-            <Card className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105 cursor-pointer">
+            <Card 
+              onClick={() => setSelectedCategory("Fallstudier")}
+              className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105 cursor-pointer"
+            >
               <Users className="h-8 w-8 text-accent mx-auto mb-3" />
               <h3 className="font-bold mb-1">Fallstudier</h3>
-              <p className="text-sm text-muted-foreground">15 artiklar</p>
+              <p className="text-sm text-muted-foreground">
+                {blogPosts.filter(p => p.category === "Fallstudier").length} artiklar
+              </p>
             </Card>
-            <Card className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105 cursor-pointer">
+            <Card 
+              onClick={() => setSelectedCategory("Strategi")}
+              className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105 cursor-pointer"
+            >
               <Target className="h-8 w-8 text-accent mx-auto mb-3" />
               <h3 className="font-bold mb-1">Strategi</h3>
-              <p className="text-sm text-muted-foreground">10 artiklar</p>
+              <p className="text-sm text-muted-foreground">
+                {blogPosts.filter(p => p.category === "Strategi").length} artiklar
+              </p>
             </Card>
           </div>
         </div>
