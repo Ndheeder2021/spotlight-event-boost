@@ -6,6 +6,8 @@ import { EventMap } from "@/components/EventMap";
 import { EventFilters } from "@/components/EventFilters";
 import { EventMetrics } from "@/components/EventMetrics";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
@@ -253,6 +255,43 @@ export default function Dashboard() {
               <strong>Stort event!</strong> {bigEvent.title} med {bigEvent.expected_attendance.toLocaleString()} gäster närmar sig!
             </AlertDescription>
           </Alert>
+        )}
+
+        {/* Sparade Events Section */}
+        {savedEvents.length > 0 && (
+          <Card className="mb-6 border-accent">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-5 w-5 text-accent" />
+                  <CardTitle>Sparade Events</CardTitle>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => navigate("/campaigns")}
+                >
+                  Visa alla
+                </Button>
+              </div>
+              <CardDescription>
+                Du har {savedEvents.length} sparade event{savedEvents.length !== 1 ? 's' : ''}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {events.filter(e => savedEvents.includes(e.id)).slice(0, 3).map((event) => (
+                  <EventCard
+                    key={event.id}
+                    event={event}
+                    onClick={() => navigate(`/events/${event.id}`)}
+                    onSaveEvent={handleSaveEvent}
+                    isSaved={true}
+                  />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         )}
 
         <div className="mb-6">

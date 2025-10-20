@@ -91,17 +91,17 @@ export default function Campaigns() {
   return (
     <div className="container mx-auto p-6 max-w-6xl">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">Kampanjer</h1>
-        <p className="text-muted-foreground">Hantera dina AI-genererade kampanjer</p>
+        <h1 className="text-3xl font-bold mb-2">Sparade Events & Kampanjer</h1>
+        <p className="text-muted-foreground">Dina sparade events och AI-genererade kampanjer</p>
       </div>
 
       {campaigns.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
             <Megaphone className="h-12 w-12 text-muted-foreground mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Inga kampanjer än</h3>
+            <h3 className="text-xl font-semibold mb-2">Inga sparade events än</h3>
             <p className="text-muted-foreground text-center">
-              Gå till Dashboard och välj ett event för att generera kampanjer
+              Gå till Dashboard och spara events genom att klicka på bookmark-ikonen
             </p>
           </CardContent>
         </Card>
