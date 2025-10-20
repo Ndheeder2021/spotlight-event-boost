@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Footer } from "@/components/Footer";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { SEO } from "@/components/SEO";
 
 const contactSchema = z.object({
@@ -114,7 +115,10 @@ const Contact = () => {
             <Zap className="h-7 w-7 text-accent" fill="currentColor" />
             <span className="text-2xl font-bold gradient-text">Spotlight</span>
           </Link>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <LanguageSwitch />
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 

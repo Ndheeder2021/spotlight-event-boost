@@ -10,6 +10,7 @@ import { AuthForm } from "@/components/AuthForm";
 import { OnboardingForm } from "@/components/OnboardingForm";
 import { Footer } from "@/components/Footer";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { LogoCarousel } from "@/components/LogoCarousel";
 import { SEO } from "@/components/SEO";
 import { SkipToContent } from "@/components/SkipToContent";
@@ -297,6 +298,7 @@ const Index = () => {
             <a href="/contact" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Kontakt
             </a>
+            <LanguageSwitch />
             <ThemeToggle />
             <Button 
               onClick={() => setShowAuthDialog(true)}
@@ -309,6 +311,7 @@ const Index = () => {
 
           {/* Mobile Navigation */}
           <div className="flex md:hidden items-center gap-2">
+            <LanguageSwitch />
             <ThemeToggle />
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
