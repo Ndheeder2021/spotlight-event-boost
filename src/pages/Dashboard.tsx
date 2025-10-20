@@ -92,8 +92,8 @@ export default function Dashboard() {
 
       if (eventsError) throw eventsError;
 
-      // Filter events within radius from location settings (or 50km default)
-      const radiusKm = location.radius_km || 50;
+      // Filter events within radius from location settings (or 20km default)
+      const radiusKm = location.radius_km || 20;
       const nearbyEvents = allEvents?.filter(event => {
         const distance = calculateDistance(
           location.lat,

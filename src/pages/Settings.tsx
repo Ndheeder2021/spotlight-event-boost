@@ -223,7 +223,7 @@ export default function Settings() {
                       step="5"
                       min="5"
                       max="100"
-                      value={location.radius_km || 10}
+                      value={location.radius_km || 20}
                       onChange={(e) => setLocation({ ...location, radius_km: parseFloat(e.target.value) })}
                     />
                     <p className="text-xs text-muted-foreground">
@@ -288,8 +288,8 @@ export default function Settings() {
                       return;
                     }
 
-                    // Säkerställ en minsta radie vid import för bättre träffar
-                    const effectiveRadius = Math.max(Number(location.radius_km) || 10, 15);
+                    // Use location radius or default to 20km
+                    const effectiveRadius = Number(location.radius_km) || 20;
 
                     toast.loading("Importerar events från PredictHQ...");
 
