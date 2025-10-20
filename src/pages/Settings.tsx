@@ -262,13 +262,13 @@ export default function Settings() {
         <TabsContent value="integrations">
           <Card>
             <CardHeader>
-              <CardTitle>Ticketmaster Integration</CardTitle>
-              <CardDescription>Importera events från Ticketmaster till din eventkalender</CardDescription>
+              <CardTitle>PredictHQ Integration</CardTitle>
+              <CardDescription>Importera events från PredictHQ till din eventkalender</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-start gap-4 p-4 border rounded-lg bg-muted/30">
                 <div className="flex-1 space-y-2">
-                  <h4 className="font-semibold">Hämta Events från Ticketmaster</h4>
+                  <h4 className="font-semibold">Hämta Events från PredictHQ</h4>
                   <p className="text-sm text-muted-foreground">
                     Importera konserter, sportevenemang, festivaler och mer baserat på din affärs plats och radius. 
                     Events kommer att läggas till i din kalender automatiskt.
