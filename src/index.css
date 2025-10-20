@@ -16,9 +16,9 @@ All colors MUST be HSL.
     --popover: 40 15% 98%;
     --popover-foreground: 0 0% 5%;
     
-    /* Spotlight brand colors - deep charcoal with warmth */
-    --primary: 20 5% 12%;
-    --primary-foreground: 40 20% 98%;
+    /* Vibrant brand colors - energetic and lively */
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
     
     /* Refined golden palette - sophisticated champagne gold */
     --accent: 45 75% 52%;
@@ -75,9 +75,9 @@ All colors MUST be HSL.
     --popover: 20 10% 10%;
     --popover-foreground: 40 15% 95%;
     
-    /* Spotlight brand colors in dark mode - refined */
-    --primary: 40 15% 95%;
-    --primary-foreground: 20 8% 8%;
+    /* Vibrant brand colors in dark mode */
+    --primary: 262 80% 65%;
+    --primary-foreground: 0 0% 100%;
     
     /* Refined golden in dark mode */
     --accent: 45 80% 58%;
