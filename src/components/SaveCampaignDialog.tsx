@@ -13,7 +13,7 @@ interface SaveCampaignDialogProps {
   onOpenChange: (open: boolean) => void;
   campaign: any;
   eventId: string;
-  onSaved?: () => void;
+  onSaved?: (campaignId: string) => void;
 }
 
 export function SaveCampaignDialog({ open, onOpenChange, campaign, eventId, onSaved }: SaveCampaignDialogProps) {
@@ -46,24 +46,28 @@ export function SaveCampaignDialog({ open, onOpenChange, campaign, eventId, onSa
         console.error("Location error:", locationError);
       }
 
-      const { error } = await supabase.from("campaigns").insert({
-        tenant_id: userRole.tenant_id,
-        location_id: location?.id || null,
-        event_id: eventId,
-        title,
-        description,
-        status: "draft",
-        recommended_start: new Date().toISOString(),
-        recommended_end: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-        ai_generated_data: campaign as any,
-        user_edited_data: { title, description } as any,
-      });
+      const { data: savedCampaign, error } = await supabase
+        .from("campaigns")
+        .insert({
+          tenant_id: userRole.tenant_id,
+          location_id: location?.id || null,
+          event_id: eventId,
+          title,
+          description,
+          status: "draft",
+          recommended_start: new Date().toISOString(),
+          recommended_end: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+          ai_generated_data: campaign as any,
+          user_edited_data: { title, description } as any,
+        })
+        .select()
+        .single();
 
       if (error) throw error;
 
       toast.success("Kampanj sparad!");
       onOpenChange(false);
-      onSaved?.();
+      onSaved?.(savedCampaign.id);
     } catch (error: any) {
       console.error("Save campaign error:", error);
       toast.error(error.message);

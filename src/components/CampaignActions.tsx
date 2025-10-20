@@ -30,9 +30,10 @@ interface CampaignActionsProps {
   campaign: any;
   eventId: string;
   campaignId?: string;
+  onCampaignSaved?: (campaignId: string) => void;
 }
 
-export function CampaignActions({ campaign, eventId, campaignId }: CampaignActionsProps) {
+export function CampaignActions({ campaign, eventId, campaignId, onCampaignSaved }: CampaignActionsProps) {
   const { features, loading } = usePlanFeatures();
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [upgradeFeature, setUpgradeFeature] = useState("");
@@ -264,6 +265,7 @@ export function CampaignActions({ campaign, eventId, campaignId }: CampaignActio
         onOpenChange={setShowSaveDialog}
         campaign={campaign}
         eventId={eventId}
+        onSaved={onCampaignSaved}
       />
 
       <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>

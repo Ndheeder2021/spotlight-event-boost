@@ -44,6 +44,7 @@ export default function EventDetail() {
   const [event, setEvent] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [campaignIds, setCampaignIds] = useState<{ [key: number]: string }>({});
   const [eventContact, setEventContact] = useState<EventContact | null>(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -339,7 +340,12 @@ export default function EventDetail() {
 
                   {/* Campaign Actions */}
                   <div className="mb-6">
-                    <CampaignActions campaign={campaign} eventId={event.id} />
+                    <CampaignActions 
+                      campaign={campaign} 
+                      eventId={event.id} 
+                      campaignId={campaignIds[idx]}
+                      onCampaignSaved={(id) => setCampaignIds(prev => ({ ...prev, [idx]: id }))}
+                    />
                   </div>
 
                   <div className="border-t-2 border-accent/10 pt-6 mt-6">
