@@ -7,18 +7,23 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Map Ticketmaster classifications to our event_category enum
+// Map PredictHQ categories to our event_category enum
 const categoryMapping: { [key: string]: string } = {
   'music': 'concert',
   'concert': 'concert',
-  'sports': 'sport',
-  'sport': 'sport',
-  'arts & theatre': 'concert',
+  'sports': 'sports',
+  'sport': 'sports',
+  'arts & theatre': 'theatre',
+  'arts': 'theatre',
+  'theatre': 'theatre',
+  'performing-arts': 'theatre',
   'film': 'other',
+  'movies': 'other',
   'miscellaneous': 'other',
-  'food & drink': 'food',
+  'food & drink': 'other',
   'festival': 'festival',
   'community': 'community',
+  'conference': 'conference',
   'default': 'other'
 };
 
