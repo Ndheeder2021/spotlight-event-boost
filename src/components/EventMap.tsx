@@ -20,10 +20,13 @@ interface EventMapProps {
 
 const getCategoryColor = (category: string): string => {
   const colors: Record<string, string> = {
-    music: "#9b87f5",
-    sport: "#22c55e",
-    festival: "#f97316",
-    conference: "#3b82f6",
+    concert: "#9b87f5",     // Lila för konserter
+    sports: "#22c55e",      // Grön för sport
+    festival: "#f97316",    // Orange för festivaler
+    conference: "#3b82f6",  // Blå för konferenser
+    theatre: "#ec4899",     // Rosa för teater
+    community: "#8b5cf6",   // Violett för community
+    other: "#6b7280",       // Grå för övrigt
   };
   return colors[category.toLowerCase()] || "#6b7280";
 };
@@ -120,7 +123,7 @@ export const EventMap = ({ events, userLocation, onEventClick }: EventMapProps) 
         <div className="space-y-1 text-xs">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#9b87f5" }}></div>
-            <span>Musik</span>
+            <span>Konsert</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#22c55e" }}></div>
@@ -133,6 +136,14 @@ export const EventMap = ({ events, userLocation, onEventClick }: EventMapProps) 
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#3b82f6" }}></div>
             <span>Konferens</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#ec4899" }}></div>
+            <span>Teater</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#8b5cf6" }}></div>
+            <span>Community</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-blue-500"></div>
