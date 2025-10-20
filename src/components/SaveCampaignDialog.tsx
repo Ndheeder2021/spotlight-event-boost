@@ -7,6 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2, Save } from "lucide-react";
+import { usePlanFeatures } from "@/hooks/usePlanFeatures";
+import { PlanUpgradeDialog } from "./PlanUpgradeDialog";
+import { startOfMonth, endOfMonth } from "date-fns";
 
 interface SaveCampaignDialogProps {
   open: boolean;
@@ -17,9 +20,11 @@ interface SaveCampaignDialogProps {
 }
 
 export function SaveCampaignDialog({ open, onOpenChange, campaign, eventId, onSaved }: SaveCampaignDialogProps) {
+  const { features } = usePlanFeatures();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState(campaign.title);
   const [description, setDescription] = useState(campaign.description);
+  const [showUpgrade, setShowUpgrade] = useState(false);
 
   const handleSave = async () => {
     setLoading(true);
@@ -34,6 +39,30 @@ export function SaveCampaignDialog({ open, onOpenChange, campaign, eventId, onSa
         .single();
 
       if (roleError || !userRole) throw new Error("No tenant found");
+
+      // Check monthly campaign limit for starter plan
+      if (features.maxCampaignsPerMonth > 0) {
+        const now = new Date();
+        const monthStart = startOfMonth(now);
+        const monthEnd = endOfMonth(now);
+
+        const { count, error: countError } = await supabase
+          .from("campaigns")
+          .select("*", { count: "exact", head: true })
+          .eq("tenant_id", userRole.tenant_id)
+          .gte("created_at", monthStart.toISOString())
+          .lte("created_at", monthEnd.toISOString());
+
+        if (countError) throw countError;
+
+        if ((count || 0) >= features.maxCampaignsPerMonth) {
+          setLoading(false);
+          onOpenChange(false);
+          setShowUpgrade(true);
+          toast.error(`Du har nått din månatliga gräns på ${features.maxCampaignsPerMonth} kampanjer`);
+          return;
+        }
+      }
 
       const { data: location, error: locationError } = await supabase
         .from("locations")
@@ -132,6 +161,12 @@ export function SaveCampaignDialog({ open, onOpenChange, campaign, eventId, onSa
           </Button>
         </div>
       </DialogContent>
+
+      <PlanUpgradeDialog
+        open={showUpgrade}
+        onOpenChange={setShowUpgrade}
+        featureName="Fler kampanjer per månad"
+      />
     </Dialog>
   );
 }

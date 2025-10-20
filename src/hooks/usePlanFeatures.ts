@@ -14,6 +14,7 @@ interface PlanFeatures {
   canABTest: boolean;
   canAddComments: boolean;
   maxCampaigns: number;
+  maxCampaignsPerMonth: number;
   plan: PlanType;
 }
 
@@ -29,6 +30,7 @@ const PLAN_FEATURES: Record<PlanType, PlanFeatures> = {
     canABTest: false,
     canAddComments: false,
     maxCampaigns: 10,
+    maxCampaignsPerMonth: 5,
     plan: "starter",
   },
   professional: {
@@ -42,6 +44,7 @@ const PLAN_FEATURES: Record<PlanType, PlanFeatures> = {
     canABTest: true,
     canAddComments: true,
     maxCampaigns: -1, // unlimited
+    maxCampaignsPerMonth: -1, // unlimited
     plan: "professional",
   },
   enterprise: {
@@ -55,6 +58,7 @@ const PLAN_FEATURES: Record<PlanType, PlanFeatures> = {
     canABTest: true,
     canAddComments: true,
     maxCampaigns: -1, // unlimited
+    maxCampaignsPerMonth: -1, // unlimited
     plan: "enterprise",
   },
 };
