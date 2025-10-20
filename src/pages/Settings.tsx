@@ -79,11 +79,15 @@ export default function Settings() {
       toast.error("Verksamhetens namn krävs");
       return;
     }
-    if (!location.address_line?.trim()) {
+    
+    // If address_line exists, it's address mode - require full address
+    // If only city exists, it's city mode - only require city
+    if (location.address_line && !location.address_line.trim()) {
       toast.error("Adress krävs");
       return;
     }
-    if (!location.city?.trim()) {
+    
+    if (!location.address_line && !location.city?.trim()) {
       toast.error("Stad krävs");
       return;
     }
@@ -95,8 +99,8 @@ export default function Settings() {
         .update({
           name: location.name,
           business_type: location.business_type,
-          address_line: location.address_line,
-          address: location.address_line, // Update main address field too
+          address_line: location.address_line || null,
+          address: location.address_line || location.city,
           city: location.city,
           lat: location.lat,
           lon: location.lon,
