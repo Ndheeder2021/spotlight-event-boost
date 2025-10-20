@@ -235,6 +235,13 @@ Anpassa kampanjerna specifikt för en ${businessTypeText} på ${distanceKm.toFix
     const campaignsData = JSON.parse(toolCall.function.arguments);
     console.log("Generated campaigns:", campaignsData);
 
+    // Clean description from PredictHQ references
+    let cleanDescription = event.description || "Ingen beskrivning tillgänglig";
+    cleanDescription = cleanDescription.replace(/Sourced from predicthq\.com/gi, '').trim();
+    if (!cleanDescription || cleanDescription === '') {
+      cleanDescription = `${event.title} på ${event.venue_name}`;
+    }
+
     // Add event contact information
     const responseData = {
       ...campaignsData,
@@ -243,8 +250,8 @@ Anpassa kampanjerna specifikt för en ${businessTypeText} på ${distanceKm.toFix
         venue: event.venue_name,
         date: event.start_time,
         expected_attendance: event.expected_attendance,
-        description: event.description || "Ingen beskrivning tillgänglig",
-        event_url: event.raw_url || null
+        description: cleanDescription,
+        event_url: event.raw_url && !event.raw_url.includes('predicthq') ? event.raw_url : null
       }
     };
 
