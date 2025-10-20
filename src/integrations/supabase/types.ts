@@ -645,7 +645,7 @@ export type Database = {
     }
     Enums: {
       app_role: "owner" | "staff" | "admin"
-      business_type: "cafe" | "bar" | "restaurant"
+      business_type: "cafe" | "bar" | "restaurant" | "hotel"
       campaign_status: "draft" | "scheduled" | "published"
       event_category:
         | "concert"
@@ -786,7 +786,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["owner", "staff", "admin"],
-      business_type: ["cafe", "bar", "restaurant"],
+      business_type: ["cafe", "bar", "restaurant", "hotel"],
       campaign_status: ["draft", "scheduled", "published"],
       event_category: [
         "concert",

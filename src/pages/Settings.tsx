@@ -188,6 +188,7 @@ export default function Settings() {
                         <SelectItem value="cafe">Café</SelectItem>
                         <SelectItem value="bar">Bar</SelectItem>
                         <SelectItem value="restaurant">Restaurang</SelectItem>
+                        <SelectItem value="hotel">Hotell</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -201,18 +202,8 @@ export default function Settings() {
                       required
                     />
                     <p className="text-xs text-muted-foreground">
-                      Börja skriva för att söka adress. Staden uppdateras automatiskt.
+                      Börja skriva för att söka adress.
                     </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="city">Stad</Label>
-                    <Input
-                      id="city"
-                      value={location.city || ""}
-                      onChange={(e) => setLocation({ ...location, city: e.target.value })}
-                      placeholder="Uppdateras automatiskt när du väljer adress"
-                    />
                   </div>
 
                   <div className="space-y-2">
