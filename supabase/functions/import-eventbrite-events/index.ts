@@ -134,10 +134,13 @@ serve(async (req) => {
 
     console.log(`Inserting ${eventsToInsert.length} events into database`);
 
-    // Insert events, ignore conflicts on source_id
+    // Insert events - ignore duplicates based on source_id
+    // Note: We filter out items with null source_id before upserting
+    const eventsWithSourceId = eventsToInsert.filter((e: any) => e.source_id);
+    
     const { data: insertedEvents, error: insertError } = await supabase
       .from('events')
-      .upsert(eventsToInsert, { 
+      .upsert(eventsWithSourceId, { 
         onConflict: 'source_id',
         ignoreDuplicates: false 
       })
