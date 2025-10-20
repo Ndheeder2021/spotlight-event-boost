@@ -27,23 +27,28 @@ export function SaveCampaignDialog({ open, onOpenChange, campaign, eventId, onSa
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data: userRole } = await supabase
+      const { data: userRole, error: roleError } = await supabase
         .from("user_roles")
         .select("tenant_id")
         .eq("user_id", user.id)
         .single();
 
-      if (!userRole) throw new Error("No tenant found");
+      if (roleError || !userRole) throw new Error("No tenant found");
 
-      const { data: profile } = await supabase
+      const { data: location, error: locationError } = await supabase
         .from("locations")
         .select("id")
-        .eq("id", user.id)
+        .eq("tenant_id", userRole.tenant_id)
+        .limit(1)
         .single();
+
+      if (locationError) {
+        console.error("Location error:", locationError);
+      }
 
       const { error } = await supabase.from("campaigns").insert({
         tenant_id: userRole.tenant_id,
-        location_id: profile?.id,
+        location_id: location?.id || null,
         event_id: eventId,
         title,
         description,
@@ -60,6 +65,7 @@ export function SaveCampaignDialog({ open, onOpenChange, campaign, eventId, onSa
       onOpenChange(false);
       onSaved?.();
     } catch (error: any) {
+      console.error("Save campaign error:", error);
       toast.error(error.message);
     } finally {
       setLoading(false);

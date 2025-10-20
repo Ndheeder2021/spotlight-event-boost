@@ -57,9 +57,18 @@ export default function EventDetail() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
+      // Get user's tenant_id
+      const { data: userRole, error: roleError } = await supabase
+        .from("user_roles")
+        .select("tenant_id")
+        .eq("user_id", user.id)
+        .single();
+
+      if (roleError || !userRole) throw new Error("No tenant found");
+
       const [eventRes, locationRes] = await Promise.all([
         supabase.from("events").select("*").eq("id", id).single(),
-        supabase.from("locations").select("*").eq("id", user.id).single(),
+        supabase.from("locations").select("*").eq("tenant_id", userRole.tenant_id).limit(1).single(),
       ]);
 
       if (eventRes.error) throw eventRes.error;
@@ -68,6 +77,7 @@ export default function EventDetail() {
       setEvent(eventRes.data);
       setProfile(locationRes.data);
     } catch (error: any) {
+      console.error("Load data error:", error);
       toast.error(error.message);
     } finally {
       setLoading(false);
