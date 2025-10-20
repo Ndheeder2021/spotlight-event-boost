@@ -16,6 +16,7 @@ interface AuthFormProps {
 
 export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) => {
   const [isLogin, setIsLogin] = useState(initialMode === "login");
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -44,6 +45,25 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
   };
 
   const passwordValidation = validatePassword(password);
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/`,
+      });
+      if (error) throw error;
+      toast.success("Återställningslänk skickad! Kontrollera din e-post.");
+      setIsForgotPassword(false);
+      setIsLogin(true);
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,6 +139,50 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
       setLoading(false);
     }
   };
+
+  // Forgot password view
+  if (isForgotPassword) {
+    return (
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>Återställ lösenord</CardTitle>
+          <CardDescription>
+            Ange din e-postadress så skickar vi en återställningslänk
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleForgotPassword} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">E-post</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="din@email.se"
+              />
+            </div>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Skicka återställningslänk
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              className="w-full"
+              onClick={() => {
+                setIsForgotPassword(false);
+                setIsLogin(true);
+              }}
+            >
+              Tillbaka till inloggning
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="w-full max-w-md">
@@ -249,6 +313,16 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isLogin ? "Logga in" : "Skapa konto"}
           </Button>
+          {isLogin && (
+            <Button
+              type="button"
+              variant="link"
+              className="w-full text-sm text-muted-foreground hover:text-accent"
+              onClick={() => setIsForgotPassword(true)}
+            >
+              Glömt lösenord?
+            </Button>
+          )}
           <Button
             type="button"
             variant="ghost"
