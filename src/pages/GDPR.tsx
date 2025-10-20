@@ -1,13 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
+import { Card } from "@/components/ui/card";
 
 const GDPR = () => {
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="container mx-auto px-4 h-16 flex items-center">
+      <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <Zap className="h-6 w-6 text-primary" fill="currentColor" />
+            <span className="text-xl font-bold">Spotlight</span>
+          </Link>
           <Button variant="ghost" asChild>
             <Link to="/" className="flex items-center gap-2">
               <ArrowLeft className="h-4 w-4" />
@@ -17,33 +22,54 @@ const GDPR = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-12 max-w-4xl">
-        <h1 className="text-4xl font-bold mb-8">GDPR-information</h1>
+      <section className="relative container mx-auto px-4 py-16 overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+        </div>
+        <div className="absolute inset-0 grid-pattern opacity-30 -z-10" />
         
-        <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">Om GDPR</h2>
-            <p className="text-muted-foreground">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-4">
+              <ShieldCheck className="h-5 w-5 text-accent inline mr-2" />
+              <span className="text-sm font-semibold text-accent">Dataskydd</span>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold mb-4">
+              <span className="gradient-text">GDPR-information</span>
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Vi följer GDPR:s principer och krav för att skydda dina personuppgifter
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <main className="container mx-auto px-4 pb-16 max-w-4xl">
+        <div className="space-y-6">
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4">Om GDPR</h2>
+            <p className="text-muted-foreground leading-relaxed">
               Dataskyddsförordningen (GDPR) är en EU-förordning som stärker och förenar dataskyddet 
               för individer inom EU. Spotlight följer GDPR:s principer och krav.
             </p>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">Personuppgiftsansvarig</h2>
-            <p className="text-muted-foreground">
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4">Personuppgiftsansvarig</h2>
+            <p className="text-muted-foreground mb-4">
               Spotlight AB är personuppgiftsansvarig för behandlingen av dina personuppgifter.
             </p>
-            <div className="mt-4 text-muted-foreground">
-              <p>Spotlight AB</p>
+            <div className="text-muted-foreground bg-muted/30 p-4 rounded-lg">
+              <p className="font-semibold">Spotlight AB</p>
               <p>Org.nr: 559XXX-XXXX</p>
-              <p>E-post: gdpr@spotlightevents.online</p>
+              <p>E-post: <a href="mailto:gdpr@spotlightevents.online" className="text-accent hover:underline">gdpr@spotlightevents.online</a></p>
             </div>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">Rättslig grund för behandling</h2>
-            <p className="text-muted-foreground mb-2">
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4">Rättslig grund för behandling</h2>
+            <p className="text-muted-foreground mb-4">
               Vi behandlar dina personuppgifter baserat på följande rättsliga grunder:
             </p>
             <ul className="list-disc pl-6 text-muted-foreground space-y-2">
@@ -52,76 +78,74 @@ const GDPR = () => {
               <li><strong>Samtycke:</strong> För marknadsföring och analyser där det krävs</li>
               <li><strong>Rättslig förpliktelse:</strong> För att uppfylla lagkrav som bokföring</li>
             </ul>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">Lagringstid</h2>
-            <p className="text-muted-foreground">
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4">Lagringstid</h2>
+            <p className="text-muted-foreground leading-relaxed">
               Vi lagrar dina personuppgifter endast så länge det är nödvändigt för de ändamål som 
               uppgifterna samlades in för, eller så länge vi är skyldiga enligt lag att behålla dem. 
               Efter att ditt konto raderas, raderas dina personuppgifter inom 30 dagar, 
               förutom uppgifter som måste bevaras enligt bokföringslagen.
             </p>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">Dina rättigheter enligt GDPR</h2>
-            <div className="space-y-4 text-muted-foreground">
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Rätt till tillgång</h3>
-                <p>Du har rätt att få information om vilka personuppgifter vi behandlar om dig.</p>
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4">Dina rättigheter enligt GDPR</h2>
+            <div className="space-y-4">
+              <div className="border-l-4 border-accent pl-4">
+                <h3 className="font-bold text-lg mb-1">Rätt till tillgång</h3>
+                <p className="text-muted-foreground">Du har rätt att få information om vilka personuppgifter vi behandlar om dig.</p>
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Rätt till rättelse</h3>
-                <p>Du har rätt att få felaktiga uppgifter rättade.</p>
+              <div className="border-l-4 border-accent pl-4">
+                <h3 className="font-bold text-lg mb-1">Rätt till rättelse</h3>
+                <p className="text-muted-foreground">Du har rätt att få felaktiga uppgifter rättade.</p>
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Rätt till radering</h3>
-                <p>Du har rätt att få dina uppgifter raderade under vissa omständigheter.</p>
+              <div className="border-l-4 border-accent pl-4">
+                <h3 className="font-bold text-lg mb-1">Rätt till radering</h3>
+                <p className="text-muted-foreground">Du har rätt att få dina uppgifter raderade under vissa omständigheter.</p>
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Rätt till begränsning</h3>
-                <p>Du har rätt att begära att behandlingen av dina uppgifter begränsas.</p>
+              <div className="border-l-4 border-accent pl-4">
+                <h3 className="font-bold text-lg mb-1">Rätt till begränsning</h3>
+                <p className="text-muted-foreground">Du har rätt att begära att behandlingen av dina uppgifter begränsas.</p>
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Rätt till dataportabilitet</h3>
-                <p>Du har rätt att få ut dina uppgifter i ett strukturerat format.</p>
+              <div className="border-l-4 border-accent pl-4">
+                <h3 className="font-bold text-lg mb-1">Rätt till dataportabilitet</h3>
+                <p className="text-muted-foreground">Du har rätt att få ut dina uppgifter i ett strukturerat format.</p>
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Rätt att invända</h3>
-                <p>Du har rätt att invända mot behandling som grundas på berättigat intresse.</p>
+              <div className="border-l-4 border-accent pl-4">
+                <h3 className="font-bold text-lg mb-1">Rätt att invända</h3>
+                <p className="text-muted-foreground">Du har rätt att invända mot behandling som grundas på berättigat intresse.</p>
               </div>
             </div>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">Klagomål</h2>
-            <p className="text-muted-foreground">
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4">Klagomål</h2>
+            <p className="text-muted-foreground leading-relaxed">
               Om du anser att vi behandlar dina personuppgifter i strid med GDPR har du rätt att 
               lämna in ett klagomål till Integritetsskyddsmyndigheten (IMY).
             </p>
-            <div className="mt-4 text-muted-foreground">
-              <p>Integritetsskyddsmyndigheten</p>
+            <div className="mt-4 bg-muted/30 p-4 rounded-lg text-sm text-muted-foreground">
+              <p className="font-semibold mb-2">Integritetsskyddsmyndigheten</p>
               <p>Box 8114, 104 20 Stockholm</p>
-              <p>E-post: imy@imy.se</p>
+              <p>Telefon: 08-657 61 00</p>
+              <p>E-post: <a href="mailto:imy@imy.se" className="text-accent hover:underline">imy@imy.se</a></p>
             </div>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">Kontakta oss</h2>
-            <p className="text-muted-foreground">
-              För att utöva dina rättigheter eller om du har frågor, kontakta oss på:
-              <a href="mailto:gdpr@spotlightevents.online" className="text-primary hover:underline ml-1">
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4">Kontakt</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              För att utöva dina rättigheter eller för frågor om GDPR, kontakta oss på: 
+              <a href="mailto:gdpr@spotlightevents.online" className="text-accent hover:underline font-semibold ml-1">
                 gdpr@spotlightevents.online
               </a>
             </p>
-          </section>
-
-          <section>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mt-6">
               Senast uppdaterad: {new Date().toLocaleDateString('sv-SE')}
             </p>
-          </section>
+          </Card>
         </div>
       </main>
       <Footer />

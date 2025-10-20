@@ -1,13 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, FileText, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
+import { Card } from "@/components/ui/card";
 
 const Terms = () => {
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="container mx-auto px-4 h-16 flex items-center">
+      <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <Zap className="h-6 w-6 text-primary" fill="currentColor" />
+            <span className="text-xl font-bold">Spotlight</span>
+          </Link>
           <Button variant="ghost" asChild>
             <Link to="/" className="flex items-center gap-2">
               <ArrowLeft className="h-4 w-4" />
@@ -17,29 +22,56 @@ const Terms = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-12 max-w-4xl">
-        <h1 className="text-4xl font-bold mb-8">Användarvillkor</h1>
+      <section className="relative container mx-auto px-4 py-16 overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+        </div>
+        <div className="absolute inset-0 grid-pattern opacity-30 -z-10" />
         
-        <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">1. Godkännande av villkor</h2>
-            <p className="text-muted-foreground">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-4">
+              <FileText className="h-5 w-5 text-accent inline mr-2" />
+              <span className="text-sm font-semibold text-accent">Villkor</span>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold mb-4">
+              <span className="gradient-text">Användarvillkor</span>
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Läs igenom våra användarvillkor för att förstå dina rättigheter och skyldigheter
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <main className="container mx-auto px-4 pb-16 max-w-4xl">
+        <div className="space-y-6">
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-accent">1.</span> Godkännande av villkor
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
               Genom att använda Spotlight accepterar du dessa användarvillkor. Om du inte godkänner 
               villkoren ska du inte använda tjänsten.
             </p>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">2. Tjänstebeskrivning</h2>
-            <p className="text-muted-foreground">
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-accent">2.</span> Tjänstebeskrivning
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
               Spotlight är en SaaS-plattform som hjälper företag att upptäcka lokala evenemang och 
               skapa marknadsföringskampanjer. Vi förbehåller oss rätten att ändra eller uppdatera 
               tjänsten när som helst.
             </p>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">3. Konto och registrering</h2>
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-accent">3.</span> Konto och registrering
+            </h2>
             <ul className="list-disc pl-6 text-muted-foreground space-y-2">
               <li>Du måste vara minst 18 år för att skapa ett konto</li>
               <li>Du ansvarar för att hålla dina inloggningsuppgifter säkra</li>
@@ -47,11 +79,13 @@ const Terms = () => {
               <li>Du får inte dela ditt konto med andra</li>
               <li>Du måste tillhandahålla korrekta och fullständiga uppgifter</li>
             </ul>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">4. Betalning och prenumeration</h2>
-            <p className="text-muted-foreground mb-2">
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-accent">4.</span> Betalning och prenumeration
+            </h2>
+            <p className="text-muted-foreground mb-4">
               Betalningsvillkor:
             </p>
             <ul className="list-disc pl-6 text-muted-foreground space-y-2">
@@ -61,11 +95,13 @@ const Terms = () => {
               <li>Ingen återbetalning sker för outnyttjad tjänstetid</li>
               <li>Vi förbehåller oss rätten att ändra priser med 30 dagars varsel</li>
             </ul>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">5. Acceptabel användning</h2>
-            <p className="text-muted-foreground mb-2">
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-accent">5.</span> Acceptabel användning
+            </h2>
+            <p className="text-muted-foreground mb-4">
               Du får inte använda tjänsten för att:
             </p>
             <ul className="list-disc pl-6 text-muted-foreground space-y-2">
@@ -76,64 +112,63 @@ const Terms = () => {
               <li>Missbruka eller överbelasta systemet</li>
               <li>Använda tjänsten för att skada andra</li>
             </ul>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">6. Immateriella rättigheter</h2>
-            <p className="text-muted-foreground">
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-accent">6.</span> Immateriella rättigheter
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
               Alla rättigheter till Spotlight-plattformen, inklusive design, kod och innehåll, 
               tillhör Spotlight AB. Du får en begränsad, icke-exklusiv licens att använda tjänsten 
               enligt dessa villkor.
             </p>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">7. Uppsägning</h2>
-            <p className="text-muted-foreground">
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-accent">7.</span> Uppsägning
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
               Vi förbehåller oss rätten att när som helst stänga av eller avsluta ditt konto om du 
               bryter mot dessa villkor. Du kan själv avsluta ditt konto via inställningar.
             </p>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">8. Ansvarsbegränsning</h2>
-            <p className="text-muted-foreground">
-              Tjänsten tillhandahålls "som den är" utan garantier. Vi ansvarar inte för indirekta 
-              skador, förlorad vinst eller dataförlust som uppstår vid användning av tjänsten.
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-accent">8.</span> Ansvarsbegränsning
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Spotlight tillhandahålls "som det är" utan garantier. Vi ansvarar inte för indirekta skador 
+              eller förlorad vinst till följd av användning av tjänsten.
             </p>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">9. Ändringar av villkoren</h2>
-            <p className="text-muted-foreground">
-              Vi kan uppdatera dessa villkor från tid till annan. Väsentliga ändringar meddelas 
-              via e-post minst 30 dagar innan de träder i kraft.
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-accent">9.</span> Ändringar av villkoren
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Vi kan när som helst uppdatera dessa villkor. Betydande ändringar meddelas via e-post eller 
+              genom plattformen. Fortsatt användning efter ändringar innebär att du accepterar de nya villkoren.
             </p>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">10. Tillämplig lag</h2>
-            <p className="text-muted-foreground">
-              Dessa villkor regleras av svensk lag. Tvister ska i första hand lösas genom förhandling, 
-              annars ska de avgöras av svensk domstol.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-semibold mb-4">11. Kontakt</h2>
-            <p className="text-muted-foreground">
-              För frågor om dessa villkor, kontakta oss på:
-              <a href="mailto:support@spotlightevents.online" className="text-primary hover:underline ml-1">
-                support@spotlightevents.online
+          <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span className="text-accent">10.</span> Kontakt
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              För frågor om dessa villkor, kontakta oss på: 
+              <a href="mailto:legal@spotlightevents.online" className="text-accent hover:underline font-semibold ml-1">
+                legal@spotlightevents.online
               </a>
             </p>
-          </section>
-
-          <section>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mt-6">
               Senast uppdaterad: {new Date().toLocaleDateString('sv-SE')}
             </p>
-          </section>
+          </Card>
         </div>
       </main>
       <Footer />
