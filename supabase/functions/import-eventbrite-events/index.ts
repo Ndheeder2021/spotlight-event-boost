@@ -141,22 +141,26 @@ serve(async (req) => {
         const category = event.category || 'other';
         const phqAttendance = event.phq_attendance || event.predicted_attendance || 500;
         
+        // Create better description if none available
+        const venueName = event.entities?.find((e: any) => e.type === 'venue')?.name || 'Unknown Venue';
+        const eventDescription = event.description || `${event.title || 'Event'} på ${venueName}`;
+        
         return {
           source: 'predicthq',
           source_id: event.id,
           title: event.title || 'Untitled Event',
-          description: event.description || '',
+          description: eventDescription,
           category: mapCategory(category),
           start_time: event.start,
           end_time: event.end || event.start,
-          venue_name: event.entities?.find((e: any) => e.type === 'venue')?.name || 'Unknown Venue',
+          venue_name: venueName,
           venue_lat: event.location[1],
           venue_lon: event.location[0],
           city: event.entities?.find((e: any) => e.type === 'venue')?.formatted_address?.split(',')[0] || '',
           expected_attendance: phqAttendance,
           p10: Math.floor(phqAttendance * 0.5),
           p90: Math.floor(phqAttendance * 1.2),
-          raw_url: `https://www.predicthq.com/events/${event.id}`,
+          raw_url: null, // Ta inte med PredictHQ länk
         };
       });
 
