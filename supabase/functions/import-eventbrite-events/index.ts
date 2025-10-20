@@ -33,11 +33,11 @@ serve(async (req) => {
   }
 
   try {
-    const ticketmasterApiKey = Deno.env.get('TICKETMASTER_API_KEY');
-    if (!ticketmasterApiKey) {
-      console.error('TICKETMASTER_API_KEY not found');
+    const predictHqApiKey = Deno.env.get('PREDICTHQ_API_KEY');
+    if (!predictHqApiKey) {
+      console.error('PREDICTHQ_API_KEY not found');
       return new Response(
-        JSON.stringify({ error: 'Ticketmaster API key not configured' }),
+        JSON.stringify({ error: 'PredictHQ API key not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -58,77 +58,44 @@ serve(async (req) => {
       );
     }
 
-    console.log(`Fetching events from Ticketmaster: lat=${latitude}, lon=${longitude}, radius=${searchRadius}km`);
-
-    // Build common params
-    const baseParams = new URLSearchParams({
-      apikey: ticketmasterApiKey,
-      latlong: `${latitude},${longitude}`,
-      unit: 'km',
-      size: '200',
-      sort: 'date,asc',
-      locale: 'sv-se',
-    });
+    console.log(`Fetching events from PredictHQ: lat=${latitude}, lon=${longitude}, radius=${searchRadius}km`);
 
     // Date window: default to next 180 days if not provided
-    const startISO = startDate
-      ? new Date(startDate).toISOString().replace(/\.\d{3}Z$/, 'Z')
-      : new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
-    const endISO = endDate
-      ? new Date(endDate).toISOString().replace(/\.\d{3}Z$/, 'Z')
-      : new Date(Date.now() + 1000 * 60 * 60 * 24 * 180)
-          .toISOString()
-          .replace(/\.\d{3}Z$/, 'Z');
+    const startISO = startDate || new Date().toISOString().split('T')[0];
+    const endISO = endDate || new Date(Date.now() + 1000 * 60 * 60 * 24 * 180).toISOString().split('T')[0];
 
-    baseParams.append('startDateTime', startISO);
-    baseParams.append('endDateTime', endISO);
-
-    // Helper to call an endpoint with a given radius
-    const callDiscovery = async (baseUrl: string, radiusKm: number) => {
-      const params = new URLSearchParams(baseParams);
-      params.set('radius', String(radiusKm));
-      const url = `${baseUrl}?${params.toString()}`;
-      console.log('Calling Ticketmaster API:', url.replace(ticketmasterApiKey, 'API_KEY_HIDDEN'));
-      const res = await fetch(url);
-      if (!res.ok) {
-        const errorText = await res.text();
-        console.error('Ticketmaster API error:', res.status, errorText);
-        return { events: [], status: res.status, errorText };
-      }
-      const data = await res.json();
-      const evts = data._embedded?.events || [];
-      console.log(`Ticketmaster returned ${evts.length} events from ${baseUrl}`);
-      return { events: evts };
-    };
-
-    // Attempt 1: EU endpoint without explicit country filter
-    const EU_BASE = 'https://app.ticketmaster.eu/discovery/v2/events.json';
-    const GLOBAL_BASE = 'https://app.ticketmaster.com/discovery/v2/events.json';
-
-    let combined: any[] = [];
-    let { events: ev1 } = await callDiscovery(EU_BASE, searchRadius);
-    combined = ev1;
-
-    // Attempt 2: increase radius to 100km if none
-    if (combined.length === 0 && searchRadius < 100) {
-      const { events: ev2 } = await callDiscovery(EU_BASE, 100);
-      combined = ev2;
-    }
-
-    // Attempt 3: fallback to global endpoint
-    if (combined.length === 0) {
-      const { events: ev3 } = await callDiscovery(GLOBAL_BASE, Math.max(searchRadius, 100));
-      combined = ev3;
-    }
-
-    // Deduplicate by id and finalize
-    const seen = new Set<string>();
-    const events = combined.filter((e: any) => {
-      if (!e?.id || seen.has(e.id)) return false;
-      seen.add(e.id);
-      return true;
+    // Build PredictHQ API request
+    const params = new URLSearchParams({
+      'location_around.origin': `${latitude},${longitude}`,
+      'location_around.offset': `${searchRadius}km`,
+      'active.gte': startISO,
+      'active.lte': endISO,
+      'sort': 'start',
+      'limit': '500',
     });
-    console.log(`Found ${events.length} events after fallbacks`);
+
+    const url = `https://api.predicthq.com/v1/events/?${params.toString()}`;
+    console.log('Calling PredictHQ API:', url);
+
+    const response = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${predictHqApiKey}`,
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('PredictHQ API error:', response.status, errorText);
+      return new Response(
+        JSON.stringify({ error: 'Failed to fetch events from PredictHQ', details: errorText }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const data = await response.json();
+    const events = data.results || [];
+    console.log(`Found ${events.length} events from PredictHQ`);
 
     if (events.length === 0) {
       return new Response(
@@ -140,32 +107,28 @@ serve(async (req) => {
     // Transform and insert events into our database
     const eventsToInsert = events
       .filter((event: any) => {
-        const venue = event._embedded?.venues?.[0];
-        return venue && venue.location;
+        return event.location && event.location.length >= 2;
       })
       .map((event: any) => {
-        const venue = event._embedded?.venues?.[0];
-        const classification = event.classifications?.[0]?.segment?.name || 'Other';
+        const category = event.category || 'other';
+        const phqAttendance = event.phq_attendance || event.predicted_attendance || 500;
         
-        // Calculate capacity from priceRanges or use default
-        const capacity = event.seatmap?.staticUrl ? 500 : 200;
-
         return {
-          source: 'ticketmaster',
+          source: 'predicthq',
           source_id: event.id,
-          title: event.name || 'Untitled Event',
-          description: event.info || event.pleaseNote || '',
-          category: mapCategory(classification),
-          start_time: event.dates?.start?.dateTime || event.dates?.start?.localDate,
-          end_time: event.dates?.end?.dateTime || event.dates?.end?.approximate?.endDateTime || event.dates?.start?.dateTime,
-          venue_name: venue.name || 'Unknown Venue',
-          venue_lat: parseFloat(venue.location?.latitude) || 0,
-          venue_lon: parseFloat(venue.location?.longitude) || 0,
-          city: venue.city?.name || venue.address?.city || '',
-          expected_attendance: capacity,
-          p10: Math.floor(capacity * 0.5),
-          p90: Math.floor(capacity * 0.9),
-          raw_url: event.url || '',
+          title: event.title || 'Untitled Event',
+          description: event.description || '',
+          category: mapCategory(category),
+          start_time: event.start,
+          end_time: event.end || event.start,
+          venue_name: event.entities?.find((e: any) => e.type === 'venue')?.name || 'Unknown Venue',
+          venue_lat: event.location[1],
+          venue_lon: event.location[0],
+          city: event.entities?.find((e: any) => e.type === 'venue')?.formatted_address?.split(',')[0] || '',
+          expected_attendance: phqAttendance,
+          p10: Math.floor(phqAttendance * 0.5),
+          p90: Math.floor(phqAttendance * 1.2),
+          raw_url: `https://www.predicthq.com/events/${event.id}`,
         };
       });
 
