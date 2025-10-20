@@ -234,14 +234,14 @@ export default function Settings() {
           <Card>
             <CardHeader>
               <CardTitle>Automatisk Event-import</CardTitle>
-              <CardDescription>Events importeras automatiskt varje dag från PredictHQ</CardDescription>
+              <CardDescription>Events importeras automatiskt varje dag</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-start gap-4 p-4 border rounded-lg bg-muted/30">
                 <div className="flex-1 space-y-2">
                   <h4 className="font-semibold">Automatisk daglig uppdatering</h4>
                   <p className="text-sm text-muted-foreground">
-                    Spotlight hämtar automatiskt nya events från PredictHQ varje dag baserat på din verksamhets plats och sökradie. 
+                    Spotlight hämtar automatiskt nya events varje dag baserat på din verksamhets plats och sökradie. 
                     Events läggs till i din kalender utan att du behöver göra något.
                   </p>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
