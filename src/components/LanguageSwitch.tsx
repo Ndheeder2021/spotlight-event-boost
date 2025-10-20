@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Languages } from "lucide-react";
 import {
@@ -10,9 +11,13 @@ import {
 
 export function LanguageSwitch() {
   const { i18n } = useTranslation();
+  const [currentLang, setCurrentLang] = useState(i18n.language);
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+    setCurrentLang(lng);
+    // Force page refresh for all components to update
+    window.location.reload();
   };
 
   return (
@@ -24,10 +29,10 @@ export function LanguageSwitch() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => changeLanguage("sv")}>
-          🇸🇪 Svenska
+          🇸🇪 Svenska {currentLang === "sv" && "✓"}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => changeLanguage("en")}>
-          🇬🇧 English
+          🇬🇧 English {currentLang === "en" && "✓"}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
