@@ -44,6 +44,9 @@ export default function Admin() {
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
   const [userRoles, setUserRoles] = useState<UserRole[]>([]);
   const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
+  const [showTenantsDialog, setShowTenantsDialog] = useState(false);
+  const [showUsersDialog, setShowUsersDialog] = useState(false);
+  const [showPayingDialog, setShowPayingDialog] = useState(false);
 
   useEffect(() => {
     checkAdminAccess();
@@ -141,23 +144,31 @@ export default function Admin() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <Card>
+        <Card 
+          className="cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => setShowTenantsDialog(true)}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Totalt Företag</CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{tenants.length}</div>
+            <p className="text-xs text-muted-foreground mt-1">Klicka för att se lista</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card 
+          className="cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => setShowUsersDialog(true)}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Totalt Användare</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{userRoles.length}</div>
+            <p className="text-xs text-muted-foreground mt-1">Klicka för att se lista</p>
           </CardContent>
         </Card>
 
@@ -173,7 +184,10 @@ export default function Admin() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card 
+          className="cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => setShowPayingDialog(true)}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Betalande Kunder</CardTitle>
             <BarChart className="h-4 w-4 text-muted-foreground" />
@@ -182,6 +196,7 @@ export default function Admin() {
             <div className="text-2xl font-bold">
               {tenants.filter(t => t.plan !== 'starter').length}
             </div>
+            <p className="text-xs text-muted-foreground mt-1">Klicka för att se lista</p>
           </CardContent>
         </Card>
       </div>
@@ -343,6 +358,140 @@ export default function Admin() {
               <p className="text-muted-foreground whitespace-pre-wrap">{selectedMessage?.message}</p>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Tenants List Dialog */}
+      <Dialog open={showTenantsDialog} onOpenChange={setShowTenantsDialog}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Building2 className="h-5 w-5" />
+              Alla Företag ({tenants.length})
+            </DialogTitle>
+            <DialogDescription>
+              Fullständig lista över alla registrerade företag
+            </DialogDescription>
+          </DialogHeader>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Namn</TableHead>
+                <TableHead>Plan</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Skapad</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {tenants.map((tenant) => (
+                <TableRow key={tenant.id}>
+                  <TableCell className="font-medium">{tenant.name}</TableCell>
+                  <TableCell>
+                    <Badge variant={tenant.plan === 'enterprise' ? 'default' : tenant.plan === 'professional' ? 'secondary' : 'outline'}>
+                      {tenant.plan}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={tenant.status === 'active' ? 'default' : 'secondary'}>
+                      {tenant.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>{new Date(tenant.created_at).toLocaleDateString('sv-SE')}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </DialogContent>
+      </Dialog>
+
+      {/* Users List Dialog */}
+      <Dialog open={showUsersDialog} onOpenChange={setShowUsersDialog}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              Alla Användare ({userRoles.length})
+            </DialogTitle>
+            <DialogDescription>
+              Fullständig lista över alla användare och deras roller
+            </DialogDescription>
+          </DialogHeader>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>User ID</TableHead>
+                <TableHead>Roll</TableHead>
+                <TableHead>Tenant ID</TableHead>
+                <TableHead>Skapad</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {userRoles.map((role) => (
+                <TableRow key={role.id}>
+                  <TableCell className="font-mono text-xs">{role.user_id.slice(0, 8)}...</TableCell>
+                  <TableCell>
+                    <Badge variant={role.role === 'admin' ? 'destructive' : role.role === 'owner' ? 'default' : 'secondary'}>
+                      {role.role}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">{role.tenant_id.slice(0, 8)}...</TableCell>
+                  <TableCell>{new Date(role.created_at).toLocaleDateString('sv-SE')}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </DialogContent>
+      </Dialog>
+
+      {/* Paying Customers Dialog */}
+      <Dialog open={showPayingDialog} onOpenChange={setShowPayingDialog}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <BarChart className="h-5 w-5" />
+              Betalande Kunder ({tenants.filter(t => t.plan !== 'starter').length})
+            </DialogTitle>
+            <DialogDescription>
+              Företag med Professional eller Enterprise plan
+            </DialogDescription>
+          </DialogHeader>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Namn</TableHead>
+                <TableHead>Plan</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Skapad</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {tenants
+                .filter(t => t.plan !== 'starter')
+                .map((tenant) => (
+                  <TableRow key={tenant.id}>
+                    <TableCell className="font-medium">{tenant.name}</TableCell>
+                    <TableCell>
+                      <Badge variant={tenant.plan === 'enterprise' ? 'default' : 'secondary'}>
+                        {tenant.plan}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={tenant.status === 'active' ? 'default' : 'secondary'}>
+                        {tenant.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{new Date(tenant.created_at).toLocaleDateString('sv-SE')}</TableCell>
+                  </TableRow>
+                ))}
+              {tenants.filter(t => t.plan !== 'starter').length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
+                    Inga betalande kunder ännu
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </DialogContent>
       </Dialog>
     </div>
