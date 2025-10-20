@@ -369,27 +369,45 @@ const Index = () => {
               <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-card/80 backdrop-blur-xl border border-accent/30 shadow-xl hover:shadow-2xl transition-all hover:scale-105">
                 <Sparkles className="h-5 w-5 text-accent fill-accent animate-pulse" />
                 <span className="text-sm font-semibold gradient-text">
-                  AI-Driven Event Marketing Platform
+                  Få 40% mer kunder vid lokala evenemang
                 </span>
               </div>
             </div>
             
-            {/* Main Heading */}
+            {/* Main Heading with Questions */}
             <div className="text-center space-y-8 animate-on-scroll">
+              <div className="space-y-4 mb-8">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-muted-foreground">
+                  Vill du{" "}
+                  <span className="text-foreground gradient-text">öka omsättningen med 40%</span>
+                  {" "}vid nästa stora event?
+                </h2>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-muted-foreground">
+                  Vill du{" "}
+                  <span className="text-foreground gradient-text">aldrig missa ett tillfälle</span>
+                  {" "}att attrahera nya kunder?
+                </h2>
+              </div>
+
               <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold font-display tracking-tight leading-[1.05]">
-                Förvandla lokala
-                <br />
-                <span className="relative inline-block mt-2">
-                  <span className="gradient-text">evenemang</span>
+                <span className="relative inline-block">
+                  <span className="gradient-text">Spotlight</span>
                   <div className="absolute -bottom-3 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
                 </span>
-                {" "}till{" "}
-                <span className="gradient-text">ökad försäljning</span>
+                {" "}gör det möjligt
               </h1>
               
               <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
-                Låt vår <span className="text-foreground font-semibold">AI-plattform</span> automatiskt upptäcka närliggande evenemang och skapa <span className="text-foreground font-semibold">datadrivna kampanjer</span> som maximerar ditt kundflöde.
+                Låt vår <span className="text-foreground font-semibold">AI automatiskt</span> upptäcka närliggande evenemang och skapa <span className="text-foreground font-semibold">kampanjer som konverterar</span> – medan du fokuserar på dina gäster.
               </p>
+
+              {/* Urgency element */}
+              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-destructive/10 border border-destructive/30 mt-6">
+                <div className="h-2 w-2 rounded-full bg-destructive animate-pulse" />
+                <span className="text-sm font-semibold text-destructive">
+                  Över 50 företag startade denna vecka – missa inte nästa event!
+                </span>
+              </div>
             </div>
             
             {/* CTA Buttons */}
@@ -400,7 +418,7 @@ const Index = () => {
                 onClick={() => setShowAuthDialog(true)}
               >
                 <Zap className="mr-2 h-5 w-5 sm:h-6 sm:w-6" fill="currentColor" />
-                Starta gratis
+                Starta gratis – 14 dagar
                 <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6" />
               </Button>
               <Button 
@@ -409,7 +427,7 @@ const Index = () => {
                 className="text-base sm:text-lg px-8 sm:px-12 h-14 sm:h-16 border-2 border-border hover:bg-accent/10 hover:border-accent transition-all duration-300 hover:scale-105 backdrop-blur-xl bg-card/50 font-semibold" 
                 onClick={scrollToFeatures}
               >
-                Se demo
+                Se hur det fungerar
               </Button>
             </div>
 
@@ -440,6 +458,100 @@ const Index = () => {
 
       {/* Logo Carousel */}
       <LogoCarousel />
+
+      {/* Problem/Pain Point Section */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-background via-accent/5 to-background py-24">
+        <div className="absolute inset-0 grid-pattern opacity-20" />
+        <div className="container relative mx-auto px-6">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-16 animate-on-scroll">
+              <div className="inline-block px-4 py-2 rounded-full bg-destructive/10 border border-destructive/20 mb-6">
+                <span className="text-sm font-semibold text-destructive">Sluta förlora kunder</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                Varje evenemang du missar är{" "}
+                <span className="gradient-text">pengar du förlorar</span>
+              </h2>
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+                Medan dina konkurrenter aktivt marknadsför sig vid lokala evenemang, försvinner potentiella kunder förbi din dörr.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 mb-12 animate-on-scroll">
+              <Card className="border-destructive/20 bg-card/80 backdrop-blur-xl hover:scale-105 transition-all">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-destructive">
+                    <X className="h-6 w-6" />
+                    Utan Spotlight
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <p className="text-sm text-muted-foreground flex items-start gap-2">
+                    <X className="h-4 w-4 text-destructive flex-shrink-0 mt-0.5" />
+                    Missar 80% av lokala evenemang
+                  </p>
+                  <p className="text-sm text-muted-foreground flex items-start gap-2">
+                    <X className="h-4 w-4 text-destructive flex-shrink-0 mt-0.5" />
+                    Spenderar timmar på att skapa kampanjer manuellt
+                  </p>
+                  <p className="text-sm text-muted-foreground flex items-start gap-2">
+                    <X className="h-4 w-4 text-destructive flex-shrink-0 mt-0.5" />
+                    Ingen koll på vad som faktiskt fungerar
+                  </p>
+                  <p className="text-sm text-muted-foreground flex items-start gap-2">
+                    <X className="h-4 w-4 text-destructive flex-shrink-0 mt-0.5" />
+                    Konkurrenterna tar dina kunder
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-accent/50 bg-gradient-to-br from-accent/5 to-accent/10 backdrop-blur-xl hover:scale-105 transition-all md:col-span-2">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-accent">
+                    <Check className="h-6 w-6" />
+                    Med Spotlight
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="grid md:grid-cols-2 gap-3">
+                    <p className="text-sm flex items-start gap-2">
+                      <Check className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
+                      <span><strong>Automatisk övervakning</strong> av alla lokala evenemang 24/7</span>
+                    </p>
+                    <p className="text-sm flex items-start gap-2">
+                      <Check className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
+                      <span><strong>AI skapar kampanjer</strong> på 30 sekunder</span>
+                    </p>
+                    <p className="text-sm flex items-start gap-2">
+                      <Check className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
+                      <span><strong>Detaljerad analytics</strong> visar exakt vad som fungerar</span>
+                    </p>
+                    <p className="text-sm flex items-start gap-2">
+                      <Check className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
+                      <span><strong>40% mer kunder</strong> vid varje evenemang</span>
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="text-center animate-on-scroll">
+              <Button 
+                size="lg" 
+                className="text-lg px-12 h-16 shadow-2xl hover:shadow-accent/50 transition-all duration-300 hover:scale-105 bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground font-semibold premium-glow-lg" 
+                onClick={() => setShowAuthDialog(true)}
+              >
+                <Zap className="mr-2 h-6 w-6" fill="currentColor" />
+                Sluta förlora kunder – Starta nu
+                <ArrowRight className="ml-2 h-6 w-6" />
+              </Button>
+              <p className="text-sm text-muted-foreground mt-4">
+                Ingen bindningstid • 14 dagar gratis • Inget kreditkort
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Stats Section */}
       <section className="container mx-auto px-6 py-24 animate-on-scroll">
@@ -526,6 +638,101 @@ const Index = () => {
               </p>
             </CardContent>
           </Card>
+        </div>
+      </section>
+
+      {/* Urgency Section - What if you wait? */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-destructive/5 via-background to-background py-24">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-16 animate-on-scroll">
+              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-destructive/10 border border-destructive/30 mb-6">
+                <HelpCircle className="h-5 w-5 text-destructive" />
+                <span className="text-sm font-semibold text-destructive">Tänk efter innan du stänger denna sida</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                Vad händer om du{" "}
+                <span className="text-destructive">väntar</span>?
+              </h2>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 mb-12 animate-on-scroll">
+              <Card className="bg-destructive/5 border-destructive/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <X className="h-5 w-5 text-destructive" />
+                    Nästa vecka
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Ett stort evenemang händer i ditt område. Dina konkurrenter har redan lagt upp kampanjer. 
+                    Du missar <strong className="text-foreground">hundratals potentiella kunder</strong>.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-destructive/5 border-destructive/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <X className="h-5 w-5 text-destructive" />
+                    Om en månad
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Festivaler, konserter och sportevenemang har kommit och gått. 
+                    <strong className="text-foreground">Tusentals kronor i förlorad omsättning</strong> som du aldrig får tillbaka.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-destructive/5 border-destructive/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <X className="h-5 w-5 text-destructive" />
+                    Om tre månader
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Konkurrenterna har byggt upp en lojal kundbas från evenemang du missade. 
+                    <strong className="text-foreground">De växer medan du står still</strong>.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-accent/10 border-accent/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-lg text-accent">
+                    <Check className="h-5 w-5" />
+                    Eller... börja idag
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-foreground font-medium">
+                    Fånga varje möjlighet. Få varningar om alla lokala evenemang. 
+                    Skapa kampanjer på 30 sekunder. <strong>Se din omsättning öka med 40%</strong>.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="text-center space-y-6 animate-on-scroll">
+              <Button 
+                size="lg" 
+                className="text-lg px-12 h-16 shadow-2xl hover:shadow-accent/50 transition-all duration-300 hover:scale-105 bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground font-semibold premium-glow-lg" 
+                onClick={() => setShowAuthDialog(true)}
+              >
+                <Target className="mr-2 h-6 w-6" />
+                Ja, jag vill inte missa fler tillfällen
+                <ArrowRight className="ml-2 h-6 w-6" />
+              </Button>
+              <p className="text-sm text-muted-foreground">
+                Gå med de <strong className="text-foreground">500+ företag</strong> som redan växer med Spotlight
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -643,28 +850,34 @@ const Index = () => {
       {/* Testimonials Section */}
       <section className="container mx-auto px-4 py-20 bg-muted/30">
         <div className="text-center mb-16 animate-on-scroll">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Vad våra kunder säger</h2>
+          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent/10 border border-accent/20 mb-6">
+            <Star className="h-5 w-5 text-accent fill-accent" />
+            <span className="text-sm font-semibold text-accent">Verifierade resultat från riktiga kunder</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Företag som dig får <span className="gradient-text">verkliga resultat</span>
+          </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Över 500 lokala företag litar på Spotlight för att öka sin försäljning
+            Över 500 lokala företag litar på Spotlight – se vad de har uppnått
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="glass-card hover:shadow-premium transition-all duration-300 animate-on-scroll">
+            <Card key={index} className="glass-card hover:shadow-premium transition-all duration-300 animate-on-scroll group border-2 hover:border-accent/30">
               <CardHeader>
                 <div className="flex gap-1 mb-4">
                   {Array.from({ length: testimonial.rating }).map((_, i) => (
                     <Star key={i} className="h-5 w-5 text-accent fill-accent" />
                   ))}
                 </div>
-                <CardDescription className="text-base leading-relaxed text-foreground">
+                <CardDescription className="text-base leading-relaxed text-foreground font-medium">
                   "{testimonial.content}"
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center">
+                  <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Users className="h-6 w-6 text-accent" />
                   </div>
                   <div>
@@ -675,6 +888,26 @@ const Index = () => {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* Social Proof Stats */}
+        <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto pt-8 border-t border-border animate-on-scroll">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-accent mb-2">98%</div>
+            <div className="text-sm text-muted-foreground">Nöjda kunder</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-accent mb-2">10,000+</div>
+            <div className="text-sm text-muted-foreground">Kampanjer skapade</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-accent mb-2">500+</div>
+            <div className="text-sm text-muted-foreground">Aktiva företag</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-accent mb-2">15min</div>
+            <div className="text-sm text-muted-foreground">Sparad tid/kampanj</div>
+          </div>
         </div>
       </section>
 
