@@ -291,7 +291,7 @@ export default function Settings() {
                     // Säkerställ en minsta radie vid import för bättre träffar
                     const effectiveRadius = Math.max(Number(location.radius_km) || 10, 15);
 
-                    toast.loading("Importerar events från Ticketmaster...");
+                    toast.loading("Importerar events från PredictHQ...");
 
                     try {
                       const { data, error } = await supabase.functions.invoke(
@@ -312,7 +312,7 @@ export default function Settings() {
                       if (data?.imported === 0) {
                         toast.info(`0 events hittades. Vi använde ${effectiveRadius} km. Öka gärna radien till 20–50 km för fler träffar.`);
                       } else {
-                        toast.success(`✓ Import lyckades! ${data.imported} events importerades från Ticketmaster`);
+                        toast.success(`✓ Import lyckades! ${data.imported} events importerades från PredictHQ`);
                       }
                     } catch (error) {
                       console.error('Import error:', error);
