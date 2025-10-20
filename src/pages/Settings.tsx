@@ -233,72 +233,30 @@ export default function Settings() {
         <TabsContent value="integrations">
           <Card>
             <CardHeader>
-              <CardTitle>PredictHQ Integration</CardTitle>
-              <CardDescription>Importera events från PredictHQ till din eventkalender</CardDescription>
+              <CardTitle>Automatisk Event-import</CardTitle>
+              <CardDescription>Events importeras automatiskt varje dag från PredictHQ</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-start gap-4 p-4 border rounded-lg bg-muted/30">
                 <div className="flex-1 space-y-2">
-                  <h4 className="font-semibold">Hämta Events från PredictHQ</h4>
+                  <h4 className="font-semibold">Automatisk daglig uppdatering</h4>
                   <p className="text-sm text-muted-foreground">
-                    Importera konserter, sportevenemang, festivaler och mer baserat på din affärs plats och radius. 
-                    Events kommer att läggas till i din kalender automatiskt.
+                    Spotlight hämtar automatiskt nya events från PredictHQ varje dag baserat på din verksamhets plats och sökradie. 
+                    Events läggs till i din kalender utan att du behöver göra något.
                   </p>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span>✓ Eventnamn och kategori</span>
+                    <span>✓ Konserter, sportevenemang & festivaler</span>
                     <span>•</span>
-                    <span>✓ Datum & tid</span>
+                    <span>✓ Datum, tid & förväntad publik</span>
                     <span>•</span>
-                    <span>✓ Plats och förväntad publik</span>
+                    <span>✓ Uppdateras varje natt kl. 02:00</span>
                   </div>
                 </div>
-                <Button
-                  onClick={async () => {
-                    if (!location) {
-                      toast.error("Ingen plats konfigurerad. Vänligen ställ in din affärs plats först");
-                      return;
-                    }
-
-                    // Use location radius or default to 20km
-                    const effectiveRadius = Number(location.radius_km) || 20;
-
-                    toast.loading("Importerar events från PredictHQ...");
-
-                    try {
-                      const { data, error } = await supabase.functions.invoke(
-                        'import-eventbrite-events',
-                        {
-                          body: {
-                            latitude: location.lat,
-                            longitude: location.lon,
-                            radius: effectiveRadius,
-                            startDate: new Date().toISOString(),
-                            endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(), // 90 days ahead
-                          },
-                        }
-                      );
-
-                      if (error) throw error;
-
-                      if (data?.imported === 0) {
-                        toast.info(`0 events hittades. Vi använde ${effectiveRadius} km. Öka gärna radien till 20–50 km för fler träffar.`);
-                      } else {
-                        toast.success(`✓ Import lyckades! ${data.imported} events importerades från PredictHQ`);
-                      }
-                    } catch (error) {
-                      console.error('Import error:', error);
-                      toast.error(error instanceof Error ? error.message : "Ett fel uppstod vid import");
-                    }
-                  }}
-                  className="whitespace-nowrap"
-                >
-                  Importera Events
-                </Button>
               </div>
               
               <div className="text-xs text-muted-foreground p-4 bg-accent/5 rounded-lg">
-                <strong>Tips:</strong> Events importeras baserat på din konfigurerade plats och radius. 
-                Dubbletter filtreras automatiskt bort. Du kan köra importen när som helst för att hämta nya events.
+                <strong>Info:</strong> Events importeras automatiskt baserat på din konfigurerade plats och radie. 
+                Dubbletter filtreras automatiskt bort. Systemet hämtar events för de kommande 90 dagarna.
               </div>
             </CardContent>
           </Card>
