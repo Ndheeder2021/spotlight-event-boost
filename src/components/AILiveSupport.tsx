@@ -16,7 +16,7 @@ export const AILiveSupport = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hej! Jag är din AI-assistent. Hur kan jag hjälpa dig idag?",
+      content: "Hej! Jag heter Emilie och är din AI-assistent. Hur kan jag hjälpa dig idag?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -89,12 +89,22 @@ export const AILiveSupport = () => {
       {isOpen && (
         <Card className="fixed bottom-24 right-6 w-96 h-[500px] shadow-2xl flex flex-col z-50 border-2">
           {/* Header */}
-          <div className="bg-primary text-primary-foreground p-4 rounded-t-lg flex items-center gap-2">
-            <Sparkles className="h-5 w-5" />
-            <div>
-              <h3 className="font-semibold">AI Support</h3>
-              <p className="text-xs opacity-90">Vi är här för att hjälpa dig</p>
+          <div className="bg-primary text-primary-foreground p-4 rounded-t-lg flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5" />
+              <div>
+                <h3 className="font-semibold">Emilie</h3>
+                <p className="text-xs opacity-90">Din AI-assistent</p>
+              </div>
             </div>
+            <Button
+              onClick={() => setIsOpen(false)}
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20"
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </div>
 
           {/* Messages */}
