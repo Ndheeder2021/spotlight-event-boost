@@ -6,8 +6,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Users, MessageSquare, Building2, BarChart, Eye } from "lucide-react";
+import { Users, MessageSquare, Building2, BarChart, Eye, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface Tenant {
@@ -36,6 +38,15 @@ interface UserRole {
   created_at: string;
 }
 
+interface DetailedUser {
+  user_id: string;
+  email: string;
+  role: string;
+  tenant_id: string;
+  tenant_name: string;
+  created_at: string;
+}
+
 export default function Admin() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -43,10 +54,17 @@ export default function Admin() {
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
   const [userRoles, setUserRoles] = useState<UserRole[]>([]);
-  const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
   const [showTenantsDialog, setShowTenantsDialog] = useState(false);
   const [showUsersDialog, setShowUsersDialog] = useState(false);
   const [showPayingDialog, setShowPayingDialog] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
+  const [selectedTenant, setSelectedTenant] = useState<Tenant | null>(null);
+  const [selectedUser, setSelectedUser] = useState<DetailedUser | null>(null);
+  const [detailedUsers, setDetailedUsers] = useState<DetailedUser[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [userSearchTerm, setUserSearchTerm] = useState("");
+  const [newAdminEmail, setNewAdminEmail] = useState("");
+  const [addingAdmin, setAddingAdmin] = useState(false);
 
   useEffect(() => {
     checkAdminAccess();
@@ -117,9 +135,189 @@ export default function Admin() {
 
       if (rolesError) throw rolesError;
       setUserRoles(rolesData || []);
+
+      // Load detailed user information
+      await loadDetailedUsers(rolesData || []);
     } catch (error) {
       console.error("Error loading admin data:", error);
       toast.error("Kunde inte ladda admin-data");
+    }
+  };
+
+  const loadDetailedUsers = async (roles: UserRole[]) => {
+    try {
+      const response = await supabase.auth.admin.listUsers();
+      if (response.error) throw response.error;
+
+      const users = response.data.users || [];
+      const detailed = roles.map(role => {
+        const user = users.find((u: any) => u.id === role.user_id);
+        const tenant = tenants.find(t => t.id === role.tenant_id);
+        return {
+          user_id: role.user_id,
+          email: user?.email || "Okänd",
+          role: role.role,
+          tenant_id: role.tenant_id,
+          tenant_name: tenant?.name || "Okänd",
+          created_at: role.created_at,
+        };
+      });
+
+      setDetailedUsers(detailed);
+    } catch (error) {
+      console.error("Error loading detailed users:", error);
+    }
+  };
+
+  const deleteTenant = async (tenantId: string) => {
+    if (!confirm("Är du säker på att du vill ta bort detta företag? Detta kan inte ångras.")) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from("tenants")
+        .delete()
+        .eq("id", tenantId);
+
+      if (error) throw error;
+      toast.success("Företag borttaget");
+      setSelectedTenant(null);
+      loadAdminData();
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  const deleteUser = async (userId: string) => {
+    if (!confirm("Är du säker på att du vill ta bort denna användare? Detta kan inte ångras.")) {
+      return;
+    }
+
+    try {
+      // Delete user roles first
+      const { error: roleError } = await supabase
+        .from("user_roles")
+        .delete()
+        .eq("user_id", userId);
+
+      if (roleError) throw roleError;
+
+      // Delete user from auth
+      const { error: authError } = await supabase.auth.admin.deleteUser(userId);
+      if (authError) throw authError;
+
+      toast.success("Användare borttagen");
+      setSelectedUser(null);
+      loadAdminData();
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  const toggleAdminRole = async (userId: string, currentRole: string) => {
+    try {
+      if (currentRole === "admin") {
+        // Remove admin role
+        const { error } = await supabase
+          .from("user_roles")
+          .delete()
+          .eq("user_id", userId)
+          .eq("role", "admin");
+
+        if (error) throw error;
+        toast.success("Admin-rollen borttagen");
+      } else {
+        // Get user's tenant
+        const { data: userRole } = await supabase
+          .from("user_roles")
+          .select("tenant_id")
+          .eq("user_id", userId)
+          .single();
+
+        if (!userRole) throw new Error("Användaren har ingen tenant");
+
+        // Add admin role
+        const { error } = await supabase
+          .from("user_roles")
+          .insert({
+            user_id: userId,
+            tenant_id: userRole.tenant_id,
+            role: "admin",
+          });
+
+        if (error) throw error;
+        toast.success("Admin-rollen tillagd");
+      }
+
+      loadAdminData();
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  const addAdmin = async () => {
+    if (!newAdminEmail.trim()) {
+      toast.error("Ange en email-adress");
+      return;
+    }
+
+    setAddingAdmin(true);
+    try {
+      // Find user by email
+      const response = await supabase.auth.admin.listUsers();
+      if (response.error) throw response.error;
+
+      const users = response.data.users || [];
+      const user = users.find((u: any) => u.email === newAdminEmail);
+      if (!user) {
+        toast.error("Användaren finns inte");
+        return;
+      }
+
+      // Check if already admin
+      const { data: existingRole } = await supabase
+        .from("user_roles")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
+        .single();
+
+      if (existingRole) {
+        toast.error("Användaren är redan admin");
+        return;
+      }
+
+      // Get user's tenant
+      const { data: userRole } = await supabase
+        .from("user_roles")
+        .select("tenant_id")
+        .eq("user_id", user.id)
+        .single();
+
+      if (!userRole) {
+        toast.error("Användaren har ingen tenant");
+        return;
+      }
+
+      // Add admin role
+      const { error } = await supabase
+        .from("user_roles")
+        .insert({
+          user_id: user.id,
+          tenant_id: userRole.tenant_id,
+          role: "admin",
+        });
+
+      if (error) throw error;
+
+      toast.success("Admin tillagd!");
+      setNewAdminEmail("");
+      loadAdminData();
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setAddingAdmin(false);
     }
   };
 
@@ -373,6 +571,13 @@ export default function Admin() {
               Fullständig lista över alla registrerade företag
             </DialogDescription>
           </DialogHeader>
+          <div className="mb-4">
+            <Input
+              placeholder="Sök företag..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
           <Table>
             <TableHeader>
               <TableRow>
@@ -383,24 +588,81 @@ export default function Admin() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tenants.map((tenant) => (
-                <TableRow key={tenant.id}>
-                  <TableCell className="font-medium">{tenant.name}</TableCell>
-                  <TableCell>
-                    <Badge variant={tenant.plan === 'enterprise' ? 'default' : tenant.plan === 'professional' ? 'secondary' : 'outline'}>
-                      {tenant.plan}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={tenant.status === 'active' ? 'default' : 'secondary'}>
-                      {tenant.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>{new Date(tenant.created_at).toLocaleDateString('sv-SE')}</TableCell>
-                </TableRow>
-              ))}
+              {tenants
+                .filter(t => t.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                .map((tenant) => (
+                  <TableRow 
+                    key={tenant.id} 
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={() => setSelectedTenant(tenant)}
+                  >
+                    <TableCell className="font-medium">{tenant.name}</TableCell>
+                    <TableCell>
+                      <Badge variant={tenant.plan === 'enterprise' ? 'default' : tenant.plan === 'professional' ? 'secondary' : 'outline'}>
+                        {tenant.plan}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={tenant.status === 'active' ? 'default' : 'secondary'}>
+                        {tenant.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{new Date(tenant.created_at).toLocaleDateString('sv-SE')}</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
+        </DialogContent>
+      </Dialog>
+
+      {/* Tenant Detail Dialog */}
+      <Dialog open={!!selectedTenant} onOpenChange={() => setSelectedTenant(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Företag: {selectedTenant?.name}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label className="text-sm font-semibold">ID</Label>
+              <p className="text-sm font-mono text-muted-foreground">{selectedTenant?.id}</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Plan</Label>
+              <div className="mt-1">
+                <Badge variant={selectedTenant?.plan === 'enterprise' ? 'default' : selectedTenant?.plan === 'professional' ? 'secondary' : 'outline'}>
+                  {selectedTenant?.plan}
+                </Badge>
+              </div>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Status</Label>
+              <div className="mt-1">
+                <Badge variant={selectedTenant?.status === 'active' ? 'default' : 'secondary'}>
+                  {selectedTenant?.status}
+                </Badge>
+              </div>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Skapad</Label>
+              <p className="text-sm text-muted-foreground">
+                {selectedTenant && new Date(selectedTenant.created_at).toLocaleString('sv-SE')}
+              </p>
+            </div>
+            <div className="pt-4 border-t">
+              <Button
+                variant="destructive"
+                className="w-full"
+                onClick={() => {
+                  if (selectedTenant) {
+                    deleteTenant(selectedTenant.id);
+                  }
+                }}
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                Ta bort företag
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
 
@@ -410,36 +672,159 @@ export default function Admin() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Users className="h-5 w-5" />
-              Alla Användare ({userRoles.length})
+              Alla Användare ({detailedUsers.length})
             </DialogTitle>
             <DialogDescription>
               Fullständig lista över alla användare och deras roller
             </DialogDescription>
           </DialogHeader>
+          
+          {/* Add Admin Section */}
+          <Card className="mb-4">
+            <CardHeader>
+              <CardTitle className="text-sm">Lägg till Admin</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <Input
+                type="email"
+                placeholder="Användarens email..."
+                value={newAdminEmail}
+                onChange={(e) => setNewAdminEmail(e.target.value)}
+              />
+              <Button
+                onClick={addAdmin}
+                disabled={addingAdmin}
+                className="w-full"
+              >
+                {addingAdmin ? "Lägger till..." : "Lägg till som admin"}
+              </Button>
+            </CardContent>
+          </Card>
+
+          <div className="mb-4">
+            <Input
+              placeholder="Sök användare..."
+              value={userSearchTerm}
+              onChange={(e) => setUserSearchTerm(e.target.value)}
+            />
+          </div>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>User ID</TableHead>
+                <TableHead>Email</TableHead>
                 <TableHead>Roll</TableHead>
-                <TableHead>Tenant ID</TableHead>
+                <TableHead>Företag</TableHead>
                 <TableHead>Skapad</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {userRoles.map((role) => (
-                <TableRow key={role.id}>
-                  <TableCell className="font-mono text-xs">{role.user_id.slice(0, 8)}...</TableCell>
-                  <TableCell>
-                    <Badge variant={role.role === 'admin' ? 'destructive' : role.role === 'owner' ? 'default' : 'secondary'}>
-                      {role.role}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="font-mono text-xs">{role.tenant_id.slice(0, 8)}...</TableCell>
-                  <TableCell>{new Date(role.created_at).toLocaleDateString('sv-SE')}</TableCell>
-                </TableRow>
-              ))}
+              {detailedUsers
+                .filter(u => 
+                  u.email.toLowerCase().includes(userSearchTerm.toLowerCase()) ||
+                  u.tenant_name.toLowerCase().includes(userSearchTerm.toLowerCase())
+                )
+                .map((user) => (
+                  <TableRow 
+                    key={user.user_id}
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={() => setSelectedUser(user)}
+                  >
+                    <TableCell className="font-medium">{user.email}</TableCell>
+                    <TableCell>
+                      <Badge variant={user.role === 'admin' ? 'destructive' : user.role === 'owner' ? 'default' : 'secondary'}>
+                        {user.role}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{user.tenant_name}</TableCell>
+                    <TableCell>{new Date(user.created_at).toLocaleDateString('sv-SE')}</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
+        </DialogContent>
+      </Dialog>
+
+      {/* User Detail Dialog */}
+      <Dialog open={!!selectedUser} onOpenChange={() => setSelectedUser(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Användare: {selectedUser?.email}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label className="text-sm font-semibold">Email</Label>
+              <p className="text-sm text-muted-foreground">{selectedUser?.email}</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">User ID</Label>
+              <p className="text-sm font-mono text-muted-foreground">{selectedUser?.user_id}</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Roll</Label>
+              <div className="mt-1">
+                <Badge variant={selectedUser?.role === 'admin' ? 'destructive' : selectedUser?.role === 'owner' ? 'default' : 'secondary'}>
+                  {selectedUser?.role}
+                </Badge>
+              </div>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Företag</Label>
+              <p className="text-sm text-muted-foreground">{selectedUser?.tenant_name}</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Tenant ID</Label>
+              <p className="text-sm font-mono text-muted-foreground">{selectedUser?.tenant_id}</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Skapad</Label>
+              <p className="text-sm text-muted-foreground">
+                {selectedUser && new Date(selectedUser.created_at).toLocaleString('sv-SE')}
+              </p>
+            </div>
+            <div className="pt-4 border-t space-y-2">
+              {selectedUser?.role !== 'admin' ? (
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => {
+                    if (selectedUser) {
+                      toggleAdminRole(selectedUser.user_id, selectedUser.role);
+                      setSelectedUser(null);
+                    }
+                  }}
+                >
+                  <Users className="h-4 w-4 mr-2" />
+                  Gör till admin
+                </Button>
+              ) : (
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => {
+                    if (selectedUser) {
+                      toggleAdminRole(selectedUser.user_id, selectedUser.role);
+                      setSelectedUser(null);
+                    }
+                  }}
+                >
+                  <Users className="h-4 w-4 mr-2" />
+                  Ta bort admin-roll
+                </Button>
+              )}
+              <Button
+                variant="destructive"
+                className="w-full"
+                onClick={() => {
+                  if (selectedUser) {
+                    deleteUser(selectedUser.user_id);
+                  }
+                }}
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                Ta bort användare
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
 
