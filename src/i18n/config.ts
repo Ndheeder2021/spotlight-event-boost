@@ -14,9 +14,12 @@ const resources = {
       logout: "Logga ut",
       dashboard: "Dashboard",
       campaigns: "Kampanjer",
+      analytics: "Analytics",
       calendar: "Kalender",
       reports: "Rapporter",
+      notifications: "Notifieringar",
       settings: "Inställningar",
+      admin: "Admin",
       
       // Dashboard
       welcomeBack: "Välkommen tillbaka",
@@ -30,7 +33,6 @@ const resources = {
       shareCampaign: "Dela",
       sendEmail: "Skicka",
       generateMockup: "Generera mockup",
-      analytics: "Analytics",
       comments: "Kommentarer",
       
       // Common
@@ -61,9 +63,12 @@ const resources = {
       logout: "Logout",
       dashboard: "Dashboard",
       campaigns: "Campaigns",
+      analytics: "Analytics",
       calendar: "Calendar",
       reports: "Reports",
+      notifications: "Notifications",
       settings: "Settings",
+      admin: "Admin",
       
       // Dashboard
       welcomeBack: "Welcome back",
@@ -77,7 +82,6 @@ const resources = {
       shareCampaign: "Share",
       sendEmail: "Send",
       generateMockup: "Generate mockup",
-      analytics: "Analytics",
       comments: "Comments",
       
       // Common

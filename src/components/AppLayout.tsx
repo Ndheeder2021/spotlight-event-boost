@@ -4,6 +4,7 @@ import { LogOut, Home, Calendar, Megaphone, Bell, Settings, BarChart, Zap, Trend
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { AILiveSupport } from "./AILiveSupport";
 import { usePlanFeatures } from "@/hooks/usePlanFeatures";
 import { Footer } from "./Footer";
@@ -12,22 +13,23 @@ import { LanguageSwitch } from "./LanguageSwitch";
 import { SkipToContent } from "./SkipToContent";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-const navItems = [
-  { title: "Dashboard", url: "/dashboard", icon: Home },
-  { title: "Kampanjer", url: "/campaigns", icon: Megaphone },
-  { title: "Analytics", url: "/campaign-analytics", icon: TrendingUp },
-  { title: "Kalender", url: "/calendar", icon: Calendar },
-  { title: "Rapporter", url: "/reports", icon: BarChart },
-  { title: "Notifieringar", url: "/notifications", icon: Bell },
-  { title: "Inställningar", url: "/settings", icon: Settings },
-];
-
 export function AppLayout() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { features, loading } = usePlanFeatures();
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navItems = [
+    { title: t("dashboard"), url: "/dashboard", icon: Home },
+    { title: t("campaigns"), url: "/campaigns", icon: Megaphone },
+    { title: t("analytics"), url: "/campaign-analytics", icon: TrendingUp },
+    { title: t("calendar"), url: "/calendar", icon: Calendar },
+    { title: t("reports"), url: "/reports", icon: BarChart },
+    { title: t("notifications"), url: "/notifications", icon: Bell },
+    { title: t("settings"), url: "/settings", icon: Settings },
+  ];
 
   useEffect(() => {
     const checkUser = async () => {
@@ -97,7 +99,7 @@ export function AppLayout() {
                   }
                 >
                   <Shield className="h-4 w-4" />
-                  Admin
+                  {t("admin")}
                 </NavLink>
               )}
             </nav>
@@ -108,7 +110,7 @@ export function AppLayout() {
               <ThemeToggle />
               <Button variant="ghost" size="sm" onClick={handleLogout}>
                 <LogOut className="h-4 w-4 mr-2" />
-                Logga ut
+                {t("logout")}
               </Button>
             </div>
 
@@ -155,7 +157,7 @@ export function AppLayout() {
                         }
                       >
                         <Shield className="h-5 w-5" />
-                        Admin
+                        {t("admin")}
                       </NavLink>
                     )}
                     <div className="pt-4 mt-4 border-t">
@@ -168,7 +170,7 @@ export function AppLayout() {
                         }}
                       >
                         <LogOut className="h-5 w-5" />
-                        Logga ut
+                        {t("logout")}
                       </Button>
                     </div>
                   </nav>
