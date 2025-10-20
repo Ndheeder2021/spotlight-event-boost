@@ -119,9 +119,26 @@ i18n
   .init({
     resources,
     fallbackLng: 'sv',
+    supportedLngs: ['sv', 'en'],
+    nonExplicitSupportedLngs: true,
+    load: 'languageOnly',
+    detection: {
+      order: ['localStorage', 'cookie', 'querystring', 'navigator', 'htmlTag'],
+      caches: ['localStorage', 'cookie'],
+      lookupLocalStorage: 'i18nextLng',
+      cookieMinutes: 525600
+    },
     interpolation: {
       escapeValue: false
     }
   });
+
+// Update <html lang> on language change for SEO/accessibility
+if (typeof document !== 'undefined') {
+  document.documentElement.lang = i18n.language;
+  i18n.on('languageChanged', (lng) => {
+    document.documentElement.lang = lng.split('-')[0];
+  });
+}
 
 export default i18n;
