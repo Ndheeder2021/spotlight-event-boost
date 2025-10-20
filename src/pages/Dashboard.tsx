@@ -65,10 +65,20 @@ export default function Dashboard() {
         return;
       }
 
+      // Get user's tenant_id
+      const { data: userRole, error: roleError } = await supabase
+        .from("user_roles")
+        .select("tenant_id")
+        .eq("user_id", user.id)
+        .single();
+
+      if (roleError) throw roleError;
+
+      // Get location based on tenant_id
       const { data: location, error: locationError } = await supabase
         .from("locations")
         .select("lat, lon")
-        .eq("id", user.id)
+        .eq("tenant_id", userRole.tenant_id)
         .single();
 
       if (locationError) throw locationError;
