@@ -45,6 +45,7 @@ export default function EventDetail() {
   const [profile, setProfile] = useState<any>(null);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [campaignIds, setCampaignIds] = useState<{ [key: number]: string }>({});
+  const [campaignMockups, setCampaignMockups] = useState<{ [key: string]: any[] }>({});
   const [eventContact, setEventContact] = useState<EventContact | null>(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -82,6 +83,26 @@ export default function EventDetail() {
       toast.error(error.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadMockupsForCampaign = async (campaignId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("campaign_attachments")
+        .select("*")
+        .eq("campaign_id", campaignId)
+        .eq("file_type", "image")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      setCampaignMockups(prev => ({
+        ...prev,
+        [campaignId]: data || []
+      }));
+    } catch (error: any) {
+      console.error("Load mockups error:", error);
     }
   };
 
@@ -344,9 +365,52 @@ export default function EventDetail() {
                       campaign={campaign} 
                       eventId={event.id} 
                       campaignId={campaignIds[idx]}
-                      onCampaignSaved={(id) => setCampaignIds(prev => ({ ...prev, [idx]: id }))}
+                      onCampaignSaved={(id) => {
+                        setCampaignIds(prev => ({ ...prev, [idx]: id }));
+                        loadMockupsForCampaign(id);
+                      }}
+                      onMockupGenerated={() => campaignIds[idx] && loadMockupsForCampaign(campaignIds[idx])}
                     />
                   </div>
+
+                  {/* Generated Mockups */}
+                  {campaignIds[idx] && campaignMockups[campaignIds[idx]]?.length > 0 && (
+                    <div className="mt-6 p-4 rounded-lg bg-accent/5 border border-accent/20">
+                      <h4 className="font-bold mb-4 text-lg flex items-center gap-2">
+                        <Sparkles className="h-5 w-5 text-accent" />
+                        Genererade Mockups
+                      </h4>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        {campaignMockups[campaignIds[idx]].map((mockup, mIdx) => (
+                          <div key={mIdx} className="group relative rounded-lg overflow-hidden border-2 border-accent/20 hover:border-accent/40 transition-all">
+                            <img 
+                              src={mockup.file_data} 
+                              alt={mockup.file_name}
+                              className="w-full h-auto cursor-pointer transition-transform group-hover:scale-105"
+                              onClick={() => {
+                                const win = window.open("", "_blank");
+                                if (win) {
+                                  win.document.write(`
+                                    <html>
+                                      <head><title>${mockup.file_name}</title></head>
+                                      <body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#000;">
+                                        <img src="${mockup.file_data}" style="max-width:100%;max-height:100vh;object-fit:contain;" />
+                                      </body>
+                                    </html>
+                                  `);
+                                  win.document.close();
+                                }
+                              }}
+                            />
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                              <p className="text-white text-sm font-semibold">{mockup.metadata?.platform || 'Mockup'}</p>
+                              <p className="text-white/70 text-xs mt-1">{new Date(mockup.created_at).toLocaleDateString('sv-SE')}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   <div className="border-t-2 border-accent/10 pt-6 mt-6">
                     <h4 className="font-bold mb-4 text-xl flex items-center gap-2">

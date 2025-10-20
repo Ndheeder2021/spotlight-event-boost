@@ -31,9 +31,10 @@ interface CampaignActionsProps {
   eventId: string;
   campaignId?: string;
   onCampaignSaved?: (campaignId: string) => void;
+  onMockupGenerated?: () => void;
 }
 
-export function CampaignActions({ campaign, eventId, campaignId, onCampaignSaved }: CampaignActionsProps) {
+export function CampaignActions({ campaign, eventId, campaignId, onCampaignSaved, onMockupGenerated }: CampaignActionsProps) {
   const { features, loading } = usePlanFeatures();
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [upgradeFeature, setUpgradeFeature] = useState("");
@@ -99,21 +100,8 @@ export function CampaignActions({ campaign, eventId, campaignId, onCampaignSaved
 
       if (error) throw error;
       
-      // Open image in new tab
-      const imgWindow = window.open("", "_blank");
-      if (imgWindow && data.imageUrl) {
-        imgWindow.document.write(`
-          <html>
-            <head><title>${adIdea.platform} Mockup</title></head>
-            <body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#f0f0f0;">
-              <img src="${data.imageUrl}" style="max-width:100%;max-height:100vh;object-fit:contain;" />
-            </body>
-          </html>
-        `);
-        imgWindow.document.close();
-      }
-      
-      toast.success("Mockup genererad!");
+      toast.success("Mockup genererad! Se den nedan under kampanjen.");
+      onMockupGenerated?.();
       return data;
     } catch (error: any) {
       console.error("Mockup error:", error);
