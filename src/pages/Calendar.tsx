@@ -74,10 +74,10 @@ export default function Calendar() {
 
       if (!userRole) throw new Error("No tenant found");
 
-      // Load user location
+      // Load user location with radius
       const { data: locationData } = await supabase
         .from("locations")
-        .select("lat, lon")
+        .select("lat, lon, radius_km")
         .eq("tenant_id", userRole.tenant_id)
         .limit(1)
         .single();
@@ -89,12 +89,12 @@ export default function Calendar() {
       const monthStart = startOfMonth(currentDate);
       const monthEnd = endOfMonth(currentDate);
 
-      const [eventsRes, campaignsRes, internalRes] = await Promise.all([
+      // Fetch all events first, then filter by location and date
+      const [allEventsRes, campaignsRes, internalRes] = await Promise.all([
         supabase
           .from("events")
           .select("*")
-          .gte("start_time", monthStart.toISOString())
-          .lte("start_time", monthEnd.toISOString()),
+          .order("start_time", { ascending: true }),
         supabase
           .from("campaigns")
           .select("*")
@@ -109,11 +109,29 @@ export default function Calendar() {
           .lte("start_time", monthEnd.toISOString()),
       ]);
 
-      if (eventsRes.error) throw eventsRes.error;
+      if (allEventsRes.error) throw allEventsRes.error;
       if (campaignsRes.error) throw campaignsRes.error;
       if (internalRes.error) throw internalRes.error;
 
-      setEvents(eventsRes.data || []);
+      // Filter events by location radius and date range
+      const radiusKm = locationData?.radius_km || 20;
+      const filteredEvents = allEventsRes.data?.filter(event => {
+        // Check if event is within the radius
+        const distance = calculateDistance(
+          locationData?.lat || 59.3293,
+          locationData?.lon || 18.0686,
+          event.venue_lat,
+          event.venue_lon
+        );
+        
+        // Check if event is within the current month
+        const eventDate = parseISO(event.start_time);
+        const isInMonth = eventDate >= monthStart && eventDate <= monthEnd;
+        
+        return distance <= radiusKm && isInMonth;
+      }) || [];
+
+      setEvents(filteredEvents);
       setCampaigns(campaignsRes.data || []);
       setInternalEvents(internalRes.data || []);
     } catch (error: any) {
