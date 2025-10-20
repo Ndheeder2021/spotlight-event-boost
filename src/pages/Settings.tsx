@@ -10,6 +10,7 @@ import { Save } from "lucide-react";
 import { toast } from "sonner";
 import { SubscriptionManager } from "@/components/SubscriptionManager";
 import { LocationMapSelector } from "@/components/LocationMapSelector";
+import { TeamManagement } from "@/components/TeamManagement";
 
 export default function Settings() {
   const [loading, setLoading] = useState(true);
@@ -222,21 +223,30 @@ export default function Settings() {
         </TabsContent>
 
         <TabsContent value="team">
-          <Card>
-            <CardHeader>
-              <CardTitle>Team & Abonnemang</CardTitle>
-              <CardDescription>Hantera ditt abonnemang och välj rätt plan för dina behov</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {tenant && (
-                <SubscriptionManager
+          <div className="space-y-6">
+            {tenant && (
+              <>
+                <TeamManagement
                   currentPlan={tenant.plan}
                   tenantId={tenant.id}
-                  onPlanChange={loadData}
                 />
-              )}
-            </CardContent>
-          </Card>
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Abonnemang</CardTitle>
+                    <CardDescription>Hantera ditt abonnemang och välj rätt plan för dina behov</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <SubscriptionManager
+                      currentPlan={tenant.plan}
+                      tenantId={tenant.id}
+                      onPlanChange={loadData}
+                    />
+                  </CardContent>
+                </Card>
+              </>
+            )}
+          </div>
         </TabsContent>
 
         <TabsContent value="integrations">

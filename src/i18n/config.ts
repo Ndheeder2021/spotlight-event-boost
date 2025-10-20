@@ -50,6 +50,11 @@ const resources = {
       enterprise: "Enterprise",
       upgrade: "Uppgradera",
       currentPlan: "Nuvarande plan",
+      
+      // Team
+      owner: "Ägare",
+      editor: "Redaktör",
+      viewer: "Granskare",
     }
   },
   en: {
@@ -99,6 +104,11 @@ const resources = {
       enterprise: "Enterprise",
       upgrade: "Upgrade",
       currentPlan: "Current plan",
+      
+      // Team
+      owner: "Owner",
+      editor: "Editor",
+      viewer: "Viewer",
     }
   }
 };

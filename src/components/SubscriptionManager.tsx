@@ -34,6 +34,7 @@ const planDetails = {
     yearlyDiscount: "40% rabatt",
     features: [
       "Alla Starter-funktioner",
+      "Upp till 3 användare",
       "PDF-export med professionell design",
       "Dela kampanjer via länk (lösenordsskydd)",
       "Skicka kampanjer via email",
@@ -53,9 +54,10 @@ const planDetails = {
     yearlyDiscount: null,
     features: [
       "Alla Professional-funktioner",
+      "Upp till 10 användare",
       "AI-livesupport 24/7",
       "White-label branding",
-      "Avancerad rollhantering (5 roller)",
+      "Avancerad rollhantering",
       "API-åtkomst för integrationer",
       "Anpassad webhook-integration",
       "Prioriterad support",
