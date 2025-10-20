@@ -19,7 +19,10 @@ serve(async (req) => {
   try {
     const authHeader = req.headers.get("authorization");
     if (!authHeader) {
-      throw new Error("No authorization header");
+      return new Response(JSON.stringify({ error: "No authorization header" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const supabase = createClient(
@@ -30,10 +33,15 @@ serve(async (req) => {
 
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) {
-      throw new Error("Unauthorized");
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const { eventId, locationId }: CampaignRequest = await req.json();
+
+    console.log("Generating campaign for event:", eventId, "location:", locationId);
 
     // Fetch event data
     const { data: event, error: eventError } = await supabase
@@ -43,19 +51,59 @@ serve(async (req) => {
       .single();
 
     if (eventError || !event) {
-      throw new Error("Event not found");
+      console.error("Event error:", eventError);
+      return new Response(JSON.stringify({ error: "Event not found" }), {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    // Fetch location data
-    const { data: location, error: locationError } = await supabase
-      .from("locations")
-      .select("*")
-      .eq("id", locationId)
-      .single();
+    // Fetch location data - try with the provided ID first
+    let location = null;
+    let locationError = null;
+    
+    if (locationId) {
+      const result = await supabase
+        .from("locations")
+        .select("*")
+        .eq("id", locationId)
+        .maybeSingle();
+      
+      location = result.data;
+      locationError = result.error;
+    }
+
+    // If no location found with ID, try to get user's tenant location
+    if (!location) {
+      console.log("Location not found by ID, trying tenant lookup");
+      const { data: userRole } = await supabase
+        .from("user_roles")
+        .select("tenant_id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (userRole) {
+        const result = await supabase
+          .from("locations")
+          .select("*")
+          .eq("tenant_id", userRole.tenant_id)
+          .limit(1)
+          .maybeSingle();
+        
+        location = result.data;
+        locationError = result.error;
+      }
+    }
 
     if (locationError || !location) {
-      throw new Error("Location not found");
+      console.error("Location error:", locationError);
+      return new Response(JSON.stringify({ error: "Location not found" }), {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
+
+    console.log("Found location:", location.id);
 
     // Calculate distance between event and location
     const eventLat = event.venue_lat;
