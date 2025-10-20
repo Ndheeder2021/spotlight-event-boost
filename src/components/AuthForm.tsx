@@ -26,8 +26,7 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState<{ lat: number; lon: number } | null>(null);
   const [loading, setLoading] = useState(false);
-  const [acceptTerms, setAcceptTerms] = useState(false);
-  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
+  const [acceptPolicies, setAcceptPolicies] = useState(false);
 
   const validatePassword = (pwd: string) => {
     const minLength = pwd.length >= 8;
@@ -118,13 +117,8 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
         }
 
         // Validate terms and privacy acceptance
-        if (!acceptTerms) {
-          toast.error("Du måste acceptera användarvillkoren");
-          setLoading(false);
-          return;
-        }
-        if (!acceptPrivacy) {
-          toast.error("Du måste acceptera integritetspolicyn");
+        if (!acceptPolicies) {
+          toast.error("Du måste acceptera användarvillkoren och integritetspolicyn");
           setLoading(false);
           return;
         }
@@ -329,17 +323,17 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
             </div>
           )}
           {!isLogin && (
-            <div className="space-y-2.5 pt-3 border-t border-border">
+            <div className="pt-3 border-t border-border">
               <div className="flex items-start gap-2.5">
                 <input
                   type="checkbox"
-                  id="acceptTerms"
-                  checked={acceptTerms}
-                  onChange={(e) => setAcceptTerms(e.target.checked)}
+                  id="acceptPolicies"
+                  checked={acceptPolicies}
+                  onChange={(e) => setAcceptPolicies(e.target.checked)}
                   className="mt-0.5 h-4 w-4 rounded border-input accent-accent flex-shrink-0"
                   required
                 />
-                <label htmlFor="acceptTerms" className="text-xs leading-snug">
+                <label htmlFor="acceptPolicies" className="text-xs leading-snug">
                   Jag accepterar{" "}
                   <a
                     href="/terms"
@@ -349,20 +343,7 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
                   >
                     användarvillkoren
                   </a>
-                  <span className="text-destructive ml-0.5">*</span>
-                </label>
-              </div>
-              <div className="flex items-start gap-2.5">
-                <input
-                  type="checkbox"
-                  id="acceptPrivacy"
-                  checked={acceptPrivacy}
-                  onChange={(e) => setAcceptPrivacy(e.target.checked)}
-                  className="mt-0.5 h-4 w-4 rounded border-input accent-accent flex-shrink-0"
-                  required
-                />
-                <label htmlFor="acceptPrivacy" className="text-xs leading-snug">
-                  Jag accepterar{" "}
+                  {" "}och{" "}
                   <a
                     href="/privacy"
                     target="_blank"
@@ -376,7 +357,7 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
               </div>
             </div>
           )}
-          <Button type="submit" className="w-full" disabled={loading || (!isLogin && (!acceptTerms || !acceptPrivacy))}>
+          <Button type="submit" className="w-full" disabled={loading || (!isLogin && !acceptPolicies)}>
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isLogin ? "Logga in" : "Skapa konto"}
           </Button>
