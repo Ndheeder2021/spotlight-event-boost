@@ -62,14 +62,24 @@ export function CampaignActions({ campaign, eventId, campaignId, onCampaignSaved
 
     setGenerating("pdf");
     try {
-      const { error } = await supabase.functions.invoke("generate-pdf", {
+      const { data, error } = await supabase.functions.invoke("generate-pdf", {
         body: { campaignId },
       });
 
       if (error) throw error;
-      toast.success("PDF genererad!");
+      
+      // Open PDF in new window for printing
+      const pdfWindow = window.open("", "_blank");
+      if (pdfWindow) {
+        pdfWindow.document.write(data.html);
+        pdfWindow.document.close();
+        setTimeout(() => pdfWindow.print(), 500);
+      }
+      
+      toast.success("PDF öppnad för utskrift!");
     } catch (error: any) {
-      toast.error(error.message);
+      console.error("PDF error:", error);
+      toast.error(error.message || "Kunde inte generera PDF");
     } finally {
       setGenerating(null);
     }
@@ -88,10 +98,26 @@ export function CampaignActions({ campaign, eventId, campaignId, onCampaignSaved
       });
 
       if (error) throw error;
+      
+      // Open image in new tab
+      const imgWindow = window.open("", "_blank");
+      if (imgWindow && data.imageUrl) {
+        imgWindow.document.write(`
+          <html>
+            <head><title>${adIdea.platform} Mockup</title></head>
+            <body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#f0f0f0;">
+              <img src="${data.imageUrl}" style="max-width:100%;max-height:100vh;object-fit:contain;" />
+            </body>
+          </html>
+        `);
+        imgWindow.document.close();
+      }
+      
       toast.success("Mockup genererad!");
       return data;
     } catch (error: any) {
-      toast.error(error.message);
+      console.error("Mockup error:", error);
+      toast.error(error.message || "Kunde inte generera mockup");
     } finally {
       setGenerating(null);
     }

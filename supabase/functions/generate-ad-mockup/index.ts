@@ -13,51 +13,64 @@ serve(async (req) => {
 
   try {
     const { adIdea, campaignId } = await req.json();
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY not configured");
-    }
 
     console.log("Generating ad mockup for:", adIdea);
 
-    // Generate image using Lovable AI (Nano banana model)
-    const imagePrompt = `Create a professional ${adIdea.platform} advertisement mockup for a marketing campaign. 
-Visual concept: ${adIdea.visual_concept}
-Ad copy text: "${adIdea.ad_copy}"
-Style: Modern, clean, professional marketing design with brand colors gold (#d1b300) and black.
-The mockup should look like it could be used on ${adIdea.platform} social media platform.`;
+    const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
+    if (!OPENAI_API_KEY) {
+      throw new Error("OPENAI_API_KEY not configured");
+    }
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    // Generate image using OpenAI's gpt-image-1 model
+    const imagePrompt = `Create a professional ${adIdea.platform} social media advertisement mockup for a marketing campaign. 
+
+Visual concept: ${adIdea.visual_concept}
+
+Ad copy text to include: "${adIdea.ad_copy}"
+
+Call-to-action button: "${adIdea.cta}"
+
+Style requirements:
+- Modern, clean, and professional marketing design
+- Use brand colors: gold (#d1b300) and black
+- ${adIdea.platform === "Meta" ? "Format should look like a Facebook/Instagram ad with proper dimensions" : "Format should be vertical/mobile-first for TikTok with dynamic, engaging visuals"}
+- Include the ad copy text prominently in the design
+- Add a clear call-to-action button with "${adIdea.cta}"
+- Professional product/food photography style
+- High quality, photorealistic rendering`;
+
+    const response = await fetch("https://api.openai.com/v1/images/generations", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash-image-preview",
-        messages: [
-          {
-            role: "user",
-            content: imagePrompt,
-          },
-        ],
-        modalities: ["image", "text"],
+        model: "gpt-image-1",
+        prompt: imagePrompt,
+        n: 1,
+        size: adIdea.platform === "Meta" ? "1536x1024" : "1024x1536",
+        quality: "high",
+        output_format: "png",
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Lovable AI error:", response.status, errorText);
-      throw new Error(`Failed to generate image: ${response.status}`);
+      console.error("OpenAI error:", response.status, errorText);
+      throw new Error(`Failed to generate image: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
-    const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+    const imageUrl = data.data?.[0]?.b64_json;
 
     if (!imageUrl) {
+      console.error("No image in response:", data);
       throw new Error("No image generated");
     }
+
+    // Convert base64 to data URL
+    const dataUrl = `data:image/png;base64,${imageUrl}`;
 
     // Save to attachments if campaignId provided
     if (campaignId) {
@@ -83,14 +96,14 @@ The mockup should look like it could be used on ${adIdea.platform} social media 
           tenant_id: campaign.tenant_id,
           file_name: `${adIdea.platform}-mockup.png`,
           file_type: "image",
-          file_data: imageUrl,
+          file_data: dataUrl,
           metadata: { platform: adIdea.platform, ad_copy: adIdea.ad_copy },
         });
       }
     }
 
     return new Response(
-      JSON.stringify({ imageUrl }),
+      JSON.stringify({ imageUrl: dataUrl }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       }

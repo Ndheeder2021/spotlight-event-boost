@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.58.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -11,7 +12,42 @@ serve(async (req) => {
   }
 
   try {
-    const { campaign } = await req.json();
+    const { campaignId } = await req.json();
+
+    if (!campaignId) {
+      return new Response(JSON.stringify({ error: "Campaign ID required" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Get campaign data from database
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+      {
+        global: {
+          headers: { Authorization: req.headers.get("Authorization")! },
+        },
+      }
+    );
+
+    const { data: campaign, error: campaignError } = await supabase
+      .from("campaigns")
+      .select("*")
+      .eq("id", campaignId)
+      .single();
+
+    if (campaignError || !campaign) {
+      console.error("Campaign error:", campaignError);
+      return new Response(JSON.stringify({ error: "Campaign not found" }), {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Use AI generated data for PDF content
+    const campaignData = campaign.ai_generated_data || {};
 
     // Create HTML for PDF
     const html = `
@@ -39,44 +75,44 @@ serve(async (req) => {
     <p class="content">${campaign.description}</p>
   </div>
 
-  ${campaign.target_audience ? `
+  ${campaignData.target_audience ? `
   <div class="section">
     <p class="label">Målgrupp:</p>
-    <p class="content">${campaign.target_audience}</p>
+    <p class="content">${campaignData.target_audience}</p>
   </div>
   ` : ''}
 
-  ${campaign.recommended_timing ? `
+  ${campaignData.recommended_timing ? `
   <div class="section">
     <p class="label">Rekommenderad timing:</p>
-    <p class="content">${campaign.recommended_timing}</p>
+    <p class="content">${campaignData.recommended_timing}</p>
   </div>
   ` : ''}
 
-  ${campaign.channels ? `
+  ${campaignData.channels ? `
   <div class="section">
     <p class="label">Kanaler:</p>
-    <p class="content">${campaign.channels}</p>
+    <p class="content">${campaignData.channels}</p>
   </div>
   ` : ''}
 
-  ${campaign.expected_outcome ? `
+  ${campaignData.expected_outcome ? `
   <div class="section">
     <p class="label">Förväntade resultat:</p>
-    <p class="content">${campaign.expected_outcome}</p>
+    <p class="content">${campaignData.expected_outcome}</p>
   </div>
   ` : ''}
 
-  ${campaign.action_steps && campaign.action_steps.length > 0 ? `
+  ${campaignData.action_steps && campaignData.action_steps.length > 0 ? `
   <h2>Genomförandesteg</h2>
   <ol>
-    ${campaign.action_steps.map((step: string) => `<li>${step}</li>`).join('')}
+    ${campaignData.action_steps.map((step: string) => `<li>${step}</li>`).join('')}
   </ol>
   ` : ''}
 
-  ${campaign.ad_ideas && campaign.ad_ideas.length > 0 ? `
+  ${campaignData.ad_ideas && campaignData.ad_ideas.length > 0 ? `
   <h2>Annonsidéer</h2>
-  ${campaign.ad_ideas.map((ad: any) => `
+  ${campaignData.ad_ideas.map((ad: any) => `
     <div class="ad-box">
       <h3>${ad.platform}</h3>
       <div class="section">
