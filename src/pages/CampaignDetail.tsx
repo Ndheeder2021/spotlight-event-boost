@@ -11,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Save, Copy, Trash2, Mail, Share2, FileDown, Sparkles, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { ABTestManager } from "@/components/ABTestManager";
+import { CampaignComments } from "@/components/CampaignComments";
 
 export default function CampaignDetail() {
   const { id } = useParams();
@@ -445,6 +447,22 @@ ${adIdea.cta}
                 </Tabs>
               </CardContent>
             </Card>
+          )}
+
+          {/* A/B Testing */}
+          {campaign.tenant_id && (
+            <ABTestManager 
+              campaignId={id!}
+              tenantId={campaign.tenant_id}
+            />
+          )}
+
+          {/* Comments */}
+          {campaign.tenant_id && (
+            <CampaignComments 
+              campaignId={id!}
+              tenantId={campaign.tenant_id}
+            />
           )}
 
           {/* Generated Mockups */}

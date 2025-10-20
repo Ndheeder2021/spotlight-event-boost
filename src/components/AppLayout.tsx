@@ -8,6 +8,7 @@ import { AILiveSupport } from "./AILiveSupport";
 import { usePlanFeatures } from "@/hooks/usePlanFeatures";
 import { Footer } from "./Footer";
 import { ThemeToggle } from "./ThemeToggle";
+import { LanguageSwitch } from "./LanguageSwitch";
 import { SkipToContent } from "./SkipToContent";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -103,6 +104,7 @@ export function AppLayout() {
             
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
+              <LanguageSwitch />
               <ThemeToggle />
               <Button variant="ghost" size="sm" onClick={handleLogout}>
                 <LogOut className="h-4 w-4 mr-2" />
@@ -112,6 +114,7 @@ export function AppLayout() {
 
             {/* Mobile Navigation */}
             <div className="flex lg:hidden items-center gap-2">
+              <LanguageSwitch />
               <ThemeToggle />
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
