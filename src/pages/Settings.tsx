@@ -278,24 +278,34 @@ export default function Settings() {
                         return;
                       }
 
-                      const effectiveRadius = Number(location.radius_km) || 20;
                       setImporting(true);
                       toast.loading("Importerar events...");
 
                       try {
+                        // Hämta senaste platsinställningar för att säkerställa att aktuell radie används
+                        const { data: freshLoc } = await supabase
+                          .from('locations')
+                          .select('lat,lon,radius_km')
+                          .eq('id', location.id)
+                          .maybeSingle();
+
+                        const lat = freshLoc?.lat ?? location.lat;
+                        const lon = freshLoc?.lon ?? location.lon;
+                        const effectiveRadius = Number(freshLoc?.radius_km ?? location.radius_km) || 50; // standard 50 km för bättre täckning
+
                         const { data, error } = await supabase.functions.invoke(
                           'import-eventbrite-events',
                           {
                             body: {
-                              latitude: location.lat,
-                              longitude: location.lon,
+                              latitude: lat,
+                              longitude: lon,
                               radius: effectiveRadius,
                               startDate: new Date().toISOString(),
                               endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
                             },
                           }
                         );
-
+                      
                         if (error) throw error;
 
                         if (data?.imported === 0) {
