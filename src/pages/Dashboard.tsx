@@ -77,7 +77,7 @@ export default function Dashboard() {
       // Get location based on tenant_id
       const { data: location, error: locationError } = await supabase
         .from("locations")
-        .select("lat, lon")
+        .select("lat, lon, radius_km")
         .eq("tenant_id", userRole.tenant_id)
         .single();
 
@@ -92,7 +92,8 @@ export default function Dashboard() {
 
       if (eventsError) throw eventsError;
 
-      // Filter events within 10km radius
+      // Filter events within radius from location settings (or 50km default)
+      const radiusKm = location.radius_km || 50;
       const nearbyEvents = allEvents?.filter(event => {
         const distance = calculateDistance(
           location.lat,
@@ -100,7 +101,7 @@ export default function Dashboard() {
           event.venue_lat,
           event.venue_lon
         );
-        return distance <= 10;
+        return distance <= radiusKm;
       }) || [];
 
       setEvents(nearbyEvents);
