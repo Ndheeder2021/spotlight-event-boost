@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, TrendingUp, Users, Calendar, DollarSign, Target, Activity, Lock } from "lucide-react";
+import { BarChart, TrendingUp, Users, Calendar, DollarSign, Target, Activity, Lock, Download, MapPin, TestTube2 } from "lucide-react";
 import { usePlanFeatures } from "@/hooks/usePlanFeatures";
 import { PlanUpgradeDialog } from "@/components/PlanUpgradeDialog";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,6 +8,8 @@ import { toast } from "sonner";
 import { format, subDays, startOfDay } from "date-fns";
 import { sv } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface AnalyticsData {
   totalCampaigns: number;
@@ -20,6 +22,14 @@ interface AnalyticsData {
     campaigns: number;
     events: number;
   }>;
+  eventsByCategory: Record<string, number>;
+  eventsByCity: Record<string, number>;
+  topCampaigns: Array<{
+    id: string;
+    title: string;
+    status: string;
+    eventCount: number;
+  }>;
 }
 
 export default function Reports() {
@@ -27,6 +37,9 @@ export default function Reports() {
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
   const [loadingData, setLoadingData] = useState(true);
+  const [roiCost, setRoiCost] = useState("");
+  const [roiRevenue, setRoiRevenue] = useState("");
+  const [calculatedROI, setCalculatedROI] = useState<number | null>(null);
 
   useEffect(() => {
     if (!loading && features.canViewAnalytics) {
@@ -115,6 +128,27 @@ export default function Reports() {
         };
       });
 
+      // Group events by category
+      const eventsByCategory = nearbyEvents.reduce((acc, event) => {
+        acc[event.category] = (acc[event.category] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+
+      // Group events by city
+      const eventsByCity = nearbyEvents.reduce((acc, event) => {
+        const city = event.city || "Okänd";
+        acc[city] = (acc[city] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+
+      // Get top campaigns with event count
+      const topCampaigns = campaigns?.map(campaign => ({
+        id: campaign.id,
+        title: campaign.title,
+        status: campaign.status,
+        eventCount: 1,
+      })).slice(0, 5) || [];
+
       setAnalyticsData({
         totalCampaigns: campaigns?.length || 0,
         activeCampaigns: campaigns?.filter(c => c.status === 'published').length || 0,
@@ -122,6 +156,9 @@ export default function Reports() {
         eventsThisWeek,
         campaignsByStatus,
         recentActivity,
+        eventsByCategory,
+        eventsByCity,
+        topCampaigns,
       });
     } catch (error: any) {
       toast.error(error.message);
@@ -140,6 +177,51 @@ export default function Reports() {
       Math.sin(dLon/2) * Math.sin(dLon/2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     return R * c;
+  };
+
+  const calculateROI = () => {
+    const cost = parseFloat(roiCost);
+    const revenue = parseFloat(roiRevenue);
+    if (!isNaN(cost) && !isNaN(revenue) && cost > 0) {
+      const roi = ((revenue - cost) / cost) * 100;
+      setCalculatedROI(roi);
+    }
+  };
+
+  const exportToExcel = () => {
+    if (!analyticsData) return;
+
+    const csvData = [
+      ["Analytics Rapport", ""],
+      ["Genererad", format(new Date(), "PPP", { locale: sv })],
+      ["", ""],
+      ["Översikt", ""],
+      ["Totalt Kampanjer", analyticsData.totalCampaigns],
+      ["Aktiva Kampanjer", analyticsData.activeCampaigns],
+      ["Totalt Events", analyticsData.totalEvents],
+      ["Events Denna Vecka", analyticsData.eventsThisWeek],
+      ["", ""],
+      ["Kampanjer per Status", ""],
+      ...Object.entries(analyticsData.campaignsByStatus).map(([status, count]) => [status, count]),
+      ["", ""],
+      ["Events per Kategori", ""],
+      ...Object.entries(analyticsData.eventsByCategory).map(([cat, count]) => [cat, count]),
+      ["", ""],
+      ["Events per Stad", ""],
+      ...Object.entries(analyticsData.eventsByCity).map(([city, count]) => [city, count]),
+    ];
+
+    const csvContent = csvData.map(row => row.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `analytics-rapport-${format(new Date(), "yyyy-MM-dd")}.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("Rapport exporterad!");
   };
 
   if (loading || loadingData) {
@@ -316,32 +398,188 @@ export default function Reports() {
         </Card>
       </div>
 
+      <div className="grid gap-6 md:grid-cols-2 mb-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <DollarSign className="h-5 w-5 text-accent" />
+              ROI-beräkning
+            </CardTitle>
+            <CardDescription>Beräkna avkastning på kampanjer</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="cost">Kampanjkostnad (SEK)</Label>
+              <Input
+                id="cost"
+                type="number"
+                placeholder="ex. 5000"
+                value={roiCost}
+                onChange={(e) => setRoiCost(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="revenue">Intäkter/Värde (SEK)</Label>
+              <Input
+                id="revenue"
+                type="number"
+                placeholder="ex. 15000"
+                value={roiRevenue}
+                onChange={(e) => setRoiRevenue(e.target.value)}
+              />
+            </div>
+            <Button onClick={calculateROI} className="w-full">
+              Beräkna ROI
+            </Button>
+            {calculatedROI !== null && (
+              <div className="p-4 rounded-lg bg-muted">
+                <p className="text-sm text-muted-foreground mb-1">Beräknad ROI</p>
+                <p className={`text-3xl font-bold ${calculatedROI >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  {calculatedROI.toFixed(1)}%
+                </p>
+                <p className="text-xs text-muted-foreground mt-2">
+                  {calculatedROI >= 0 
+                    ? `Du fick tillbaka ${(calculatedROI / 100 + 1).toFixed(2)}x din investering`
+                    : 'Negativ avkastning - justera din strategi'}
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TestTube2 className="h-5 w-5 text-accent" />
+              Kampanjprestanda
+            </CardTitle>
+            <CardDescription>Jämför dina kampanjer</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {analyticsData?.topCampaigns.map((campaign, idx) => {
+                const statusLabels: Record<string, string> = {
+                  draft: "Utkast",
+                  scheduled: "Schemalagd",
+                  published: "Publicerad",
+                };
+                const statusColors: Record<string, string> = {
+                  draft: "bg-gray-500",
+                  scheduled: "bg-yellow-500",
+                  published: "bg-green-500",
+                };
+                return (
+                  <div key={campaign.id} className="p-3 rounded-lg border">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium text-sm">#{idx + 1} {campaign.title}</span>
+                      <div className={`px-2 py-1 rounded text-xs text-white ${statusColors[campaign.status]}`}>
+                        {statusLabels[campaign.status]}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Calendar className="h-3 w-3" />
+                      <span>Events: {campaign.eventCount}</span>
+                    </div>
+                  </div>
+                );
+              })}
+              {(!analyticsData?.topCampaigns || analyticsData.topCampaigns.length === 0) && (
+                <p className="text-sm text-muted-foreground text-center py-4">Ingen kampanjdata tillgänglig</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 mb-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Target className="h-5 w-5 text-accent" />
+              Events per Kategori
+            </CardTitle>
+            <CardDescription>Målgruppsinsikter - kategorier</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {Object.entries(analyticsData?.eventsByCategory || {})
+                .sort(([, a], [, b]) => b - a)
+                .slice(0, 6)
+                .map(([category, count]) => {
+                  const total = analyticsData?.totalEvents || 1;
+                  const percentage = ((count / total) * 100).toFixed(0);
+                  return (
+                    <div key={category} className="space-y-1">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="font-medium capitalize">{category}</span>
+                        <span className="text-muted-foreground">{count} ({percentage}%)</span>
+                      </div>
+                      <div className="h-2 bg-muted rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-accent rounded-full transition-all"
+                          style={{ width: `${percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              {Object.keys(analyticsData?.eventsByCategory || {}).length === 0 && (
+                <p className="text-sm text-muted-foreground text-center py-4">Ingen kategoridata tillgänglig</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MapPin className="h-5 w-5 text-accent" />
+              Geografisk Fördelning
+            </CardTitle>
+            <CardDescription>Målgruppsinsikter - städer</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {Object.entries(analyticsData?.eventsByCity || {})
+                .sort(([, a], [, b]) => b - a)
+                .slice(0, 6)
+                .map(([city, count]) => (
+                  <div key={city} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm font-medium">{city}</span>
+                    </div>
+                    <span className="text-sm font-semibold text-accent">{count} events</span>
+                  </div>
+                ))}
+              {Object.keys(analyticsData?.eventsByCity || {}).length === 0 && (
+                <p className="text-sm text-muted-foreground text-center py-4">Ingen geografisk data tillgänglig</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <DollarSign className="h-5 w-5 text-accent" />
-            Kommande Features
+            <Download className="h-5 w-5 text-accent" />
+            Exportera Data
           </CardTitle>
-          <CardDescription>Fler analytics-funktioner under utveckling</CardDescription>
+          <CardDescription>Ladda ner din analytics-rapport</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-3 md:grid-cols-2">
-            <div className="p-3 rounded-lg bg-muted/50">
-              <h4 className="font-semibold text-sm mb-1">ROI-beräkning</h4>
-              <p className="text-xs text-muted-foreground">Beräkna avkastning på kampanjer</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium mb-1">Excel/CSV Export</p>
+              <p className="text-xs text-muted-foreground">
+                Exportera all analytics-data till en CSV-fil som kan öppnas i Excel
+              </p>
             </div>
-            <div className="p-3 rounded-lg bg-muted/50">
-              <h4 className="font-semibold text-sm mb-1">A/B Test-resultat</h4>
-              <p className="text-xs text-muted-foreground">Jämför kampanjvarianter</p>
-            </div>
-            <div className="p-3 rounded-lg bg-muted/50">
-              <h4 className="font-semibold text-sm mb-1">Målgruppsinsikter</h4>
-              <p className="text-xs text-muted-foreground">Demografisk och geografisk data</p>
-            </div>
-            <div className="p-3 rounded-lg bg-muted/50">
-              <h4 className="font-semibold text-sm mb-1">Export till Excel</h4>
-              <p className="text-xs text-muted-foreground">Ladda ner rapporter</p>
-            </div>
+            <Button onClick={exportToExcel} variant="outline">
+              <Download className="h-4 w-4 mr-2" />
+              Exportera
+            </Button>
           </div>
         </CardContent>
       </Card>
