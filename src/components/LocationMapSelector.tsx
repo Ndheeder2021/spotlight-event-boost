@@ -1,0 +1,248 @@
+import { useEffect, useRef, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Input } from "@/components/ui/input";
+import { AddressAutocomplete } from "@/components/AddressAutocomplete";
+import { MapPin, Building2 } from "lucide-react";
+
+interface LocationMapSelectorProps {
+  location: any;
+  onChange: (updates: Partial<any>) => void;
+  onAddressChange: (address: string, coordinates?: { lat: number; lon: number }) => void;
+}
+
+export function LocationMapSelector({ location, onChange, onAddressChange }: LocationMapSelectorProps) {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
+  const marker = useRef<mapboxgl.Marker | null>(null);
+  const circle = useRef<any>(null);
+  const [locationType, setLocationType] = useState<"address" | "city">("address");
+
+  // Initialize map
+  useEffect(() => {
+    if (!mapContainer.current || map.current) return;
+
+    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN || '';
+    
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/light-v11',
+      center: [location?.lon || 18.0686, location?.lat || 59.3293], // Stockholm default
+      zoom: 12,
+    });
+
+    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+    return () => {
+      map.current?.remove();
+    };
+  }, []);
+
+  // Update map when location changes
+  useEffect(() => {
+    if (!map.current || !location?.lat || !location?.lon) return;
+
+    // Remove old marker and circle
+    if (marker.current) marker.current.remove();
+    if (circle.current && map.current.getLayer('radius-circle')) {
+      map.current.removeLayer('radius-circle');
+      map.current.removeSource('radius-circle');
+    }
+
+    // Add new marker
+    marker.current = new mapboxgl.Marker({ color: '#FF1654' })
+      .setLngLat([location.lon, location.lat])
+      .addTo(map.current);
+
+    // Add radius circle if in address mode
+    if (locationType === "address" && location.radius_km) {
+      const radiusInMeters = location.radius_km * 1000;
+      const options = { steps: 80, units: 'meters' as const };
+      
+      // Create circle using Turf.js circle calculation
+      const center = [location.lon, location.lat];
+      const radius = radiusInMeters;
+      const points = [];
+      const distanceX = radius / (111320 * Math.cos((location.lat * Math.PI) / 180));
+      const distanceY = radius / 110540;
+
+      for (let i = 0; i <= 360; i += 360 / 80) {
+        const angle = (i * Math.PI) / 180;
+        points.push([
+          center[0] + distanceX * Math.cos(angle),
+          center[1] + distanceY * Math.sin(angle),
+        ]);
+      }
+
+      if (map.current.getSource('radius-circle')) {
+        (map.current.getSource('radius-circle') as mapboxgl.GeoJSONSource).setData({
+          type: 'Feature',
+          geometry: {
+            type: 'Polygon',
+            coordinates: [points],
+          },
+          properties: {},
+        });
+      } else {
+        map.current.addSource('radius-circle', {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            geometry: {
+              type: 'Polygon',
+              coordinates: [points],
+            },
+            properties: {},
+          },
+        });
+
+        map.current.addLayer({
+          id: 'radius-circle',
+          type: 'fill',
+          source: 'radius-circle',
+          paint: {
+            'fill-color': '#FF1654',
+            'fill-opacity': 0.2,
+          },
+        });
+
+        map.current.addLayer({
+          id: 'radius-circle-outline',
+          type: 'line',
+          source: 'radius-circle',
+          paint: {
+            'line-color': '#FF1654',
+            'line-width': 2,
+          },
+        });
+      }
+    }
+
+    // Fit map to show the radius
+    if (location.radius_km && locationType === "address") {
+      const radiusInMeters = location.radius_km * 1000;
+      const bounds = new mapboxgl.LngLatBounds();
+      const center = [location.lon, location.lat];
+      const distanceX = radiusInMeters / (111320 * Math.cos((location.lat * Math.PI) / 180));
+      const distanceY = radiusInMeters / 110540;
+
+      bounds.extend([center[0] - distanceX, center[1] - distanceY]);
+      bounds.extend([center[0] + distanceX, center[1] + distanceY]);
+
+      map.current.fitBounds(bounds, { padding: 50 });
+    } else {
+      map.current.flyTo({ center: [location.lon, location.lat], zoom: 12 });
+    }
+  }, [location?.lat, location?.lon, location?.radius_km, locationType]);
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Left side - Form */}
+      <div className="space-y-6">
+        <div className="space-y-4">
+          <Label className="text-base font-semibold">Platstyp</Label>
+          <RadioGroup
+            value={locationType}
+            onValueChange={(value) => setLocationType(value as "address" | "city")}
+            className="grid grid-cols-2 gap-4"
+          >
+            <div
+              className={`relative flex flex-col items-center gap-3 rounded-lg border-2 p-4 cursor-pointer transition-all ${
+                locationType === "address"
+                  ? "border-primary bg-primary/5"
+                  : "border-border hover:border-primary/50"
+              }`}
+              onClick={() => setLocationType("address")}
+            >
+              <RadioGroupItem value="address" id="address" className="sr-only" />
+              <div className="w-full aspect-video rounded-md bg-muted flex items-center justify-center relative overflow-hidden">
+                <MapPin className="h-8 w-8 text-primary absolute" />
+                <div className="absolute inset-0 border-4 border-primary/30 rounded-full scale-150" />
+              </div>
+              <div className="text-center">
+                <p className="font-medium">Gatuadress & Radie</p>
+                <p className="text-xs text-muted-foreground">t.ex. butiker, hotell eller restauranger</p>
+              </div>
+            </div>
+
+            <div
+              className={`relative flex flex-col items-center gap-3 rounded-lg border-2 p-4 cursor-pointer transition-all ${
+                locationType === "city"
+                  ? "border-primary bg-primary/5"
+                  : "border-border hover:border-primary/50"
+              }`}
+              onClick={() => setLocationType("city")}
+            >
+              <RadioGroupItem value="city" id="city" className="sr-only" />
+              <div className="w-full aspect-video rounded-md bg-muted flex items-center justify-center">
+                <Building2 className="h-8 w-8 text-primary" />
+              </div>
+              <div className="text-center">
+                <p className="font-medium">Stad, Land, etc.</p>
+                <p className="text-xs text-muted-foreground">t.ex. Stockholm, Sverige</p>
+              </div>
+            </div>
+          </RadioGroup>
+        </div>
+
+        {locationType === "address" ? (
+          <>
+            <div className="space-y-2">
+              <Label htmlFor="address">Gatuadress</Label>
+              <AddressAutocomplete
+                value={location?.address_line ?? location?.address ?? ""}
+                onChange={onAddressChange}
+                placeholder="Sök gatuadress..."
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="radius">Sökradie (km)</Label>
+              <Input
+                id="radius"
+                type="number"
+                step="1"
+                min="1"
+                max="100"
+                value={location?.radius_km || 20}
+                onChange={(e) => onChange({ radius_km: parseFloat(e.target.value) })}
+              />
+              <p className="text-xs text-muted-foreground">
+                Större radie ger fler events (rekommenderat: 10-20 km)
+              </p>
+            </div>
+          </>
+        ) : (
+          <div className="space-y-2">
+            <Label htmlFor="city-search">Stad eller område</Label>
+            <AddressAutocomplete
+              value={location?.city ?? ""}
+              onChange={(address, coordinates) => {
+                onChange({
+                  city: address,
+                  address_line: null,
+                  lat: coordinates?.lat,
+                  lon: coordinates?.lon,
+                  radius_km: null,
+                });
+              }}
+              placeholder="Sök stad eller område..."
+              required
+            />
+            <p className="text-xs text-muted-foreground">
+              Sök efter en stad eller ett större område
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Right side - Map */}
+      <div className="lg:sticky lg:top-6 h-[400px] lg:h-[600px]">
+        <div ref={mapContainer} className="w-full h-full rounded-lg border shadow-lg" />
+      </div>
+    </div>
+  );
+}

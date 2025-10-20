@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Save } from "lucide-react";
 import { toast } from "sonner";
 import { SubscriptionManager } from "@/components/SubscriptionManager";
-import { AddressAutocomplete } from "@/components/AddressAutocomplete";
+import { LocationMapSelector } from "@/components/LocationMapSelector";
 
 export default function Settings() {
   const [loading, setLoading] = useState(true);
@@ -163,7 +163,7 @@ export default function Settings() {
               <CardTitle>Verksamhetsinformation</CardTitle>
               <CardDescription>Uppdatera information om din verksamhet</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
               {location && (
                 <>
                   <div className="space-y-2">
@@ -193,33 +193,13 @@ export default function Settings() {
                     </Select>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="address">Adress</Label>
-                    <AddressAutocomplete
-                      value={location.address_line ?? location.address ?? ""}
-                      onChange={handleAddressChange}
-                      placeholder="Sök adress..."
-                      required
+                  <div className="border-t pt-6">
+                    <h3 className="text-lg font-semibold mb-4">Plats och sökområde</h3>
+                    <LocationMapSelector
+                      location={location}
+                      onChange={(updates) => setLocation({ ...location, ...updates })}
+                      onAddressChange={handleAddressChange}
                     />
-                    <p className="text-xs text-muted-foreground">
-                      Börja skriva för att söka adress.
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="radius">Sökradie (km)</Label>
-                    <Input
-                      id="radius"
-                      type="number"
-                      step="5"
-                      min="5"
-                      max="100"
-                      value={location.radius_km || 20}
-                      onChange={(e) => setLocation({ ...location, radius_km: parseFloat(e.target.value) })}
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Större radie ger fler events (rekommenderat: 10-20 km)
-                    </p>
                   </div>
 
                   <Button onClick={handleSaveLocation} disabled={saving} className="w-full">
