@@ -69,8 +69,8 @@ serve(async (req) => {
     const startISO = startDate || new Date().toISOString();
     const endISO = endDate || new Date(Date.now() + 1000 * 60 * 60 * 24 * 180).toISOString();
 
-    // Build PredictHQ API request with improved parameters
-    const params = new URLSearchParams({
+    // 1. Fetch physical events
+    const eventsParams = new URLSearchParams({
       'within': `${searchRadius}km@${latitude},${longitude}`,
       'active.gte': startISO,
       'active.lte': endISO,
@@ -78,28 +78,60 @@ serve(async (req) => {
       'limit': '500',
     });
 
-    const url = `https://api.predicthq.com/v1/events/?${params.toString()}`;
-    console.log('Calling PredictHQ API:', url);
+    const eventsUrl = `https://api.predicthq.com/v1/events/?${eventsParams.toString()}`;
+    console.log('Calling PredictHQ Events API:', eventsUrl);
 
-    const response = await fetch(url, {
+    const eventsResponse = await fetch(eventsUrl, {
       headers: {
         'Authorization': `Bearer ${predictHqApiKey}`,
         'Accept': 'application/json',
       },
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('PredictHQ API error:', response.status, errorText);
+    if (!eventsResponse.ok) {
+      const errorText = await eventsResponse.text();
+      console.error('PredictHQ Events API error:', eventsResponse.status, errorText);
       return new Response(
         JSON.stringify({ error: 'Failed to fetch events from PredictHQ', details: errorText }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    const data = await response.json();
-    const events = data.results || [];
-    console.log(`Found ${events.length} events from PredictHQ`);
+    const eventsData = await eventsResponse.json();
+    const events = eventsData.results || [];
+    console.log(`Found ${events.length} physical events from PredictHQ`);
+
+    // 2. Fetch Live TV broadcasts for the same area
+    const broadcastsParams = new URLSearchParams({
+      'location.origin': `${latitude},${longitude}`,
+      'start.gte': startISO,
+      'start.lt': endISO,
+      'broadcast_status': 'predicted,scheduled',
+      'sort': 'start',
+      'limit': '500',
+    });
+
+    const broadcastsUrl = `https://api.predicthq.com/v1/broadcasts/?${broadcastsParams.toString()}`;
+    console.log('Calling PredictHQ Broadcasts API:', broadcastsUrl);
+
+    const broadcastsResponse = await fetch(broadcastsUrl, {
+      headers: {
+        'Authorization': `Bearer ${predictHqApiKey}`,
+        'Accept': 'application/json',
+      },
+    });
+
+    let broadcasts = [];
+    if (broadcastsResponse.ok) {
+      const broadcastsData = await broadcastsResponse.json();
+      broadcasts = broadcastsData.results || [];
+      console.log(`Found ${broadcasts.length} TV broadcasts from PredictHQ`);
+    } else {
+      console.warn('Could not fetch broadcasts (may require Live TV Events access)');
+    }
+
+    const allEvents = [...events, ...broadcasts];
+    console.log(`Found ${allEvents.length} total events (physical + TV broadcasts) from PredictHQ`);
 
     // Distance helper (Haversine)
     const toRad = (v: number) => (v * Math.PI) / 180;
@@ -115,52 +147,79 @@ serve(async (req) => {
       return R * c;
     };
 
-    // Keep only events within requested radius
-    const nearbyEvents = events.filter((event: any) => {
-      if (!event.location || event.location.length < 2) return false;
-      const evLat = event.location[1];
-      const evLon = event.location[0];
-      return distanceKm(Number(latitude), Number(longitude), evLat, evLon) <= searchRadius;
-    });
-
-    console.log(`Nearby events within ${searchRadius}km: ${nearbyEvents.length}`);
-
-    if (nearbyEvents.length === 0) {
-      return new Response(
-        JSON.stringify({ message: 'No events found within radius', imported: 0 }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Transform and insert events into our database
-    const eventsToInsert = nearbyEvents
-      .filter((event: any) => {
-        return event.location && event.location.length >= 2;
+    // Process all events (both physical and TV broadcasts)
+    const eventsToInsert = allEvents
+      .filter((item: any) => {
+        // For physical events: check location
+        if (item.location && item.location.length >= 2) {
+          const evLat = item.location[1];
+          const evLon = item.location[0];
+          return distanceKm(Number(latitude), Number(longitude), evLat, evLon) <= searchRadius;
+        }
+        // For broadcasts: always include (they're already location-filtered by API)
+        if (item.broadcast_id) {
+          return true;
+        }
+        return false;
       })
-      .map((event: any) => {
-        const category = event.category || 'other';
-        const phqAttendance = event.phq_attendance || event.predicted_attendance || 500;
+      .map((item: any) => {
+        // Handle TV broadcasts
+        if (item.broadcast_id) {
+          const event = item.event;
+          const category = event?.category || 'sports';
+          const viewership = item.phq_viewership || 1000;
+          
+          // Use the actual event location (where match is played)
+          const eventLat = event?.location?.geopoint?.lat || Number(latitude);
+          const eventLon = event?.location?.geopoint?.lon || Number(longitude);
+          
+          // Create venue name from broadcast location
+          const broadcastLocation = item.location?.places?.[0];
+          const venueName = broadcastLocation ? 
+            `TV: ${broadcastLocation.name}, ${broadcastLocation.region}` : 
+            'TV Broadcast';
+          
+          return {
+            source: 'predicthq-broadcast',
+            source_id: item.broadcast_id,
+            title: event?.title || 'Live TV Event',
+            description: `Live TV broadcast with ${viewership.toLocaleString()} predicted viewers in your area`,
+            category: mapCategory(category),
+            start_time: item.dates?.start || event?.dates?.start,
+            end_time: event?.dates?.predicted_end || event?.dates?.start,
+            venue_name: venueName,
+            venue_lat: eventLat,
+            venue_lon: eventLon,
+            city: broadcastLocation?.name || '',
+            expected_attendance: viewership, // Use viewership as "attendance"
+            p10: Math.floor(viewership * 0.8),
+            p90: Math.floor(viewership * 1.2),
+            raw_url: null,
+          };
+        }
         
-        // Create better description if none available
-        const venueName = event.entities?.find((e: any) => e.type === 'venue')?.name || 'Unknown Venue';
-        const eventDescription = event.description || `${event.title || 'Event'} på ${venueName}`;
+        // Handle physical events (existing logic)
+        const category = item.category || 'other';
+        const phqAttendance = item.phq_attendance || item.predicted_attendance || 500;
+        const venueName = item.entities?.find((e: any) => e.type === 'venue')?.name || 'Unknown Venue';
+        const eventDescription = item.description || `${item.title || 'Event'} på ${venueName}`;
         
         return {
           source: 'predicthq',
-          source_id: event.id,
-          title: event.title || 'Untitled Event',
+          source_id: item.id,
+          title: item.title || 'Untitled Event',
           description: eventDescription,
           category: mapCategory(category),
-          start_time: event.start,
-          end_time: event.end || event.start,
+          start_time: item.start,
+          end_time: item.end || item.start,
           venue_name: venueName,
-          venue_lat: event.location[1],
-          venue_lon: event.location[0],
-          city: event.entities?.find((e: any) => e.type === 'venue')?.formatted_address?.split(',')[0] || '',
+          venue_lat: item.location[1],
+          venue_lon: item.location[0],
+          city: item.entities?.find((e: any) => e.type === 'venue')?.formatted_address?.split(',')[0] || '',
           expected_attendance: phqAttendance,
           p10: Math.floor(phqAttendance * 0.5),
           p90: Math.floor(phqAttendance * 1.2),
-          raw_url: null, // Ta inte med PredictHQ länk
+          raw_url: null,
         };
       });
 
@@ -192,7 +251,9 @@ serve(async (req) => {
       JSON.stringify({ 
         message: 'Events imported successfully',
         imported: insertedEvents?.length || 0,
-        total_found: events.length,
+        total_found: allEvents.length,
+        physical_events: events.length,
+        tv_broadcasts: broadcasts.length,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
