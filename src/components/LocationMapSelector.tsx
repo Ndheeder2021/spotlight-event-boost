@@ -6,6 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { AddressAutocomplete } from "@/components/AddressAutocomplete";
 import { MapPin, Building2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LocationMapSelectorProps {
   location: any;
@@ -19,12 +20,29 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
   const marker = useRef<mapboxgl.Marker | null>(null);
   const circle = useRef<any>(null);
   const [locationType, setLocationType] = useState<"address" | "city">("address");
+  const [mapboxToken, setMapboxToken] = useState<string | null>(null);
+
+  // Fetch Mapbox token
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke('get-mapbox-token');
+        if (error) throw error;
+        if (data?.token) {
+          setMapboxToken(data.token);
+        }
+      } catch (error) {
+        console.error('Error fetching Mapbox token:', error);
+      }
+    };
+    fetchToken();
+  }, []);
 
   // Initialize map
   useEffect(() => {
-    if (!mapContainer.current || map.current) return;
+    if (!mapContainer.current || map.current || !mapboxToken) return;
 
-    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN || '';
+    mapboxgl.accessToken = mapboxToken;
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -38,7 +56,7 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
     return () => {
       map.current?.remove();
     };
-  }, []);
+  }, [mapboxToken]);
 
   // Update map when location changes
   useEffect(() => {
@@ -241,7 +259,13 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
 
       {/* Right side - Map */}
       <div className="lg:sticky lg:top-6 h-[400px] lg:h-[600px]">
-        <div ref={mapContainer} className="w-full h-full rounded-lg border shadow-lg" />
+        {!mapboxToken ? (
+          <div className="w-full h-full rounded-lg border shadow-lg flex items-center justify-center bg-muted">
+            <p className="text-muted-foreground">Laddar karta...</p>
+          </div>
+        ) : (
+          <div ref={mapContainer} className="w-full h-full rounded-lg border shadow-lg" />
+        )}
       </div>
     </div>
   );
