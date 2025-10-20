@@ -61,13 +61,12 @@ serve(async (req) => {
     console.log(`Fetching events from PredictHQ: lat=${latitude}, lon=${longitude}, radius=${searchRadius}km`);
 
     // Date window: default to next 180 days if not provided
-    const startISO = startDate || new Date().toISOString().split('T')[0];
-    const endISO = endDate || new Date(Date.now() + 1000 * 60 * 60 * 24 * 180).toISOString().split('T')[0];
+    const startISO = startDate || new Date().toISOString();
+    const endISO = endDate || new Date(Date.now() + 1000 * 60 * 60 * 24 * 180).toISOString();
 
-    // Build PredictHQ API request
+    // Build PredictHQ API request with improved parameters
     const params = new URLSearchParams({
-      'location_around.origin': `${latitude},${longitude}`,
-      'location_around.offset': `${searchRadius}km`,
+      'within': `${searchRadius}km@${latitude},${longitude}`,
       'active.gte': startISO,
       'active.lte': endISO,
       'sort': 'start',
