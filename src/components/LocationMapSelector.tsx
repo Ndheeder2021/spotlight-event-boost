@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { AddressAutocomplete } from "@/components/AddressAutocomplete";
 import { MapPin, Building2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import mapAddressRadius from "@/assets/map-address-radius.jpg";
+import mapCityArea from "@/assets/map-city-area.jpg";
 
 interface LocationMapSelectorProps {
   location: any;
@@ -179,24 +181,11 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
             >
               <RadioGroupItem value="address" id="address" className="sr-only" />
               <div className="w-full aspect-video rounded-md overflow-hidden relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-100 via-blue-50 to-blue-100">
-                  {/* Grid pattern to simulate streets */}
-                  <div className="absolute inset-0 opacity-30">
-                    <div className="grid grid-cols-6 grid-rows-4 h-full w-full gap-2 p-4">
-                      {[...Array(24)].map((_, i) => (
-                        <div key={i} className="bg-gray-300 rounded-sm" />
-                      ))}
-                    </div>
-                  </div>
-                  {/* Radius circle overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-24 h-24 rounded-full border-4 border-primary/40 bg-primary/10" />
-                  </div>
-                  {/* Center pin */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <MapPin className="h-8 w-8 text-primary drop-shadow-lg z-10" fill="currentColor" />
-                  </div>
-                </div>
+                <img 
+                  src={mapAddressRadius} 
+                  alt="Street address with radius" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="text-center">
                 <p className="font-medium">Gatuadress & Radie</p>
@@ -214,23 +203,11 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
             >
               <RadioGroupItem value="city" id="city" className="sr-only" />
               <div className="w-full aspect-video rounded-md overflow-hidden relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-orange-50 to-red-50">
-                  {/* Building silhouettes */}
-                  <div className="absolute bottom-0 left-0 right-0 flex items-end justify-around gap-1 px-2 pb-2 opacity-40">
-                    <div className="w-8 h-16 bg-gray-600 rounded-t" />
-                    <div className="w-6 h-12 bg-gray-500 rounded-t" />
-                    <div className="w-10 h-20 bg-gray-700 rounded-t" />
-                    <div className="w-7 h-14 bg-gray-600 rounded-t" />
-                    <div className="w-9 h-18 bg-gray-500 rounded-t" />
-                    <div className="w-6 h-10 bg-gray-600 rounded-t" />
-                  </div>
-                  {/* Area boundary outline */}
-                  <div className="absolute inset-4 border-4 border-primary/30 rounded-lg" />
-                  {/* Center icon */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Building2 className="h-8 w-8 text-primary drop-shadow-lg z-10" />
-                  </div>
-                </div>
+                <img 
+                  src={mapCityArea} 
+                  alt="City area" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="text-center">
                 <p className="font-medium">Stad, Land, etc.</p>
