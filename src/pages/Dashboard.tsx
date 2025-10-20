@@ -120,10 +120,19 @@ export default function Dashboard() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
+      // Get user's tenant_id
+      const { data: userRole } = await supabase
+        .from("user_roles")
+        .select("tenant_id")
+        .eq("user_id", user.id)
+        .single();
+
+      if (!userRole) return;
+
       const { data } = await supabase
         .from("campaigns")
         .select("event_id")
-        .eq("tenant_id", (await supabase.from("user_roles").select("tenant_id").eq("user_id", user.id).single()).data?.tenant_id);
+        .eq("tenant_id", userRole.tenant_id);
 
       if (data) {
         setSavedEvents(data.map((c: any) => c.event_id));
@@ -182,15 +191,56 @@ export default function Dashboard() {
         return;
       }
 
-      if (savedEvents.includes(eventId)) {
-        toast.info("Event är redan sparat");
+      // Get user's tenant_id
+      const { data: userRole } = await supabase
+        .from("user_roles")
+        .select("tenant_id")
+        .eq("user_id", user.id)
+        .single();
+
+      if (!userRole) {
+        toast.error("Kunde inte hitta användarinfo");
         return;
       }
 
-      setSavedEvents([...savedEvents, eventId]);
-      toast.success("Event sparat!");
+      // Check if event is already saved
+      if (savedEvents.includes(eventId)) {
+        // Remove saved event (delete campaign)
+        const { error } = await supabase
+          .from("campaigns")
+          .delete()
+          .eq("event_id", eventId)
+          .eq("tenant_id", userRole.tenant_id);
+
+        if (error) throw error;
+
+        setSavedEvents(savedEvents.filter(id => id !== eventId));
+        toast.success("Event borttaget från sparade");
+      } else {
+        // Save event (create campaign)
+        const event = events.find(e => e.id === eventId);
+        if (!event) return;
+
+        const { error } = await supabase
+          .from("campaigns")
+          .insert({
+            event_id: eventId,
+            tenant_id: userRole.tenant_id,
+            title: event.title,
+            description: `Kampanj för ${event.title}`,
+            recommended_start: event.start_time,
+            recommended_end: event.end_time || event.start_time,
+            status: 'draft'
+          });
+
+        if (error) throw error;
+
+        setSavedEvents([...savedEvents, eventId]);
+        toast.success("Event sparat!");
+      }
     } catch (error: any) {
-      toast.error("Kunde inte spara event");
+      toast.error("Kunde inte spara/ta bort event");
+      console.error("Error:", error);
     }
   };
 
