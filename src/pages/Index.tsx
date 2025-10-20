@@ -574,70 +574,125 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="container mx-auto px-4 py-24 bg-gradient-to-b from-background to-accent/5">
-        <div className="text-center mb-20 animate-on-scroll">
-          <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
-            <span className="text-sm font-semibold text-accent">Våra Funktioner</span>
-          </div>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            Varför välja <span className="gradient-text">Spotlight</span>?
-          </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Vi ger dig verktygen för att ligga steget före konkurrenterna och maximera din försäljning vid lokala evenemang.
-          </p>
-        </div>
+      <section id="features" className="relative container mx-auto px-4 py-32 overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-accent/5 to-background" />
+        <div className="absolute top-1/4 left-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
         
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          <Card className="glass-card hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-on-scroll group border-2 hover:border-accent/50">
-            <CardHeader>
-              <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                <Bell className="h-8 w-8 text-accent" />
-              </div>
-              <CardTitle className="text-2xl mb-3">Smarta Notifieringar</CardTitle>
-              <CardDescription className="text-base">
-                Få varningar om relevanta evenemang i ditt område automatiskt
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Vi övervakar kontinuerligt lokala evenemang och meddelar dig när det finns möjligheter att nå fler kunder.
-              </p>
-            </CardContent>
-          </Card>
+        <div className="relative z-10">
+          <div className="text-center mb-20 animate-on-scroll">
+            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-accent/20 to-accent/10 border border-accent/30 mb-6 shadow-lg backdrop-blur-sm">
+              <Sparkles className="h-5 w-5 text-accent fill-accent animate-pulse" />
+              <span className="text-sm font-bold gradient-text">Våra Kraftfulla Funktioner</span>
+            </div>
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 font-display">
+              Varför välja <span className="gradient-text">Spotlight</span>?
+            </h2>
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+              Vi ger dig verktygen för att <span className="text-foreground font-semibold">ligga steget före konkurrenterna</span> och maximera din försäljning vid lokala evenemang.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            <Card className="group relative overflow-hidden bg-gradient-to-br from-card/50 to-card/80 backdrop-blur-xl border-2 border-accent/20 hover:border-accent/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-accent/20 animate-on-scroll">
+              {/* Card Glow Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/0 via-accent/5 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <CardHeader className="relative z-10">
+                <div className="relative mb-6">
+                  <div className="absolute inset-0 bg-accent/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                  <div className="relative h-20 w-20 rounded-2xl bg-gradient-to-br from-accent via-accent-glow to-accent/80 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                    <Bell className="h-10 w-10 text-primary-foreground" />
+                  </div>
+                </div>
+                <CardTitle className="text-2xl md:text-3xl mb-4 group-hover:gradient-text transition-all duration-300">
+                  Smarta Notifieringar
+                </CardTitle>
+                <CardDescription className="text-base text-muted-foreground">
+                  Få varningar om relevanta evenemang i ditt område automatiskt
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Vi övervakar kontinuerligt lokala evenemang och meddelar dig när det finns möjligheter att nå fler kunder.
+                </p>
+                <div className="mt-6 pt-6 border-t border-accent/20">
+                  <div className="flex items-center gap-2 text-accent font-semibold text-sm">
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    Aldrig missa ett tillfälle
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card className="glass-card hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-on-scroll group border-2 hover:border-accent/50" style={{ animationDelay: '100ms' }}>
-            <CardHeader>
-              <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                <TrendingUp className="h-8 w-8 text-accent" />
+            <Card className="group relative overflow-hidden bg-gradient-to-br from-card/50 to-card/80 backdrop-blur-xl border-2 border-accent/20 hover:border-accent/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-accent/20 animate-on-scroll" style={{ animationDelay: '100ms' }}>
+              {/* Premium Badge */}
+              <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-accent/20 backdrop-blur-sm border border-accent/30 z-20">
+                <span className="text-xs font-bold text-accent">AI-DRIVEN</span>
               </div>
-              <CardTitle className="text-2xl mb-3">AI-genererade Kampanjer</CardTitle>
-              <CardDescription className="text-base">
-                Skapa professionella kampanjer på sekunder
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Vår AI hjälper dig att skapa engagerande marknadsföringstext anpassad för varje evenemang och din målgrupp.
-              </p>
-            </CardContent>
-          </Card>
+              
+              {/* Card Glow Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/0 via-accent/5 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <CardHeader className="relative z-10">
+                <div className="relative mb-6">
+                  <div className="absolute inset-0 bg-accent/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                  <div className="relative h-20 w-20 rounded-2xl bg-gradient-to-br from-accent via-accent-glow to-accent/80 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                    <TrendingUp className="h-10 w-10 text-primary-foreground" />
+                  </div>
+                </div>
+                <CardTitle className="text-2xl md:text-3xl mb-4 group-hover:gradient-text transition-all duration-300">
+                  AI-genererade Kampanjer
+                </CardTitle>
+                <CardDescription className="text-base text-muted-foreground">
+                  Skapa professionella kampanjer på 30 sekunder
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Vår AI hjälper dig att skapa engagerande marknadsföringstext anpassad för varje evenemang och din målgrupp.
+                </p>
+                <div className="mt-6 pt-6 border-t border-accent/20">
+                  <div className="flex items-center gap-2 text-accent font-semibold text-sm">
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    Spara timmar varje vecka
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-          <Card className="glass-card hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-on-scroll group border-2 hover:border-accent/50" style={{ animationDelay: '200ms' }}>
-            <CardHeader>
-              <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                <BarChart className="h-8 w-8 text-accent" />
-              </div>
-              <CardTitle className="text-2xl mb-3">Detaljerad Analys</CardTitle>
-              <CardDescription className="text-base">
-                Följ resultat och optimera dina kampanjer
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Se vilka kampanjer som fungerar bäst och få insikter för att kontinuerligt förbättra dina resultat.
-              </p>
-            </CardContent>
-          </Card>
+            <Card className="group relative overflow-hidden bg-gradient-to-br from-card/50 to-card/80 backdrop-blur-xl border-2 border-accent/20 hover:border-accent/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-accent/20 animate-on-scroll" style={{ animationDelay: '200ms' }}>
+              {/* Card Glow Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/0 via-accent/5 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <CardHeader className="relative z-10">
+                <div className="relative mb-6">
+                  <div className="absolute inset-0 bg-accent/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                  <div className="relative h-20 w-20 rounded-2xl bg-gradient-to-br from-accent via-accent-glow to-accent/80 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                    <BarChart className="h-10 w-10 text-primary-foreground" />
+                  </div>
+                </div>
+                <CardTitle className="text-2xl md:text-3xl mb-4 group-hover:gradient-text transition-all duration-300">
+                  Detaljerad Analys
+                </CardTitle>
+                <CardDescription className="text-base text-muted-foreground">
+                  Följ resultat och optimera dina kampanjer
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Se vilka kampanjer som fungerar bäst och få insikter för att kontinuerligt förbättra dina resultat.
+                </p>
+                <div className="mt-6 pt-6 border-t border-accent/20">
+                  <div className="flex items-center gap-2 text-accent font-semibold text-sm">
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    Maximera din ROI
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </section>
 
@@ -912,45 +967,71 @@ const Index = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="relative container mx-auto px-4 py-20 overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+      <section className="relative container mx-auto px-4 py-32 overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-accent/5 to-background" />
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
         
         <div className="relative z-10">
-          <div className="text-center mb-16 animate-on-scroll">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent mb-4">
-              <HelpCircle className="h-4 w-4" />
-              <span className="text-sm font-medium">Vanliga frågor</span>
+          <div className="text-center mb-20 animate-on-scroll">
+            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-accent/20 to-accent/10 border border-accent/30 mb-6 shadow-lg backdrop-blur-sm">
+              <HelpCircle className="h-5 w-5 text-accent" />
+              <span className="text-sm font-bold gradient-text">Vanliga Frågor</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 gradient-text">
-              Frågor & Svar
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-8">
+              Frågor & <span className="gradient-text">Svar</span>
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Hittar du inte svar på din fråga? <a href="/contact" className="text-primary hover:underline">Kontakta oss gärna!</a>
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Hittar du inte svar på din fråga? <a href="/contact" className="text-accent hover:text-accent-glow transition-colors font-semibold underline decoration-accent/30 hover:decoration-accent">Kontakta oss gärna!</a>
             </p>
           </div>
 
-          <div className="max-w-3xl mx-auto animate-on-scroll">
-            <Accordion type="single" collapsible className="space-y-4">
+          <div className="max-w-4xl mx-auto animate-on-scroll">
+            <Accordion type="single" collapsible className="space-y-6">
               {faqs.map((faq, index) => (
                 <AccordionItem 
                   key={index} 
                   value={`item-${index}`} 
-                  className="glass-card rounded-xl px-6 border-0 group hover:shadow-premium transition-all duration-300"
+                  className="group relative overflow-hidden bg-gradient-to-br from-card/50 to-card/80 backdrop-blur-xl border-2 border-accent/10 hover:border-accent/30 rounded-2xl px-8 transition-all duration-500 hover:shadow-2xl hover:shadow-accent/10 hover:scale-[1.02]"
                 >
-                  <AccordionTrigger className="text-left font-semibold hover:no-underline text-base py-6 group-hover:text-primary transition-colors">
-                    <div className="flex items-start gap-3">
-                      <Sparkles className="h-5 w-5 mt-0.5 text-accent group-hover:text-primary transition-colors flex-shrink-0" />
-                      <span>{faq.question}</span>
+                  {/* Glow effect on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/0 via-accent/5 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  <AccordionTrigger className="relative z-10 text-left font-bold hover:no-underline text-base md:text-lg py-8 group-hover:text-accent transition-colors">
+                    <div className="flex items-start gap-4 w-full">
+                      <div className="flex-shrink-0 mt-1">
+                        <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-md">
+                          <Sparkles className="h-5 w-5 text-accent group-hover:fill-accent transition-all" />
+                        </div>
+                      </div>
+                      <span className="flex-1 leading-relaxed">{faq.question}</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed pb-6 pl-8">
-                    {faq.answer}
+                  <AccordionContent className="relative z-10 text-muted-foreground leading-relaxed pb-8 pl-14 text-base">
+                    <div className="p-6 rounded-xl bg-accent/5 border border-accent/10">
+                      {faq.answer}
+                    </div>
                   </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="text-center mt-16 animate-on-scroll">
+            <p className="text-lg text-muted-foreground mb-6">
+              Fortfarande osäker? Testa gratis i 14 dagar!
+            </p>
+            <Button 
+              size="lg" 
+              className="text-base px-10 h-14 shadow-xl hover:shadow-accent/30 transition-all duration-300 hover:scale-105 bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground font-semibold" 
+              onClick={() => setShowAuthDialog(true)}
+            >
+              Kom igång nu
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
           </div>
         </div>
       </section>
