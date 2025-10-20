@@ -46,7 +46,7 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/light-v11',
+      style: 'mapbox://styles/mapbox/streets-v12',
       center: [location?.lon || 18.0686, location?.lat || 59.3293], // Stockholm default
       zoom: 12,
     });
@@ -64,8 +64,13 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
 
     // Remove old marker and circle
     if (marker.current) marker.current.remove();
-    if (circle.current && map.current.getLayer('radius-circle')) {
+    if (map.current.getLayer('radius-circle-outline')) {
+      map.current.removeLayer('radius-circle-outline');
+    }
+    if (map.current.getLayer('radius-circle')) {
       map.current.removeLayer('radius-circle');
+    }
+    if (map.current.getSource('radius-circle')) {
       map.current.removeSource('radius-circle');
     }
 
@@ -77,16 +82,14 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
     // Add radius circle if in address mode
     if (locationType === "address" && location.radius_km) {
       const radiusInMeters = location.radius_km * 1000;
-      const options = { steps: 80, units: 'meters' as const };
       
-      // Create circle using Turf.js circle calculation
+      // Create circle using simple circle calculation
       const center = [location.lon, location.lat];
-      const radius = radiusInMeters;
       const points = [];
-      const distanceX = radius / (111320 * Math.cos((location.lat * Math.PI) / 180));
-      const distanceY = radius / 110540;
+      const distanceX = radiusInMeters / (111320 * Math.cos((location.lat * Math.PI) / 180));
+      const distanceY = radiusInMeters / 110540;
 
-      for (let i = 0; i <= 360; i += 360 / 80) {
+      for (let i = 0; i <= 360; i += 5) {
         const angle = (i * Math.PI) / 180;
         points.push([
           center[0] + distanceX * Math.cos(angle),
@@ -94,16 +97,10 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
         ]);
       }
 
-      if (map.current.getSource('radius-circle')) {
-        (map.current.getSource('radius-circle') as mapboxgl.GeoJSONSource).setData({
-          type: 'Feature',
-          geometry: {
-            type: 'Polygon',
-            coordinates: [points],
-          },
-          properties: {},
-        });
-      } else {
+      // Wait for map to be fully loaded before adding layers
+      const addCircle = () => {
+        if (!map.current) return;
+
         map.current.addSource('radius-circle', {
           type: 'geojson',
           data: {
@@ -122,7 +119,7 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
           source: 'radius-circle',
           paint: {
             'fill-color': '#FF1654',
-            'fill-opacity': 0.2,
+            'fill-opacity': 0.15,
           },
         });
 
@@ -132,9 +129,15 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
           source: 'radius-circle',
           paint: {
             'line-color': '#FF1654',
-            'line-width': 2,
+            'line-width': 3,
           },
         });
+      };
+
+      if (map.current.isStyleLoaded()) {
+        addCircle();
+      } else {
+        map.current.once('load', addCircle);
       }
     }
 
