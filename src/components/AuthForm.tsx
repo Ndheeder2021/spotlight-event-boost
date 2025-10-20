@@ -199,29 +199,30 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
+    <Card className="w-full max-w-md max-h-[90vh] flex flex-col">
+      <CardHeader className="flex-shrink-0">
         <CardTitle>{isLogin ? "Logga in" : "Skapa konto"}</CardTitle>
         <CardDescription>
           {isLogin ? "Logga in på ditt Spotlight-konto" : "Kom igång med Spotlight"}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleAuth} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">E-post</Label>
+      <CardContent className="overflow-y-auto flex-1">
+        <form onSubmit={handleAuth} className="space-y-3">
+          <div className="space-y-1.5">
+            <Label htmlFor="email" className="text-sm">E-post</Label>
             <Input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="h-9"
             />
           </div>
           {!isLogin && (
             <>
-              <div className="space-y-2">
-                <Label htmlFor="businessName">Företagsnamn</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="businessName" className="text-sm">Företagsnamn</Label>
                 <Input
                   id="businessName"
                   type="text"
@@ -229,12 +230,13 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
                   onChange={(e) => setBusinessName(e.target.value)}
                   required
                   placeholder="Ex: Café Bröd & Salt"
+                  className="h-9"
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="businessType">Typ av verksamhet</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="businessType" className="text-sm">Typ av verksamhet</Label>
                 <Select value={businessType} onValueChange={setBusinessType} required>
-                  <SelectTrigger id="businessType">
+                  <SelectTrigger id="businessType" className="h-9">
                     <SelectValue placeholder="Välj typ av verksamhet" />
                   </SelectTrigger>
                   <SelectContent className="bg-background z-50">
@@ -249,8 +251,8 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="address">Adress</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="address" className="text-sm">Adress</Label>
                 <AddressAutocomplete
                   value={address}
                   onChange={(newAddress, coords) => {
@@ -261,8 +263,8 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
                   required
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="phoneNumber">Telefonnummer</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="phoneNumber" className="text-sm">Telefonnummer</Label>
                 <Input
                   id="phoneNumber"
                   type="tel"
@@ -270,12 +272,13 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   required
                   placeholder="Ex: 070-123 45 67"
+                  className="h-9"
                 />
               </div>
             </>
           )}
-          <div className="space-y-2">
-            <Label htmlFor="password">Lösenord</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="password" className="text-sm">Lösenord</Label>
             <Input
               id="password"
               type="password"
@@ -283,33 +286,34 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={8}
+              className="h-9"
             />
             {!isLogin && password && (
-              <div className="text-xs space-y-1 mt-2">
-                <p className="font-medium text-muted-foreground">Lösenordskrav:</p>
-                <div className="space-y-0.5">
+              <div className="text-xs space-y-0.5 mt-1.5">
+                <p className="font-medium text-muted-foreground mb-1">Lösenordskrav:</p>
+                <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
                   <p className={passwordValidation.minLength ? "text-green-600" : "text-muted-foreground"}>
-                    {passwordValidation.minLength ? "✓" : "○"} Minst 8 tecken
+                    {passwordValidation.minLength ? "✓" : "○"} 8+ tecken
                   </p>
                   <p className={passwordValidation.hasUpperCase ? "text-green-600" : "text-muted-foreground"}>
-                    {passwordValidation.hasUpperCase ? "✓" : "○"} En stor bokstav
+                    {passwordValidation.hasUpperCase ? "✓" : "○"} Stor bokstav
                   </p>
                   <p className={passwordValidation.hasLowerCase ? "text-green-600" : "text-muted-foreground"}>
-                    {passwordValidation.hasLowerCase ? "✓" : "○"} En liten bokstav
+                    {passwordValidation.hasLowerCase ? "✓" : "○"} Liten bokstav
                   </p>
                   <p className={passwordValidation.hasNumber ? "text-green-600" : "text-muted-foreground"}>
-                    {passwordValidation.hasNumber ? "✓" : "○"} En siffra
+                    {passwordValidation.hasNumber ? "✓" : "○"} Siffra
                   </p>
-                  <p className={passwordValidation.hasSpecialChar ? "text-green-600" : "text-muted-foreground"}>
-                    {passwordValidation.hasSpecialChar ? "✓" : "○"} Ett specialtecken (!@#$%...)
+                  <p className={`${passwordValidation.hasSpecialChar ? "text-green-600" : "text-muted-foreground"} col-span-2`}>
+                    {passwordValidation.hasSpecialChar ? "✓" : "○"} Specialtecken (!@#$%...)
                   </p>
                 </div>
               </div>
             )}
           </div>
           {!isLogin && (
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Bekräfta lösenord</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="confirmPassword" className="text-sm">Bekräfta lösenord</Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -317,24 +321,25 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 minLength={8}
+                className="h-9"
               />
               {confirmPassword && password !== confirmPassword && (
-                <p className="text-xs text-destructive">Lösenorden matchar inte</p>
+                <p className="text-xs text-destructive mt-1">Lösenorden matchar inte</p>
               )}
             </div>
           )}
           {!isLogin && (
-            <div className="space-y-4 pt-4 border-t border-border">
-              <div className="flex items-start gap-3">
+            <div className="space-y-2.5 pt-3 border-t border-border">
+              <div className="flex items-start gap-2.5">
                 <input
                   type="checkbox"
                   id="acceptTerms"
                   checked={acceptTerms}
                   onChange={(e) => setAcceptTerms(e.target.checked)}
-                  className="mt-1 h-4 w-4 rounded border-input accent-accent"
+                  className="mt-0.5 h-4 w-4 rounded border-input accent-accent flex-shrink-0"
                   required
                 />
-                <label htmlFor="acceptTerms" className="text-sm leading-relaxed">
+                <label htmlFor="acceptTerms" className="text-xs leading-snug">
                   Jag accepterar{" "}
                   <a
                     href="/terms"
@@ -344,19 +349,19 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
                   >
                     användarvillkoren
                   </a>
-                  <span className="text-destructive ml-1">*</span>
+                  <span className="text-destructive ml-0.5">*</span>
                 </label>
               </div>
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-2.5">
                 <input
                   type="checkbox"
                   id="acceptPrivacy"
                   checked={acceptPrivacy}
                   onChange={(e) => setAcceptPrivacy(e.target.checked)}
-                  className="mt-1 h-4 w-4 rounded border-input accent-accent"
+                  className="mt-0.5 h-4 w-4 rounded border-input accent-accent flex-shrink-0"
                   required
                 />
-                <label htmlFor="acceptPrivacy" className="text-sm leading-relaxed">
+                <label htmlFor="acceptPrivacy" className="text-xs leading-snug">
                   Jag accepterar{" "}
                   <a
                     href="/privacy"
@@ -366,7 +371,7 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
                   >
                     integritetspolicyn
                   </a>
-                  <span className="text-destructive ml-1">*</span>
+                  <span className="text-destructive ml-0.5">*</span>
                 </label>
               </div>
             </div>
