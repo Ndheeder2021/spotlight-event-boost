@@ -12,6 +12,16 @@ import blogCafeCase from "@/assets/blog-cafe-case.jpg";
 import blogTimingStrategy from "@/assets/blog-timing-strategy.jpg";
 import blogCopywriting from "@/assets/blog-copywriting.jpg";
 import blogEventGuide from "@/assets/blog-event-guide.jpg";
+import blogSocialMedia from "@/assets/blog-social-media.jpg";
+import blogRetailSuccess from "@/assets/blog-retail-success.jpg";
+import blogMobileMarketing from "@/assets/blog-mobile-marketing.jpg";
+import blogTeamStrategy from "@/assets/blog-team-strategy.jpg";
+import blogRestaurantCase from "@/assets/blog-restaurant-case.jpg";
+import blogDataInsights from "@/assets/blog-data-insights.jpg";
+import blogBoutiqueTips from "@/assets/blog-boutique-tips.jpg";
+import blogEmailGuide from "@/assets/blog-email-guide.jpg";
+import blogRoiAnalysis from "@/assets/blog-roi-analysis.jpg";
+import blogSeasonalPlanning from "@/assets/blog-seasonal-planning.jpg";
 
 const blogPosts = [
   {
@@ -73,6 +83,146 @@ const blogPosts = [
     readTime: "10 min läsning",
     icon: Lightbulb,
     image: blogEventGuide,
+  },
+  {
+    id: 7,
+    title: "Social media-strategier för lokala företag",
+    excerpt: "Lär dig hur du effektivt använder sociala medier för att nå ut till din lokala målgrupp och bygga en engagerad community.",
+    category: "Content Marketing",
+    date: "2024-11-28",
+    readTime: "6 min läsning",
+    icon: TrendingUp,
+    image: blogSocialMedia,
+  },
+  {
+    id: 8,
+    title: "Framgångshistoria: Lokala butiken som fördublade trafiken",
+    excerpt: "Hur en liten butikskedja i Göteborg använde eventbaserad marknadsföring för att öka kundtrafiken med 120%.",
+    category: "Fallstudier",
+    date: "2024-11-15",
+    readTime: "7 min läsning",
+    icon: Users,
+    image: blogRetailSuccess,
+  },
+  {
+    id: 9,
+    title: "Mobil marknadsföring: Nå kunder i realtid",
+    excerpt: "Upptäck hur platsbaserad mobilmarknadsföring kan hjälpa dig att nå potentiella kunder precis när de är i närheten.",
+    category: "AI & Teknologi",
+    date: "2024-10-30",
+    readTime: "5 min läsning",
+    icon: Lightbulb,
+    image: blogMobileMarketing,
+  },
+  {
+    id: 10,
+    title: "Bygg en vinnande marknadsföringsstrategi",
+    excerpt: "En steg-för-steg guide till att utveckla en marknadsföringsstrategi som levererar mätbara resultat för ditt företag.",
+    category: "Strategi",
+    date: "2024-10-12",
+    readTime: "9 min läsning",
+    icon: Target,
+    image: blogTeamStrategy,
+  },
+  {
+    id: 11,
+    title: "Fallstudie: Restaurang Smaka tredubblar gästantal",
+    excerpt: "Läs om hur en familjerestaurang i Malmö använde lokala festivaler för att öka sin gästfrekvens med 200%.",
+    category: "Fallstudier",
+    date: "2024-09-20",
+    readTime: "6 min läsning",
+    icon: Users,
+    image: blogRestaurantCase,
+  },
+  {
+    id: 12,
+    title: "Data-driven marknadsföring: Förstå dina kunder",
+    excerpt: "Använd dataanalys och kundbeteendemönster för att skapa kampanjer som verkligen resonerar med din målgrupp.",
+    category: "Strategi",
+    date: "2024-08-25",
+    readTime: "8 min läsning",
+    icon: Target,
+    image: blogDataInsights,
+  },
+  {
+    id: 13,
+    title: "10 tips för butiker under rea-säsongen",
+    excerpt: "Maximera din försäljning under högsäsong med dessa beprövade strategier för att sticka ut från konkurrenterna.",
+    category: "Tips & Tricks",
+    date: "2024-07-18",
+    readTime: "5 min läsning",
+    icon: TrendingUp,
+    image: blogBoutiqueTips,
+  },
+  {
+    id: 14,
+    title: "E-postmarknadsföring som konverterar",
+    excerpt: "Skapa e-postkampanjer som dina kunder faktiskt vill öppna och som driver försäljning för ditt lokala företag.",
+    category: "Content Marketing",
+    date: "2024-06-30",
+    readTime: "7 min läsning",
+    icon: TrendingUp,
+    image: blogEmailGuide,
+  },
+  {
+    id: 15,
+    title: "Räkna ut ROI för din marknadsföring",
+    excerpt: "Lär dig hur du mäter avkastningen på dina marknadsföringsinvesteringar och optimerar din budget för bästa resultat.",
+    category: "Strategi",
+    date: "2024-05-15",
+    readTime: "6 min läsning",
+    icon: Target,
+    image: blogRoiAnalysis,
+  },
+  {
+    id: 16,
+    title: "Säsongsplanering för lokala företag",
+    excerpt: "En komplett guide till att planera din marknadsföring runt säsonger, helgdagar och lokala evenemang året runt.",
+    category: "Guide",
+    date: "2024-04-10",
+    readTime: "10 min läsning",
+    icon: Lightbulb,
+    image: blogSeasonalPlanning,
+  },
+  {
+    id: 17,
+    title: "Så tar du tillvara på sommarevenemang",
+    excerpt: "Sommarens festivaler och evenemang erbjuder fantastiska möjligheter för lokala företag. Här är hur du gör.",
+    category: "Tips & Tricks",
+    date: "2023-12-08",
+    readTime: "5 min läsning",
+    icon: TrendingUp,
+    image: blogLocalEvents,
+  },
+  {
+    id: 18,
+    title: "AI-verktyg för småföretag 2023",
+    excerpt: "De bästa AI-verktygen som kan hjälpa ditt småföretag att automatisera marknadsföring och öka effektiviteten.",
+    category: "AI & Teknologi",
+    date: "2023-11-20",
+    readTime: "8 min läsning",
+    icon: Lightbulb,
+    image: blogAiMarketing,
+  },
+  {
+    id: 19,
+    title: "Lokalt samarbete ger starkare resultat",
+    excerpt: "Upptäck hur strategiska partnerskap med andra lokala företag kan förstärka er marknadsföring och nå fler kunder.",
+    category: "Strategi",
+    date: "2023-10-15",
+    readTime: "6 min läsning",
+    icon: Target,
+    image: blogTeamStrategy,
+  },
+  {
+    id: 20,
+    title: "Fallstudie: Bokhandeln som fann sin nisch",
+    excerpt: "Hur en liten bokhandel lyckades växa genom att fokusera på lokala författarevenemang och läsecirklar.",
+    category: "Fallstudier",
+    date: "2023-09-05",
+    readTime: "7 min läsning",
+    icon: Users,
+    image: blogCafeCase,
   },
 ];
 
