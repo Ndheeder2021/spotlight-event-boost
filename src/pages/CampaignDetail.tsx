@@ -19,6 +19,7 @@ export default function CampaignDetail() {
   const [saving, setSaving] = useState(false);
   const [regenerating, setRegenerating] = useState(false);
   const [campaign, setCampaign] = useState<any>(null);
+  const [mockups, setMockups] = useState<any[]>([]);
 
   useEffect(() => {
     loadCampaign();
@@ -41,11 +42,30 @@ export default function CampaignDetail() {
 
       if (error) throw error;
       setCampaign(data);
+      
+      // Load mockups
+      await loadMockups();
     } catch (error: any) {
       toast.error(error.message);
       navigate("/campaigns");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadMockups = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("campaign_attachments")
+        .select("*")
+        .eq("campaign_id", id)
+        .eq("file_type", "image")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setMockups(data || []);
+    } catch (error: any) {
+      console.error("Load mockups error:", error);
     }
   };
 
@@ -167,26 +187,23 @@ ${adIdea.cta}
     try {
       const { data, error } = await supabase.functions.invoke("generate-pdf", {
         body: {
-          campaign: {
-            title: campaign.title,
-            description: campaign.description,
-            ...campaign.ai_generated_data,
-          },
+          campaignId: id, // Use campaign ID instead of campaign object
         },
       });
 
       if (error) throw error;
 
       // Open HTML in new window for printing
-      const htmlContent = atob(data.pdf);
-      const printWindow = window.open('', '_blank');
-      if (printWindow) {
-        printWindow.document.write(htmlContent);
-        printWindow.document.close();
-        setTimeout(() => {
-          printWindow.print();
-        }, 250);
-        toast.success("PDF-förhandsgranskning öppnad - använd Skriv ut för att spara som PDF");
+      if (data.html) {
+        const printWindow = window.open('', '_blank');
+        if (printWindow) {
+          printWindow.document.write(data.html);
+          printWindow.document.close();
+          setTimeout(() => {
+            printWindow.print();
+          }, 250);
+          toast.success("PDF-förhandsgranskning öppnad - använd Skriv ut för att spara som PDF");
+        }
       }
     } catch (error: any) {
       toast.error("Kunde inte generera PDF");
@@ -426,6 +443,59 @@ ${adIdea.cta}
                     )}
                   </TabsContent>
                 </Tabs>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Generated Mockups */}
+          {mockups.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Sparkles className="h-5 w-5 text-accent" />
+                  Genererade Mockups
+                </CardTitle>
+                <CardDescription>
+                  AI-genererade annonsmockups för dina kampanjer
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {mockups.map((mockup, idx) => (
+                    <div 
+                      key={idx} 
+                      className="group relative rounded-lg overflow-hidden border-2 border-accent/20 hover:border-accent/40 transition-all cursor-pointer"
+                      onClick={() => {
+                        const win = window.open("", "_blank");
+                        if (win) {
+                          win.document.write(`
+                            <html>
+                              <head><title>${mockup.file_name}</title></head>
+                              <body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#000;">
+                                <img src="${mockup.file_data}" style="max-width:100%;max-height:100vh;object-fit:contain;" />
+                              </body>
+                            </html>
+                          `);
+                          win.document.close();
+                        }
+                      }}
+                    >
+                      <img 
+                        src={mockup.file_data} 
+                        alt={mockup.file_name}
+                        className="w-full h-auto transition-transform group-hover:scale-105"
+                      />
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                        <p className="text-white text-sm font-semibold">
+                          {mockup.metadata?.platform || 'Mockup'}
+                        </p>
+                        <p className="text-white/70 text-xs mt-1">
+                          {new Date(mockup.created_at).toLocaleDateString('sv-SE')}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           )}
