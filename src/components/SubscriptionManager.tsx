@@ -53,11 +53,12 @@ const planDetails = {
     yearlyDiscount: null,
     features: [
       "Alla Professional-funktioner",
-      "Dedikerad support",
-      "Anpassade integrationer",
-      "White-label lösning",
-      "Avancerad rollhantering",
-      "SLA-garantier",
+      "AI-livesupport 24/7",
+      "White-label branding",
+      "Avancerad rollhantering (5 roller)",
+      "API-åtkomst för integrationer",
+      "Anpassad webhook-integration",
+      "Prioriterad support",
     ],
   },
 };

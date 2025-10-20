@@ -13,6 +13,10 @@ interface PlanFeatures {
   canUseMultiLanguage: boolean;
   canABTest: boolean;
   canAddComments: boolean;
+  canUseAISupport: boolean;
+  canUseWhiteLabel: boolean;
+  canUseAdvancedRoles: boolean;
+  canUseAPI: boolean;
   maxCampaigns: number;
   maxCampaignsPerMonth: number;
   plan: PlanType;
@@ -29,6 +33,10 @@ const PLAN_FEATURES: Record<PlanType, PlanFeatures> = {
     canUseMultiLanguage: false,
     canABTest: false,
     canAddComments: false,
+    canUseAISupport: false,
+    canUseWhiteLabel: false,
+    canUseAdvancedRoles: false,
+    canUseAPI: false,
     maxCampaigns: 10,
     maxCampaignsPerMonth: 5,
     plan: "starter",
@@ -43,6 +51,10 @@ const PLAN_FEATURES: Record<PlanType, PlanFeatures> = {
     canUseMultiLanguage: true,
     canABTest: true,
     canAddComments: true,
+    canUseAISupport: false,
+    canUseWhiteLabel: false,
+    canUseAdvancedRoles: false,
+    canUseAPI: false,
     maxCampaigns: -1, // unlimited
     maxCampaignsPerMonth: -1, // unlimited
     plan: "professional",
@@ -57,6 +69,10 @@ const PLAN_FEATURES: Record<PlanType, PlanFeatures> = {
     canUseMultiLanguage: true,
     canABTest: true,
     canAddComments: true,
+    canUseAISupport: true,
+    canUseWhiteLabel: true,
+    canUseAdvancedRoles: true,
+    canUseAPI: true,
     maxCampaigns: -1, // unlimited
     maxCampaignsPerMonth: -1, // unlimited
     plan: "enterprise",

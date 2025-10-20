@@ -572,6 +572,8 @@ export type Database = {
       }
       tenants: {
         Row: {
+          api_settings: Json | null
+          branding: Json | null
           created_at: string | null
           id: string
           name: string
@@ -579,6 +581,8 @@ export type Database = {
           status: Database["public"]["Enums"]["tenant_status"] | null
         }
         Insert: {
+          api_settings?: Json | null
+          branding?: Json | null
           created_at?: string | null
           id?: string
           name: string
@@ -586,6 +590,8 @@ export type Database = {
           status?: Database["public"]["Enums"]["tenant_status"] | null
         }
         Update: {
+          api_settings?: Json | null
+          branding?: Json | null
           created_at?: string | null
           id?: string
           name?: string
@@ -644,7 +650,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "owner" | "staff" | "admin"
+      app_role: "owner" | "staff" | "admin" | "moderator" | "viewer" | "editor"
       business_type: "cafe" | "bar" | "restaurant" | "hotel"
       campaign_status: "draft" | "scheduled" | "published"
       event_category:
@@ -785,7 +791,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["owner", "staff", "admin"],
+      app_role: ["owner", "staff", "admin", "moderator", "viewer", "editor"],
       business_type: ["cafe", "bar", "restaurant", "hotel"],
       campaign_status: ["draft", "scheduled", "published"],
       event_category: [

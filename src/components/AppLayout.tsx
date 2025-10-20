@@ -57,8 +57,8 @@ export function AppLayout() {
     }
   };
 
-  // Show AI support only for professional and enterprise plans
-  const showAISupport = !loading && user && (features.plan === "professional" || features.plan === "enterprise");
+  // Show AI support only for enterprise plan
+  const showAISupport = !loading && user && features.canUseAISupport;
 
   return (
     <div className="min-h-screen flex flex-col">
