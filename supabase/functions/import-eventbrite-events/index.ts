@@ -97,15 +97,39 @@ serve(async (req) => {
     const events = data.results || [];
     console.log(`Found ${events.length} events from PredictHQ`);
 
-    if (events.length === 0) {
+    // Distance helper (Haversine)
+    const toRad = (v: number) => (v * Math.PI) / 180;
+    const distanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+      const R = 6371; // km
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    };
+
+    // Keep only events within requested radius
+    const nearbyEvents = events.filter((event: any) => {
+      if (!event.location || event.location.length < 2) return false;
+      const evLat = event.location[1];
+      const evLon = event.location[0];
+      return distanceKm(Number(latitude), Number(longitude), evLat, evLon) <= searchRadius;
+    });
+
+    console.log(`Nearby events within ${searchRadius}km: ${nearbyEvents.length}`);
+
+    if (nearbyEvents.length === 0) {
       return new Response(
-        JSON.stringify({ message: 'No events found', imported: 0 }),
+        JSON.stringify({ message: 'No events found within radius', imported: 0 }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
     // Transform and insert events into our database
-    const eventsToInsert = events
+    const eventsToInsert = nearbyEvents
       .filter((event: any) => {
         return event.location && event.location.length >= 2;
       })
