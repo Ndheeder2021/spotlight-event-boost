@@ -16,13 +16,16 @@ import {
   Zap
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import featureEvents from "@/assets/feature-event-radar-new.png";
+import featureAiCampaign from "@/assets/feature-ai-campaign-new.png";
+import featureAnalytics from "@/assets/feature-analytics-new.png";
 
 interface TourStep {
   id: number;
   title: string;
   description: string;
   icon: React.ReactNode;
-  imagePlaceholder: string;
+  image?: string;
   features: string[];
   color: string;
 }
@@ -33,7 +36,7 @@ const tourSteps: TourStep[] = [
     title: "Upptäck lokala evenemang automatiskt",
     description: "Spotlight övervakar kontinuerligt alla evenemang i ditt område och notifierar dig när det händer något relevant för din verksamhet.",
     icon: <MapPin className="h-6 w-6" />,
-    imagePlaceholder: "bg-gradient-to-br from-blue-500/20 to-cyan-500/20",
+    image: featureEvents,
     features: [
       "Realtidsbevakning av 10,000+ evenemang",
       "Filtrera efter typ, storlek och avstånd",
@@ -46,7 +49,7 @@ const tourSteps: TourStep[] = [
     title: "AI skapar kampanjer på 60 sekunder",
     description: "Välj ett evenemang och låt vår AI generera professionella, skräddarsydda kampanjtexter som matchar din målgrupp och varumärke.",
     icon: <Sparkles className="h-6 w-6" />,
-    imagePlaceholder: "bg-gradient-to-br from-purple-500/20 to-pink-500/20",
+    image: featureAiCampaign,
     features: [
       "ChatGPT-driven copywriting",
       "Anpassat efter din bransch",
@@ -59,7 +62,7 @@ const tourSteps: TourStep[] = [
     title: "Spåra och optimera dina resultat",
     description: "Se exakt hur dina kampanjer presterar med detaljerad analytics, ROI-tracking och A/B-testning i realtid.",
     icon: <BarChart3 className="h-6 w-6" />,
-    imagePlaceholder: "bg-gradient-to-br from-green-500/20 to-emerald-500/20",
+    image: featureAnalytics,
     features: [
       "Real-time analytics dashboard",
       "ROI-beräkning per kampanj",
@@ -72,7 +75,7 @@ const tourSteps: TourStep[] = [
     title: "Planera framåt med Event Calendar",
     description: "Få full översikt över kommande evenemang och planera dina kampanjer i förväg för maximalt genomslag.",
     icon: <Calendar className="h-6 w-6" />,
-    imagePlaceholder: "bg-gradient-to-br from-orange-500/20 to-red-500/20",
+    image: featureEvents,
     features: [
       "Kalendervy över alla events",
       "Prognoser för kundflöde",
@@ -162,19 +165,27 @@ export const InteractiveProductTour = () => {
             </p>
 
             {/* Visual Demo Area */}
-            <Card className={`relative aspect-video rounded-xl overflow-hidden ${step.imagePlaceholder} border-2 border-border`}>
-              <div className="absolute inset-0 flex items-center justify-center p-8">
-                <div className="text-center space-y-4">
-                  <div className={`w-20 h-20 mx-auto rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center text-white shadow-lg`}>
-                    {step.icon}
-                  </div>
-                  <div className="space-y-2">
-                    <div className="inline-block px-4 py-2 bg-background/90 backdrop-blur-sm rounded-lg border">
-                      <p className="text-sm font-medium">Interaktiv demo</p>
+            <Card className="relative aspect-video rounded-xl overflow-hidden border-2 border-border bg-accent/20">
+              {step.image ? (
+                <img 
+                  src={step.image} 
+                  alt={step.title}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center p-8">
+                  <div className="text-center space-y-4">
+                    <div className={`w-20 h-20 mx-auto rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center text-white shadow-lg`}>
+                      {step.icon}
+                    </div>
+                    <div className="space-y-2">
+                      <div className="inline-block px-4 py-2 bg-background/90 backdrop-blur-sm rounded-lg border">
+                        <p className="text-sm font-medium">Interaktiv demo</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
             </Card>
 
             {/* Features List */}
