@@ -503,11 +503,11 @@ const Index = () => {
                   </p>
                   <Link to="/auth">
                     <Button 
-                      variant="animatedOutline"
+                      variant="animated"
                       size="lg"
                     >
                       Läs mer 
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                 </div>
