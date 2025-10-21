@@ -19,6 +19,7 @@ import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { InteractiveProductTour } from "@/components/InteractiveProductTour";
 import { StickyCTABar } from "@/components/StickyCTABar";
 import { ROICalculator } from "@/components/ROICalculator";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 import { toast } from "sonner";
@@ -1037,6 +1038,24 @@ const Index = () => {
                 <span className="text-base text-muted-foreground">Inget kreditkort behövs</span>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Signup Section */}
+      <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-primary/5">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <h2 className="text-3xl md:text-4xl font-bold">
+              Få event marketing tips varje vecka
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Få insikter, strategier och tips direkt i din inkorg. Gratis.
+            </p>
+            <NewsletterSignup />
+            <p className="text-sm text-muted-foreground">
+              Vi respekterar din integritet. Avsluta prenumerationen när som helst.
+            </p>
           </div>
         </div>
       </section>
