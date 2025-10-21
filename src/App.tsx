@@ -30,6 +30,7 @@ import GDPR from "./pages/GDPR";
 import Terms from "./pages/Terms";
 import Cookies from "./pages/Cookies";
 import ReferFriend from "./pages/ReferFriend";
+import Affiliate from "./pages/Affiliate";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/refer-a-friend" element={<ReferFriend />} />
+          <Route path="/affiliate" element={<Affiliate />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/privacy" element={<Privacy />} />

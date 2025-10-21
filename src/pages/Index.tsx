@@ -16,6 +16,8 @@ import { SkipToContent } from "@/components/SkipToContent";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles, Menu } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import reviewAnna from "@/assets/review-anna.jpg";
 import reviewErik from "@/assets/review-erik.jpg";
@@ -400,9 +402,30 @@ const Index = () => {
           </Link>
           
           <div className="hidden md:flex items-center gap-6">
-            <Link to="/pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Priser
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                  Plans & Perks <ChevronDown className="ml-1 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-background border z-50">
+                <DropdownMenuItem asChild>
+                  <Link to="/pricing" className="cursor-pointer">
+                    Priser
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/refer-a-friend" className="cursor-pointer">
+                    Refer a Friend
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/affiliate" className="cursor-pointer">
+                    Affiliate
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Kontakt
             </Link>
@@ -431,8 +454,15 @@ const Index = () => {
               </SheetTrigger>
               <SheetContent>
                 <div className="flex flex-col gap-4 mt-8">
-                  <Link to="/pricing" className="text-lg font-medium" onClick={() => setMobileMenuOpen(false)}>
+                  <div className="text-sm font-semibold text-muted-foreground mb-2">Plans & Perks</div>
+                  <Link to="/pricing" className="text-lg font-medium pl-4" onClick={() => setMobileMenuOpen(false)}>
                     Priser
+                  </Link>
+                  <Link to="/refer-a-friend" className="text-lg font-medium pl-4" onClick={() => setMobileMenuOpen(false)}>
+                    Refer a Friend
+                  </Link>
+                  <Link to="/affiliate" className="text-lg font-medium pl-4" onClick={() => setMobileMenuOpen(false)}>
+                    Affiliate
                   </Link>
                   <Link to="/contact" className="text-lg font-medium" onClick={() => setMobileMenuOpen(false)}>
                     Kontakt
