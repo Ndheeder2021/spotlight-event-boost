@@ -46,10 +46,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const publicNavItems = [
-    { title: "Hem", url: "/", icon: Home },
-    { title: "Så funkar det", url: "/how-it-works", icon: BookOpen },
-    { title: "Priser", url: "/pricing", icon: DollarSign },
-    { title: "Kontakt", url: "/contact", icon: Users },
+    { title: "Kontakta oss", url: "/contact", icon: Users },
   ];
 
   const authenticatedNavItems = [
@@ -65,8 +62,8 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
     { title: t("settings"), url: "/settings", icon: Settings },
   ];
 
-  const resourcesItems = [
-    { title: "Blog", url: "/blog", icon: BookOpen },
+  const pricesPerksItems = [
+    { title: "Priser", url: "/pricing", icon: DollarSign },
     { title: "Refer a Friend", url: "/refer-a-friend", icon: Gift },
     { title: "Affiliate", url: "/affiliate", icon: Users },
   ];
@@ -194,7 +191,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
               </DropdownMenu>
             )}
 
-            {/* Resources Dropdown for Public */}
+            {/* Prices & Perks Dropdown for Public */}
             {!isAuthenticated && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -202,7 +199,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                     variant="ghost" 
                     className="flex items-center gap-2 px-4 py-2.5 text-base font-medium hover:bg-accent/50 hover:scale-105 transition-all duration-200 rounded-lg"
                   >
-                    <span>Resurser</span>
+                    <span>Prices & Perks</span>
                     <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -212,10 +209,10 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                   sideOffset={8}
                 >
                   <DropdownMenuLabel className="text-base font-semibold">
-                    Upptäck
+                    Priser & Förmåner
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  {resourcesItems.map((item) => (
+                  {pricesPerksItems.map((item) => (
                     <DropdownMenuItem key={item.url} asChild>
                       <Link
                         to={item.url}
@@ -330,7 +327,10 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                   {!isAuthenticated && (
                     <>
                       <div className="border-t my-2" />
-                      {resourcesItems.map((item) => (
+                      <div className="px-4 py-2 text-sm font-semibold text-muted-foreground">
+                        Prices & Perks
+                      </div>
+                      {pricesPerksItems.map((item) => (
                         <NavLink
                           key={item.url}
                           to={item.url}
