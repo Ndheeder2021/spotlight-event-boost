@@ -45,9 +45,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const publicNavItems = [
-    { title: "Kontakta oss", url: "/contact", icon: Users },
-  ];
+  const publicNavItems: { title: string; url: string; icon: any }[] = [];
 
   const productItems = [
     { title: "Lösning", url: "/solution", icon: Zap },
