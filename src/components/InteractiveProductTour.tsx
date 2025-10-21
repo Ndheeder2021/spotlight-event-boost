@@ -75,7 +75,7 @@ const tourSteps: TourStep[] = [
     title: "Planera framåt med Event Calendar",
     description: "Få full översikt över kommande evenemang och planera dina kampanjer i förväg för maximalt genomslag.",
     icon: <Calendar className="h-6 w-6" />,
-    image: featureEvents,
+    image: "/hero-video.mp4",
     features: [
       "Kalendervy över alla events",
       "Prognoser för kundflöde",
@@ -160,15 +160,27 @@ export const InteractiveProductTour = () => {
 
           {/* Content */}
           <div className="flex-1 flex flex-col lg:flex-row gap-6 p-6 overflow-hidden">
-            {/* Left side - Image */}
+            {/* Left side - Image/Video */}
             <div className="lg:w-3/5 flex-shrink-0">
               <Card className="relative h-full rounded-xl overflow-hidden border-2 shadow-xl">
                 {step.image ? (
-                  <img 
-                    src={step.image} 
-                    alt={step.title}
-                    className="w-full h-full object-cover"
-                  />
+                  step.image.endsWith('.mp4') ? (
+                    <video 
+                      autoPlay 
+                      loop 
+                      muted 
+                      playsInline
+                      className="w-full h-full object-cover"
+                    >
+                      <source src={step.image} type="video/mp4" />
+                    </video>
+                  ) : (
+                    <img 
+                      src={step.image} 
+                      alt={step.title}
+                      className="w-full h-full object-cover"
+                    />
+                  )
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center p-8 bg-gradient-to-br from-accent/50 to-background">
                     <div className="text-center space-y-4">
