@@ -76,7 +76,27 @@ export default function ReferFriend() {
         if (insertError) throw insertError;
 
         setReferralData(newReferral);
-        toast.success("Din referral-länk har skapats!");
+
+        // Send welcome email with referral link
+        try {
+          const { error: emailError } = await supabase.functions.invoke('send-referral-welcome', {
+            body: {
+              email: email,
+              referralCode: codeData,
+              commissionRate: 0.20 // 20% commission
+            }
+          });
+
+          if (emailError) {
+            console.error('Error sending welcome email:', emailError);
+            toast.success("Din referral-länk har skapats! (Mail kunde inte skickas)");
+          } else {
+            toast.success("Din referral-länk har skapats! Kolla din e-post för mer information.");
+          }
+        } catch (emailError) {
+          console.error('Error sending welcome email:', emailError);
+          toast.success("Din referral-länk har skapats!");
+        }
       }
     } catch (error: any) {
       console.error('Error:', error);
