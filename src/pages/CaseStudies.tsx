@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { GlobalHeader } from "@/components/GlobalHeader";
 import { Footer } from "@/components/Footer";
@@ -6,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { SkeletonCaseStudyCard, SkeletonHero } from "@/components/ui/skeleton-card";
 import { caseStudies, getCaseStudyById, type CaseStudy } from "@/data/caseStudiesData";
 import { ArrowRight, Building2, MapPin, TrendingUp, Target, Lightbulb, CheckCircle2, Quote } from "lucide-react";
 
@@ -65,17 +67,35 @@ const CaseStudyCard = ({ study }: { study: CaseStudy }) => (
   </Card>
 );
 
-const CaseStudyDetail = ({ study }: { study: CaseStudy }) => (
-  <div className="min-h-screen bg-background">
-    <SEO
-      title={`${study.title} - Spotlight Case Study`}
-      description={study.subtitle}
-      keywords={`case study, ${study.industry}, event marketing, ${study.company}`}
-    />
-    <GlobalHeader />
+const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
+  const [isLoading, setIsLoading] = useState(true);
 
-    {/* Hero Section */}
-    <section className="relative py-20 overflow-hidden">
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 600);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-background">
+      <SEO
+        title={`${study.title} - Spotlight Case Study`}
+        description={study.subtitle}
+        keywords={`case study, ${study.industry}, event marketing, ${study.company}`}
+      />
+      <GlobalHeader />
+
+      {isLoading ? (
+        <div className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <SkeletonHero />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Hero Section */}
+          <section className="relative py-20 overflow-hidden animate-fade-in">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary-glow/5" />
       <div className="container relative mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center space-y-6">
@@ -265,21 +285,53 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => (
       </div>
     </section>
 
-    <Footer />
-  </div>
-);
+        <Footer />
+        </>
+      )}
+    </div>
+  );
+};
 
-const CaseStudiesOverview = () => (
-  <div className="min-h-screen bg-background">
-    <SEO
-      title="Case Studies - Spotlight Success Stories"
-      description="Upptäck hur företag över hela Sverige använder Spotlight för att öka försäljningen genom event-driven marknadsföring. Läs detaljerade case studies med verkliga resultat."
-      keywords="case studies, success stories, event marketing, ROI, kundberättelser"
-    />
-    <GlobalHeader />
+const CaseStudiesOverview = () => {
+  const [isLoading, setIsLoading] = useState(true);
 
-    {/* Hero Section */}
-    <section className="relative py-20 overflow-hidden">
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 600);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-background">
+      <SEO
+        title="Case Studies - Spotlight Success Stories"
+        description="Upptäck hur företag över hela Sverige använder Spotlight för att öka försäljningen genom event-driven marknadsföring. Läs detaljerade case studies med verkliga resultat."
+        keywords="case studies, success stories, event marketing, ROI, kundberättelser"
+      />
+      <GlobalHeader />
+
+      {isLoading ? (
+        <>
+          <section className="py-20">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto text-center">
+                <SkeletonHero />
+              </div>
+            </div>
+          </section>
+          <section className="py-16">
+            <div className="container mx-auto px-4">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                {[1, 2, 3].map((i) => (
+                  <SkeletonCaseStudyCard key={i} />
+                ))}
+              </div>
+            </div>
+          </section>
+        </>
+      ) : (
+        <>
+          {/* Hero Section */}
+          <section className="relative py-20 overflow-hidden animate-fade-in">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary-glow/5" />
       <div className="container relative mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center space-y-6">
@@ -291,11 +343,11 @@ const CaseStudiesOverview = () => (
             Upptäck hur företag över hela Sverige använder Spotlight för att öka försäljningen genom event-driven marknadsföring
           </p>
         </div>
-      </div>
-    </section>
+        </div>
+      </section>
 
-    {/* Case Studies Grid */}
-    <section className="py-16">
+      {/* Case Studies Grid */}
+      <section className="py-16 animate-fade-in">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {caseStudies.map((study) => (
@@ -332,9 +384,12 @@ const CaseStudiesOverview = () => (
       </div>
     </section>
 
-    <Footer />
-  </div>
-);
+      <Footer />
+      </>
+      )}
+    </div>
+  );
+};
 
 const CaseStudies = () => {
   const { id } = useParams();
