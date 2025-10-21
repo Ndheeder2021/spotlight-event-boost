@@ -15,6 +15,7 @@ import { SkipToContent } from "@/components/SkipToContent";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { LiveChatSupport } from "@/components/LiveChatSupport";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
+import { InteractiveProductTour } from "@/components/InteractiveProductTour";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 import { toast } from "sonner";
@@ -419,6 +420,7 @@ const Index = () => {
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
+              <InteractiveProductTour />
             </div>
             
             {/* Live Stats Counter */}
