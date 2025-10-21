@@ -200,6 +200,30 @@ const Index = () => {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('checkout') === 'success') {
       toast.success("Tack för din betalning! Din 14-dagars provperiod har startat.");
+      
+      // Send purchase confirmation email
+      supabase.auth.getSession().then(async ({ data: { session } }) => {
+        if (session?.user) {
+          try {
+            const { data: subData } = await supabase.functions.invoke('check-subscription');
+            const planName = subData?.product_id?.includes('starter') ? 'Starter' : 'Professional';
+            const amount = subData?.product_id?.includes('starter') ? '$29/månad' : '$49/månad';
+            
+            await supabase.functions.invoke('send-purchase-email', {
+              body: {
+                email: session.user.email,
+                name: session.user.user_metadata?.business_name || session.user.email?.split('@')[0] || 'där',
+                planName,
+                amount,
+                billingPeriod: 'Månatlig'
+              }
+            });
+          } catch (error) {
+            console.error("Failed to send purchase email:", error);
+          }
+        }
+      });
+      
       // Clean up URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
@@ -261,9 +285,25 @@ const Index = () => {
     });
   };
 
-  const handleOnboardingComplete = () => {
+  const handleOnboardingComplete = async () => {
     setNeedsOnboarding(false);
     setNeedsSubscription(true);
+    
+    // Send welcome email
+    try {
+      const session = await supabase.auth.getSession();
+      if (session.data.session?.user) {
+        await supabase.functions.invoke('send-welcome-email', {
+          body: {
+            email: session.data.session.user.email,
+            name: session.data.session.user.user_metadata?.business_name || session.data.session.user.email?.split('@')[0] || 'där'
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Failed to send welcome email:", error);
+      // Don't block the flow if email fails
+    }
   };
 
   const handleSubscriptionComplete = () => {

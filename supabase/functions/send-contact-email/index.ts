@@ -1,5 +1,11 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.58.0";
+import { Resend } from "https://esm.sh/resend@2.0.0";
+import React from "npm:react@18.3.1";
+import { renderAsync } from "https://esm.sh/@react-email/components@0.0.15";
+import { ContactThankYou } from "../_shared/email-templates/contact-thank-you.tsx";
+
+const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -46,6 +52,28 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     console.log("Contact message saved successfully");
+
+    // Send thank you email
+    try {
+      const emailHtml = await renderAsync(
+        React.createElement(ContactThankYou, {
+          name,
+          subject,
+        })
+      );
+
+      await resend.emails.send({
+        from: "Spotlight Events Support <support@spotlightevents.online>",
+        to: [email],
+        subject: "Tack för ditt meddelande - Spotlight Events",
+        html: emailHtml,
+      });
+
+      console.log("Thank you email sent successfully to:", email);
+    } catch (emailError) {
+      console.error("Failed to send thank you email:", emailError);
+      // Don't fail the request if email fails
+    }
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
