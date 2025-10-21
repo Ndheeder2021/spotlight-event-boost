@@ -8,16 +8,12 @@ import { Switch } from "@/components/ui/switch";
 import { OnboardingForm } from "@/components/OnboardingForm";
 import { PlanSelector } from "@/components/PlanSelector";
 import { Footer } from "@/components/Footer";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { LanguageSwitch } from "@/components/LanguageSwitch";
+import { GlobalHeader } from "@/components/GlobalHeader";
 import { LogoCarousel } from "@/components/LogoCarousel";
 import { SEO } from "@/components/SEO";
 import { SkipToContent } from "@/components/SkipToContent";
-import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles, Menu } from "lucide-react";
+import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import reviewAnna from "@/assets/review-anna.jpg";
 import reviewErik from "@/assets/review-erik.jpg";
@@ -393,96 +389,7 @@ const Index = () => {
         }}
       />
 
-      {/* Header */}
-      <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
-        <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Zap className="h-6 w-6 text-accent" fill="currentColor" />
-            <span className="text-xl font-bold">Spotlight</span>
-          </Link>
-          
-          <div className="hidden md:flex items-center gap-6">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                  Plans & Perks <ChevronDown className="ml-1 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-background border z-50">
-                <DropdownMenuItem asChild>
-                  <Link to="/pricing" className="cursor-pointer">
-                    Priser
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/refer-a-friend" className="cursor-pointer">
-                    Refer a Friend
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/affiliate" className="cursor-pointer">
-                    Affiliate
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Kontakt
-            </Link>
-            <LanguageSwitch />
-            <ThemeToggle />
-            <Link to="/auth">
-              <Button variant="outline">
-                Logga in
-              </Button>
-            </Link>
-            <Link to="/auth">
-              <Button className="bg-accent hover:bg-accent-dark text-accent-foreground">
-                Kom igång
-              </Button>
-            </Link>
-          </div>
-
-          <div className="flex md:hidden items-center gap-2">
-            <LanguageSwitch />
-            <ThemeToggle />
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <div className="flex flex-col gap-4 mt-8">
-                  <div className="text-sm font-semibold text-muted-foreground mb-2">Plans & Perks</div>
-                  <Link to="/pricing" className="text-lg font-medium pl-4" onClick={() => setMobileMenuOpen(false)}>
-                    Priser
-                  </Link>
-                  <Link to="/refer-a-friend" className="text-lg font-medium pl-4" onClick={() => setMobileMenuOpen(false)}>
-                    Refer a Friend
-                  </Link>
-                  <Link to="/affiliate" className="text-lg font-medium pl-4" onClick={() => setMobileMenuOpen(false)}>
-                    Affiliate
-                  </Link>
-                  <Link to="/contact" className="text-lg font-medium" onClick={() => setMobileMenuOpen(false)}>
-                    Kontakt
-                  </Link>
-                  <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="outline" className="w-full">
-                      Logga in
-                    </Button>
-                  </Link>
-                  <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                    <Button className="bg-accent hover:bg-accent-dark text-accent-foreground w-full">
-                      Kom igång
-                    </Button>
-                  </Link>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
+      <GlobalHeader />
 
       {/* Hero Section - Instantly.ai Style */}
       <section className="relative overflow-hidden bg-background">
