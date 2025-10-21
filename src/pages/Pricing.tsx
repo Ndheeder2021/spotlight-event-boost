@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
+import { LiveChatSupport } from "@/components/LiveChatSupport";
 
 const plans = [
   {
@@ -492,6 +493,9 @@ export default function Pricing() {
 
       {/* Footer */}
       <Footer />
+      
+      {/* Live Chat Support */}
+      <LiveChatSupport />
     </div>
   );
 }

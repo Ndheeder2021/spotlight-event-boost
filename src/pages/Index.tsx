@@ -13,6 +13,7 @@ import { LogoCarousel } from "@/components/LogoCarousel";
 import { SEO } from "@/components/SEO";
 import { SkipToContent } from "@/components/SkipToContent";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
+import { LiveChatSupport } from "@/components/LiveChatSupport";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 import { toast } from "sonner";
@@ -908,6 +909,9 @@ const Index = () => {
       </section>
 
       <Footer />
+      
+      {/* Live Chat Support */}
+      <LiveChatSupport />
     </div>
   );
 };

@@ -22,6 +22,7 @@ import { Footer } from "@/components/Footer";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { SEO } from "@/components/SEO";
+import { LiveChatSupport } from "@/components/LiveChatSupport";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Namn är obligatoriskt").max(100, "Namn får vara max 100 tecken"),
@@ -254,6 +255,9 @@ const Contact = () => {
 
       {/* Footer */}
       <Footer />
+      
+      {/* Live Chat Support */}
+      <LiveChatSupport />
     </div>
   );
 };
