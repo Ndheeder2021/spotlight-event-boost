@@ -75,10 +75,6 @@ export function TrustBadges() {
           </div>
           <div className="flex items-center gap-2 hover:text-foreground transition-colors duration-300">
             <CheckCircle className="h-4 w-4 text-primary" />
-            <span>Bankid-integrerad</span>
-          </div>
-          <div className="flex items-center gap-2 hover:text-foreground transition-colors duration-300">
-            <CheckCircle className="h-4 w-4 text-primary" />
             <span>24/7 Övervakning</span>
           </div>
           <div className="flex items-center gap-2 hover:text-foreground transition-colors duration-300">
