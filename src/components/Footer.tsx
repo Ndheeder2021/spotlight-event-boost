@@ -9,13 +9,16 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="space-y-6">
-            <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary-glow/20 blur-xl group-hover:blur-2xl transition-all duration-300 opacity-60 group-hover:opacity-100 rounded-full" />
-                <Zap className="h-8 w-8 text-primary relative z-10 transition-all duration-300 group-hover:rotate-12" fill="currentColor" />
-              </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">Spotlight</span>
-            </Link>
+          <Link 
+            to="/" 
+            className="flex items-center gap-3 hover:opacity-90 transition-opacity group"
+          >
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary-glow/20 blur-xl group-hover:blur-2xl transition-all duration-300 opacity-60 group-hover:opacity-100 rounded-full" />
+              <Zap className="h-8 w-8 text-primary relative z-10 transition-all duration-300 group-hover:rotate-12 hover-glow" fill="currentColor" />
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent hover-underline">Spotlight</span>
+          </Link>
             <p className="text-base text-muted-foreground leading-relaxed">
               Automatisera din eventdrivna marknadsföring och öka försäljningen med AI.
             </p>
@@ -109,24 +112,24 @@ export function Footer() {
           {/* Social Media Links */}
           <nav aria-label="Sociala medier">
             <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="h-12 w-12 hover:text-primary hover:scale-110 hover:bg-primary/10 transition-all" asChild>
+            <Button variant="ghost" size="icon" className="h-12 w-12 hover:text-primary hover:scale-110 hover:bg-primary/10 transition-all duration-300 hover-glow" asChild>
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <Linkedin className="h-6 w-6" />
+                <Linkedin className="h-6 w-6 transition-transform duration-300 hover:rotate-12" />
               </a>
             </Button>
-            <Button variant="ghost" size="icon" className="h-12 w-12 hover:text-primary hover:scale-110 hover:bg-primary/10 transition-all" asChild>
+            <Button variant="ghost" size="icon" className="h-12 w-12 hover:text-primary hover:scale-110 hover:bg-primary/10 transition-all duration-300 hover-glow" asChild>
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                <Facebook className="h-6 w-6" />
+                <Facebook className="h-6 w-6 transition-transform duration-300 hover:rotate-12" />
               </a>
             </Button>
-            <Button variant="ghost" size="icon" className="h-12 w-12 hover:text-primary hover:scale-110 hover:bg-primary/10 transition-all" asChild>
+            <Button variant="ghost" size="icon" className="h-12 w-12 hover:text-primary hover:scale-110 hover:bg-primary/10 transition-all duration-300 hover-glow" asChild>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
-                <X className="h-6 w-6" />
+                <X className="h-6 w-6 transition-transform duration-300 hover:rotate-12" />
               </a>
             </Button>
-            <Button variant="ghost" size="icon" className="h-12 w-12 hover:text-primary hover:scale-110 hover:bg-primary/10 transition-all" asChild>
+            <Button variant="ghost" size="icon" className="h-12 w-12 hover:text-primary hover:scale-110 hover:bg-primary/10 transition-all duration-300 hover-glow" asChild>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <Instagram className="h-6 w-6" />
+                <Instagram className="h-6 w-6 transition-transform duration-300 hover:rotate-12" />
               </a>
               </Button>
             </div>
