@@ -115,12 +115,12 @@ export const InteractiveProductTour = () => {
     <>
       <Button 
         variant="animated" 
-        size="lg"
+        size="xl"
         onClick={() => setIsOpen(true)}
       >
         <Zap className="mr-2 h-5 w-5" />
         Ta en rundtur
-        <ArrowRight className="ml-2 h-4 w-4" />
+        <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
       </Button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
