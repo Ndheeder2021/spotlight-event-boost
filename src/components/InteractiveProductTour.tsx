@@ -122,7 +122,7 @@ export const InteractiveProductTour = () => {
       </Button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-4xl p-0 overflow-hidden border-2 border-primary/20">
+        <DialogContent className="max-w-4xl max-h-[90vh] p-0 border-2 border-primary/20 flex flex-col">
           <DialogTitle className="sr-only">
             Interaktiv produktrundtur - Steg {currentStep + 1} av {tourSteps.length}
           </DialogTitle>
@@ -131,7 +131,7 @@ export const InteractiveProductTour = () => {
           </DialogDescription>
           
           {/* Header */}
-          <div className="relative bg-gradient-to-r from-background via-primary/5 to-background p-6 border-b">
+          <div className="relative bg-gradient-to-r from-background via-primary/5 to-background p-6 border-b flex-shrink-0">
             <button
               onClick={handleClose}
               className="absolute right-4 top-4 rounded-full p-2 hover:bg-accent transition-colors"
@@ -156,7 +156,7 @@ export const InteractiveProductTour = () => {
           </div>
 
           {/* Content */}
-          <div className="p-8 space-y-6">
+          <div className="p-8 space-y-6 overflow-y-auto flex-1">
             <p className="text-lg text-muted-foreground leading-relaxed">
               {step.description}
             </p>
@@ -197,7 +197,7 @@ export const InteractiveProductTour = () => {
           </div>
 
           {/* Footer Navigation */}
-          <div className="border-t bg-accent/30 p-6">
+          <div className="border-t bg-accent/30 p-6 flex-shrink-0">
             <div className="flex items-center justify-between">
               <Button
                 variant="ghost"
