@@ -270,13 +270,13 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Link to="/auth">
-              <Button size="lg" variant="animated">
+              <Button size="xl" variant="animated">
                 Kom igång gratis
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>
             <Link to="/case-studies">
-              <Button size="lg" variant="animatedOutline">
+              <Button size="xl" variant="animatedOutline">
                 Se fler case studies
               </Button>
             </Link>
@@ -369,13 +369,13 @@ const CaseStudiesOverview = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Link to="/auth">
-              <Button size="lg" variant="animated">
+              <Button size="xl" variant="animated">
                 Kom igång gratis
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>
             <Link to="/contact">
-              <Button size="lg" variant="animatedOutline">
+              <Button size="xl" variant="animatedOutline">
                 Kontakta oss
               </Button>
             </Link>
