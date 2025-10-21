@@ -8,9 +8,9 @@ const Privacy = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Zap className="h-6 w-6 text-primary" fill="currentColor" />
+            <Zap className="h-6 w-6 text-accent" fill="currentColor" />
             <span className="text-xl font-bold">Spotlight</span>
           </Link>
           <Button variant="ghost" asChild>
@@ -22,26 +22,14 @@ const Privacy = () => {
         </div>
       </header>
 
-      <section className="relative container mx-auto px-4 py-16 overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-        </div>
-        <div className="absolute inset-0 grid-pattern opacity-30 -z-10" />
-        
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-4">
-              <Shield className="h-5 w-5 text-accent inline mr-2" />
-              <span className="text-sm font-semibold text-accent">Integritet</span>
-            </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-4">
-              <span className="gradient-text">Integritetspolicy</span>
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              Vi värnar om din integritet och är transparenta med hur vi hanterar dina uppgifter
-            </p>
-          </div>
+      <section className="container mx-auto px-4 sm:px-6 py-32 lg:py-40">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight">
+            <span className="text-primary">Integritetspolicy</span>
+          </h1>
+          <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed">
+            Vi värnar om din integritet och är transparenta med hur vi hanterar dina uppgifter
+          </p>
         </div>
       </section>
 

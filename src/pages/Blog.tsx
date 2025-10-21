@@ -36,16 +36,16 @@ export default function Blog() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Zap className="h-6 w-6 text-primary" fill="currentColor" />
+            <Zap className="h-6 w-6 text-accent" fill="currentColor" />
             <span className="text-xl font-bold">Spotlight</span>
           </Link>
           <div className="flex items-center gap-4">
-            <Link to="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Hem
             </Link>
-            <Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Kontakt
             </Link>
           </div>
@@ -53,17 +53,14 @@ export default function Blog() {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-24 bg-gradient-to-b from-accent/5 to-background">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-4">
-            <span className="text-sm font-semibold text-accent">Blogg</span>
-          </div>
-          <h1 className="text-5xl md:text-6xl font-bold">
+      <section className="container mx-auto px-4 sm:px-6 py-32 lg:py-40">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight">
             Insikter & tips om
             <br />
-            <span className="gradient-text">eventdriven marknadsföring</span>
+            <span className="text-primary">eventdriven marknadsföring</span>
           </h1>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed">
             Lär dig hur du kan växa ditt företag genom att dra nytta av lokala evenemang
           </p>
         </div>
