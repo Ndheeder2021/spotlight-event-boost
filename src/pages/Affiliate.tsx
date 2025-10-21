@@ -7,9 +7,14 @@ import { Footer } from "@/components/Footer";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { SEO } from "@/components/SEO";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Zap, DollarSign, Users, TrendingUp, CheckCircle, Menu, ChevronDown } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const benefits = [
   {
@@ -52,10 +57,29 @@ const howItWorks = [
   }
 ];
 
+const affiliateSchema = z.object({
+  name: z.string().trim().min(1, "Namn krävs").max(100, "Namn måste vara mindre än 100 tecken"),
+  email: z.string().trim().email("Ogiltig e-postadress").max(255, "E-post måste vara mindre än 255 tecken"),
+  company: z.string().trim().max(100, "Företagsnamn måste vara mindre än 100 tecken").optional(),
+  website: z.string().trim().url("Ogiltig webbadress").max(255, "Webbadress måste vara mindre än 255 tecken").optional().or(z.literal("")),
+  description: z.string().trim().min(50, "Beskriv hur du planerar att marknadsföra Spotlight (minst 50 tecken)").max(1000, "Beskrivning måste vara mindre än 1000 tecken"),
+  audience: z.string().trim().min(20, "Beskriv din målgrupp (minst 20 tecken)").max(500, "Målgrupp måste vara mindre än 500 tecken"),
+});
+
 const Affiliate = () => {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    company: "",
+    website: "",
+    description: "",
+    audience: "",
+  });
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -70,6 +94,44 @@ const Affiliate = () => {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // Validate form data
+      const validatedData = affiliateSchema.parse(formData);
+
+      // Send email via edge function
+      const { error } = await supabase.functions.invoke("send-affiliate-application", {
+        body: validatedData,
+      });
+
+      if (error) throw error;
+
+      toast.success("Tack för din ansökan! Vi återkommer inom 2-3 arbetsdagar.");
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        website: "",
+        description: "",
+        audience: "",
+      });
+      setShowForm(false);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const firstError = error.errors[0];
+        toast.error(firstError.message);
+      } else {
+        console.error("Error submitting application:", error);
+        toast.error("Något gick fel. Försök igen senare.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -203,14 +265,13 @@ const Affiliate = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Link to="/contact">
-                <Button 
-                  size="lg"
-                  className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold"
-                >
-                  Ansök nu
-                </Button>
-              </Link>
+              <Button 
+                size="lg"
+                onClick={() => setShowForm(true)}
+                className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold"
+              >
+                Ansök nu
+              </Button>
             </div>
           </div>
         </div>
@@ -319,27 +380,152 @@ const Affiliate = () => {
         </div>
       </section>
 
+      {/* Application Form */}
+      {showForm && (
+        <section className="py-24 bg-muted/30">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="max-w-2xl mx-auto">
+              <div className="text-center mb-12">
+                <h2 className="text-4xl font-bold mb-4">Ansök till vårt affiliate-program</h2>
+                <p className="text-xl text-muted-foreground">
+                  Fyll i formuläret nedan så återkommer vi inom 2-3 arbetsdagar
+                </p>
+              </div>
+
+              <Card className="border-2">
+                <CardContent className="pt-8">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Namn *</Label>
+                      <Input
+                        id="name"
+                        type="text"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="Ditt för- och efternamn"
+                        required
+                        maxLength={100}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="email">E-post *</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="din@epost.se"
+                        required
+                        maxLength={255}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="company">Företagsnamn (valfritt)</Label>
+                      <Input
+                        id="company"
+                        type="text"
+                        value={formData.company}
+                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                        placeholder="Ditt företag"
+                        maxLength={100}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="website">Webbplats (valfritt)</Label>
+                      <Input
+                        id="website"
+                        type="url"
+                        value={formData.website}
+                        onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                        placeholder="https://dinwebbplats.se"
+                        maxLength={255}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="description">Hur planerar du att marknadsföra Spotlight? *</Label>
+                      <Textarea
+                        id="description"
+                        value={formData.description}
+                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                        placeholder="Beskriv din strategi för att marknadsföra Spotlight (minst 50 tecken)"
+                        required
+                        rows={4}
+                        maxLength={1000}
+                        className="resize-none"
+                      />
+                      <p className="text-sm text-muted-foreground">
+                        {formData.description.length}/1000 tecken
+                      </p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="audience">Beskriv din målgrupp *</Label>
+                      <Textarea
+                        id="audience"
+                        value={formData.audience}
+                        onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
+                        placeholder="Vilka är dina följare/kunder? (minst 20 tecken)"
+                        required
+                        rows={3}
+                        maxLength={500}
+                        className="resize-none"
+                      />
+                      <p className="text-sm text-muted-foreground">
+                        {formData.audience.length}/500 tecken
+                      </p>
+                    </div>
+
+                    <div className="flex gap-4 pt-4">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setShowForm(false)}
+                        className="flex-1"
+                      >
+                        Avbryt
+                      </Button>
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="flex-1 bg-primary hover:bg-primary/90"
+                      >
+                        {isSubmitting ? "Skickar..." : "Skicka ansökan"}
+                      </Button>
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* CTA Section */}
-      <section className="py-24">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl sm:text-5xl font-bold mb-6">
-              Redo att börja tjäna?
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8">
-              Ansök till vårt affiliate-program idag och börja tjäna provision på dina referrals
-            </p>
-            <Link to="/contact">
+      {!showForm && (
+        <section className="py-24">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-4xl sm:text-5xl font-bold mb-6">
+                Redo att börja tjäna?
+              </h2>
+              <p className="text-xl text-muted-foreground mb-8">
+                Ansök till vårt affiliate-program idag och börja tjäna provision på dina referrals
+              </p>
               <Button 
                 size="lg"
+                onClick={() => setShowForm(true)}
                 className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold"
               >
                 Ansök till programmet
               </Button>
-            </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <Footer />
     </div>
