@@ -377,6 +377,9 @@ const Index = () => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-4 lg:gap-6">
+            <Link to="/pricing" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+              Priser
+            </Link>
             <a href="/contact" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Kontakt
             </a>
@@ -421,6 +424,13 @@ const Index = () => {
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px]">
                 <div className="flex flex-col gap-2 mt-8 mobile-stack">
+                  <Link
+                    to="/pricing" 
+                    className="mobile-menu-item text-lg font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-3 rounded-md"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Priser
+                  </Link>
                   <Link
                     to="/contact" 
                     className="mobile-menu-item text-lg font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-3 rounded-md"
