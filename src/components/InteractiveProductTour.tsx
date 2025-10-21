@@ -125,7 +125,7 @@ export const InteractiveProductTour = () => {
       </Button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] p-0 border-2 border-primary/20 flex flex-col bg-background">
+        <DialogContent className="max-w-6xl h-[95vh] p-0 border-2 border-primary/20 flex flex-col bg-background overflow-hidden">
           <DialogTitle className="sr-only">
             Interaktiv produktrundtur - Steg {currentStep + 1} av {tourSteps.length}
           </DialogTitle>
@@ -134,7 +134,7 @@ export const InteractiveProductTour = () => {
           </DialogDescription>
           
           {/* Header */}
-          <div className="relative bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 p-6 border-b flex-shrink-0">
+          <div className="relative bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 p-4 border-b flex-shrink-0">
             <button
               onClick={handleClose}
               className="absolute right-4 top-4 rounded-full p-2 hover:bg-background/80 transition-colors z-10"
@@ -143,72 +143,77 @@ export const InteractiveProductTour = () => {
               <X className="h-4 w-4" />
             </button>
 
-            <div className="flex items-center gap-3 mb-4">
-              <div className={`rounded-full bg-gradient-to-br ${step.color} p-3 text-white shadow-lg`}>
+            <div className="flex items-center gap-3 mb-3">
+              <div className={`rounded-full bg-gradient-to-br ${step.color} p-2.5 text-white shadow-lg`}>
                 {step.icon}
               </div>
               <div>
-                <Badge variant="outline" className="mb-2 border-primary/30 bg-primary/5">
+                <Badge variant="outline" className="mb-1.5 border-primary/30 bg-primary/5 text-xs">
                   Steg {currentStep + 1} av {tourSteps.length}
                 </Badge>
-                <h2 className="text-2xl font-bold tracking-tight">{step.title}</h2>
+                <h2 className="text-xl font-bold tracking-tight">{step.title}</h2>
               </div>
             </div>
 
-            <Progress value={progress} className="h-2" />
+            <Progress value={progress} className="h-1.5" />
           </div>
 
           {/* Content */}
-          <div className="p-8 space-y-6 overflow-y-auto flex-1 bg-background">
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              {step.description}
-            </p>
-
-            {/* Visual Demo Area */}
-            <Card className="relative aspect-video rounded-xl overflow-hidden border-2 shadow-xl">
-              {step.image ? (
-                <img 
-                  src={step.image} 
-                  alt={step.title}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center p-8 bg-gradient-to-br from-accent/50 to-background">
-                  <div className="text-center space-y-4">
-                    <div className={`w-20 h-20 mx-auto rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center text-white shadow-lg`}>
-                      {step.icon}
-                    </div>
-                    <div className="space-y-2">
-                      <div className="inline-block px-4 py-2 bg-background/90 backdrop-blur-sm rounded-lg border shadow-sm">
-                        <p className="text-sm font-medium">Interaktiv demo</p>
+          <div className="flex-1 flex flex-col lg:flex-row gap-6 p-6 overflow-hidden">
+            {/* Left side - Image */}
+            <div className="lg:w-3/5 flex-shrink-0">
+              <Card className="relative h-full rounded-xl overflow-hidden border-2 shadow-xl">
+                {step.image ? (
+                  <img 
+                    src={step.image} 
+                    alt={step.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center p-8 bg-gradient-to-br from-accent/50 to-background">
+                    <div className="text-center space-y-4">
+                      <div className={`w-20 h-20 mx-auto rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center text-white shadow-lg`}>
+                        {step.icon}
+                      </div>
+                      <div className="space-y-2">
+                        <div className="inline-block px-4 py-2 bg-background/90 backdrop-blur-sm rounded-lg border shadow-sm">
+                          <p className="text-sm font-medium">Interaktiv demo</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </Card>
+                )}
+              </Card>
+            </div>
 
-            {/* Features List */}
-            <div className="space-y-3">
-              <h3 className="font-semibold text-lg">Nyckelfunktioner:</h3>
-              <div className="grid gap-3">
-                {step.features.map((feature, index) => (
-                  <div 
-                    key={index} 
-                    className="flex items-start gap-3 p-4 rounded-lg bg-accent/30 border border-border/50 transition-all hover:bg-accent/50 hover:border-primary/20"
-                  >
-                    <div className={`rounded-full bg-gradient-to-br ${step.color} p-1.5 mt-0.5 flex-shrink-0`}>
-                      <Check className="h-3 w-3 text-white" />
+            {/* Right side - Description and Features */}
+            <div className="lg:w-2/5 flex flex-col justify-center space-y-4">
+              <p className="text-base text-muted-foreground leading-relaxed">
+                {step.description}
+              </p>
+
+              {/* Features List */}
+              <div className="space-y-2">
+                <h3 className="font-semibold text-base">Nyckelfunktioner:</h3>
+                <div className="grid gap-2">
+                  {step.features.map((feature, index) => (
+                    <div 
+                      key={index} 
+                      className="flex items-start gap-2 p-3 rounded-lg bg-accent/30 border border-border/50 transition-all hover:bg-accent/50 hover:border-primary/20"
+                    >
+                      <div className={`rounded-full bg-gradient-to-br ${step.color} p-1 mt-0.5 flex-shrink-0`}>
+                        <Check className="h-3 w-3 text-white" />
+                      </div>
+                      <span className="text-sm font-medium leading-relaxed">{feature}</span>
                     </div>
-                    <span className="text-sm font-medium leading-relaxed">{feature}</span>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
           {/* Footer Navigation */}
-          <div className="border-t bg-gradient-to-r from-accent/20 via-accent/30 to-accent/20 p-6 flex-shrink-0">
+          <div className="border-t bg-gradient-to-r from-accent/20 via-accent/30 to-accent/20 p-4 flex-shrink-0">
             <div className="flex items-center justify-between">
               <Button
                 variant="outline"
