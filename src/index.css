@@ -16,16 +16,18 @@ All colors MUST be HSL.
     --popover: 40 15% 98%;
     --popover-foreground: 0 0% 5%;
     
-    /* Vibrant brand colors - energetic and lively */
+    /* Vibrant brand colors - energetic and lively purple palette */
     --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 270 90% 68%;
+    --primary-dark: 258 75% 48%;
     
-    /* Refined golden palette - sophisticated champagne gold */
-    --accent: 45 75% 52%;
-    --accent-foreground: 20 5% 12%;
-    --accent-glow: 45 85% 62%;
-    --accent-dark: 42 65% 42%;
-    --accent-muted: 45 55% 85%;
+    /* Refined accent palette - sophisticated purple tones */
+    --accent: 262 70% 92%;
+    --accent-foreground: 262 83% 28%;
+    --accent-glow: 270 90% 68%;
+    --accent-dark: 258 75% 48%;
+    --accent-muted: 262 50% 85%;
     
     /* Sophisticated secondary palette */
     --secondary: 40 12% 94%;
@@ -36,10 +38,10 @@ All colors MUST be HSL.
     --destructive-foreground: 40 20% 98%;
     --border: 40 15% 88%;
     --input: 40 15% 90%;
-    --ring: 45 75% 52%;
+    --ring: 262 83% 58%;
     
-    /* Chart colors - sophisticated palette */
-    --chart-1: 45 75% 52%;
+    /* Chart colors - sophisticated palette with purple accent */
+    --chart-1: 262 83% 58%;
     --chart-2: 205 65% 48%;
     --chart-3: 160 55% 45%;
     --chart-4: 280 45% 55%;
@@ -47,12 +49,12 @@ All colors MUST be HSL.
     
     --radius: 0.5rem;
     
-    /* Gradient animation */
-    --gradient-premium: linear-gradient(135deg, hsl(42 65% 42%) 0%, hsl(45 75% 52%) 50%, hsl(45 85% 62%) 100%);
-    --gradient-hero: linear-gradient(160deg, hsl(40 20% 99%) 0%, hsl(45 30% 96%) 50%, hsl(40 25% 97%) 100%);
+    /* Gradient animation - purple theme */
+    --gradient-premium: linear-gradient(135deg, hsl(258 75% 48%) 0%, hsl(262 83% 58%) 50%, hsl(270 90% 68%) 100%);
+    --gradient-hero: linear-gradient(160deg, hsl(40 20% 99%) 0%, hsl(262 30% 96%) 50%, hsl(40 25% 97%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(40 20% 99%), hsl(40 15% 97%));
     --gradient-glass: linear-gradient(135deg, hsla(40 20% 99% / 0.9), hsla(40 15% 97% / 0.85));
-    --gradient-overlay: linear-gradient(135deg, hsla(45 75% 52% / 0.05) 0%, hsla(45 85% 62% / 0.03) 100%);
+    --gradient-overlay: linear-gradient(135deg, hsla(262 83% 58% / 0.05) 0%, hsla(270 90% 68% / 0.03) 100%);
     
     
     /* Enhanced shadow system - layered and dimensional */
@@ -60,10 +62,10 @@ All colors MUST be HSL.
     --shadow-md: 0 4px 8px -2px hsl(0 0% 0% / 0.08), 0 2px 4px -2px hsl(0 0% 0% / 0.04);
     --shadow-lg: 0 10px 24px -4px hsl(0 0% 0% / 0.12), 0 4px 8px -4px hsl(0 0% 0% / 0.06);
     --shadow-xl: 0 20px 40px -8px hsl(0 0% 0% / 0.16), 0 8px 16px -8px hsl(0 0% 0% / 0.08);
-    --shadow-premium: 0 24px 48px -12px hsl(45 75% 52% / 0.12), 0 12px 24px -8px hsl(0 0% 0% / 0.08);
+    --shadow-premium: 0 24px 48px -12px hsl(262 83% 58% / 0.12), 0 12px 24px -8px hsl(0 0% 0% / 0.08);
     --shadow-card: 0 2px 12px -2px hsl(0 0% 0% / 0.06), 0 1px 4px -1px hsl(0 0% 0% / 0.04);
-    --shadow-glow: 0 0 48px -12px hsl(45 75% 52% / 0.3), 0 0 24px -8px hsl(45 85% 62% / 0.2);
-    --shadow-glow-lg: 0 0 72px -12px hsl(45 75% 52% / 0.4), 0 0 36px -8px hsl(45 85% 62% / 0.3);
+    --shadow-glow: 0 0 48px -12px hsl(262 83% 58% / 0.3), 0 0 24px -8px hsl(270 90% 68% / 0.2);
+    --shadow-glow-lg: 0 0 72px -12px hsl(262 83% 58% / 0.4), 0 0 36px -8px hsl(270 90% 68% / 0.3);
     --shadow-inner: inset 0 2px 4px 0 hsl(0 0% 0% / 0.05);
   }
   
@@ -76,16 +78,18 @@ All colors MUST be HSL.
     --popover: 20 10% 10%;
     --popover-foreground: 40 15% 95%;
     
-    /* Vibrant brand colors in dark mode */
+    /* Vibrant brand colors in dark mode - purple palette */
     --primary: 262 80% 65%;
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 270 85% 70%;
+    --primary-dark: 258 70% 50%;
     
-    /* Refined golden in dark mode */
-    --accent: 45 80% 58%;
-    --accent-foreground: 20 8% 8%;
-    --accent-glow: 45 90% 68%;
-    --accent-dark: 42 70% 48%;
-    --accent-muted: 45 40% 28%;
+    /* Refined accent in dark mode - purple tones */
+    --accent: 262 70% 25%;
+    --accent-foreground: 270 90% 85%;
+    --accent-glow: 270 85% 70%;
+    --accent-dark: 258 70% 50%;
+    --accent-muted: 262 40% 28%;
     
     /* Sophisticated secondary palette - dark */
     --secondary: 20 8% 18%;
@@ -96,31 +100,31 @@ All colors MUST be HSL.
     --destructive-foreground: 40 15% 95%;
     --border: 20 10% 22%;
     --input: 20 10% 18%;
-    --ring: 45 80% 58%;
+    --ring: 262 80% 65%;
     
-    /* Chart colors - dark mode */
-    --chart-1: 45 80% 58%;
+    /* Chart colors - dark mode with purple accent */
+    --chart-1: 262 80% 65%;
     --chart-2: 205 70% 58%;
     --chart-3: 160 60% 52%;
     --chart-4: 280 50% 62%;
     --chart-5: 25 75% 60%;
     
-    /* Premium design tokens - refined dark mode */
-    --gradient-premium: linear-gradient(135deg, hsl(42 70% 48%) 0%, hsl(45 80% 58%) 50%, hsl(45 90% 68%) 100%);
-    --gradient-hero: linear-gradient(160deg, hsl(20 8% 8%) 0%, hsl(45 20% 12%) 50%, hsl(20 12% 10%) 100%);
+    /* Premium design tokens - refined dark mode with purple */
+    --gradient-premium: linear-gradient(135deg, hsl(258 70% 50%) 0%, hsl(262 80% 65%) 50%, hsl(270 85% 70%) 100%);
+    --gradient-hero: linear-gradient(160deg, hsl(20 8% 8%) 0%, hsl(262 20% 12%) 50%, hsl(20 12% 10%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(20 8% 8%), hsl(20 10% 12%));
     --gradient-glass: linear-gradient(135deg, hsla(20 10% 12% / 0.95), hsla(20 8% 10% / 0.9));
-    --gradient-overlay: linear-gradient(135deg, hsla(45 80% 58% / 0.08) 0%, hsla(45 90% 68% / 0.05) 100%);
+    --gradient-overlay: linear-gradient(135deg, hsla(262 80% 65% / 0.08) 0%, hsla(270 85% 70% / 0.05) 100%);
     
     /* Enhanced shadow system - dark mode with more contrast */
     --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.2);
     --shadow-md: 0 4px 8px -2px hsl(0 0% 0% / 0.3), 0 2px 4px -2px hsl(0 0% 0% / 0.15);
     --shadow-lg: 0 10px 24px -4px hsl(0 0% 0% / 0.4), 0 4px 8px -4px hsl(0 0% 0% / 0.2);
     --shadow-xl: 0 20px 40px -8px hsl(0 0% 0% / 0.5), 0 8px 16px -8px hsl(0 0% 0% / 0.25);
-    --shadow-premium: 0 24px 48px -12px hsl(45 80% 58% / 0.25), 0 12px 24px -8px hsl(0 0% 0% / 0.3);
+    --shadow-premium: 0 24px 48px -12px hsl(262 80% 65% / 0.25), 0 12px 24px -8px hsl(0 0% 0% / 0.3);
     --shadow-card: 0 2px 12px -2px hsl(0 0% 0% / 0.4), 0 1px 4px -1px hsl(0 0% 0% / 0.2);
-    --shadow-glow: 0 0 48px -12px hsl(45 80% 58% / 0.5), 0 0 24px -8px hsl(45 90% 68% / 0.35);
-    --shadow-glow-lg: 0 0 72px -12px hsl(45 80% 58% / 0.6), 0 0 36px -8px hsl(45 90% 68% / 0.45);
+    --shadow-glow: 0 0 48px -12px hsl(262 80% 65% / 0.5), 0 0 24px -8px hsl(270 85% 70% / 0.35);
+    --shadow-glow-lg: 0 0 72px -12px hsl(262 80% 65% / 0.6), 0 0 36px -8px hsl(270 85% 70% / 0.45);
     --shadow-inner: inset 0 2px 4px 0 hsl(0 0% 0% / 0.25);
   }
 }
@@ -151,16 +155,16 @@ All colors MUST be HSL.
   .glass-premium {
     background: linear-gradient(135deg, hsla(40 15% 98% / 0.95), hsla(40 10% 96% / 0.9));
     backdrop-filter: blur(32px) saturate(200%);
-    border: 1px solid hsl(var(--accent) / 0.15);
+    border: 1px solid hsl(var(--primary) / 0.15);
     box-shadow: var(--shadow-xl), var(--shadow-inner);
   }
   
   /* Elegant gradient text effects */
   .gradient-text {
     background: linear-gradient(135deg, 
-      hsl(var(--accent-dark)) 0%, 
-      hsl(var(--accent)) 45%, 
-      hsl(var(--accent-glow)) 100%
+      hsl(var(--primary-dark)) 0%, 
+      hsl(var(--primary)) 45%, 
+      hsl(var(--primary-glow)) 100%
     );
     background-clip: text;
     -webkit-background-clip: text;
@@ -170,11 +174,11 @@ All colors MUST be HSL.
   
   .gradient-text-animated {
     background: linear-gradient(90deg, 
-      hsl(var(--accent-dark)) 0%, 
-      hsl(var(--accent)) 25%, 
-      hsl(var(--accent-glow)) 50%,
-      hsl(var(--accent)) 75%,
-      hsl(var(--accent-dark)) 100%
+      hsl(var(--primary-dark)) 0%, 
+      hsl(var(--primary)) 25%, 
+      hsl(var(--primary-glow)) 50%,
+      hsl(var(--primary)) 75%,
+      hsl(var(--primary-dark)) 100%
     );
     background-clip: text;
     -webkit-background-clip: text;
@@ -249,8 +253,8 @@ All colors MUST be HSL.
     padding: 1px;
     border-radius: inherit;
     background: linear-gradient(135deg, 
-      hsl(var(--accent) / 0.5), 
-      hsl(var(--accent-glow) / 0.3)
+      hsl(var(--primary) / 0.5), 
+      hsl(var(--primary-glow) / 0.3)
     );
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -296,7 +300,7 @@ All colors MUST be HSL.
   
   /* Enhanced focus indicators */
   *:focus-visible {
-    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-background;
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
   }
   
   button:focus-visible,
@@ -304,6 +308,6 @@ All colors MUST be HSL.
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
-    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-background;
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
   }
 }
