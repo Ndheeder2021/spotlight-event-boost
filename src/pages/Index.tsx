@@ -22,9 +22,9 @@ import { toast } from "sonner";
 import reviewAnna from "@/assets/review-anna.jpg";
 import reviewErik from "@/assets/review-erik.jpg";
 import reviewMaria from "@/assets/review-maria.jpg";
-import featureAnalytics from "@/assets/feature-analytics.jpg";
-import featureAiCampaign from "@/assets/feature-ai-campaign.jpg";
-import featureEvents from "@/assets/feature-events.jpg";
+import featureAnalytics from "@/assets/feature-analytics-new.png";
+import featureAiCampaign from "@/assets/feature-ai-campaign-new.png";
+import featureEvents from "@/assets/feature-event-radar-new.png";
 
 const testimonials = [
   {
