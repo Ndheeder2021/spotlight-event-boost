@@ -747,7 +747,7 @@ const Index = () => {
               {authMode === "login" ? "Logga in på ditt konto" : "Skapa ett nytt konto"}
             </DialogDescription>
           </DialogHeader>
-          <AuthForm mode={authMode || "login"} onSuccess={handleAuthSuccess} />
+          <AuthForm initialMode={authMode || "login"} onSuccess={handleAuthSuccess} />
         </DialogContent>
       </Dialog>
     </div>
