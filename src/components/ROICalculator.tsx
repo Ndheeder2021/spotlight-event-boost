@@ -185,9 +185,9 @@ export const ROICalculator = () => {
                 {/* CTA */}
                 <div className="pt-4">
                   <Link to="/auth" className="block">
-                    <Button variant="animated" size="lg" className="w-full">
+                    <Button variant="animated" size="xl" className="w-full">
                       Starta gratis & spara tid
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </Link>
                   <p className="text-xs text-center text-muted-foreground mt-3">
