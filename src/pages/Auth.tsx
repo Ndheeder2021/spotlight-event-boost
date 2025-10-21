@@ -63,6 +63,9 @@ export default function Auth() {
         if (error) throw error;
         toast.success("Välkommen tillbaka!");
       } else {
+        // Check for referral code in localStorage
+        const referralCode = localStorage.getItem('referral_code');
+        
         const { error } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
@@ -71,11 +74,48 @@ export default function Auth() {
             data: {
               first_name: formData.firstName,
               last_name: formData.lastName,
+              referral_code: referralCode || null
             }
           }
         });
 
         if (error) throw error;
+        
+        // If signup successful and there was a referral code, track it
+        if (referralCode) {
+          try {
+            // Insert into referred_users
+            await supabase
+              .from('referred_users')
+              .insert({
+                referral_code: referralCode,
+                referred_email: formData.email,
+                status: 'signed_up'
+              });
+            
+            // Update referral count
+            const { data: referralData } = await supabase
+              .from('referrals')
+              .select('referred_count')
+              .eq('referral_code', referralCode)
+              .single();
+            
+            if (referralData) {
+              await supabase
+                .from('referrals')
+                .update({ 
+                  referred_count: (referralData.referred_count || 0) + 1 
+                })
+                .eq('referral_code', referralCode);
+            }
+            
+            // Clear referral code from localStorage
+            localStorage.removeItem('referral_code');
+          } catch (refError) {
+            console.error('Error tracking referral:', refError);
+          }
+        }
+        
         toast.success("Konto skapat! Kontrollera din email för att verifiera.");
       }
     } catch (error: any) {

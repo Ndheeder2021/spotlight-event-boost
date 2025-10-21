@@ -529,6 +529,80 @@ export type Database = {
           },
         ]
       }
+      referrals: {
+        Row: {
+          commission_rate: number | null
+          created_at: string | null
+          email: string
+          id: string
+          referral_code: string
+          referred_count: number | null
+          total_commission: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          commission_rate?: number | null
+          created_at?: string | null
+          email: string
+          id?: string
+          referral_code: string
+          referred_count?: number | null
+          total_commission?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          commission_rate?: number | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          referral_code?: string
+          referred_count?: number | null
+          total_commission?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      referred_users: {
+        Row: {
+          commission_amount: number | null
+          converted_at: string | null
+          created_at: string | null
+          id: string
+          referral_code: string
+          referred_email: string | null
+          referred_user_id: string | null
+          status: string | null
+        }
+        Insert: {
+          commission_amount?: number | null
+          converted_at?: string | null
+          created_at?: string | null
+          id?: string
+          referral_code: string
+          referred_email?: string | null
+          referred_user_id?: string | null
+          status?: string | null
+        }
+        Update: {
+          commission_amount?: number | null
+          converted_at?: string | null
+          created_at?: string | null
+          id?: string
+          referral_code?: string
+          referred_email?: string | null
+          referred_user_id?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referred_users_referral_code_fkey"
+            columns: ["referral_code"]
+            isOneToOne: false
+            referencedRelation: "referrals"
+            referencedColumns: ["referral_code"]
+          },
+        ]
+      }
       subscriptions: {
         Row: {
           created_at: string | null
@@ -681,6 +755,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_referral_code: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       get_user_tenant_id: {
         Args: { _user_id: string }
         Returns: string

@@ -29,6 +29,7 @@ import Privacy from "./pages/Privacy";
 import GDPR from "./pages/GDPR";
 import Terms from "./pages/Terms";
 import Cookies from "./pages/Cookies";
+import ReferFriend from "./pages/ReferFriend";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,7 @@ const App = () => (
           <Route path="/solution" element={<Solution />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/refer-a-friend" element={<ReferFriend />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/privacy" element={<Privacy />} />
