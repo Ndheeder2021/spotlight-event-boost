@@ -10,7 +10,7 @@ import { SEO } from "@/components/SEO";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Zap, DollarSign, Users, TrendingUp, CheckCircle, Menu, ChevronDown } from "lucide-react";
+import { Zap, DollarSign, Users, TrendingUp, CheckCircle, Menu, ChevronDown, Gift } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
@@ -134,94 +134,55 @@ const Affiliate = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen relative overflow-hidden">
       <SEO
         title="Affiliate Program - Spotlight"
         description="Bli en Spotlight affiliate partner och tjäna generös provision genom att referera lokala företag till vår AI-driven event marketing plattform."
         keywords="affiliate program, partner program, marknadsföring, provision"
       />
 
-      {/* Header */}
-      <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
+      {/* Animated gradient background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 animate-gradient-shift"></div>
+      <div className="fixed inset-0 bg-black/20 backdrop-blur-3xl"></div>
+      
+      {/* Content */}
+      <div className="relative z-10">
+        {/* Header */}
+        <header className="border-b border-white/10 sticky top-0 bg-black/20 backdrop-blur-md z-50">
         <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Zap className="h-6 w-6 text-accent" fill="currentColor" />
-            <span className="text-xl font-bold">Spotlight</span>
+            <Zap className="h-6 w-6 text-white" fill="currentColor" />
+            <span className="text-xl font-bold text-white">Spotlight</span>
           </Link>
           
           <div className="hidden md:flex items-center gap-6">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                  Plans & Perks <ChevronDown className="ml-1 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-background border z-50">
-                <DropdownMenuItem asChild>
-                  <Link to="/pricing" className="cursor-pointer">
-                    Priser
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/refer-a-friend" className="cursor-pointer">
-                    Refer a Friend
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/affiliate" className="cursor-pointer">
-                    Affiliate
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/contact" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
               Kontakt
             </Link>
-            <LanguageSwitch />
-            <ThemeToggle />
             {user ? (
               <Link to="/dashboard">
-                <Button>
+                <Button className="bg-white hover:bg-white/90 text-black">
                   Dashboard
                 </Button>
               </Link>
             ) : (
-              <>
-                <Link to="/auth">
-                  <Button variant="outline">
-                    Logga in
-                  </Button>
-                </Link>
-                <Link to="/auth">
-                  <Button className="bg-accent hover:bg-accent-dark text-accent-foreground">
-                    Kom igång
-                  </Button>
-                </Link>
-              </>
+              <Link to="/auth">
+                <Button className="bg-white hover:bg-white/90 text-black">
+                  Logga in
+                </Button>
+              </Link>
             )}
           </div>
 
           <div className="flex md:hidden items-center gap-2">
-            <LanguageSwitch />
-            <ThemeToggle />
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="text-white">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent>
+              <SheetContent className="bg-white">
                 <div className="flex flex-col gap-4 mt-8">
-                  <div className="text-sm font-semibold text-muted-foreground mb-2">Plans & Perks</div>
-                  <Link to="/pricing" className="text-lg font-medium pl-4" onClick={() => setMobileMenuOpen(false)}>
-                    Priser
-                  </Link>
-                  <Link to="/refer-a-friend" className="text-lg font-medium pl-4" onClick={() => setMobileMenuOpen(false)}>
-                    Refer a Friend
-                  </Link>
-                  <Link to="/affiliate" className="text-lg font-medium pl-4" onClick={() => setMobileMenuOpen(false)}>
-                    Affiliate
-                  </Link>
                   <Link to="/contact" className="text-lg font-medium" onClick={() => setMobileMenuOpen(false)}>
                     Kontakt
                   </Link>
@@ -232,18 +193,11 @@ const Affiliate = () => {
                       </Button>
                     </Link>
                   ) : (
-                    <>
-                      <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                        <Button variant="outline" className="w-full">
-                          Logga in
-                        </Button>
-                      </Link>
-                      <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                        <Button className="bg-accent hover:bg-accent-dark text-accent-foreground w-full">
-                          Kom igång
-                        </Button>
-                      </Link>
-                    </>
+                    <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+                      <Button className="w-full">
+                        Logga in
+                      </Button>
+                    </Link>
                   )}
                 </div>
               </SheetContent>
@@ -253,54 +207,73 @@ const Affiliate = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-background">
+      <section className="relative overflow-hidden">
         <div className="container relative mx-auto px-4 sm:px-6 pt-32 pb-24">
           <div className="max-w-4xl mx-auto text-center space-y-8">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-              Bli en Spotlight <span className="text-primary">Affiliate Partner</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-8 animate-fade-in">
+              <Users className="h-4 w-4 text-white" />
+              <span className="text-sm font-medium text-white">AFFILIATE PROGRAM</span>
+            </div>
+            
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight text-white animate-fade-in">
+              Tjäna återkommande inkomst genom att{" "}
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                rekommendera Spotlight
+              </span>
             </h1>
             
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Tjäna generös provision genom att hjälpa lokala företag växa med vår AI-drivna event marketing plattform
+            <p className="text-xl text-white/80 max-w-2xl mx-auto animate-fade-in">
+              Bli en Spotlight affiliate och tjäna upp till 40% återkommande provision varje månad
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Button 
                 size="lg"
                 onClick={() => setShowForm(true)}
-                className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold"
+                className="h-14 px-10 text-lg bg-white hover:bg-white/90 text-black rounded-xl font-semibold animate-scale-in"
               >
-                Ansök nu
+                BLI AFFILIATE
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-24 bg-muted/30">
+      {/* How it Works */}
+      <section className="py-24">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Varför bli affiliate partner?</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Vi erbjuder ett av marknadens mest generösa affiliate-program
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {benefits.map((benefit, index) => (
-              <Card key={index} className="border-2">
-                <CardHeader>
-                  <benefit.icon className="h-12 w-12 text-primary mb-4" />
-                  <CardTitle className="text-2xl">{benefit.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base">
-                    {benefit.description}
-                  </CardDescription>
-                </CardContent>
+          <div className="max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-8">
+              <Card className="text-center p-8 bg-white/95 backdrop-blur-sm border-white/20 hover:scale-105 transition-transform duration-200">
+                <div className="bg-blue-600 rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                  <Gift className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gray-900">Gå med i programmet</h3>
+                <p className="text-gray-600">
+                  Fyll i detta <button onClick={() => setShowForm(true)} className="text-blue-600 underline font-semibold">formulär</button> för att gå med i vårt affiliate-program - det tar bara 5 minuter!
+                </p>
               </Card>
-            ))}
+
+              <Card className="text-center p-8 bg-white/95 backdrop-blur-sm border-white/20 hover:scale-105 transition-transform duration-200">
+                <div className="bg-green-600 rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                  <Users className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gray-900">Dela din länk</h3>
+                <p className="text-gray-600">
+                  Bjud in andra att prova Spotlight genom att dela din affiliate-länk över ditt nätverk.
+                </p>
+              </Card>
+
+              <Card className="text-center p-8 bg-white/95 backdrop-blur-sm border-white/20 hover:scale-105 transition-transform duration-200">
+                <div className="bg-red-600 rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                  <DollarSign className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gray-900">Tjäna för evigt</h3>
+                <p className="text-gray-600">
+                  Du kan tjäna upp till 40% återkommande provision för varje ny referral.
+                </p>
+              </Card>
+            </div>
           </div>
         </div>
       </section>
@@ -509,16 +482,16 @@ const Affiliate = () => {
         <section className="py-24">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl sm:text-5xl font-bold mb-6">
+              <h2 className="text-4xl sm:text-5xl font-bold mb-6 text-white">
                 Redo att börja tjäna?
               </h2>
-              <p className="text-xl text-muted-foreground mb-8">
+              <p className="text-xl text-white/80 mb-8">
                 Ansök till vårt affiliate-program idag och börja tjäna provision på dina referrals
               </p>
               <Button 
                 size="lg"
                 onClick={() => setShowForm(true)}
-                className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold"
+                className="h-14 px-10 text-lg bg-white hover:bg-white/90 text-black rounded-xl font-semibold"
               >
                 Ansök till programmet
               </Button>
@@ -526,8 +499,7 @@ const Affiliate = () => {
           </div>
         </section>
       )}
-
-      <Footer />
+      </div>
     </div>
   );
 };

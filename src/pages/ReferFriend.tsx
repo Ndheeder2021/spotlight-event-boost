@@ -97,203 +97,168 @@ export default function ReferFriend() {
   const referralLink = referralData ? `${window.location.origin}/?ref=${referralData.referral_code}` : '';
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
-        <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Zap className="h-6 w-6 text-accent" fill="currentColor" />
-            <span className="text-xl font-bold">Spotlight</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:inline">
-              Hem
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated gradient background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 animate-gradient-shift"></div>
+      <div className="fixed inset-0 bg-black/20 backdrop-blur-3xl"></div>
+      
+      {/* Content */}
+      <div className="relative z-10">
+        {/* Header */}
+        <header className="border-b border-white/10 sticky top-0 bg-black/20 backdrop-blur-md z-50">
+          <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <Zap className="h-6 w-6 text-white" fill="currentColor" />
+              <span className="text-xl font-bold text-white">Spotlight</span>
             </Link>
-            <Link to="/pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:inline">
-              Priser
-            </Link>
-            <LanguageSwitch />
-            <ThemeToggle />
-            <Link to="/auth">
-              <Button className="bg-accent hover:bg-accent-dark text-accent-foreground">
-                Logga in
-              </Button>
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link to="/" className="text-sm font-medium text-white/80 hover:text-white transition-colors hidden sm:inline">
+                Hem
+              </Link>
+              <Link to="/pricing" className="text-sm font-medium text-white/80 hover:text-white transition-colors hidden sm:inline">
+                Priser
+              </Link>
+              <Link to="/auth">
+                <Button className="bg-white hover:bg-white/90 text-black">
+                  Logga in
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 sm:px-6 py-20 lg:py-32">
+        {/* Hero Section */}
+        <section className="container mx-auto px-4 sm:px-6 py-20 lg:py-32">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-block mb-6">
-              <div className="bg-primary/10 rounded-full p-4">
-                <Gift className="h-12 w-12 text-primary" />
-              </div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-8 animate-fade-in">
+              <Gift className="h-4 w-4 text-white" />
+              <span className="text-sm font-medium text-white">REFER A FRIEND</span>
             </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              Bjud in dina vänner,<br />
-              <span className="text-primary">tjäna pengar</span>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white animate-fade-in">
+              Älskar du Spotlight?{" "}
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Dela det med ditt nätverk och bli belönad!
+              </span>
             </h1>
-            <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto">
-              Dela Spotlight med dina vänner och få 20% provision på varje betalning de gör under första året
+            <p className="text-xl sm:text-2xl text-white/80 max-w-3xl mx-auto animate-fade-in">
+              Tjäna 15% provision på kunder som registrerar sig med din unika referral-länk. Ange din e-post nedan för att få din referral-länk.
             </p>
           </div>
 
           {/* Main Card */}
-          <Card className="max-w-2xl mx-auto mb-16 border-2">
-            <CardHeader>
-              <CardTitle className="text-2xl">Kom igång med ditt referral-program</CardTitle>
-              <CardDescription className="text-base">
-                Ange din e-postadress för att få din unika referral-länk
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {!referralData ? (
-                <div className="space-y-4">
-                  <Input
-                    type="email"
-                    placeholder="din@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="h-12 text-base"
-                    onKeyPress={(e) => e.key === 'Enter' && generateReferralCode()}
-                  />
-                  <Button
-                    onClick={generateReferralCode}
-                    disabled={loading}
-                    className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary/90"
-                  >
-                    {loading ? "Skapar..." : "Få min referral-länk"}
-                  </Button>
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  <div className="space-y-3">
-                    <label className="text-sm font-medium">Din unika referral-länk</label>
-                    <div className="flex gap-2">
-                      <Input
-                        value={referralLink}
-                        readOnly
-                        className="h-12 font-mono text-sm"
-                      />
-                      <Button
-                        onClick={copyReferralLink}
-                        variant="outline"
-                        className="h-12 px-6"
-                      >
-                        {copied ? (
-                          <Check className="h-5 w-5 text-green-500" />
-                        ) : (
-                          <Copy className="h-5 w-5" />
-                        )}
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-4">
-                    <Card className="text-center p-4">
-                      <Users className="h-6 w-6 text-primary mx-auto mb-2" />
-                      <p className="text-2xl font-bold">{referralData.referred_count}</p>
-                      <p className="text-sm text-muted-foreground">Referenser</p>
-                    </Card>
-                    <Card className="text-center p-4">
-                      <DollarSign className="h-6 w-6 text-primary mx-auto mb-2" />
-                      <p className="text-2xl font-bold">${referralData.total_commission}</p>
-                      <p className="text-sm text-muted-foreground">Intjänat</p>
-                    </Card>
-                    <Card className="text-center p-4">
-                      <TrendingUp className="h-6 w-6 text-primary mx-auto mb-2" />
-                      <p className="text-2xl font-bold">{(referralData.commission_rate * 100).toFixed(0)}%</p>
-                      <p className="text-sm text-muted-foreground">Provision</p>
-                    </Card>
-                  </div>
-
-                  <div className="text-center text-sm text-muted-foreground">
-                    <p>Dela länken via email, sociala medier eller direkt med dina vänner!</p>
+          {!referralData ? (
+            <div className="max-w-2xl mx-auto mb-16 animate-fade-in">
+              <div className="flex gap-3 mb-4">
+                <Input
+                  type="email"
+                  placeholder="Ange din e-post"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="h-14 text-base bg-white/95 backdrop-blur-sm border-white/20 text-gray-900 placeholder:text-gray-500"
+                  onKeyPress={(e) => e.key === 'Enter' && generateReferralCode()}
+                />
+                <Button
+                  onClick={generateReferralCode}
+                  disabled={loading}
+                  className="h-14 px-8 text-base font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+                >
+                  {loading ? "SKAPAR..." : "ENTER"}
+                </Button>
+              </div>
+              <p className="text-xs text-white/60 text-center">
+                Genom att skicka din e-postadress och gå med i referral-programmet godkänner du våra villkor
+              </p>
+            </div>
+          ) : (
+            <Card className="max-w-2xl mx-auto mb-16 bg-white/95 backdrop-blur-sm border-white/20 animate-scale-in">
+              <CardContent className="p-8 space-y-6">
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-gray-700">Din unika referral-länk</label>
+                  <div className="flex gap-2">
+                    <Input
+                      value={referralLink}
+                      readOnly
+                      className="h-12 font-mono text-sm bg-gray-50 border-gray-200 text-gray-900"
+                    />
+                    <Button
+                      onClick={copyReferralLink}
+                      variant="outline"
+                      className="h-12 px-6 border-gray-200 hover:bg-gray-50"
+                    >
+                      {copied ? (
+                        <Check className="h-5 w-5 text-green-500" />
+                      ) : (
+                        <Copy className="h-5 w-5" />
+                      )}
+                    </Button>
                   </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-gray-50 rounded-lg">
+                    <Users className="h-6 w-6 text-blue-600 mx-auto mb-2" />
+                    <p className="text-2xl font-bold text-gray-900">{referralData.referred_count}</p>
+                    <p className="text-sm text-gray-600">Referenser</p>
+                  </div>
+                  <div className="text-center p-4 bg-gray-50 rounded-lg">
+                    <DollarSign className="h-6 w-6 text-green-600 mx-auto mb-2" />
+                    <p className="text-2xl font-bold text-gray-900">${referralData.total_commission}</p>
+                    <p className="text-sm text-gray-600">Intjänat</p>
+                  </div>
+                  <div className="text-center p-4 bg-gray-50 rounded-lg">
+                    <TrendingUp className="h-6 w-6 text-purple-600 mx-auto mb-2" />
+                    <p className="text-2xl font-bold text-gray-900">{(referralData.commission_rate * 100).toFixed(0)}%</p>
+                    <p className="text-sm text-gray-600">Provision</p>
+                  </div>
+                </div>
+
+                <div className="text-center text-sm text-gray-600">
+                  <p>Dela länken via email, sociala medier eller direkt med dina vänner!</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* How it Works */}
           <div className="mb-16">
-            <h2 className="text-3xl font-bold text-center mb-12">Så här fungerar det</h2>
+            <h2 className="text-4xl sm:text-5xl font-bold text-center mb-12 text-white">Hur fungerar det?</h2>
             <div className="grid md:grid-cols-3 gap-8">
-              <Card className="text-center p-8">
-                <div className="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold text-primary">1</span>
+              <Card className="text-center p-8 bg-white/95 backdrop-blur-sm border-white/20 hover:scale-105 transition-transform duration-200">
+                <div className="bg-blue-600 rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                  <Gift className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">Dela din länk</h3>
-                <p className="text-muted-foreground">
-                  Dela din unika referral-länk med vänner och kollegor som kan ha nytta av Spotlight
+                <h3 className="text-xl font-bold mb-3 text-gray-900">Skapa din referral-länk</h3>
+                <p className="text-gray-600">
+                  Ange din e-post ovan för att få din unika referral-länk.
                 </p>
               </Card>
 
-              <Card className="text-center p-8">
-                <div className="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold text-primary">2</span>
+              <Card className="text-center p-8 bg-white/95 backdrop-blur-sm border-white/20 hover:scale-105 transition-transform duration-200">
+                <div className="bg-green-600 rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                  <Users className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">De registrerar sig</h3>
-                <p className="text-muted-foreground">
-                  När dina vänner skapar ett konto och väljer en betalplan får du provision
+                <h3 className="text-xl font-bold mb-3 text-gray-900">Dela med ditt nätverk</h3>
+                <p className="text-gray-600">
+                  Kopiera din referral-länk och dela den över ditt nätverk - till exempel via email, sociala medier eller direktmeddelanden.
                 </p>
               </Card>
 
-              <Card className="text-center p-8">
-                <div className="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold text-primary">3</span>
+              <Card className="text-center p-8 bg-white/95 backdrop-blur-sm border-white/20 hover:scale-105 transition-transform duration-200">
+                <div className="bg-red-600 rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                  <DollarSign className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">Tjäna pengar</h3>
-                <p className="text-muted-foreground">
-                  Få 20% provision på alla deras betalningar under det första året
+                <h3 className="text-xl font-bold mb-3 text-gray-900">Tjäna pengar</h3>
+                <p className="text-gray-600">
+                  Du tjänar 15% i provision på alla som registrerar sig med din länk.
                 </p>
               </Card>
             </div>
           </div>
 
-          {/* Benefits */}
-          <Card className="bg-primary/5 border-primary/20">
-            <CardContent className="p-8">
-              <h2 className="text-2xl font-bold mb-6 text-center">Varför bli en Spotlight-partner?</h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="flex gap-4">
-                  <Check className="h-6 w-6 text-primary flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Generös provision</h3>
-                    <p className="text-sm text-muted-foreground">20% av alla betalningar första året</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <Check className="h-6 w-6 text-primary flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Obegränsade referenser</h3>
-                    <p className="text-sm text-muted-foreground">Ingen gräns för hur många du kan hänvisa</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <Check className="h-6 w-6 text-primary flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Enkel spårning</h3>
-                    <p className="text-sm text-muted-foreground">Se alla dina referenser och intäkter i realtid</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <Check className="h-6 w-6 text-primary flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Snabba utbetalningar</h3>
-                    <p className="text-sm text-muted-foreground">Få dina provisioner månadsvis direkt till ditt konto</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </section>
-
-      <Footer />
+      </div>
     </div>
   );
 }
