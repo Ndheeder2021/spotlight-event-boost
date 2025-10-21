@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Users, MessageSquare, Building2, BarChart, Eye, Trash2 } from "lucide-react";
+import { Users, MessageSquare, Building2, BarChart, Eye, Trash2, Gift, UserCheck } from "lucide-react";
 import { toast } from "sonner";
 
 interface Tenant {
@@ -47,6 +47,31 @@ interface DetailedUser {
   created_at: string;
 }
 
+interface Referral {
+  id: string;
+  email: string;
+  referral_code: string;
+  referred_count: number;
+  total_commission: number;
+  commission_rate: number;
+  created_at: string;
+}
+
+interface Affiliate {
+  id: string;
+  name: string;
+  email: string;
+  company?: string;
+  website?: string;
+  description: string;
+  audience: string;
+  status: string;
+  commission_rate: number;
+  total_commission: number;
+  referred_count: number;
+  created_at: string;
+}
+
 export default function Admin() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -65,6 +90,10 @@ export default function Admin() {
   const [userSearchTerm, setUserSearchTerm] = useState("");
   const [newAdminEmail, setNewAdminEmail] = useState("");
   const [addingAdmin, setAddingAdmin] = useState(false);
+  const [referrals, setReferrals] = useState<Referral[]>([]);
+  const [affiliates, setAffiliates] = useState<Affiliate[]>([]);
+  const [selectedReferral, setSelectedReferral] = useState<Referral | null>(null);
+  const [selectedAffiliate, setSelectedAffiliate] = useState<Affiliate | null>(null);
 
   useEffect(() => {
     checkAdminAccess();
@@ -138,6 +167,24 @@ export default function Admin() {
 
       // Load detailed user information
       await loadDetailedUsers(rolesData || []);
+
+      // Load referrals
+      const { data: referralsData, error: referralsError } = await supabase
+        .from("referrals")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (referralsError) throw referralsError;
+      setReferrals(referralsData || []);
+
+      // Load affiliates
+      const { data: affiliatesData, error: affiliatesError } = await supabase
+        .from("affiliates")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (affiliatesError) throw affiliatesError;
+      setAffiliates(affiliatesData || []);
     } catch (error) {
       console.error("Error loading admin data:", error);
       toast.error("Kunde inte ladda admin-data");
@@ -256,6 +303,42 @@ export default function Admin() {
     }
   };
 
+  const updateAffiliateStatus = async (affiliateId: string, newStatus: string) => {
+    try {
+      const { error } = await supabase
+        .from("affiliates")
+        .update({ status: newStatus })
+        .eq("id", affiliateId);
+
+      if (error) throw error;
+      toast.success("Status uppdaterad");
+      setSelectedAffiliate(null);
+      loadAdminData();
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  const deleteAffiliate = async (affiliateId: string) => {
+    if (!confirm("Är du säker på att du vill ta bort denna affiliate? Detta kan inte ångras.")) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from("affiliates")
+        .delete()
+        .eq("id", affiliateId);
+
+      if (error) throw error;
+      toast.success("Affiliate borttagen");
+      setSelectedAffiliate(null);
+      loadAdminData();
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
   const addAdmin = async () => {
     if (!newAdminEmail.trim()) {
       toast.error("Ange en email-adress");
@@ -341,7 +424,7 @@ export default function Admin() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-6 mb-8">
         <Card 
           className="cursor-pointer hover:shadow-lg transition-shadow"
           onClick={() => setShowTenantsDialog(true)}
@@ -397,6 +480,30 @@ export default function Admin() {
             <p className="text-xs text-muted-foreground mt-1">Klicka för att se lista</p>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Referrals</CardTitle>
+            <Gift className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{referrals.length}</div>
+            <p className="text-xs text-muted-foreground mt-1">Aktiva referrals</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Affiliates</CardTitle>
+            <UserCheck className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{affiliates.length}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              {affiliates.filter(a => a.status === 'pending').length} väntande
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Tabs */}
@@ -405,6 +512,8 @@ export default function Admin() {
           <TabsTrigger value="tenants">Företag</TabsTrigger>
           <TabsTrigger value="users">Användare</TabsTrigger>
           <TabsTrigger value="messages">Meddelanden</TabsTrigger>
+          <TabsTrigger value="referrals">Referrals</TabsTrigger>
+          <TabsTrigger value="affiliates">Affiliates</TabsTrigger>
         </TabsList>
 
         <TabsContent value="tenants" className="space-y-4">
@@ -523,6 +632,124 @@ export default function Admin() {
                             variant="ghost" 
                             size="sm"
                             onClick={() => setSelectedMessage(message)}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="referrals" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Refer-a-Friend Program</CardTitle>
+              <CardDescription>Alla aktiva referrals och deras statistik</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Referral Kod</TableHead>
+                    <TableHead>Referenser</TableHead>
+                    <TableHead>Total Provision</TableHead>
+                    <TableHead>Provisionssats</TableHead>
+                    <TableHead>Skapad</TableHead>
+                    <TableHead className="text-right">Åtgärd</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {referrals.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
+                        Inga referrals ännu
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    referrals.map((referral) => (
+                      <TableRow key={referral.id}>
+                        <TableCell className="font-medium">{referral.email}</TableCell>
+                        <TableCell className="font-mono text-xs">{referral.referral_code}</TableCell>
+                        <TableCell>{referral.referred_count}</TableCell>
+                        <TableCell>${Number(referral.total_commission).toFixed(2)}</TableCell>
+                        <TableCell>{(Number(referral.commission_rate) * 100).toFixed(0)}%</TableCell>
+                        <TableCell>{new Date(referral.created_at).toLocaleDateString('sv-SE')}</TableCell>
+                        <TableCell className="text-right">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => setSelectedReferral(referral)}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="affiliates" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Affiliate Program</CardTitle>
+              <CardDescription>Alla affiliate-ansökningar och partners</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Namn</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Företag</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Referenser</TableHead>
+                    <TableHead>Total Provision</TableHead>
+                    <TableHead>Skapad</TableHead>
+                    <TableHead className="text-right">Åtgärd</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {affiliates.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
+                        Inga affiliates ännu
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    affiliates.map((affiliate) => (
+                      <TableRow key={affiliate.id}>
+                        <TableCell className="font-medium">{affiliate.name}</TableCell>
+                        <TableCell>{affiliate.email}</TableCell>
+                        <TableCell>{affiliate.company || "-"}</TableCell>
+                        <TableCell>
+                          <Badge 
+                            variant={
+                              affiliate.status === 'approved' ? 'default' : 
+                              affiliate.status === 'rejected' ? 'destructive' : 
+                              'secondary'
+                            }
+                          >
+                            {affiliate.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>{affiliate.referred_count}</TableCell>
+                        <TableCell>${Number(affiliate.total_commission).toFixed(2)}</TableCell>
+                        <TableCell>{new Date(affiliate.created_at).toLocaleDateString('sv-SE')}</TableCell>
+                        <TableCell className="text-right">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => setSelectedAffiliate(affiliate)}
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
@@ -877,6 +1104,181 @@ export default function Admin() {
               )}
             </TableBody>
           </Table>
+        </DialogContent>
+      </Dialog>
+
+      {/* Referral Detail Dialog */}
+      <Dialog open={!!selectedReferral} onOpenChange={() => setSelectedReferral(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Referral Detaljer</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label className="text-sm font-semibold">Email</Label>
+              <p className="text-sm text-muted-foreground">{selectedReferral?.email}</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Referral Kod</Label>
+              <p className="text-sm font-mono text-muted-foreground">{selectedReferral?.referral_code}</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Antal Referenser</Label>
+              <p className="text-sm text-muted-foreground">{selectedReferral?.referred_count}</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Total Provision Intjänad</Label>
+              <p className="text-sm text-muted-foreground">
+                ${Number(selectedReferral?.total_commission).toFixed(2)}
+              </p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Provisionssats</Label>
+              <p className="text-sm text-muted-foreground">
+                {selectedReferral && (Number(selectedReferral.commission_rate) * 100).toFixed(0)}%
+              </p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Skapad</Label>
+              <p className="text-sm text-muted-foreground">
+                {selectedReferral && new Date(selectedReferral.created_at).toLocaleString('sv-SE')}
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Affiliate Detail Dialog */}
+      <Dialog open={!!selectedAffiliate} onOpenChange={() => setSelectedAffiliate(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Affiliate Detaljer</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label className="text-sm font-semibold">Namn</Label>
+              <p className="text-sm text-muted-foreground">{selectedAffiliate?.name}</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Email</Label>
+              <p className="text-sm text-muted-foreground">{selectedAffiliate?.email}</p>
+            </div>
+            {selectedAffiliate?.company && (
+              <div>
+                <Label className="text-sm font-semibold">Företag</Label>
+                <p className="text-sm text-muted-foreground">{selectedAffiliate.company}</p>
+              </div>
+            )}
+            {selectedAffiliate?.website && (
+              <div>
+                <Label className="text-sm font-semibold">Webbplats</Label>
+                <a 
+                  href={selectedAffiliate.website} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-sm text-blue-600 hover:underline"
+                >
+                  {selectedAffiliate.website}
+                </a>
+              </div>
+            )}
+            <div>
+              <Label className="text-sm font-semibold">Marknadsföringsstrategi</Label>
+              <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                {selectedAffiliate?.description}
+              </p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Målgrupp</Label>
+              <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                {selectedAffiliate?.audience}
+              </p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Status</Label>
+              <div className="mt-1">
+                <Badge 
+                  variant={
+                    selectedAffiliate?.status === 'approved' ? 'default' : 
+                    selectedAffiliate?.status === 'rejected' ? 'destructive' : 
+                    'secondary'
+                  }
+                >
+                  {selectedAffiliate?.status}
+                </Badge>
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <Label className="text-sm font-semibold">Referenser</Label>
+                <p className="text-sm text-muted-foreground">{selectedAffiliate?.referred_count}</p>
+              </div>
+              <div>
+                <Label className="text-sm font-semibold">Total Provision</Label>
+                <p className="text-sm text-muted-foreground">
+                  ${Number(selectedAffiliate?.total_commission).toFixed(2)}
+                </p>
+              </div>
+              <div>
+                <Label className="text-sm font-semibold">Provisionssats</Label>
+                <p className="text-sm text-muted-foreground">
+                  {selectedAffiliate && (Number(selectedAffiliate.commission_rate) * 100).toFixed(0)}%
+                </p>
+              </div>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold">Skapad</Label>
+              <p className="text-sm text-muted-foreground">
+                {selectedAffiliate && new Date(selectedAffiliate.created_at).toLocaleString('sv-SE')}
+              </p>
+            </div>
+            
+            {selectedAffiliate?.status === 'pending' && (
+              <div className="pt-4 border-t space-y-2">
+                <Button
+                  variant="default"
+                  className="w-full"
+                  onClick={() => {
+                    if (selectedAffiliate) {
+                      updateAffiliateStatus(selectedAffiliate.id, 'approved');
+                    }
+                  }}
+                >
+                  <UserCheck className="h-4 w-4 mr-2" />
+                  Godkänn Ansökan
+                </Button>
+                <Button
+                  variant="destructive"
+                  className="w-full"
+                  onClick={() => {
+                    if (selectedAffiliate) {
+                      updateAffiliateStatus(selectedAffiliate.id, 'rejected');
+                    }
+                  }}
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Avslå Ansökan
+                </Button>
+              </div>
+            )}
+            
+            {selectedAffiliate?.status !== 'pending' && (
+              <div className="pt-4 border-t">
+                <Button
+                  variant="destructive"
+                  className="w-full"
+                  onClick={() => {
+                    if (selectedAffiliate) {
+                      deleteAffiliate(selectedAffiliate.id);
+                    }
+                  }}
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Ta bort Affiliate
+                </Button>
+              </div>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>

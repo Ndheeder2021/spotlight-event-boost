@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.58.0";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
@@ -28,6 +29,32 @@ const handler = async (req: Request): Promise<Response> => {
     const { name, email, company, website, description, audience }: AffiliateApplicationRequest = await req.json();
 
     console.log("Processing affiliate application from:", email);
+
+    // Create Supabase client
+    const supabaseClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+    );
+
+    // Save application to database
+    const { error: dbError } = await supabaseClient
+      .from('affiliates')
+      .insert({
+        name,
+        email,
+        company,
+        website,
+        description,
+        audience,
+        status: 'pending'
+      });
+
+    if (dbError) {
+      console.error("Error saving to database:", dbError);
+      throw dbError;
+    }
+
+    console.log("Application saved to database");
 
     // Send application email to affiliate team
     const emailResponse = await resend.emails.send({

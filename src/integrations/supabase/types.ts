@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      affiliates: {
+        Row: {
+          audience: string
+          commission_rate: number | null
+          company: string | null
+          created_at: string | null
+          description: string
+          email: string
+          id: string
+          name: string
+          referred_count: number | null
+          status: string
+          total_commission: number | null
+          updated_at: string | null
+          website: string | null
+        }
+        Insert: {
+          audience: string
+          commission_rate?: number | null
+          company?: string | null
+          created_at?: string | null
+          description: string
+          email: string
+          id?: string
+          name: string
+          referred_count?: number | null
+          status?: string
+          total_commission?: number | null
+          updated_at?: string | null
+          website?: string | null
+        }
+        Update: {
+          audience?: string
+          commission_rate?: number | null
+          company?: string | null
+          created_at?: string | null
+          description?: string
+          email?: string
+          id?: string
+          name?: string
+          referred_count?: number | null
+          status?: string
+          total_commission?: number | null
+          updated_at?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       audit_logs: {
         Row: {
           action: string | null
