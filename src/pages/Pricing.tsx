@@ -251,23 +251,27 @@ export default function Pricing() {
 
                 {plan.name === "Enterprise" ? (
                   <Button 
-                    className="w-full h-14 rounded-xl text-base font-semibold mb-8"
-                    variant="outline"
+                    variant="animatedOutline"
+                    className="w-full mb-8"
+                    size="xl"
                     asChild
                   >
-                    <Link to="/contact">Kontakta oss</Link>
+                    <Link to="/contact">
+                      Kontakta oss
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                    </Link>
                   </Button>
                 ) : (
                   <Button 
-                    className={`w-full h-14 rounded-xl text-base font-semibold mb-8 ${
-                      plan.popular 
-                        ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
-                        : ''
-                    }`}
-                    variant={plan.popular ? "default" : "outline"}
+                    variant={plan.popular ? "animated" : "animatedOutline"}
+                    className="w-full mb-8"
+                    size="xl"
                     asChild
                   >
-                    <Link to="/auth">Starta gratis</Link>
+                    <Link to="/auth">
+                      Starta gratis
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                    </Link>
                   </Button>
                 )}
 
@@ -460,22 +464,24 @@ export default function Pricing() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Button 
-              size="lg" 
-              className="text-lg px-10 h-14 bg-gradient-to-r from-accent to-accent-glow hover:opacity-90 transition-all text-accent-foreground font-semibold" 
+              variant="animated"
+              size="xl"
               asChild
             >
               <Link to="/auth">
                 Starta gratis idag
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </Button>
             <Button 
-              size="lg" 
-              variant="outline"
-              className="text-lg px-10 h-14 border-2" 
+              variant="animatedOutline"
+              size="xl"
               asChild
             >
-              <Link to="/contact">Kontakta oss</Link>
+              <Link to="/contact">
+                Kontakta oss
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
             </Button>
           </div>
           <p className="text-sm text-muted-foreground pt-4">

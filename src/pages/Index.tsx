@@ -409,10 +409,11 @@ const Index = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
               <Link to="/auth">
                 <Button 
-                  size="lg"
-                  className="h-16 px-10 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold"
+                  variant="animated"
+                  size="xl"
                 >
-                  Kom igång gratis <ArrowRight className="ml-2 h-5 w-5" />
+                  Kom igång gratis 
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
             </div>
@@ -466,10 +467,11 @@ const Index = () => {
                   </p>
                   <Link to="/auth">
                     <Button 
-                      variant="outline"
-                      className="h-12 px-6 rounded-xl"
+                      variant="animatedOutline"
+                      size="lg"
                     >
-                      Läs mer <ArrowRight className="ml-2 h-4 w-4" />
+                      Läs mer 
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </Link>
                 </div>
@@ -647,23 +649,23 @@ const Index = () => {
                 {plan.name === "Enterprise" ? (
                   <Link to="/contact" className="w-full">
                     <Button 
-                      className="w-full h-14 rounded-xl text-base font-semibold mb-8"
-                      variant="outline"
+                      variant="animatedOutline"
+                      className="w-full"
+                      size="xl"
                     >
                       Kontakta oss
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </Link>
                 ) : (
                   <Link to="/auth" className="w-full">
                     <Button 
-                      className={`w-full h-14 rounded-xl text-base font-semibold mb-8 ${
-                        plan.popular 
-                          ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
-                          : ''
-                      }`}
-                      variant={plan.popular ? "default" : "outline"}
+                      variant={plan.popular ? "animated" : "animatedOutline"}
+                      className="w-full"
+                      size="xl"
                     >
                       Starta gratis
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </Link>
                 )}
@@ -749,19 +751,20 @@ const Index = () => {
             <div className="flex flex-col sm:flex-row gap-5 justify-center pt-6">
               <Link to="/auth">
                 <Button 
-                  size="lg"
-                  className="h-16 px-12 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all"
+                  variant="animated"
+                  size="xl"
                 >
-                  Starta gratis <ArrowRight className="ml-2 h-5 w-5" />
+                  Starta gratis 
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
               <Button 
-                size="lg"
-                variant="outline"
+                variant="animatedOutline"
+                size="xl"
                 onClick={() => navigate('/contact')}
-                className="h-16 px-12 text-lg rounded-2xl font-semibold border-2 hover:bg-muted/50"
               >
                 Kontakta oss
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </div>
             

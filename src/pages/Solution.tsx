@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Zap, TrendingUp, Bell, Target, Users, BarChart, MapPin, Calendar, Sparkles } from "lucide-react";
+import { Zap, TrendingUp, Bell, Target, Users, BarChart, MapPin, Calendar, Sparkles, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/Footer";
 
 export default function Solution() {
@@ -276,14 +276,24 @@ export default function Solution() {
             Börja använda Spotlight idag och se resultat redan vid nästa lokala evenemang.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8 h-14 hover:scale-105 transition-transform" asChild>
+            <Button 
+              variant="animated"
+              size="xl"
+              asChild
+            >
               <Link to="/auth">
                 Kom igång gratis
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 h-14 hover:scale-105 transition-transform" asChild>
+            <Button 
+              variant="animatedOutline"
+              size="xl"
+              asChild
+            >
               <Link to="/contact">
                 Kontakta oss
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </Button>
           </div>
