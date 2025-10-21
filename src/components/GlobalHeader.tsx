@@ -46,9 +46,17 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const publicNavItems = [
-    { title: "Case Studies", url: "/case-studies", icon: BookOpen },
     { title: "Kontakta oss", url: "/contact", icon: Users },
-    { title: "Investerare", url: "/investors", icon: TrendingUp },
+  ];
+
+  const productItems = [
+    { title: "Lösning", url: "/solution", icon: Zap },
+    { title: "Hur det fungerar", url: "/how-it-works", icon: BookOpen },
+  ];
+
+  const blogItems = [
+    { title: "Blog", url: "/blog", icon: BookOpen },
+    { title: "Case Studies", url: "/case-studies", icon: BarChart },
   ];
 
   const authenticatedNavItems = [
@@ -68,6 +76,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
     { title: "Priser", url: "/pricing", icon: DollarSign },
     { title: "Refer a Friend", url: "/refer-a-friend", icon: Gift },
     { title: "Affiliate", url: "/affiliate", icon: Users },
+    { title: "Investerare", url: "/investors", icon: TrendingUp },
   ];
 
   useEffect(() => {
@@ -199,41 +208,113 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
               </DropdownMenu>
             )}
 
-            {/* Prices & Perks Dropdown for Public */}
+            {/* Product Dropdown for Public */}
             {!isAuthenticated && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
+                    >
+                      <span>Produkt</span>
+                      <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent 
+                    align="center" 
+                    className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 zoom-in-95 z-50 rounded-2xl p-2"
+                    sideOffset={12}
                   >
-                    <span>Prices & Perks</span>
-                    <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                  align="center" 
-                  className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 zoom-in-95 z-50 rounded-2xl p-2"
-                  sideOffset={12}
-                >
-                  <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1">
-                    Priser & Förmåner
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="my-2" />
-                  {pricesPerksItems.map((item) => (
-                    <DropdownMenuItem key={item.url} asChild>
-                      <Link
-                        to={item.url}
-                        className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-200 rounded-xl group"
-                      >
-                        <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors group-hover:scale-110 duration-200" />
-                        <span className="group-hover:translate-x-0.5 transition-transform duration-200">{item.title}</span>
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1">
+                      Produkt
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator className="my-2" />
+                    {productItems.map((item) => (
+                      <DropdownMenuItem key={item.url} asChild>
+                        <Link
+                          to={item.url}
+                          className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-200 rounded-xl group"
+                        >
+                          <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors group-hover:scale-110 duration-200" />
+                          <span className="group-hover:translate-x-0.5 transition-transform duration-200">{item.title}</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                {/* Blog Dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
+                    >
+                      <span>Blog</span>
+                      <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent 
+                    align="center" 
+                    className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 zoom-in-95 z-50 rounded-2xl p-2"
+                    sideOffset={12}
+                  >
+                    <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1">
+                      Blog
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator className="my-2" />
+                    {blogItems.map((item) => (
+                      <DropdownMenuItem key={item.url} asChild>
+                        <Link
+                          to={item.url}
+                          className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-200 rounded-xl group"
+                        >
+                          <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors group-hover:scale-110 duration-200" />
+                          <span className="group-hover:translate-x-0.5 transition-transform duration-200">{item.title}</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                {/* Prices & Perks Dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
+                    >
+                      <span>Prices & Perks</span>
+                      <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent 
+                    align="center" 
+                    className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 zoom-in-95 z-50 rounded-2xl p-2"
+                    sideOffset={12}
+                  >
+                    <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1">
+                      Priser & Förmåner
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator className="my-2" />
+                    {pricesPerksItems.map((item) => (
+                      <DropdownMenuItem key={item.url} asChild>
+                        <Link
+                          to={item.url}
+                          className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-200 rounded-xl group"
+                        >
+                          <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors group-hover:scale-110 duration-200" />
+                          <span className="group-hover:translate-x-0.5 transition-transform duration-200">{item.title}</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
             )}
           </nav>
 
@@ -346,6 +427,48 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
 
                   {!isAuthenticated && (
                     <>
+                      <div className="border-t my-2" />
+                      <div className="px-4 py-2 text-sm font-semibold text-muted-foreground">
+                        Produkt
+                      </div>
+                      {productItems.map((item) => (
+                        <NavLink
+                          key={item.url}
+                          to={item.url}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all rounded-lg ${
+                              isActive 
+                                ? "text-primary bg-accent shadow-sm" 
+                                : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                            }`
+                          }
+                        >
+                          <item.icon className="h-5 w-5" />
+                          {item.title}
+                        </NavLink>
+                      ))}
+                      <div className="border-t my-2" />
+                      <div className="px-4 py-2 text-sm font-semibold text-muted-foreground">
+                        Blog
+                      </div>
+                      {blogItems.map((item) => (
+                        <NavLink
+                          key={item.url}
+                          to={item.url}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all rounded-lg ${
+                              isActive 
+                                ? "text-primary bg-accent shadow-sm" 
+                                : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                            }`
+                          }
+                        >
+                          <item.icon className="h-5 w-5" />
+                          {item.title}
+                        </NavLink>
+                      ))}
                       <div className="border-t my-2" />
                       <div className="px-4 py-2 text-sm font-semibold text-muted-foreground">
                         Prices & Perks

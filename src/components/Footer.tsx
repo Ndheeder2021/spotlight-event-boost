@@ -65,6 +65,11 @@ export function Footer() {
                   Kontakt
                 </Link>
               </li>
+              <li>
+                <Link to="/investors" className="text-base text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block">
+                  Investerare
+                </Link>
+              </li>
               </ul>
             </nav>
           </div>
