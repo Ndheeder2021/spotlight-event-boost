@@ -293,15 +293,14 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
             <TableBody>
               {members.map((member) => {
                 const RoleIcon = ROLE_ICONS[member.role] || Eye;
-                const isOwnerOrAdmin = member.role === "owner" || member.role === "admin";
                 return (
                   <TableRow key={member.user_id}>
                     <TableCell className="font-medium">{member.email}</TableCell>
                     <TableCell>
-                      <Badge variant={isOwnerOrAdmin ? "default" : "secondary"}>
-                        <RoleIcon className="h-3 w-3 mr-1" />
-                        {ROLE_LABELS[member.role]?.[lang] || member.role}
-                      </Badge>
+                      <div className="flex items-center gap-2">
+                        <RoleIcon className="h-4 w-4 text-muted-foreground" />
+                        <span>{ROLE_LABELS[member.role]?.[lang] || member.role}</span>
+                      </div>
                     </TableCell>
                     <TableCell>
                       {new Date(member.created_at).toLocaleDateString("sv-SE")}
@@ -354,10 +353,10 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline">
-                          <RoleIcon className="h-3 w-3 mr-1" />
-                          {roleLabel[lang]}
-                        </Badge>
+                        <div className="flex items-center gap-2">
+                          <RoleIcon className="h-4 w-4 text-muted-foreground" />
+                          <span>{roleLabel[lang]}</span>
+                        </div>
                       </TableCell>
                       <TableCell>
                         {new Date(invite.expires_at).toLocaleDateString("sv-SE")}
