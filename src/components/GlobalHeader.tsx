@@ -47,6 +47,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
 
   const publicNavItems = [
     { title: "Kontakta oss", url: "/contact", icon: Users },
+    { title: "Investerare", url: "/investors", icon: TrendingUp },
   ];
 
   const authenticatedNavItems = [

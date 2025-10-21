@@ -467,6 +467,42 @@ export type Database = {
         }
         Relationships: []
       }
+      investor_applications: {
+        Row: {
+          company: string | null
+          created_at: string | null
+          email: string
+          id: string
+          investment_range: string
+          message: string
+          name: string
+          phone: string | null
+          status: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          investment_range: string
+          message: string
+          name: string
+          phone?: string | null
+          status?: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          investment_range?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       locations: {
         Row: {
           address: string

@@ -31,6 +31,7 @@ import Terms from "./pages/Terms";
 import Cookies from "./pages/Cookies";
 import ReferFriend from "./pages/ReferFriend";
 import Affiliate from "./pages/Affiliate";
+import Investors from "./pages/Investors";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => (
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/refer-a-friend" element={<ReferFriend />} />
           <Route path="/affiliate" element={<Affiliate />} />
+          <Route path="/investors" element={<Investors />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/privacy" element={<Privacy />} />
