@@ -135,7 +135,7 @@ export default function Pricing() {
       <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
         <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Zap className="h-6 w-6 text-accent" fill="currentColor" />
+            <Zap className="h-6 w-6 text-primary" fill="currentColor" />
             <span className="text-xl font-bold">Spotlight</span>
           </Link>
           <div className="flex items-center gap-4">
