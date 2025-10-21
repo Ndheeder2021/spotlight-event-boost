@@ -301,7 +301,20 @@ const Index = () => {
             <LanguageSwitch />
             <ThemeToggle />
             <Button 
-              onClick={() => setShowAuthDialog(true)}
+              onClick={() => {
+                setAuthMode("login");
+                setShowAuthDialog(true);
+              }}
+              variant="outline"
+              size="lg"
+            >
+              Logga in
+            </Button>
+            <Button 
+              onClick={() => {
+                setAuthMode("signup");
+                setShowAuthDialog(true);
+              }}
               size="lg"
               className="premium-glow bg-gradient-to-r from-accent to-accent-glow hover:opacity-90 transition-all"
             >
@@ -336,6 +349,19 @@ const Index = () => {
                   <Button 
                     onClick={() => {
                       setMobileMenuOpen(false);
+                      setAuthMode("login");
+                      setShowAuthDialog(true);
+                    }}
+                    variant="outline"
+                    size="lg"
+                    className="w-full h-12"
+                  >
+                    Logga in
+                  </Button>
+                  <Button 
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setAuthMode("signup");
                       setShowAuthDialog(true);
                     }}
                     size="lg"
@@ -415,7 +441,10 @@ const Index = () => {
               <Button 
                 size="lg" 
                 className="text-base sm:text-lg px-8 sm:px-12 h-14 sm:h-16 shadow-2xl hover:shadow-accent/50 transition-all duration-300 hover:scale-105 bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground font-semibold premium-glow-lg" 
-                onClick={() => setShowAuthDialog(true)}
+                onClick={() => {
+                  setAuthMode("signup");
+                  setShowAuthDialog(true);
+                }}
               >
                 <Zap className="mr-2 h-5 w-5 sm:h-6 sm:w-6" fill="currentColor" />
                 Starta gratis – 14 dagar
@@ -539,7 +568,10 @@ const Index = () => {
               <Button 
                 size="lg" 
                 className="text-lg px-12 h-16 shadow-2xl hover:shadow-accent/50 transition-all duration-300 hover:scale-105 bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground font-semibold premium-glow-lg" 
-                onClick={() => setShowAuthDialog(true)}
+                onClick={() => {
+                  setAuthMode("signup");
+                  setShowAuthDialog(true);
+                }}
               >
                 <Zap className="mr-2 h-6 w-6" fill="currentColor" />
                 Sluta förlora kunder – Starta nu
@@ -777,7 +809,10 @@ const Index = () => {
               <Button 
                 size="lg" 
                 className="text-lg px-12 h-16 shadow-2xl hover:shadow-accent/50 transition-all duration-300 hover:scale-105 bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground font-semibold premium-glow-lg" 
-                onClick={() => setShowAuthDialog(true)}
+                onClick={() => {
+                  setAuthMode("signup");
+                  setShowAuthDialog(true);
+                }}
               >
                 <Target className="mr-2 h-6 w-6" />
                 Ja, jag vill inte missa fler tillfällen
@@ -890,6 +925,7 @@ const Index = () => {
                     if (plan.monthlyPrice === "Kontakta oss") {
                       navigate("/contact");
                     } else {
+                      setAuthMode("signup");
                       setShowAuthDialog(true);
                     }
                   }}
@@ -1027,7 +1063,10 @@ const Index = () => {
             <Button 
               size="lg" 
               className="text-base px-10 h-14 shadow-xl hover:shadow-accent/30 transition-all duration-300 hover:scale-105 bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground font-semibold" 
-              onClick={() => setShowAuthDialog(true)}
+              onClick={() => {
+                setAuthMode("signup");
+                setShowAuthDialog(true);
+              }}
             >
               Kom igång nu
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -1053,7 +1092,10 @@ const Index = () => {
             <Button 
               size="lg" 
               className="text-lg px-10 h-14 shadow-premium hover:shadow-glow transition-all duration-300" 
-              onClick={() => setShowAuthDialog(true)}
+              onClick={() => {
+                setAuthMode("signup");
+                setShowAuthDialog(true);
+              }}
             >
               Kom igång idag - helt gratis
               <ArrowRight className="ml-2 h-5 w-5" />
