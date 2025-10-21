@@ -14,6 +14,7 @@ import { SEO } from "@/components/SEO";
 import { SkipToContent } from "@/components/SkipToContent";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { LiveChatSupport } from "@/components/LiveChatSupport";
+import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 import { toast } from "sonner";
@@ -829,6 +830,9 @@ const Index = () => {
       
       {/* Live Chat Support */}
       <LiveChatSupport />
+      
+      {/* Exit Intent Popup */}
+      <ExitIntentPopup />
     </div>
   );
 };
