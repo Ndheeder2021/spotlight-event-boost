@@ -11,9 +11,9 @@ import { SEO } from "@/components/SEO";
 const plans = [
   {
     name: "Starter",
-    monthlyPrice: "299 kr",
-    yearlyPrice: "3 229 kr",
-    yearlyDiscount: "10% rabatt",
+    monthlyPrice: "$29",
+    yearlyPrice: "$329",
+    yearlyDiscount: "Spara $19",
     description: "Perfekt för små företag som vill komma igång",
     features: [
       "Spara kampanjer till databasen",
@@ -30,9 +30,9 @@ const plans = [
   },
   {
     name: "Professional",
-    monthlyPrice: "499 kr",
-    yearlyPrice: "3 592 kr",
-    yearlyDiscount: "40% rabatt",
+    monthlyPrice: "$49",
+    yearlyPrice: "$359",
+    yearlyDiscount: "Spara $229",
     description: "För växande företag med högre ambitioner",
     features: [
       "Alla Starter-funktioner",
@@ -79,7 +79,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-background">
       <SEO
         title="Priser - Spotlight Event Marketing"
-        description="Välj den plan som passar ditt företag bäst. Alla planer inkluderar 14 dagars gratis testperiod. Från 299 kr/mån. Ingen bindningstid."
+        description="Välj den plan som passar ditt företag bäst. Alla planer inkluderar 14 dagars gratis testperiod. Från $29/mån. Ingen bindningstid."
         keywords="priser, abonnemang, event marketing pris, kampanjverktyg kostnad"
         structuredData={{
           "@context": "https://schema.org",
@@ -90,15 +90,15 @@ export default function Pricing() {
             {
               "@type": "Offer",
               "name": "Starter",
-              "price": "299",
-              "priceCurrency": "SEK",
+              "price": "29",
+              "priceCurrency": "USD",
               "priceValidUntil": "2025-12-31"
             },
             {
               "@type": "Offer",
               "name": "Professional",
-              "price": "499",
-              "priceCurrency": "SEK",
+              "price": "49",
+              "priceCurrency": "USD",
               "priceValidUntil": "2025-12-31"
             }
           ]
@@ -172,7 +172,7 @@ export default function Pricing() {
             >
               Årsvis
               <span className="px-3 py-1 bg-accent/20 text-accent text-xs font-bold rounded-full">
-                Spara upp till 40%
+                Spara pengar
               </span>
             </button>
           </div>
@@ -201,8 +201,8 @@ export default function Pricing() {
                   {isYearly && plan.yearlyPrice ? (
                     <>
                       <div className="mb-2">
-                        <span className="text-5xl font-bold">{plan.yearlyPrice.replace(' kr', '')}</span>
-                        <span className="text-muted-foreground text-lg ml-1"> kr/år</span>
+                        <span className="text-5xl font-bold">{plan.yearlyPrice}</span>
+                        <span className="text-muted-foreground text-lg ml-1">/år</span>
                       </div>
                       {plan.yearlyDiscount && (
                         <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-bold">
@@ -212,10 +212,8 @@ export default function Pricing() {
                     </>
                   ) : (
                     <div>
-                      <span className="text-5xl font-bold">{plan.monthlyPrice.split(' ')[0]}</span>
-                      {plan.monthlyPrice.includes('kr') && (
-                        <span className="text-muted-foreground text-lg ml-1">/mån</span>
-                      )}
+                      <span className="text-5xl font-bold">{plan.monthlyPrice}</span>
+                      <span className="text-muted-foreground text-lg ml-1">/mån</span>
                     </div>
                   )}
                 </div>

@@ -25,10 +25,11 @@ const planDetails = {
   starter: {
     name: "Starter",
     icon: Sparkles,
-    monthlyPrice: "299 kr/mån",
-    yearlyPrice: "3 229 kr/år",
-    yearlyDiscount: "10% rabatt",
-    priceId: "price_1SKe8WAixmGbMRBldRF4WL0H",
+    monthlyPrice: "$29/mån",
+    yearlyPrice: "$329/år",
+    yearlyDiscount: "Spara $19",
+    monthlyPriceId: "price_1SKebgAixmGbMRBlFvakW9uF",
+    yearlyPriceId: "price_1SKebwAixmGbMRBlzOkLO82t",
     features: [
       "14 dagars gratis provperiod",
       "Spara kampanjer till databasen",
@@ -40,10 +41,11 @@ const planDetails = {
   professional: {
     name: "Professional",
     icon: Crown,
-    monthlyPrice: "499 kr/mån",
-    yearlyPrice: "3 592 kr/år",
-    yearlyDiscount: "40% rabatt",
-    priceId: "price_1SKe8zAixmGbMRBlNtiGg3Cj",
+    monthlyPrice: "$49/mån",
+    yearlyPrice: "$359/år",
+    yearlyDiscount: "Spara $229",
+    monthlyPriceId: "price_1SKecbAixmGbMRBl0jqqEjby",
+    yearlyPriceId: "price_1SKecoAixmGbMRBlzgFiVNUw",
     features: [
       "14 dagars gratis provperiod",
       "Alla Starter-funktioner",
@@ -65,7 +67,8 @@ const planDetails = {
     monthlyPrice: "Kontakta oss",
     yearlyPrice: null,
     yearlyDiscount: null,
-    priceId: null,
+    monthlyPriceId: null,
+    yearlyPriceId: null,
     features: [
       "Alla Professional-funktioner",
       "Upp till 10 användare",
@@ -83,6 +86,7 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
   const [updating, setUpdating] = useState<PlanType | null>(null);
   const [stripeSubscription, setStripeSubscription] = useState<StripeSubscription | null>(null);
   const [loadingStripe, setLoadingStripe] = useState(true);
+  const [isYearly, setIsYearly] = useState(false);
 
   useEffect(() => {
     checkStripeSubscription();
@@ -111,7 +115,7 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
 
     setUpdating(newPlan);
     try {
-      const priceId = planDetails[newPlan].priceId;
+      const priceId = isYearly ? planDetails[newPlan].yearlyPriceId : planDetails[newPlan].monthlyPriceId;
       if (!priceId) throw new Error("Pris-ID saknas");
 
       const { data, error } = await supabase.functions.invoke('create-checkout', {
@@ -148,6 +152,31 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
 
   return (
     <div className="space-y-6">
+      {/* Billing Period Toggle */}
+      <div className="flex justify-center mb-8">
+        <div className="inline-flex items-center gap-4 p-1 rounded-full bg-muted">
+          <button
+            onClick={() => setIsYearly(false)}
+            className={`px-6 py-2 rounded-full transition-all ${
+              !isYearly ? 'bg-background shadow-sm font-medium' : 'text-muted-foreground'
+            }`}
+          >
+            Månadsvis
+          </button>
+          <button
+            onClick={() => setIsYearly(true)}
+            className={`px-6 py-2 rounded-full transition-all flex items-center gap-2 ${
+              isYearly ? 'bg-background shadow-sm font-medium' : 'text-muted-foreground'
+            }`}
+          >
+            Årsvis
+            <span className="px-2 py-1 bg-accent/20 text-accent text-xs font-bold rounded-full">
+              Spara pengar
+            </span>
+          </button>
+        </div>
+      </div>
+
       <div>
         <h3 className="text-lg font-semibold mb-2">Ditt nuvarande abonnemang</h3>
         <div className="flex flex-col gap-2">
@@ -223,19 +252,20 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                   <CardTitle>{details.name}</CardTitle>
                 </div>
                 <div className="space-y-2">
-                  <div className="text-2xl font-bold">
-                    {details.monthlyPrice}
-                  </div>
-                  {details.yearlyPrice && (
-                    <div className="space-y-1">
-                      <div className="text-lg font-semibold text-muted-foreground">
+                  {isYearly && details.yearlyPrice ? (
+                    <div>
+                      <div className="text-2xl font-bold">
                         {details.yearlyPrice}
                       </div>
                       {details.yearlyDiscount && (
-                        <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/20 text-accent text-xs font-bold">
-                          {details.yearlyDiscount}
+                        <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/20 text-accent text-xs font-bold mt-1">
+                          💰 {details.yearlyDiscount}
                         </div>
                       )}
+                    </div>
+                  ) : (
+                    <div className="text-2xl font-bold">
+                      {details.monthlyPrice}
                     </div>
                   )}
                 </div>
