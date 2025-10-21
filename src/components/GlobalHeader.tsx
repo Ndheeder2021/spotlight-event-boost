@@ -46,6 +46,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const publicNavItems = [
+    { title: "Case Studies", url: "/case-studies", icon: BookOpen },
     { title: "Kontakta oss", url: "/contact", icon: Users },
     { title: "Investerare", url: "/investors", icon: TrendingUp },
   ];

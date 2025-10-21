@@ -32,6 +32,7 @@ import Cookies from "./pages/Cookies";
 import ReferFriend from "./pages/ReferFriend";
 import Affiliate from "./pages/Affiliate";
 import Investors from "./pages/Investors";
+import CaseStudies from "./pages/CaseStudies";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +56,8 @@ const App = () => (
           <Route path="/investors" element={<Investors />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="/case-studies" element={<CaseStudies />} />
+            <Route path="/case-studies/:id" element={<CaseStudies />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/gdpr" element={<GDPR />} />
           <Route path="/terms" element={<Terms />} />
