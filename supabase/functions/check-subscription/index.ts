@@ -82,7 +82,16 @@ serve(async (req) => {
     
     // Map product IDs to plan names
     let plan = "starter";
-    if (productId === "prod_THCXfYyIapkHHI") {
+    const monthlyStarterId = "prod_THD16z0VLy3zOD";
+    const yearlyStarterId = "prod_THD2bzwKOM79b3";
+    const monthlyProfessionalId = "prod_THD2oIrUQoCOcj";
+    const yearlyProfessionalId = "prod_THD2mpb0QFBbAV";
+    
+    if (productId === monthlyStarterId || productId === yearlyStarterId) {
+      plan = "starter";
+    } else if (productId === monthlyProfessionalId || productId === yearlyProfessionalId) {
+      plan = "professional";
+    } else if (productId === "prod_THCXfYyIapkHHI") {
       plan = "starter";
     } else if (productId === "prod_THCYsFeNGHdxlP") {
       plan = "professional";

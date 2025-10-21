@@ -20,6 +20,8 @@ export function AppLayout() {
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [checkingSubscription, setCheckingSubscription] = useState(true);
+  const [hasSubscription, setHasSubscription] = useState(false);
 
   const navItems = [
     { title: t("dashboard"), url: "/dashboard", icon: Home },
@@ -45,10 +47,32 @@ export function AppLayout() {
           .eq("role", "admin");
         
         setIsAdmin(roles && roles.length > 0);
+
+        // Check subscription status
+        const { data: subData, error: subError } = await supabase.functions.invoke('check-subscription');
+        
+        if (subError) {
+          console.error("Subscription check error:", subError);
+          setHasSubscription(false);
+          setCheckingSubscription(false);
+          navigate("/");
+          return;
+        }
+
+        if (!subData?.subscribed) {
+          setHasSubscription(false);
+          setCheckingSubscription(false);
+          navigate("/");
+          return;
+        }
+
+        setHasSubscription(true);
       }
+      
+      setCheckingSubscription(false);
     };
     checkUser();
-  }, []);
+  }, [navigate]);
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -61,6 +85,21 @@ export function AppLayout() {
 
   // Show AI support only for enterprise plan
   const showAISupport = !loading && user && features.canUseAISupport;
+
+  if (checkingSubscription) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-pulse flex items-center gap-2">
+          <Zap className="h-8 w-8 text-primary" />
+          <span className="text-2xl font-bold">Spotlight</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!hasSubscription) {
+    return null; // Will be redirected by navigate
+  }
 
   return (
     <div className="min-h-screen flex flex-col">

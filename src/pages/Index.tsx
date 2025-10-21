@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Switch } from "@/components/ui/switch";
 import { AuthForm } from "@/components/AuthForm";
 import { OnboardingForm } from "@/components/OnboardingForm";
+import { PlanSelector } from "@/components/PlanSelector";
 import { Footer } from "@/components/Footer";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
@@ -17,6 +18,7 @@ import { SkipToContent } from "@/components/SkipToContent";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles, Menu } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { toast } from "sonner";
 
 const testimonials = [
   {
@@ -141,6 +143,7 @@ const Index = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
+  const [needsSubscription, setNeedsSubscription] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showAuthDialog, setShowAuthDialog] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup" | null>(null);
@@ -193,6 +196,14 @@ const Index = () => {
       checkProfile(session?.user);
     });
 
+    // Check for successful checkout
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('checkout') === 'success') {
+      toast.success("Tack för din betalning! Din 14-dagars provperiod har startat.");
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
     return () => subscription.unsubscribe();
   }, []);
 
@@ -203,20 +214,41 @@ const Index = () => {
     }
 
     try {
-      const { data, error } = await supabase
+      // Check if profile exists
+      const { data: locationData, error: locationError } = await supabase
         .from("locations")
         .select("name")
         .eq("id", user.id)
         .single();
 
-      if (error) throw error;
+      if (locationError) throw locationError;
 
-      if (!data?.name || data.name === "My Business") {
+      if (!locationData?.name || locationData.name === "My Business") {
         setNeedsOnboarding(true);
-      } else {
-        navigate("/dashboard");
+        setLoading(false);
+        return;
       }
+
+      // Check subscription status
+      const { data: subData, error: subError } = await supabase.functions.invoke('check-subscription');
+      
+      if (subError) {
+        console.error("Subscription check error:", subError);
+        setNeedsSubscription(true);
+        setLoading(false);
+        return;
+      }
+
+      if (!subData?.subscribed) {
+        setNeedsSubscription(true);
+        setLoading(false);
+        return;
+      }
+
+      // Everything is good, redirect to dashboard
+      navigate("/dashboard");
     } catch (error) {
+      console.error("Profile check error:", error);
       setNeedsOnboarding(true);
     } finally {
       setLoading(false);
@@ -230,6 +262,12 @@ const Index = () => {
   };
 
   const handleOnboardingComplete = () => {
+    setNeedsOnboarding(false);
+    setNeedsSubscription(true);
+  };
+
+  const handleSubscriptionComplete = () => {
+    setNeedsSubscription(false);
     navigate("/dashboard");
   };
 
@@ -252,6 +290,10 @@ const Index = () => {
         </div>
       </div>
     );
+  }
+
+  if (user && needsSubscription) {
+    return <PlanSelector onSuccess={handleSubscriptionComplete} />;
   }
 
   if (user) {
