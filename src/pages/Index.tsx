@@ -79,8 +79,8 @@ const plans = [
   {
     name: "Starter",
     monthlyPrice: "$29",
-    yearlyPrice: "$310",
-    yearlyDiscount: "10% discount",
+    yearlyPrice: "$329",
+    yearlyDiscount: "Spara $19",
     description: "Perfekt för små företag som vill komma igång",
     features: [
       "Spara kampanjer till databasen",
@@ -98,8 +98,8 @@ const plans = [
   {
     name: "Professional",
     monthlyPrice: "$49",
-    yearlyPrice: "$345",
-    yearlyDiscount: "40% discount",
+    yearlyPrice: "$359",
+    yearlyDiscount: "Spara $229",
     description: "För växande företag med högre ambitioner",
     features: [
       "Alla Starter-funktioner",
