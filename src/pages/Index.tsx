@@ -19,6 +19,12 @@ import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRi
 import { Session, User } from "@supabase/supabase-js";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { toast } from "sonner";
+import reviewAnna from "@/assets/review-anna.jpg";
+import reviewErik from "@/assets/review-erik.jpg";
+import reviewMaria from "@/assets/review-maria.jpg";
+import featureAnalytics from "@/assets/feature-analytics.jpg";
+import featureAiCampaign from "@/assets/feature-ai-campaign.jpg";
+import featureEvents from "@/assets/feature-events.jpg";
 
 const testimonials = [
   {
@@ -26,18 +32,39 @@ const testimonials = [
     role: "Ägare, Café Bröd & Salt",
     content: "Spotlight har ökat vår försäljning med 40% under lokala evenemang. Vi vet alltid när det händer något i området och kan snabbt sätta igång kampanjer.",
     rating: 5,
+    image: reviewAnna,
   },
   {
     name: "Erik Lundberg",
     role: "Marknadsansvarig, Restaurant Smak",
     content: "AI-funktionen sparar oss timmar varje vecka. Kampanjerna känns personliga och träffsäkra. Bästa investeringen vi gjort!",
     rating: 5,
+    image: reviewErik,
   },
   {
     name: "Maria Andersson",
     role: "VD, Urban Bar & Grill",
     content: "Professionell, användarvänlig och resultatrik. Vi har fördubblat vårt antal kampanjer utan att öka arbetstiden.",
     rating: 5,
+    image: reviewMaria,
+  },
+];
+
+const featureShowcase = [
+  {
+    title: "Kraftfull Analytics",
+    description: "Följ dina kampanjers prestanda i realtid med detaljerade insikter och ROI-tracking.",
+    image: featureAnalytics,
+  },
+  {
+    title: "AI-Driven Kampanjer",
+    description: "Låt AI skapa skräddarsydda kampanjer baserade på lokala evenemang och din målgrupp.",
+    image: featureAiCampaign,
+  },
+  {
+    title: "Event Discovery",
+    description: "Upptäck automatiskt alla relevanta lokala evenemang i ditt område.",
+    image: featureEvents,
   },
 ];
 
@@ -450,104 +477,145 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-transparent" />
-        
-        <div className="container relative mx-auto px-4 sm:px-6 pt-20 lg:pt-32 pb-20 lg:pb-32">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-              Förvandla lokala <span className="text-accent">evenemang</span> till ökad försäljning
-            </h1>
+      {/* Hero Section - Instantly.ai Style */}
+      <section className="relative overflow-hidden bg-background">
+        <div className="container relative mx-auto px-4 sm:px-6 pt-32 lg:pt-40 pb-24 lg:pb-32">
+          <div className="max-w-5xl mx-auto text-center space-y-12">
+            <div className="space-y-8">
+              <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight">
+                Förvandla lokala evenemang till{" "}
+                <span className="text-primary">försäljning</span>
+              </h1>
+              
+              <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                AI-driven plattform som automatiskt upptäcker evenemang och skapar kampanjer
+              </p>
+            </div>
             
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              AI-driven plattform som automatiskt upptäcker närliggande evenemang och skapar datadrivna kampanjer för ditt företag.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
               <Button 
                 size="lg"
                 onClick={() => {
                   setAuthMode("signup");
                   setShowAuthDialog(true);
                 }}
-                className="h-14 px-8 text-lg bg-accent hover:bg-accent-dark text-accent-foreground"
+                className="h-16 px-10 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold"
               >
-                Kom igång gratis
+                Kom igång gratis <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
             
-            <div className="flex flex-wrap gap-6 justify-center pt-4">
+            <div className="flex flex-wrap gap-8 justify-center pt-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
-                <Check className="h-5 w-5 text-accent" />
-                <span className="text-sm">Ingen bindningstid</span>
+                <Check className="h-4 w-4 text-primary" />
+                <span>Ingen bindningstid</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-5 w-5 text-accent" />
-                <span className="text-sm">14 dagar gratis</span>
+                <Check className="h-4 w-4 text-primary" />
+                <span>14 dagar gratis</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="h-4 w-4 text-primary" />
+                <span>Inget kreditkort krävs</span>
               </div>
             </div>
-          </div>
-
-          <div className="pt-16 border-t mt-16">
-            <p className="text-center text-lg mb-8">
-              <span className="font-semibold">500+</span> företag får fler kunder med Spotlight
-            </p>
-            <LogoCarousel />
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-20 lg:py-28 bg-muted/30">
+      {/* Social Proof */}
+      <section className="py-16 border-y">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold mb-4">Varför välja Spotlight?</h2>
-            <p className="text-xl text-muted-foreground">Allt du behöver för att skapa framgångsrika kampanjer</p>
+          <p className="text-center text-muted-foreground mb-12 text-lg">
+            Över <span className="font-semibold text-foreground">500+ företag</span> använder Spotlight
+          </p>
+          <LogoCarousel />
+        </div>
+      </section>
+
+      {/* Feature Showcase with Images */}
+      <section className="py-32">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl sm:text-6xl font-bold mb-6">Allt du behöver på ett ställe</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Kraftfulla verktyg för moderna marknadsförare
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Card className="border-2">
-              <CardHeader>
-                <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
-                  <Bell className="h-6 w-6 text-accent" />
+          <div className="space-y-32 max-w-7xl mx-auto">
+            {featureShowcase.map((feature, index) => (
+              <div 
+                key={index} 
+                className={`grid lg:grid-cols-2 gap-12 items-center ${
+                  index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+                }`}
+              >
+                <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+                  <h3 className="text-4xl font-bold">{feature.title}</h3>
+                  <p className="text-xl text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </p>
+                  <Button 
+                    onClick={() => {
+                      setAuthMode("signup");
+                      setShowAuthDialog(true);
+                    }}
+                    variant="outline"
+                    className="h-12 px-6 rounded-xl"
+                  >
+                    Läs mer <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
                 </div>
-                <CardTitle>Automatisk eventbevakning</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Vi övervakar kontinuerligt lokala evenemang och notifierar dig när relevanta möjligheter dyker upp.
-                </p>
-              </CardContent>
-            </Card>
+                <div className={`${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+                  <div className="rounded-2xl overflow-hidden border shadow-2xl">
+                    <img 
+                      src={feature.image} 
+                      alt={feature.title}
+                      className="w-full h-auto"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <Card className="border-2">
-              <CardHeader>
-                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                  <Sparkles className="h-6 w-6 text-primary" />
-                </div>
-                <CardTitle>AI-genererade kampanjer</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Vår AI skapar skräddarsydda kampanjtexter baserade på ditt företag och evenemanget.
-                </p>
-              </CardContent>
-            </Card>
+      {/* Simple Features Grid */}
+      <section className="py-24 bg-muted/30">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+            <div className="space-y-4">
+              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <Bell className="h-7 w-7 text-primary" />
+              </div>
+              <h3 className="text-2xl font-bold">Automatisk bevakning</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Vi övervakar kontinuerligt lokala evenemang och notifierar dig omedelbart.
+              </p>
+            </div>
 
-            <Card className="border-2">
-              <CardHeader>
-                <div className="h-12 w-12 rounded-lg bg-chart-3/10 flex items-center justify-center mb-4">
-                  <BarChart className="h-6 w-6 text-chart-3" />
-                </div>
-                <CardTitle>ROI-tracking</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Följ resultat i realtid och optimera dina kampanjer för maximal avkastning.
-                </p>
-              </CardContent>
-            </Card>
+            <div className="space-y-4">
+              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <Sparkles className="h-7 w-7 text-primary" />
+              </div>
+              <h3 className="text-2xl font-bold">AI-kampanjer</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Skräddarsydda kampanjtexter genererade av avancerad AI-teknologi.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <BarChart className="h-7 w-7 text-primary" />
+              </div>
+              <h3 className="text-2xl font-bold">ROI-tracking</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Följ resultat i realtid och optimera för maximal avkastning.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -566,26 +634,36 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 bg-muted/30">
+      {/* Reviews with Real Photos */}
+      <section className="py-32">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold mb-4">Vad våra kunder säger</h2>
+          <div className="text-center mb-20">
+            <h2 className="text-5xl sm:text-6xl font-bold mb-6">Kundberättelser</h2>
+            <p className="text-xl text-muted-foreground">Se vad våra kunder tycker</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {testimonials.map((t, i) => (
-              <Card key={i} className="border-2">
-                <CardContent className="pt-6">
-                  <div className="flex gap-1 mb-4">
+              <Card key={i} className="border hover:shadow-xl transition-shadow">
+                <CardContent className="pt-8 pb-8">
+                  <div className="flex gap-1 mb-6">
                     {[...Array(t.rating)].map((_, j) => (
-                      <Star key={j} className="h-5 w-5 fill-accent text-accent" />
+                      <Star key={j} className="h-5 w-5 fill-primary text-primary" />
                     ))}
                   </div>
-                  <p className="text-lg mb-6">"{t.content}"</p>
-                  <div className="border-t pt-4">
-                    <p className="font-semibold">{t.name}</p>
-                    <p className="text-sm text-muted-foreground">{t.role}</p>
+                  <p className="text-lg mb-8 leading-relaxed text-foreground">
+                    "{t.content}"
+                  </p>
+                  <div className="flex items-center gap-4 pt-6 border-t">
+                    <img 
+                      src={t.image} 
+                      alt={t.name}
+                      className="h-14 w-14 rounded-full object-cover"
+                    />
+                    <div>
+                      <p className="font-semibold text-foreground">{t.name}</p>
+                      <p className="text-sm text-muted-foreground">{t.role}</p>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -685,45 +763,51 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 lg:py-32">
+      {/* CTA - Clean and Minimal */}
+      <section className="py-32">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">Börja växa ditt företag idag</h2>
-            <p className="text-xl text-muted-foreground mb-10">
-              Gå med i hundratals företag som använder Spotlight för att skapa framgångsrika kampanjer.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+          <div className="max-w-4xl mx-auto text-center space-y-12">
+            <div className="space-y-6">
+              <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+                Redo att komma igång?
+              </h2>
+              <p className="text-2xl text-muted-foreground">
+                Gå med i hundratals företag som redan använder Spotlight
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
               <Button 
                 size="lg"
                 onClick={() => {
                   setAuthMode("signup");
                   setShowAuthDialog(true);
                 }}
-                className="h-14 px-8 text-lg bg-accent hover:bg-accent-dark text-accent-foreground"
+                className="h-16 px-10 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold"
               >
-                Kom igång gratis
+                Kom igång gratis <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button 
                 size="lg"
                 variant="outline"
                 onClick={() => navigate('/contact')}
-                className="h-14 px-8 text-lg"
+                className="h-16 px-10 text-lg rounded-xl font-semibold"
               >
                 Kontakta oss
               </Button>
             </div>
-            <div className="flex flex-wrap gap-6 justify-center">
+            
+            <div className="flex flex-wrap gap-8 justify-center pt-4 text-muted-foreground">
               <div className="flex items-center gap-2">
-                <Check className="h-5 w-5 text-accent" />
+                <Check className="h-4 w-4 text-primary" />
                 <span>14 dagars gratis</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-5 w-5 text-accent" />
+                <Check className="h-4 w-4 text-primary" />
                 <span>Ingen bindningstid</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-5 w-5 text-accent" />
+                <Check className="h-4 w-4 text-primary" />
                 <span>Inget kreditkort behövs</span>
               </div>
             </div>
