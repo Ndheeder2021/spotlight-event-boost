@@ -12,6 +12,7 @@ import { GlobalHeader } from "@/components/GlobalHeader";
 import { LogoCarousel } from "@/components/LogoCarousel";
 import { SEO } from "@/components/SEO";
 import { SkipToContent } from "@/components/SkipToContent";
+import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 import { toast } from "sonner";
@@ -418,7 +419,37 @@ const Index = () => {
               </Link>
             </div>
             
-            <div className="flex flex-wrap gap-8 justify-center pt-4 text-sm text-muted-foreground">
+            {/* Live Stats Counter */}
+            <div className="flex flex-col sm:flex-row gap-8 sm:gap-12 justify-center pt-12">
+              <div className="flex flex-col items-center gap-2">
+                <div className="text-4xl sm:text-5xl font-bold text-primary">
+                  <AnimatedCounter end={2547} suffix="+" />
+                </div>
+                <div className="text-sm sm:text-base text-muted-foreground">
+                  Företag använder Spotlight
+                </div>
+              </div>
+              
+              <div className="flex flex-col items-center gap-2">
+                <div className="text-4xl sm:text-5xl font-bold text-primary">
+                  <AnimatedCounter end={12349} suffix="+" />
+                </div>
+                <div className="text-sm sm:text-base text-muted-foreground">
+                  Kampanjer skapade denna månad
+                </div>
+              </div>
+              
+              <div className="flex flex-col items-center gap-2">
+                <div className="text-4xl sm:text-5xl font-bold text-primary">
+                  <AnimatedCounter end={98} suffix="%" />
+                </div>
+                <div className="text-sm sm:text-base text-muted-foreground">
+                  Kundnöjdhet
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex flex-wrap gap-8 justify-center pt-8 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Check className="h-4 w-4 text-primary" />
                 <span>Ingen bindningstid</span>
