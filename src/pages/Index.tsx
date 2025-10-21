@@ -20,6 +20,7 @@ import { InteractiveProductTour } from "@/components/InteractiveProductTour";
 import { StickyCTABar } from "@/components/StickyCTABar";
 import { ROICalculator } from "@/components/ROICalculator";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
+import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 import { toast } from "sonner";
@@ -402,7 +403,8 @@ const Index = () => {
 
       {/* Hero Section - Instantly.ai Style */}
       <section className="relative overflow-hidden bg-background">
-        <div className="container relative mx-auto px-4 sm:px-6 pt-32 lg:pt-40 pb-24 lg:pb-32">
+        <AnimatedHeroBackground />
+        <div className="container relative mx-auto px-4 sm:px-6 pt-32 lg:pt-40 pb-24 lg:pb-32 z-10">
           <div className="max-w-5xl mx-auto text-center space-y-12">
             <div className="space-y-8">
               <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight">
