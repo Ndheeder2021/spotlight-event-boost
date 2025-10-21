@@ -1,3 +1,10 @@
+import cafeBrodSalt from "@/assets/case-cafe-brod-salt.jpg";
+import restaurantSmak from "@/assets/case-restaurant-smak.jpg";
+import urbanBarGrill from "@/assets/case-urban-bar-grill.jpg";
+import testimonialAnna from "@/assets/testimonial-anna-cafe.jpg";
+import testimonialErik from "@/assets/testimonial-erik-restaurant.jpg";
+import testimonialMaria from "@/assets/testimonial-maria-bar.jpg";
+
 export interface CaseStudy {
   id: string;
   title: string;
@@ -32,7 +39,7 @@ export const caseStudies: CaseStudy[] = [
     company: "Café Bröd & Salt",
     industry: "Café & Bageri",
     location: "Stockholm, Södermalm",
-    heroImage: "/placeholder.svg",
+    heroImage: cafeBrodSalt,
     results: [
       {
         metric: "Försäljningsökning",
@@ -67,7 +74,7 @@ export const caseStudies: CaseStudy[] = [
       quote: "Spotlight har förvandlat hur vi arbetar med marknadsföring. Vi har gått från att missa möjligheter till att vara steget före. Försäljningen har ökat med 45% och vi sparar timmar varje vecka. Det är den bästa investeringen vi gjort för vårt café.",
       author: "Anna Svensson",
       role: "Ägare, Café Bröd & Salt",
-      image: "/placeholder.svg"
+      image: testimonialAnna
     },
     keyTakeaways: [
       "Automatiserad event-discovery sparade 12 timmar per vecka i researchtid",
@@ -83,7 +90,7 @@ export const caseStudies: CaseStudy[] = [
     company: "Restaurant Smak",
     industry: "Restaurang",
     location: "Göteborg, Centrum",
-    heroImage: "/placeholder.svg",
+    heroImage: restaurantSmak,
     results: [
       {
         metric: "Kampanjkonvertering",
@@ -118,7 +125,7 @@ export const caseStudies: CaseStudy[] = [
       quote: "AI-funktionen har varit en game-changer. Vi når nu 8 gånger fler potentiella gäster med kampanjer som konverterar dubbelt så bra som våra gamla manuella försök. Och vi gör det på samma tid som tidigare. Det är nästan magiskt.",
       author: "Erik Lundberg",
       role: "Marknadsansvarig, Restaurant Smak",
-      image: "/placeholder.svg"
+      image: testimonialErik
     },
     keyTakeaways: [
       "AI-driven kampanjgenerering möjliggjorde 8x fler kampanjer utan extra personal",
@@ -134,7 +141,7 @@ export const caseStudies: CaseStudy[] = [
     company: "Urban Bar & Grill",
     industry: "Bar & Restaurang",
     location: "Malmö, Västra Hamnen",
-    heroImage: "/placeholder.svg",
+    heroImage: urbanBarGrill,
     results: [
       {
         metric: "Kampanjvolym",
@@ -169,7 +176,7 @@ export const caseStudies: CaseStudy[] = [
       quote: "Spotlight har demokratiserat professionell marknadsföring. Vi, som ett medelstort företag, kan nu konkurrera med stora kedjor när det gäller kampanjvolym och kvalitet. Och vi gör det utan att anställa fler. Det är revolutionerande.",
       author: "Maria Andersson",
       role: "VD, Urban Bar & Grill",
-      image: "/placeholder.svg"
+      image: testimonialMaria
     },
     keyTakeaways: [
       "Små team kan nu producera kampanjer i professionell kvalitet och volym",
