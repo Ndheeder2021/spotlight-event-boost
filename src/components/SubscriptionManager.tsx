@@ -302,7 +302,7 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                       )}
                     </Button>
                   )}
-                  {!isCurrent && plan === "enterprise" && (
+                  {plan === "enterprise" && (
                     <Button
                       variant="outline"
                       size="lg"
@@ -312,7 +312,7 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                       Kontakta oss
                     </Button>
                   )}
-                  {isCurrent && stripeSubscription?.subscribed && (
+                  {isCurrent && plan !== "enterprise" && stripeSubscription?.subscribed && (
                     <Button
                       onClick={handleManageSubscription}
                       variant="outline"
