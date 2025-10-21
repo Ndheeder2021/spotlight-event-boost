@@ -16,6 +16,7 @@ import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { LiveChatSupport } from "@/components/LiveChatSupport";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { InteractiveProductTour } from "@/components/InteractiveProductTour";
+import { StickyCTABar } from "@/components/StickyCTABar";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 import { toast } from "sonner";
@@ -369,6 +370,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <SkipToContent />
+      <StickyCTABar />
       <SEO
         title="Spotlight - AI-Driven Event Marketing för Lokala Företag"
         description="Förvandla lokala evenemang till ökad försäljning med AI. Spotlight hjälper dig automatiskt upptäcka närliggande evenemang och skapa datadrivna kampanjer som maximerar ditt kundflöde."
