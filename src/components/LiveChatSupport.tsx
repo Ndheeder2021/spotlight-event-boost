@@ -151,7 +151,7 @@ export function LiveChatSupport() {
       {/* Chat Button - Animated with glow effect */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 h-16 w-16 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-50 group relative"
+        className="fixed bottom-6 right-6 h-16 w-16 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-[9999] group relative"
         size="icon"
       >
         <div className="absolute inset-0 rounded-full bg-primary animate-pulse opacity-20 group-hover:opacity-30" />
@@ -169,7 +169,7 @@ export function LiveChatSupport() {
 
       {/* Chat Window */}
       {isOpen && (
-        <Card className={`fixed right-6 w-[420px] shadow-2xl flex flex-col z-50 border-2 border-primary/20 backdrop-blur-sm bg-background/95 transition-all duration-300 animate-in slide-in-from-bottom-4 ${
+        <Card className={`fixed right-6 w-[420px] shadow-2xl flex flex-col z-[9999] border-2 border-primary/20 backdrop-blur-sm bg-background/95 transition-all duration-300 animate-in slide-in-from-bottom-4 ${
           isMinimized ? "bottom-24 h-16" : "bottom-24 h-[600px]"
         }`}>
           {/* Header */}
