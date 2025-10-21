@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Switch } from "@/components/ui/switch";
 import { OnboardingForm } from "@/components/OnboardingForm";
@@ -576,6 +577,238 @@ const Index = () => {
                 <div className="text-muted-foreground">{stat.label}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison Tables */}
+      <section className="py-24 bg-gradient-to-b from-background via-accent/5 to-background">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-6xl mx-auto space-y-16">
+            {/* Spotlight vs Traditional Marketing */}
+            <div className="space-y-8">
+              <div className="text-center space-y-4">
+                <Badge variant="outline" className="border-primary/30 bg-primary/5">
+                  Jämförelse
+                </Badge>
+                <h2 className="text-4xl sm:text-5xl font-bold">
+                  Spotlight vs Traditionell Marknadsföring
+                </h2>
+                <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                  Se skillnaden mellan manuellt arbete och AI-driven automation
+                </p>
+              </div>
+
+              <div className="overflow-x-auto">
+                <div className="min-w-[600px] bg-card border rounded-2xl shadow-lg overflow-hidden">
+                  <div className="grid grid-cols-3">
+                    <div className="p-6 bg-accent/30 border-b border-r">
+                      <h3 className="font-semibold text-lg">Funktion</h3>
+                    </div>
+                    <div className="p-6 bg-primary/5 border-b border-r">
+                      <h3 className="font-semibold text-lg flex items-center gap-2">
+                        <Zap className="h-5 w-5 text-primary" />
+                        Spotlight
+                      </h3>
+                    </div>
+                    <div className="p-6 bg-accent/10 border-b">
+                      <h3 className="font-semibold text-lg text-muted-foreground">
+                        Traditionell marknadsföring
+                      </h3>
+                    </div>
+                  </div>
+
+                  {[
+                    {
+                      feature: "Hitta relevanta evenemang",
+                      spotlight: "Automatisk bevakning 24/7",
+                      traditional: "Manuell sökning varje vecka"
+                    },
+                    {
+                      feature: "Skapa kampanjtext",
+                      spotlight: "AI-genererad på 60 sekunder",
+                      traditional: "2-4 timmar per kampanj"
+                    },
+                    {
+                      feature: "Analytics & ROI",
+                      spotlight: "Real-time dashboard",
+                      traditional: "Manuell uppföljning i Excel"
+                    },
+                    {
+                      feature: "A/B-testning",
+                      spotlight: "Inbyggt & automatiserat",
+                      traditional: "Svårt och tidskrävande"
+                    },
+                    {
+                      feature: "Kostnad per månad",
+                      spotlight: "Från €29",
+                      traditional: "€500+ (timkostnad)"
+                    }
+                  ].map((row, index) => (
+                    <div key={index} className="grid grid-cols-3">
+                      <div className="p-4 border-b border-r bg-background">
+                        <p className="font-medium">{row.feature}</p>
+                      </div>
+                      <div className="p-4 border-b border-r bg-primary/5">
+                        <div className="flex items-start gap-2">
+                          <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                          <p className="text-sm">{row.spotlight}</p>
+                        </div>
+                      </div>
+                      <div className="p-4 border-b bg-accent/10">
+                        <div className="flex items-start gap-2">
+                          <X className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+                          <p className="text-sm text-muted-foreground">{row.traditional}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Spotlight vs Competitors */}
+            <div className="space-y-8">
+              <div className="text-center space-y-4">
+                <h2 className="text-4xl sm:text-5xl font-bold">
+                  Spotlight vs Konkurrenter
+                </h2>
+                <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                  Varför våra kunder väljer oss
+                </p>
+              </div>
+
+              <div className="overflow-x-auto">
+                <div className="min-w-[700px] bg-card border rounded-2xl shadow-lg overflow-hidden">
+                  <div className="grid grid-cols-4">
+                    <div className="p-6 bg-accent/30 border-b border-r">
+                      <h3 className="font-semibold text-lg">Funktion</h3>
+                    </div>
+                    <div className="p-6 bg-primary/5 border-b border-r">
+                      <h3 className="font-semibold text-lg flex items-center gap-2">
+                        <Zap className="h-5 w-5 text-primary" />
+                        Spotlight
+                      </h3>
+                    </div>
+                    <div className="p-6 bg-accent/10 border-b border-r">
+                      <h3 className="font-semibold text-lg text-muted-foreground">
+                        Konkurrent A
+                      </h3>
+                    </div>
+                    <div className="p-6 bg-accent/10 border-b">
+                      <h3 className="font-semibold text-lg text-muted-foreground">
+                        Konkurrent B
+                      </h3>
+                    </div>
+                  </div>
+
+                  {[
+                    {
+                      feature: "AI-genererad kampanjtext",
+                      spotlight: true,
+                      competitorA: false,
+                      competitorB: true
+                    },
+                    {
+                      feature: "Automatisk eventbevakning",
+                      spotlight: true,
+                      competitorA: true,
+                      competitorB: false
+                    },
+                    {
+                      feature: "Real-time analytics",
+                      spotlight: true,
+                      competitorA: false,
+                      competitorB: true
+                    },
+                    {
+                      feature: "A/B-testning",
+                      spotlight: true,
+                      competitorA: false,
+                      competitorB: false
+                    },
+                    {
+                      feature: "Flerspråksstöd",
+                      spotlight: true,
+                      competitorA: false,
+                      competitorB: true
+                    },
+                    {
+                      feature: "PDF-export",
+                      spotlight: true,
+                      competitorA: true,
+                      competitorB: false
+                    },
+                    {
+                      feature: "14 dagars gratis trial",
+                      spotlight: true,
+                      competitorA: false,
+                      competitorB: false
+                    },
+                    {
+                      feature: "Startpris/månad",
+                      spotlight: "€29",
+                      competitorA: "€79",
+                      competitorB: "€49"
+                    }
+                  ].map((row, index) => (
+                    <div key={index} className="grid grid-cols-4">
+                      <div className="p-4 border-b border-r bg-background">
+                        <p className="font-medium text-sm">{row.feature}</p>
+                      </div>
+                      <div className="p-4 border-b border-r bg-primary/5">
+                        <div className="flex items-center justify-center">
+                          {typeof row.spotlight === 'boolean' ? (
+                            row.spotlight ? (
+                              <Check className="h-6 w-6 text-primary" />
+                            ) : (
+                              <X className="h-6 w-6 text-muted-foreground" />
+                            )
+                          ) : (
+                            <span className="font-semibold text-primary">{row.spotlight}</span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="p-4 border-b border-r bg-accent/10">
+                        <div className="flex items-center justify-center">
+                          {typeof row.competitorA === 'boolean' ? (
+                            row.competitorA ? (
+                              <Check className="h-6 w-6 text-muted-foreground/50" />
+                            ) : (
+                              <X className="h-6 w-6 text-muted-foreground/30" />
+                            )
+                          ) : (
+                            <span className="text-sm text-muted-foreground">{row.competitorA}</span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="p-4 border-b bg-accent/10">
+                        <div className="flex items-center justify-center">
+                          {typeof row.competitorB === 'boolean' ? (
+                            row.competitorB ? (
+                              <Check className="h-6 w-6 text-muted-foreground/50" />
+                            ) : (
+                              <X className="h-6 w-6 text-muted-foreground/30" />
+                            )
+                          ) : (
+                            <span className="text-sm text-muted-foreground">{row.competitorB}</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="text-center pt-8">
+                <Link to="/auth">
+                  <Button variant="animated" size="xl">
+                    Prova Spotlight gratis
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
