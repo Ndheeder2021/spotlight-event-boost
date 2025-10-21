@@ -13,7 +13,7 @@ export const ROICalculator = () => {
 
   // Calculations
   const spotlightTimePerCampaign = 0.25; // 15 minutes with Spotlight
-  const hourlyRate = 50; // Average hourly rate in EUR
+  const hourlyRate = 50; // Average hourly rate in USD
   const spotlightCost = 29; // Monthly cost
 
   const timeSavedPerCampaign = hoursPerCampaign - spotlightTimePerCampaign;
@@ -147,10 +147,10 @@ export const ROICalculator = () => {
                     <div className="flex-1">
                       <p className="text-sm text-muted-foreground mb-1">Värde av sparad tid</p>
                       <p className="text-3xl font-bold text-primary">
-                        €{moneySavedOnTime.toFixed(0)}
+                        ${moneySavedOnTime.toFixed(0)}
                       </p>
                       <p className="text-xs text-muted-foreground mt-1">
-                        {totalTimeSaved.toFixed(1)}h × €{hourlyRate}/timme
+                        {totalTimeSaved.toFixed(1)}h × ${hourlyRate}/timme
                       </p>
                     </div>
                   </div>
@@ -165,10 +165,10 @@ export const ROICalculator = () => {
                     <div className="flex-1">
                       <p className="text-sm font-medium mb-1">Nettobesparing per månad</p>
                       <p className="text-4xl font-bold text-primary mb-1">
-                        €{netSavings.toFixed(0)}
+                        ${netSavings.toFixed(0)}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        Efter Spotlight-kostnad (€29/mån)
+                        Efter Spotlight-kostnad ($29/mån)
                       </p>
                       <div className="mt-3 pt-3 border-t border-primary/20">
                         <div className="flex items-center justify-between">
@@ -201,7 +201,7 @@ export const ROICalculator = () => {
           {/* Additional context */}
           <div className="mt-12 text-center">
             <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-              * Beräkningarna baseras på en genomsnittlig timkostnad på €{hourlyRate} och Spotlights 
+              * Beräkningarna baseras på en genomsnittlig timkostnad på ${hourlyRate} och Spotlights 
               förmåga att reducera kampanjskapande från {hoursPerCampaign}h till ~15 minuter med AI-automation.
             </p>
           </div>
