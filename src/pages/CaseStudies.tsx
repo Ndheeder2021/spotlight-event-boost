@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { SkeletonCaseStudyCard, SkeletonHero } from "@/components/ui/skeleton-card";
 import { caseStudies, getCaseStudyById, type CaseStudy } from "@/data/caseStudiesData";
 import { ArrowRight, Building2, MapPin, TrendingUp, Target, Lightbulb, CheckCircle2, Quote } from "lucide-react";
+import { TrustBadges } from "@/components/TrustBadges";
 
 const CaseStudyCard = ({ study }: { study: CaseStudy }) => (
   <Card className="group hover-lift hover:shadow-xl transition-all duration-500 overflow-hidden border-2 hover:border-primary/50">
@@ -308,6 +309,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
       </div>
     </section>
 
+        <TrustBadges />
         <Footer />
         </>
       )}
@@ -430,6 +432,7 @@ const CaseStudiesOverview = () => {
       </div>
     </section>
 
+      <TrustBadges />
       <Footer />
       </>
       )}

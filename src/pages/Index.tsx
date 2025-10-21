@@ -21,6 +21,7 @@ import { StickyCTABar } from "@/components/StickyCTABar";
 import { ROICalculator } from "@/components/ROICalculator";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
+import { TrustBadges } from "@/components/TrustBadges";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 import { toast } from "sonner";
@@ -1101,6 +1102,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Trust Badges */}
+      <TrustBadges />
 
       <Footer />
       

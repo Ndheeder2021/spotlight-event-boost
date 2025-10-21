@@ -8,6 +8,7 @@ import { SEO } from "@/components/SEO";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { LiveChatSupport } from "@/components/LiveChatSupport";
+import { TrustBadges } from "@/components/TrustBadges";
 
 const plans = [
   {
@@ -490,6 +491,9 @@ export default function Pricing() {
           </p>
         </div>
       </section>
+
+      {/* Trust Badges */}
+      <TrustBadges />
 
       {/* Footer */}
       <Footer />
