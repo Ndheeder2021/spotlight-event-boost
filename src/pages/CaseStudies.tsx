@@ -46,11 +46,11 @@ const CaseStudyCard = ({ study }: { study: CaseStudy }) => (
       
       <div className="grid grid-cols-2 gap-3 py-4">
         {study.results.slice(0, 2).map((result, idx) => (
-          <div key={idx} className="text-center">
-            <div className="text-3xl font-bold text-primary mb-1">
+          <div key={idx} className="text-center px-2">
+            <div className="text-2xl font-bold text-primary mb-1 break-words">
               {result.value}
             </div>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-muted-foreground break-words">
               {result.metric}
             </div>
           </div>
@@ -58,9 +58,9 @@ const CaseStudyCard = ({ study }: { study: CaseStudy }) => (
       </div>
 
       <Link to={`/case-studies/${study.id}`}>
-        <Button variant="outline" className="w-full group/btn">
+        <Button variant="animatedOutline" className="w-full">
           Läs hela case studien
-          <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+          <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </Link>
     </CardContent>
@@ -130,14 +130,14 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
           <div className="grid md:grid-cols-4 gap-6">
             {study.results.map((result, idx) => (
               <Card key={idx} className="text-center border-2 hover:border-primary/50 transition-all">
-                <CardContent className="pt-8 pb-6">
-                  <div className="text-5xl font-bold text-primary mb-2">
+                <CardContent className="pt-8 pb-6 px-4">
+                  <div className="text-4xl font-bold text-primary mb-2 break-words">
                     {result.value}
                   </div>
-                  <div className="text-lg font-semibold mb-2">
+                  <div className="text-base font-semibold mb-2 break-words">
                     {result.metric}
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-sm text-muted-foreground break-words">
                     {result.description}
                   </div>
                 </CardContent>
@@ -276,7 +276,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
               </Button>
             </Link>
             <Link to="/case-studies">
-              <Button size="lg" variant="outline">
+              <Button size="lg" variant="animatedOutline">
                 Se fler case studies
               </Button>
             </Link>
@@ -375,7 +375,7 @@ const CaseStudiesOverview = () => {
               </Button>
             </Link>
             <Link to="/contact">
-              <Button size="lg" variant="outline">
+              <Button size="lg" variant="animatedOutline">
                 Kontakta oss
               </Button>
             </Link>
