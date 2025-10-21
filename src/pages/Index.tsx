@@ -102,7 +102,7 @@ const plans = [
     name: "Professional",
     monthlyPrice: "$49",
     yearlyPrice: "$359",
-    yearlyDiscount: "Spara $229",
+    yearlyDiscount: "Spara 40%",
     description: "För växande företag med högre ambitioner",
     features: [
       "Alla Starter-funktioner",
@@ -895,6 +895,24 @@ const Index = () => {
                   )}
                 </div>
 
+                <div className="space-y-4 mb-8">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
+                    Inkluderat:
+                  </p>
+                  {plan.features.map((f, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">{f}</span>
+                    </div>
+                  ))}
+                  {plan.notIncluded.length > 0 && plan.notIncluded.map((f, i) => (
+                    <div key={i} className="flex items-start gap-3 opacity-30">
+                      <X className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+                      <span className="text-sm text-muted-foreground">{f}</span>
+                    </div>
+                  ))}
+                </div>
+
                 {plan.name === "Enterprise" ? (
                   <Link to="/contact" className="w-full">
                     <Button 
@@ -918,24 +936,6 @@ const Index = () => {
                     </Button>
                   </Link>
                 )}
-
-                <div className="space-y-4">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-                    Inkluderat:
-                  </p>
-                  {plan.features.map((f, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">{f}</span>
-                    </div>
-                  ))}
-                  {plan.notIncluded.length > 0 && plan.notIncluded.map((f, i) => (
-                    <div key={i} className="flex items-start gap-3 opacity-30">
-                      <X className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-muted-foreground">{f}</span>
-                    </div>
-                  ))}
-                </div>
               </div>
             ))}
           </div>
