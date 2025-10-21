@@ -15,7 +15,7 @@ import type { PlanType } from "@/hooks/usePlanFeatures";
 interface TeamMember {
   user_id: string;
   email: string;
-  role: "owner" | "editor" | "viewer";
+  role: "owner" | "editor" | "viewer" | "admin" | "moderator" | "user";
   created_at: string;
 }
 
@@ -42,12 +42,18 @@ const ROLE_ICONS = {
   owner: Crown,
   editor: Edit3,
   viewer: Eye,
+  admin: Crown,
+  moderator: Edit3,
+  user: Eye,
 };
 
 const ROLE_LABELS = {
   owner: { sv: "Ägare", en: "Owner" },
   editor: { sv: "Redaktör", en: "Editor" },
   viewer: { sv: "Granskare", en: "Viewer" },
+  admin: { sv: "Admin", en: "Admin" },
+  moderator: { sv: "Moderator", en: "Moderator" },
+  user: { sv: "Användare", en: "User" },
 };
 
 export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
@@ -91,7 +97,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
           return {
             user_id: role.user_id,
             email: authUser?.email || "Unknown",
-            role: role.role as "owner" | "editor" | "viewer",
+            role: role.role as "owner" | "editor" | "viewer" | "admin" | "moderator" | "user",
             created_at: role.created_at,
           };
         });
@@ -286,14 +292,15 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
             </TableHeader>
             <TableBody>
               {members.map((member) => {
-                const RoleIcon = ROLE_ICONS[member.role];
+                const RoleIcon = ROLE_ICONS[member.role] || Eye;
+                const isOwnerOrAdmin = member.role === "owner" || member.role === "admin";
                 return (
                   <TableRow key={member.user_id}>
                     <TableCell className="font-medium">{member.email}</TableCell>
                     <TableCell>
-                      <Badge variant={member.role === "owner" ? "default" : "secondary"}>
+                      <Badge variant={isOwnerOrAdmin ? "default" : "secondary"}>
                         <RoleIcon className="h-3 w-3 mr-1" />
-                        {ROLE_LABELS[member.role][lang]}
+                        {ROLE_LABELS[member.role]?.[lang] || member.role}
                       </Badge>
                     </TableCell>
                     <TableCell>
@@ -335,9 +342,9 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
               </TableHeader>
               <TableBody>
                 {invitations.map((invite) => {
-                  const role = invite.role as "owner" | "editor" | "viewer";
+                  const role = invite.role as "owner" | "editor" | "viewer" | "admin" | "moderator" | "user";
                   const RoleIcon = ROLE_ICONS[role] || Edit3;
-                  const roleLabel = ROLE_LABELS[role] || ROLE_LABELS.editor;
+                  const roleLabel = ROLE_LABELS[role] || { sv: invite.role, en: invite.role };
                   return (
                     <TableRow key={invite.id}>
                       <TableCell className="font-medium">
