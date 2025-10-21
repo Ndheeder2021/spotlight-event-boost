@@ -105,39 +105,44 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
   const isAuthenticated = variant === "authenticated" || user;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between gap-6">
+        <div className="flex h-24 items-center justify-between gap-8">
           {/* Logo */}
           <Link 
             to={isAuthenticated ? "/dashboard" : "/"} 
-            className="flex items-center gap-3 hover:opacity-80 transition-all duration-300 hover:scale-105 group"
+            className="flex items-center gap-3 hover:opacity-90 transition-all duration-300 hover:scale-105 group"
           >
             <div className="relative">
-              <Zap className="h-8 w-8 text-primary transition-transform duration-300 group-hover:rotate-12" fill="currentColor" />
-              <div className="absolute inset-0 bg-primary/20 blur-xl group-hover:blur-2xl transition-all duration-300 opacity-0 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-primary-glow/30 blur-2xl group-hover:blur-3xl transition-all duration-500 opacity-60 group-hover:opacity-100 rounded-full" />
+              <Zap className="h-10 w-10 text-primary relative z-10 transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 drop-shadow-lg" fill="currentColor" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
+            <span className="text-3xl font-bold bg-gradient-to-r from-primary via-primary-glow to-primary bg-clip-text text-transparent tracking-tight">
               Spotlight
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-2 xl:gap-4 flex-1 justify-center">
+          <nav className="hidden lg:flex items-center gap-3 xl:gap-6 flex-1 justify-center">
             {navItems.map((item) => (
               <NavLink
                 key={item.url}
                 to={item.url}
                 className={({ isActive }) =>
-                  `flex items-center gap-2 px-4 py-2.5 text-base font-medium transition-all duration-200 rounded-lg hover:bg-accent/50 hover:scale-105 whitespace-nowrap ${
+                  `flex items-center gap-2.5 px-5 py-3 text-base font-semibold transition-all duration-300 rounded-xl hover:scale-105 whitespace-nowrap relative group ${
                     isActive 
-                      ? "text-primary bg-accent shadow-sm" 
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "text-primary bg-gradient-to-r from-accent/80 to-accent/60 shadow-md" 
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent/60"
                   }`
                 }
               >
-                <item.icon className="h-5 w-5" />
-                <span>{item.title}</span>
+                {({ isActive }) => (
+                  <>
+                    <item.icon className={`h-5 w-5 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
+                    <span>{item.title}</span>
+                    {!isActive && <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />}
+                  </>
+                )}
               </NavLink>
             ))}
 
@@ -147,42 +152,43 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                 <DropdownMenuTrigger asChild>
                   <Button 
                     variant="ghost" 
-                    className="flex items-center gap-2 px-4 py-2.5 text-base font-medium hover:bg-accent/50 hover:scale-105 transition-all duration-200 rounded-lg"
+                    className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
                   >
                     <span>Mer</span>
-                    <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent 
                   align="center" 
-                  className="w-56 bg-background/95 backdrop-blur-sm border-border shadow-xl animate-in fade-in-0 zoom-in-95 z-50"
-                  sideOffset={8}
+                  className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 zoom-in-95 z-50 rounded-2xl p-2"
+                  sideOffset={12}
                 >
-                  <DropdownMenuLabel className="text-base font-semibold">
+                  <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1">
                     Verktyg
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
+                  <DropdownMenuSeparator className="my-2" />
                   {moreMenuItems.map((item) => (
                     <DropdownMenuItem key={item.url} asChild>
                       <Link
                         to={item.url}
-                        className="flex items-center gap-3 px-3 py-2.5 text-base cursor-pointer hover:bg-accent/80 transition-colors"
+                        className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-200 rounded-xl group"
                       >
-                        <item.icon className="h-5 w-5" />
-                        <span>{item.title}</span>
+                        <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors group-hover:scale-110 duration-200" />
+                        <span className="group-hover:translate-x-0.5 transition-transform duration-200">{item.title}</span>
                       </Link>
                     </DropdownMenuItem>
                   ))}
                   {isAdmin && (
                     <>
-                      <DropdownMenuSeparator />
+                      <DropdownMenuSeparator className="my-2" />
                       <DropdownMenuItem asChild>
                         <Link
                           to="/admin"
-                          className="flex items-center gap-3 px-3 py-2.5 text-base cursor-pointer hover:bg-accent/80 transition-colors"
+                          className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-200 rounded-xl group"
                         >
-                          <Shield className="h-5 w-5" />
-                          <span>{t("admin")}</span>
+                          <Shield className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors group-hover:scale-110 duration-200" />
+                          <span className="group-hover:translate-x-0.5 transition-transform duration-200">{t("admin")}</span>
                         </Link>
                       </DropdownMenuItem>
                     </>
@@ -197,29 +203,30 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                 <DropdownMenuTrigger asChild>
                   <Button 
                     variant="ghost" 
-                    className="flex items-center gap-2 px-4 py-2.5 text-base font-medium hover:bg-accent/50 hover:scale-105 transition-all duration-200 rounded-lg"
+                    className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
                   >
                     <span>Prices & Perks</span>
-                    <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent 
                   align="center" 
-                  className="w-56 bg-background/95 backdrop-blur-sm border-border shadow-xl animate-in fade-in-0 zoom-in-95 z-50"
-                  sideOffset={8}
+                  className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 zoom-in-95 z-50 rounded-2xl p-2"
+                  sideOffset={12}
                 >
-                  <DropdownMenuLabel className="text-base font-semibold">
+                  <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1">
                     Priser & Förmåner
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
+                  <DropdownMenuSeparator className="my-2" />
                   {pricesPerksItems.map((item) => (
                     <DropdownMenuItem key={item.url} asChild>
                       <Link
                         to={item.url}
-                        className="flex items-center gap-3 px-3 py-2.5 text-base cursor-pointer hover:bg-accent/80 transition-colors"
+                        className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-200 rounded-xl group"
                       >
-                        <item.icon className="h-5 w-5" />
-                        <span>{item.title}</span>
+                        <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors group-hover:scale-110 duration-200" />
+                        <span className="group-hover:translate-x-0.5 transition-transform duration-200">{item.title}</span>
                       </Link>
                     </DropdownMenuItem>
                   ))}
@@ -229,7 +236,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-4">
             <LanguageSwitch />
             <ThemeToggle />
             {isAuthenticated ? (
@@ -237,7 +244,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                 variant="outline" 
                 size="lg" 
                 onClick={handleLogout}
-                className="gap-2 hover:bg-destructive hover:text-destructive-foreground transition-all duration-200 hover:scale-105"
+                className="gap-2.5 px-6 py-3 hover:bg-destructive hover:text-destructive-foreground transition-all duration-300 hover:scale-105 rounded-xl font-semibold border-2"
               >
                 <LogOut className="h-4 w-4" />
                 {t("logout")}
@@ -246,10 +253,11 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
               <Button 
                 size="lg" 
                 asChild
-                className="gap-2 bg-gradient-to-r from-primary to-primary-glow hover:opacity-90 transition-all duration-200 hover:scale-105 shadow-lg"
+                className="gap-2.5 px-8 py-3 bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl rounded-xl font-bold text-base relative overflow-hidden group"
               >
                 <Link to="/auth">
-                  Kom igång
+                  <span className="relative z-10">Kom igång</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary-glow to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Link>
               </Button>
             )}
