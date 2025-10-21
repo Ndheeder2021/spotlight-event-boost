@@ -503,6 +503,30 @@ export type Database = {
         }
         Relationships: []
       }
+      leads: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          metadata: Json | null
+          source: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          metadata?: Json | null
+          source: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          metadata?: Json | null
+          source?: string
+        }
+        Relationships: []
+      }
       locations: {
         Row: {
           address: string

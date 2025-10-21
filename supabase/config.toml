@@ -15,7 +15,7 @@ verify_jwt = false
 [functions.ai-support-chat]
 verify_jwt = true
 
-[functions.ai-chat-support]
+[functions.capture-lead]
 verify_jwt = false
 
 [functions.import-eventbrite-events]
