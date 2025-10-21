@@ -78,9 +78,9 @@ const stats = [
 const plans = [
   {
     name: "Starter",
-    monthlyPrice: "299 kr",
-    yearlyPrice: "3 229 kr",
-    yearlyDiscount: "10% rabatt",
+    monthlyPrice: "$29",
+    yearlyPrice: "$310",
+    yearlyDiscount: "10% discount",
     description: "Perfekt för små företag som vill komma igång",
     features: [
       "Spara kampanjer till databasen",
@@ -97,9 +97,9 @@ const plans = [
   },
   {
     name: "Professional",
-    monthlyPrice: "499 kr",
-    yearlyPrice: "3 592 kr",
-    yearlyDiscount: "40% rabatt",
+    monthlyPrice: "$49",
+    yearlyPrice: "$345",
+    yearlyDiscount: "40% discount",
     description: "För växande företag med högre ambitioner",
     features: [
       "Alla Starter-funktioner",
@@ -383,9 +383,9 @@ const Index = () => {
           "operatingSystem": "Web",
           "offers": {
             "@type": "AggregateOffer",
-            "priceCurrency": "SEK",
-            "lowPrice": "299",
-            "highPrice": "499"
+            "priceCurrency": "USD",
+            "lowPrice": "29",
+            "highPrice": "49"
           },
           "aggregateRating": {
             "@type": "AggregateRating",
