@@ -150,23 +150,47 @@ const faqs = [
   },
   {
     question: "Hur fungerar det?",
-    answer: "Vi övervakar kontinuerligt lokala evenemang i ditt område och skickar notifieringar när relevanta evenemang hittas. Du kan sedan använda vår AI för att generera kampanjtext eller skapa egna kampanjer. Allt i en enkel dashboard."
+    answer: "Vi övervakar kontinuerligt lokala evenemang i ditt området och skickar notifieringar när relevanta evenemang hittas. Du kan sedan använda vår AI för att generera professionell kampanjtext eller skapa egna kampanjer. Allt samlas i en enkel och intuitiv dashboard."
   },
   {
     question: "Vilka typer av evenemang täcker ni?",
-    answer: "Vi täcker allt från konserter, sportevenemang, festivaler, mässor till kulturella evenemang. Vår databas uppdateras kontinuerligt med nya evenemang från olika källor."
+    answer: "Vi täcker allt från konserter, sportevenemang, festivaler, mässor till kulturella evenemang och lokala aktiviteter. Vår databas uppdateras kontinuerligt med nya evenemang från olika källor."
   },
   {
     question: "Kan jag testa Spotlight gratis?",
-    answer: "Ja! Vi erbjuder en 14-dagars gratis testperiod där du får full tillgång till alla funktioner i din valda plan."
+    answer: "Ja! Vi erbjuder en 14-dagars gratis testperiod där du får full tillgång till alla funktioner i din valda plan. Inget kreditkort krävs för att starta testperioden."
   },
   {
     question: "Hur avbokar jag mitt abonnemang?",
-    answer: "Du kan när som helst avboka ditt abonnemang från inställningar i din dashboard. Abonnemanget fortsätter till slutet av din betalningsperiod."
+    answer: "Du kan när som helst avboka ditt abonnemang från inställningar i din dashboard. Abonnemanget fortsätter till slutet av din betalningsperiod, och du behåller tillgång till alla funktioner fram till dess."
   },
   {
     question: "Kan jag byta plan senare?",
     answer: "Absolut! Du kan uppgradera eller nedgradera din plan när som helst. Ändringar träder i kraft omedelbart och vi justerar faktureringen proportionellt."
+  },
+  {
+    question: "Hur exakt är event-upptäckten?",
+    answer: "Vår AI-drivna teknologi söker igenom flera datakällor och filtrerar evenemang baserat på din plats och bransch. Vi har en noggrannhet på över 95% och uppdaterar händelser i realtid."
+  },
+  {
+    question: "Kan jag använda Spotlight för flera platser?",
+    answer: "Ja, på Professional och Enterprise-planerna kan du övervaka evenemang för flera platser samtidigt. Detta är perfekt för företag med flera verksamheter."
+  },
+  {
+    question: "Hur hanteras mina kampanjer?",
+    answer: "Du kan spara, redigera, dela och exportera dina kampanjer. På Professional-planen får du även tillgång till PDF-export, delning via lösenordsskyddade länkar och möjlighet att skicka kampanjer direkt via email."
+  },
+  {
+    question: "Är mina data säkra?",
+    answer: "Ja, vi tar datasäkerhet på största allvar. All data krypteras både vid överföring och lagring. Vi följer GDPR och lagrar data i säkra datacenter i EU. Du äger alltid dina egna data."
+  },
+  {
+    question: "Vilken support får jag?",
+    answer: "Alla planer inkluderar email-support. Professional-planen får tillgång till AI Live Support för snabbare svar. Enterprise-kunder får dedikerad support med garanterad svarstid."
+  },
+  {
+    question: "Kan jag integrera Spotlight med andra verktyg?",
+    answer: "Ja! Vi erbjuder integrationer med populära marknadsföringsverktyg, CRM-system och sociala medier. Enterprise-planen inkluderar även anpassade integrationer för dina specifika behov."
   }
 ];
 
@@ -951,29 +975,31 @@ const Index = () => {
         </div>
       </section>
 
-      {/* FAQ - Instantly.ai Style */}
-      <section className="py-32">
+      {/* FAQ - Enhanced with Animations */}
+      <section className="py-32 bg-muted/20">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-20">
+          <div className="text-center mb-20 animate-on-scroll">
+            <Badge className="mb-6 text-base px-4 py-2">FAQ</Badge>
             <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
               Vanliga frågor
             </h2>
-            <p className="text-xl text-muted-foreground">
-              Svar på de vanligaste frågorna om Spotlight
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Allt du behöver veta om Spotlight. Hittar du inte svaret du söker? Kontakta oss gärna!
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-3">
+            <Accordion type="single" collapsible className="space-y-4">
               {faqs.map((faq, i) => (
                 <AccordionItem 
                   key={i} 
                   value={`item-${i}`} 
-                  className="bg-card border border-border rounded-xl px-8 transition-all hover:border-muted-foreground/30"
+                  className="bg-card border-2 border-border rounded-2xl px-8 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover-lift animate-on-scroll group"
+                  style={{ animationDelay: `${i * 50}ms` }}
                 >
-                  <AccordionTrigger className="text-left text-xl font-semibold hover:no-underline py-7">
+                  <AccordionTrigger className="text-left text-xl font-semibold hover:no-underline py-7 transition-colors duration-300 group-hover:text-primary">
                     <div className="flex items-start gap-4">
-                      <HelpCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                      <HelpCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
                       <span className="pr-4">{faq.question}</span>
                     </div>
                   </AccordionTrigger>
@@ -983,6 +1009,20 @@ const Index = () => {
                 </AccordionItem>
               ))}
             </Accordion>
+
+            {/* CTA for more help */}
+            <div className="mt-16 text-center p-8 bg-gradient-to-br from-primary/5 to-primary-glow/5 rounded-2xl border-2 border-primary/20 animate-on-scroll">
+              <h3 className="text-2xl font-bold mb-3">Har du fler frågor?</h3>
+              <p className="text-muted-foreground mb-6">
+                Vårt supportteam är här för att hjälpa dig. Tveka inte att höra av dig!
+              </p>
+              <Link to="/contact">
+                <Button size="lg" variant="animated">
+                  Kontakta support
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
