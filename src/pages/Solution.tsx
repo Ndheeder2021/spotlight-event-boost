@@ -277,7 +277,7 @@ export default function Solution() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="text-lg px-8 h-14 hover:scale-105 transition-transform" asChild>
-              <Link to="/">
+              <Link to="/auth">
                 Kom igång gratis
               </Link>
             </Button>

@@ -260,7 +260,7 @@ export default function HowItWorks() {
             Prova Spotlight gratis i 14 dagar. Inget kreditkort krävs.
           </p>
           <Button size="lg" className="text-lg px-8 h-14 hover:scale-105 transition-transform" asChild>
-            <Link to="/">
+            <Link to="/auth">
               Starta din gratisperiod
             </Link>
           </Button>

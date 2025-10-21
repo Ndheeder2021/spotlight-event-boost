@@ -3,8 +3,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Zap, Check, X, ArrowRight, Shield, Sparkles, TrendingUp, Bell, BarChart, Target } from "lucide-react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { AuthForm } from "@/components/AuthForm";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -103,7 +101,6 @@ const plans = [
 
 export default function Pricing() {
   const [isYearly, setIsYearly] = useState(false);
-  const [showAuthDialog, setShowAuthDialog] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
@@ -150,9 +147,11 @@ export default function Pricing() {
             </Link>
             <LanguageSwitch />
             <ThemeToggle />
-            <Button onClick={() => setShowAuthDialog(true)} className="bg-accent hover:bg-accent-dark text-accent-foreground">
-              Logga in
-            </Button>
+            <Link to="/auth">
+              <Button className="bg-accent hover:bg-accent-dark text-accent-foreground">
+                Logga in
+              </Button>
+            </Link>
           </div>
         </div>
       </header>
@@ -250,22 +249,27 @@ export default function Pricing() {
                   )}
                 </div>
 
-                <Button 
-                  onClick={() => plan.name === "Enterprise" ? null : setShowAuthDialog(true)}
-                  className={`w-full h-14 rounded-xl text-base font-semibold mb-8 ${
-                    plan.popular 
-                      ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
-                      : ''
-                  }`}
-                  variant={plan.popular ? "default" : "outline"}
-                  asChild={plan.name === "Enterprise"}
-                >
-                  {plan.name === "Enterprise" ? (
+                {plan.name === "Enterprise" ? (
+                  <Button 
+                    className="w-full h-14 rounded-xl text-base font-semibold mb-8"
+                    variant="outline"
+                    asChild
+                  >
                     <Link to="/contact">Kontakta oss</Link>
-                  ) : (
-                    "Starta gratis"
-                  )}
-                </Button>
+                  </Button>
+                ) : (
+                  <Button 
+                    className={`w-full h-14 rounded-xl text-base font-semibold mb-8 ${
+                      plan.popular 
+                        ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
+                        : ''
+                    }`}
+                    variant={plan.popular ? "default" : "outline"}
+                    asChild
+                  >
+                    <Link to="/auth">Starta gratis</Link>
+                  </Button>
+                )}
 
                 <div className="space-y-4">
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
@@ -458,10 +462,12 @@ export default function Pricing() {
             <Button 
               size="lg" 
               className="text-lg px-10 h-14 bg-gradient-to-r from-accent to-accent-glow hover:opacity-90 transition-all text-accent-foreground font-semibold" 
-              onClick={() => setShowAuthDialog(true)}
+              asChild
             >
-              Starta gratis idag
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <Link to="/auth">
+                Starta gratis idag
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </Button>
             <Button 
               size="lg" 
@@ -480,22 +486,6 @@ export default function Pricing() {
 
       {/* Footer */}
       <Footer />
-
-      {/* Auth Dialog */}
-      <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Zap className="h-5 w-5 text-primary" />
-              Spotlight
-            </DialogTitle>
-            <DialogDescription>
-              Logga in eller skapa ett konto för att komma igång
-            </DialogDescription>
-          </DialogHeader>
-          <AuthForm onSuccess={() => setShowAuthDialog(false)} />
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
