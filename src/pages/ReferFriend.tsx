@@ -142,7 +142,7 @@ export default function ReferFriend() {
               </span>
             </h1>
             <p className="text-xl sm:text-2xl text-white/80 max-w-3xl mx-auto animate-fade-in">
-              Tjäna 15% provision på kunder som registrerar sig med din unika referral-länk. Ange din e-post nedan för att få din referral-länk.
+              Tjäna 20% provision på kunder som registrerar sig med din unika referral-länk. Ange din e-post nedan för att få din referral-länk.
             </p>
           </div>
 
@@ -224,35 +224,44 @@ export default function ReferFriend() {
           <div className="mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold text-center mb-12 text-white">Hur fungerar det?</h2>
             <div className="grid md:grid-cols-3 gap-8">
-              <Card className="text-center p-8 bg-white/95 backdrop-blur-sm border-white/20 hover:scale-105 transition-transform duration-200">
-                <div className="bg-blue-600 rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                  <Gift className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Skapa din referral-länk</h3>
-                <p className="text-gray-600">
-                  Ange din e-post ovan för att få din unika referral-länk.
-                </p>
-              </Card>
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                <Card className="relative text-center p-8 bg-white/95 backdrop-blur-sm border-white/20 hover:scale-105 transition-all duration-200 rounded-2xl">
+                  <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/50">
+                    <Gift className="h-10 w-10 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900">Skapa din referral-länk</h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Ange din e-post ovan för att få din unika referral-länk.
+                  </p>
+                </Card>
+              </div>
 
-              <Card className="text-center p-8 bg-white/95 backdrop-blur-sm border-white/20 hover:scale-105 transition-transform duration-200">
-                <div className="bg-green-600 rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                  <Users className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Dela med ditt nätverk</h3>
-                <p className="text-gray-600">
-                  Kopiera din referral-länk och dela den över ditt nätverk - till exempel via email, sociala medier eller direktmeddelanden.
-                </p>
-              </Card>
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                <Card className="relative text-center p-8 bg-white/95 backdrop-blur-sm border-white/20 hover:scale-105 transition-all duration-200 rounded-2xl">
+                  <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-500/50">
+                    <Users className="h-10 w-10 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900">Dela med ditt nätverk</h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Kopiera din referral-länk och dela den över ditt nätverk - till exempel via email, sociala medier eller direktmeddelanden.
+                  </p>
+                </Card>
+              </div>
 
-              <Card className="text-center p-8 bg-white/95 backdrop-blur-sm border-white/20 hover:scale-105 transition-transform duration-200">
-                <div className="bg-red-600 rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                  <DollarSign className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Tjäna pengar</h3>
-                <p className="text-gray-600">
-                  Du tjänar 15% i provision på alla som registrerar sig med din länk.
-                </p>
-              </Card>
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 to-pink-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                <Card className="relative text-center p-8 bg-white/95 backdrop-blur-sm border-white/20 hover:scale-105 transition-all duration-200 rounded-2xl">
+                  <div className="bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-red-500/50">
+                    <DollarSign className="h-10 w-10 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900">Tjäna pengar</h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Du tjänar 20% i provision på alla som registrerar sig med din länk.
+                  </p>
+                </Card>
+              </div>
             </div>
           </div>
 

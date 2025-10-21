@@ -81,6 +81,16 @@ const Affiliate = () => {
     audience: "",
   });
 
+  const scrollToForm = () => {
+    setShowForm(true);
+    setTimeout(() => {
+      const formElement = document.getElementById('affiliate-form');
+      if (formElement) {
+        formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
@@ -223,13 +233,13 @@ const Affiliate = () => {
             </h1>
             
             <p className="text-xl text-white/80 max-w-2xl mx-auto animate-fade-in">
-              Bli en Spotlight affiliate och tjäna upp till 40% återkommande provision varje månad
+              Bli en Spotlight affiliate och tjäna 50% återkommande provision varje månad
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Button 
                 size="lg"
-                onClick={() => setShowForm(true)}
+                onClick={scrollToForm}
                 className="h-14 px-10 text-lg bg-white hover:bg-white/90 text-black rounded-xl font-semibold animate-scale-in"
               >
                 BLI AFFILIATE
@@ -250,7 +260,7 @@ const Affiliate = () => {
                 </div>
                 <h3 className="text-xl font-bold mb-3 text-gray-900">Gå med i programmet</h3>
                 <p className="text-gray-600">
-                  Fyll i detta <button onClick={() => setShowForm(true)} className="text-blue-600 underline font-semibold">formulär</button> för att gå med i vårt affiliate-program - det tar bara 5 minuter!
+                  Fyll i detta <button onClick={scrollToForm} className="text-blue-600 underline font-semibold">formulär</button> för att gå med i vårt affiliate-program - det tar bara 5 minuter!
                 </p>
               </Card>
 
@@ -270,7 +280,7 @@ const Affiliate = () => {
                 </div>
                 <h3 className="text-xl font-bold mb-3 text-gray-900">Tjäna för evigt</h3>
                 <p className="text-gray-600">
-                  Du kan tjäna upp till 40% återkommande provision för varje ny referral.
+                  Du kan tjäna 50% återkommande provision för varje ny referral.
                 </p>
               </Card>
             </div>
@@ -320,7 +330,7 @@ const Affiliate = () => {
                     <CheckCircle className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
                     <div>
                       <h3 className="text-xl font-semibold mb-2 text-gray-900">Starter Plan</h3>
-                      <p className="text-gray-600">20% återkommande provision ($5.80/månad per kund)</p>
+                      <p className="text-gray-600">50% återkommande provision ($14.50/månad per kund)</p>
                     </div>
                   </div>
                   
@@ -328,7 +338,7 @@ const Affiliate = () => {
                     <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                     <div>
                       <h3 className="text-xl font-semibold mb-2 text-gray-900">Professional Plan</h3>
-                      <p className="text-gray-600">25% återkommande provision ($12.25/månad per kund)</p>
+                      <p className="text-gray-600">50% återkommande provision ($24.50/månad per kund)</p>
                     </div>
                   </div>
                   
@@ -336,7 +346,7 @@ const Affiliate = () => {
                     <CheckCircle className="h-6 w-6 text-purple-600 flex-shrink-0 mt-1" />
                     <div>
                       <h3 className="text-xl font-semibold mb-2 text-gray-900">Enterprise Plan</h3>
-                      <p className="text-gray-600">30% återkommande provision på anpassade enterprise-avtal</p>
+                      <p className="text-gray-600">50% återkommande provision på anpassade enterprise-avtal</p>
                     </div>
                   </div>
                   
@@ -355,7 +365,7 @@ const Affiliate = () => {
 
       {/* Application Form */}
       {showForm && (
-        <section className="py-24">
+        <section id="affiliate-form" className="py-24">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="max-w-2xl mx-auto">
               <div className="text-center mb-12">
@@ -490,11 +500,11 @@ const Affiliate = () => {
                 Redo att börja tjäna?
               </h2>
               <p className="text-xl text-white/80 mb-8">
-                Ansök till vårt affiliate-program idag och börja tjäna provision på dina referrals
+                Ansök till vårt affiliate-program idag och börja tjäna 50% provision på dina referrals
               </p>
               <Button 
                 size="lg"
-                onClick={() => setShowForm(true)}
+                onClick={scrollToForm}
                 className="h-14 px-10 text-lg bg-white hover:bg-white/90 text-black rounded-xl font-semibold"
               >
                 Ansök till programmet
