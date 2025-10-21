@@ -4,9 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { AuthForm } from "@/components/AuthForm";
 import { OnboardingForm } from "@/components/OnboardingForm";
 import { PlanSelector } from "@/components/PlanSelector";
 import { Footer } from "@/components/Footer";
@@ -172,8 +170,6 @@ const Index = () => {
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const [needsSubscription, setNeedsSubscription] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [showAuthDialog, setShowAuthDialog] = useState(false);
-  const [authMode, setAuthMode] = useState<"login" | "signup" | null>(null);
   const [isYearly, setIsYearly] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -412,24 +408,16 @@ const Index = () => {
             </Link>
             <LanguageSwitch />
             <ThemeToggle />
-            <Button 
-              onClick={() => {
-                setAuthMode("login");
-                setShowAuthDialog(true);
-              }}
-              variant="outline"
-            >
-              Logga in
-            </Button>
-            <Button 
-              onClick={() => {
-                setAuthMode("signup");
-                setShowAuthDialog(true);
-              }}
-              className="bg-accent hover:bg-accent-dark text-accent-foreground"
-            >
-              Kom igång
-            </Button>
+            <Link to="/auth">
+              <Button variant="outline">
+                Logga in
+              </Button>
+            </Link>
+            <Link to="/auth">
+              <Button className="bg-accent hover:bg-accent-dark text-accent-foreground">
+                Kom igång
+              </Button>
+            </Link>
           </div>
 
           <div className="flex md:hidden items-center gap-2">
@@ -449,27 +437,16 @@ const Index = () => {
                   <Link to="/contact" className="text-lg font-medium" onClick={() => setMobileMenuOpen(false)}>
                     Kontakt
                   </Link>
-                  <Button 
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      setAuthMode("login");
-                      setShowAuthDialog(true);
-                    }}
-                    variant="outline"
-                    className="w-full"
-                  >
-                    Logga in
-                  </Button>
-                  <Button 
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      setAuthMode("signup");
-                      setShowAuthDialog(true);
-                    }}
-                    className="bg-accent hover:bg-accent-dark text-accent-foreground w-full"
-                  >
-                    Kom igång
-                  </Button>
+                  <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="outline" className="w-full">
+                      Logga in
+                    </Button>
+                  </Link>
+                  <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+                    <Button className="bg-accent hover:bg-accent-dark text-accent-foreground w-full">
+                      Kom igång
+                    </Button>
+                  </Link>
                 </div>
               </SheetContent>
             </Sheet>
@@ -493,16 +470,14 @@ const Index = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-              <Button 
-                size="lg"
-                onClick={() => {
-                  setAuthMode("signup");
-                  setShowAuthDialog(true);
-                }}
-                className="h-16 px-10 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold"
-              >
-                Kom igång gratis <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <Link to="/auth">
+                <Button 
+                  size="lg"
+                  className="h-16 px-10 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold"
+                >
+                  Kom igång gratis <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
             </div>
             
             <div className="flex flex-wrap gap-8 justify-center pt-4 text-sm text-muted-foreground">
@@ -556,16 +531,14 @@ const Index = () => {
                   <p className="text-xl text-muted-foreground leading-relaxed">
                     {feature.description}
                   </p>
-                  <Button 
-                    onClick={() => {
-                      setAuthMode("signup");
-                      setShowAuthDialog(true);
-                    }}
-                    variant="outline"
-                    className="h-12 px-6 rounded-xl"
-                  >
-                    Läs mer <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+                  <Link to="/auth">
+                    <Button 
+                      variant="outline"
+                      className="h-12 px-6 rounded-xl"
+                    >
+                      Läs mer <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
                 <div className={`${index % 2 === 1 ? 'lg:order-1' : ''}`}>
                   <div className="rounded-2xl overflow-hidden border shadow-2xl">
@@ -738,20 +711,29 @@ const Index = () => {
                   )}
                 </div>
 
-                <Button 
-                  onClick={() => {
-                    setAuthMode("signup");
-                    setShowAuthDialog(true);
-                  }}
-                  className={`w-full h-14 rounded-xl text-base font-semibold mb-8 ${
-                    plan.popular 
-                      ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
-                      : ''
-                  }`}
-                  variant={plan.popular ? "default" : "outline"}
-                >
-                  {plan.name === "Enterprise" ? "Kontakta oss" : "Starta gratis"}
-                </Button>
+                {plan.name === "Enterprise" ? (
+                  <Link to="/contact" className="w-full">
+                    <Button 
+                      className="w-full h-14 rounded-xl text-base font-semibold mb-8"
+                      variant="outline"
+                    >
+                      Kontakta oss
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link to="/auth" className="w-full">
+                    <Button 
+                      className={`w-full h-14 rounded-xl text-base font-semibold mb-8 ${
+                        plan.popular 
+                          ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
+                          : ''
+                      }`}
+                      variant={plan.popular ? "default" : "outline"}
+                    >
+                      Starta gratis
+                    </Button>
+                  </Link>
+                )}
 
                 <div className="space-y-4">
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
@@ -832,16 +814,14 @@ const Index = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-5 justify-center pt-6">
-              <Button 
-                size="lg"
-                onClick={() => {
-                  setAuthMode("signup");
-                  setShowAuthDialog(true);
-                }}
-                className="h-16 px-12 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all"
-              >
-                Starta gratis <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <Link to="/auth">
+                <Button 
+                  size="lg"
+                  className="h-16 px-12 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all"
+                >
+                  Starta gratis <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
               <Button 
                 size="lg"
                 variant="outline"
@@ -877,24 +857,6 @@ const Index = () => {
       </section>
 
       <Footer />
-
-      <Dialog open={showAuthDialog} onOpenChange={(open) => {
-        setShowAuthDialog(open);
-        if (!open) setAuthMode(null);
-      }}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Zap className="h-5 w-5 text-primary" />
-              Spotlight
-            </DialogTitle>
-            <DialogDescription>
-              {authMode === "login" ? "Logga in på ditt konto" : "Skapa ett nytt konto"}
-            </DialogDescription>
-          </DialogHeader>
-          <AuthForm initialMode={authMode || "login"} onSuccess={handleAuthSuccess} />
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
