@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -146,7 +147,7 @@ export function LiveChatSupport() {
     return date.toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" });
   };
 
-  return (
+  return createPortal(
     <>
       {/* Chat Button - Animated with glow effect */}
       <Button
@@ -308,6 +309,7 @@ export function LiveChatSupport() {
           )}
         </Card>
       )}
-    </>
+    </>,
+    document.body
   );
 }

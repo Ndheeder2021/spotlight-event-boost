@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -109,7 +110,7 @@ export const AILiveSupport = () => {
     return date.toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" });
   };
 
-  return (
+  return createPortal(
     <>
       {/* Chat Button - Animated with notification pulse */}
       <Button
@@ -273,6 +274,7 @@ export const AILiveSupport = () => {
           )}
         </Card>
       )}
-    </>
+    </>,
+    document.body
   );
 };
