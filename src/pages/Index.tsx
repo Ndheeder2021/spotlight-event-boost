@@ -18,6 +18,7 @@ import { LiveChatSupport } from "@/components/LiveChatSupport";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { InteractiveProductTour } from "@/components/InteractiveProductTour";
 import { StickyCTABar } from "@/components/StickyCTABar";
+import { ROICalculator } from "@/components/ROICalculator";
 import { Zap, TrendingUp, Bell, BarChart, Check, X, Star, Users, Target, ArrowRight, HelpCircle, Sparkles } from "lucide-react";
 import { Session, User } from "@supabase/supabase-js";
 import { toast } from "sonner";
@@ -786,6 +787,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* ROI Calculator */}
+      <ROICalculator />
 
       {/* Reviews with Real Photos */}
       <section className="py-32">
