@@ -170,21 +170,22 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent 
                   align="center" 
-                  className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 zoom-in-95 z-50 rounded-2xl p-2"
+                  className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
                   sideOffset={12}
                 >
-                  <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1">
+                  <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
                     Verktyg
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="my-2" />
-                  {moreMenuItems.map((item) => (
+                  {moreMenuItems.map((item, index) => (
                     <DropdownMenuItem key={item.url} asChild>
                       <Link
                         to={item.url}
-                        className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-200 rounded-xl group"
+                        className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-300 rounded-xl group animate-in fade-in-0 slide-in-from-left-2"
+                        style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}
                       >
-                        <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors group-hover:scale-110 duration-200" />
-                        <span className="group-hover:translate-x-0.5 transition-transform duration-200">{item.title}</span>
+                        <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
+                        <span className="group-hover:translate-x-1 transition-all duration-300">{item.title}</span>
                       </Link>
                     </DropdownMenuItem>
                   ))}
@@ -194,10 +195,11 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       <DropdownMenuItem asChild>
                         <Link
                           to="/admin"
-                          className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-200 rounded-xl group"
+                          className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-300 rounded-xl group animate-in fade-in-0 slide-in-from-left-2"
+                          style={{ animationDelay: `${moreMenuItems.length * 50}ms`, animationFillMode: 'backwards' }}
                         >
-                          <Shield className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors group-hover:scale-110 duration-200" />
-                          <span className="group-hover:translate-x-0.5 transition-transform duration-200">{t("admin")}</span>
+                          <Shield className="h-5 w-5 text-primary/70 group-hover:text-primary transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
+                          <span className="group-hover:translate-x-1 transition-all duration-300">{t("admin")}</span>
                         </Link>
                       </DropdownMenuItem>
                     </>
@@ -220,26 +222,27 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent 
-                    align="center" 
-                    className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 zoom-in-95 z-50 rounded-2xl p-2"
-                    sideOffset={12}
-                  >
-                    <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1">
-                      Produkt
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator className="my-2" />
-                    {productItems.map((item) => (
-                      <DropdownMenuItem key={item.url} asChild>
-                        <Link
-                          to={item.url}
-                          className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-200 rounded-xl group"
-                        >
-                          <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors group-hover:scale-110 duration-200" />
-                          <span className="group-hover:translate-x-0.5 transition-transform duration-200">{item.title}</span>
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
+                <DropdownMenuContent 
+                  align="center" 
+                  className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
+                  sideOffset={12}
+                >
+                  <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
+                    Produkt
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator className="my-2" />
+                  {productItems.map((item, index) => (
+                    <DropdownMenuItem key={item.url} asChild>
+                      <Link
+                        to={item.url}
+                        className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-300 rounded-xl group animate-in fade-in-0 slide-in-from-left-2"
+                        style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}
+                      >
+                        <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
+                        <span className="group-hover:translate-x-1 transition-all duration-300">{item.title}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
 
@@ -255,26 +258,27 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent 
-                    align="center" 
-                    className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 zoom-in-95 z-50 rounded-2xl p-2"
-                    sideOffset={12}
-                  >
-                    <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1">
-                      Blog
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator className="my-2" />
-                    {blogItems.map((item) => (
-                      <DropdownMenuItem key={item.url} asChild>
-                        <Link
-                          to={item.url}
-                          className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-200 rounded-xl group"
-                        >
-                          <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors group-hover:scale-110 duration-200" />
-                          <span className="group-hover:translate-x-0.5 transition-transform duration-200">{item.title}</span>
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
+                <DropdownMenuContent 
+                  align="center" 
+                  className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
+                  sideOffset={12}
+                >
+                  <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
+                    Blog
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator className="my-2" />
+                  {blogItems.map((item, index) => (
+                    <DropdownMenuItem key={item.url} asChild>
+                      <Link
+                        to={item.url}
+                        className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-300 rounded-xl group animate-in fade-in-0 slide-in-from-left-2"
+                        style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}
+                      >
+                        <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
+                        <span className="group-hover:translate-x-1 transition-all duration-300">{item.title}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
 
@@ -290,26 +294,27 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent 
-                    align="center" 
-                    className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 zoom-in-95 z-50 rounded-2xl p-2"
-                    sideOffset={12}
-                  >
-                    <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1">
-                      Priser & Förmåner
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator className="my-2" />
-                    {pricesPerksItems.map((item) => (
-                      <DropdownMenuItem key={item.url} asChild>
-                        <Link
-                          to={item.url}
-                          className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-200 rounded-xl group"
-                        >
-                          <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors group-hover:scale-110 duration-200" />
-                          <span className="group-hover:translate-x-0.5 transition-transform duration-200">{item.title}</span>
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
+                <DropdownMenuContent 
+                  align="center" 
+                  className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
+                  sideOffset={12}
+                >
+                  <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
+                    Priser & Förmåner
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator className="my-2" />
+                  {pricesPerksItems.map((item, index) => (
+                    <DropdownMenuItem key={item.url} asChild>
+                      <Link
+                        to={item.url}
+                        className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-300 rounded-xl group animate-in fade-in-0 slide-in-from-left-2"
+                        style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}
+                      >
+                        <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
+                        <span className="group-hover:translate-x-1 transition-all duration-300">{item.title}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </>
