@@ -282,8 +282,8 @@ const Affiliate = () => {
       <section className="py-24">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Så fungerar det</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-4xl font-bold mb-4 text-white">Så fungerar det</h2>
+            <p className="text-xl text-white/80 max-w-2xl mx-auto">
               Kom igång på några minuter och börja tjäna provision
             </p>
           </div>
@@ -291,11 +291,11 @@ const Affiliate = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {howItWorks.map((step, index) => (
               <div key={index} className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary text-primary-foreground text-2xl font-bold mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm text-white text-2xl font-bold mb-6">
                   {step.step}
                 </div>
-                <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
-                <p className="text-muted-foreground">{step.description}</p>
+                <h3 className="text-xl font-semibold mb-3 text-white">{step.title}</h3>
+                <p className="text-white/70">{step.description}</p>
               </div>
             ))}
           </div>
@@ -303,45 +303,45 @@ const Affiliate = () => {
       </section>
 
       {/* Commission Structure */}
-      <section className="py-24 bg-muted/30">
+      <section className="py-24">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Provisionsstruktur</h2>
-              <p className="text-xl text-muted-foreground">
+              <h2 className="text-4xl font-bold mb-4 text-white">Provisionsstruktur</h2>
+              <p className="text-xl text-white/80">
                 Transparent och rättvis provision på alla dina refererade kunder
               </p>
             </div>
 
-            <Card className="border-2">
+            <Card className="border-2 bg-white/95 backdrop-blur-sm border-white/20">
               <CardContent className="pt-8">
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                    <CheckCircle className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="text-xl font-semibold mb-2">Starter Plan</h3>
-                      <p className="text-muted-foreground">20% återkommande provision ($5.80/månad per kund)</p>
+                      <h3 className="text-xl font-semibold mb-2 text-gray-900">Starter Plan</h3>
+                      <p className="text-gray-600">20% återkommande provision ($5.80/månad per kund)</p>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                    <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="text-xl font-semibold mb-2">Professional Plan</h3>
-                      <p className="text-muted-foreground">25% återkommande provision ($12.25/månad per kund)</p>
+                      <h3 className="text-xl font-semibold mb-2 text-gray-900">Professional Plan</h3>
+                      <p className="text-gray-600">25% återkommande provision ($12.25/månad per kund)</p>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                    <CheckCircle className="h-6 w-6 text-purple-600 flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="text-xl font-semibold mb-2">Enterprise Plan</h3>
-                      <p className="text-muted-foreground">30% återkommande provision på anpassade enterprise-avtal</p>
+                      <h3 className="text-xl font-semibold mb-2 text-gray-900">Enterprise Plan</h3>
+                      <p className="text-gray-600">30% återkommande provision på anpassade enterprise-avtal</p>
                     </div>
                   </div>
                   
-                  <div className="pt-6 border-t mt-8">
-                    <p className="text-sm text-muted-foreground">
+                  <div className="pt-6 border-t border-gray-200 mt-8">
+                    <p className="text-sm text-gray-600">
                       * Provision betalas ut månadsvis via banköverföring. Minimum utbetalning: $100. 
                       Cookie-längd: 90 dagar.
                     </p>
@@ -355,21 +355,21 @@ const Affiliate = () => {
 
       {/* Application Form */}
       {showForm && (
-        <section className="py-24 bg-muted/30">
+        <section className="py-24">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="max-w-2xl mx-auto">
               <div className="text-center mb-12">
-                <h2 className="text-4xl font-bold mb-4">Ansök till vårt affiliate-program</h2>
-                <p className="text-xl text-muted-foreground">
+                <h2 className="text-4xl font-bold mb-4 text-white">Ansök till vårt affiliate-program</h2>
+                <p className="text-xl text-white/80">
                   Fyll i formuläret nedan så återkommer vi inom 2-3 arbetsdagar
                 </p>
               </div>
 
-              <Card className="border-2">
+              <Card className="border-2 bg-white/95 backdrop-blur-sm border-white/20">
                 <CardContent className="pt-8">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Namn *</Label>
+                      <Label htmlFor="name" className="text-gray-900">Namn *</Label>
                       <Input
                         id="name"
                         type="text"
@@ -378,11 +378,12 @@ const Affiliate = () => {
                         placeholder="Ditt för- och efternamn"
                         required
                         maxLength={100}
+                        className="bg-white border-gray-200 text-gray-900"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="email">E-post *</Label>
+                      <Label htmlFor="email" className="text-gray-900">E-post *</Label>
                       <Input
                         id="email"
                         type="email"
@@ -391,11 +392,12 @@ const Affiliate = () => {
                         placeholder="din@epost.se"
                         required
                         maxLength={255}
+                        className="bg-white border-gray-200 text-gray-900"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="company">Företagsnamn (valfritt)</Label>
+                      <Label htmlFor="company" className="text-gray-900">Företagsnamn (valfritt)</Label>
                       <Input
                         id="company"
                         type="text"
@@ -403,11 +405,12 @@ const Affiliate = () => {
                         onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                         placeholder="Ditt företag"
                         maxLength={100}
+                        className="bg-white border-gray-200 text-gray-900"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="website">Webbplats (valfritt)</Label>
+                      <Label htmlFor="website" className="text-gray-900">Webbplats (valfritt)</Label>
                       <Input
                         id="website"
                         type="url"
@@ -415,11 +418,12 @@ const Affiliate = () => {
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                         placeholder="https://dinwebbplats.se"
                         maxLength={255}
+                        className="bg-white border-gray-200 text-gray-900"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="description">Hur planerar du att marknadsföra Spotlight? *</Label>
+                      <Label htmlFor="description" className="text-gray-900">Hur planerar du att marknadsföra Spotlight? *</Label>
                       <Textarea
                         id="description"
                         value={formData.description}
@@ -428,15 +432,15 @@ const Affiliate = () => {
                         required
                         rows={4}
                         maxLength={1000}
-                        className="resize-none"
+                        className="resize-none bg-white border-gray-200 text-gray-900"
                       />
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-gray-600">
                         {formData.description.length}/1000 tecken
                       </p>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="audience">Beskriv din målgrupp *</Label>
+                      <Label htmlFor="audience" className="text-gray-900">Beskriv din målgrupp *</Label>
                       <Textarea
                         id="audience"
                         value={formData.audience}
@@ -445,9 +449,9 @@ const Affiliate = () => {
                         required
                         rows={3}
                         maxLength={500}
-                        className="resize-none"
+                        className="resize-none bg-white border-gray-200 text-gray-900"
                       />
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-gray-600">
                         {formData.audience.length}/500 tecken
                       </p>
                     </div>
@@ -457,14 +461,14 @@ const Affiliate = () => {
                         type="button"
                         variant="outline"
                         onClick={() => setShowForm(false)}
-                        className="flex-1"
+                        className="flex-1 border-gray-200 hover:bg-gray-50"
                       >
                         Avbryt
                       </Button>
                       <Button
                         type="submit"
                         disabled={isSubmitting}
-                        className="flex-1 bg-primary hover:bg-primary/90"
+                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
                       >
                         {isSubmitting ? "Skickar..." : "Skicka ansökan"}
                       </Button>
