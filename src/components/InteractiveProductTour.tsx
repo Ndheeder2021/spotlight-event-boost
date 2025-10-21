@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -123,6 +123,13 @@ export const InteractiveProductTour = () => {
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-w-4xl p-0 overflow-hidden border-2 border-primary/20">
+          <DialogTitle className="sr-only">
+            Interaktiv produktrundtur - Steg {currentStep + 1} av {tourSteps.length}
+          </DialogTitle>
+          <DialogDescription className="sr-only">
+            {step.description}
+          </DialogDescription>
+          
           {/* Header */}
           <div className="relative bg-gradient-to-r from-background via-primary/5 to-background p-6 border-b">
             <button
