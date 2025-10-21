@@ -18,16 +18,26 @@ const plans = [
     yearlyDiscount: "Spara $19",
     description: "Perfekt för små företag som vill komma igång",
     features: [
-      "Spara kampanjer till databasen",
+      "Upp till 10 sparade kampanjer",
+      "Upptäck lokala evenemang i ditt område",
+      "AI-genererad kampanjtext",
       "Grundläggande kampanjvy",
-      "Redigera kampanjförslag",
-      "Upp till 10 kampanjer"
+      "Redigera och anpassa AI-förslag",
+      "Event-notifikationer via email",
+      "Mobilanpassad dashboard",
+      "Standard support (email)",
+      "1 användare",
+      "Kampanjhistorik (30 dagar)"
     ],
     notIncluded: [
-      "PDF-export",
-      "Dela kampanjer",
+      "PDF-export av kampanjer",
+      "Dela kampanjer via länk",
       "Analytics & ROI-tracking",
-      "AI-genererade visuella mockups"
+      "AI-genererade visuella mockups",
+      "A/B-testning",
+      "Prioriterad support",
+      "Team-samarbete",
+      "API-access"
     ]
   },
   {
@@ -37,20 +47,29 @@ const plans = [
     yearlyDiscount: "Spara $229",
     description: "För växande företag med högre ambitioner",
     features: [
-      "Alla Starter-funktioner",
-      "AI Live Support",
+      "Obegränsat antal kampanjer",
+      "Alla funktioner från Starter",
+      "AI Live Support-chatt",
       "PDF-export med professionell design",
-      "Dela kampanjer via länk (lösenordsskydd)",
-      "Skicka kampanjer via email",
-      "Analytics & ROI-tracking",
-      "AI-genererade visuella mockups",
-      "Flerspråksstöd",
-      "A/B-testning",
-      "Kommentarer från klienter",
-      "Obegränsat antal kampanjer"
+      "Dela kampanjer via säker länk (lösenordsskydd)",
+      "Skicka kampanjer via email direkt från plattformen",
+      "Avancerad Analytics & ROI-tracking",
+      "AI-genererade visuella annonsmockups",
+      "Flerspråksstöd (EN, SV, NO, DK)",
+      "A/B-testning av kampanjer",
+      "Kommentarer och feedback från klienter",
+      "Event-kalender med prognoser",
+      "Prioriterad email-support",
+      "Kampanjhistorik (obegränsad)",
+      "Upp till 5 användare",
+      "Team-samarbetsfunktioner",
+      "Export till sociala medier"
     ],
     notIncluded: [
-      "Dedikerad support"
+      "Dedikerad Account Manager",
+      "White-label lösning",
+      "API-access",
+      "Anpassade integrationer"
     ],
     popular: true
   },
@@ -61,13 +80,22 @@ const plans = [
     yearlyDiscount: null,
     description: "För stora organisationer med specialbehov",
     features: [
-      "Alla Professional-funktioner",
-      "AI Live Support",
-      "Dedikerad support",
-      "Anpassade integrationer",
-      "White-label lösning",
-      "Avancerad rollhantering",
-      "SLA-garantier"
+      "Allt i Professional",
+      "Obegränsat antal användare",
+      "Dedikerad Account Manager",
+      "Prioriterad support med SLA (99.9% uptime)",
+      "Support via telefon, email och chatt",
+      "Anpassade AI-modeller för ditt företag",
+      "White-label lösning (din egen branding)",
+      "Anpassade integrationer (CRM, Marketing Automation)",
+      "API-access för utvecklare",
+      "Avancerad rollhantering & behörigheter",
+      "SSO (Single Sign-On)",
+      "Dedikerad serverinstans",
+      "Custom event-källor",
+      "Månatliga strategimöten",
+      "On-boarding och utbildning för team",
+      "Anpassade rapporter och dashboards"
     ],
     notIncluded: []
   }
