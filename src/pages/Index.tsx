@@ -672,88 +672,143 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="py-20">
+      {/* Pricing - Instantly.ai Style */}
+      <section className="py-32">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold mb-4">Transparenta priser</h2>
-            <p className="text-xl text-muted-foreground mb-8">14 dagars gratis provperiod. Ingen bindningstid.</p>
-
-            <div className="flex items-center justify-center gap-4 mb-12">
-              <span className={`text-lg font-medium ${!isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>Månadsvis</span>
-              <Switch checked={isYearly} onCheckedChange={setIsYearly} />
-              <span className={`text-lg font-medium ${isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>Årsvis</span>
-              {isYearly && <span className="px-3 py-1 rounded-full text-sm font-semibold bg-accent/10 text-accent">Spara 20%</span>}
-            </div>
+          <div className="text-center mb-20">
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
+              Enkla och transparenta priser
+            </h2>
+            <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto">
+              Välj den plan som passar ditt företag bäst. Ingen bindningstid, avbryt när som helst.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="flex items-center justify-center gap-4 mb-16">
+            <span className={`text-lg font-medium transition-colors ${!isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
+              Månadsvis
+            </span>
+            <Switch checked={isYearly} onCheckedChange={setIsYearly} />
+            <span className={`text-lg font-medium transition-colors ${isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
+              Årsvis
+            </span>
+            {isYearly && (
+              <span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary">
+                Spara 20%
+              </span>
+            )}
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {plans.map((plan) => (
-              <Card key={plan.name} className={`relative ${plan.popular ? 'border-accent border-2 shadow-xl' : 'border-2'}`}>
+              <div 
+                key={plan.name} 
+                className={`relative p-8 rounded-2xl transition-all ${
+                  plan.popular 
+                    ? 'bg-primary/5 border-2 border-primary shadow-lg' 
+                    : 'bg-card border border-border hover:border-muted-foreground/30'
+                }`}
+              >
                 {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="px-4 py-1 bg-accent text-accent-foreground text-sm font-bold rounded-full">MEST POPULÄR</span>
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                    <span className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-bold rounded-full uppercase tracking-wide">
+                      Mest populär
+                    </span>
                   </div>
                 )}
-                <CardHeader className="text-center">
-                  <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
-                  <CardDescription>{plan.description}</CardDescription>
-                  <div className="pt-6">
-                    <div className="text-5xl font-bold mb-2">
+                
+                <div className="mb-8">
+                  <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                  <p className="text-muted-foreground text-sm">{plan.description}</p>
+                </div>
+
+                <div className="mb-8">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-5xl sm:text-6xl font-bold">
                       {isYearly ? (plan.yearlyPrice || plan.monthlyPrice) : plan.monthlyPrice}
-                    </div>
+                    </span>
                     {plan.monthlyPrice !== "Kontakta oss" && (
-                      <div className="text-sm text-muted-foreground">{isYearly ? "per år" : "per månad"}</div>
+                      <span className="text-muted-foreground text-lg">
+                        /{isYearly ? "år" : "mån"}
+                      </span>
                     )}
                   </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
+                  {isYearly && plan.yearlyDiscount && (
+                    <p className="text-sm text-primary font-medium mt-2">{plan.yearlyDiscount}</p>
+                  )}
+                </div>
+
+                <Button 
+                  onClick={() => {
+                    setAuthMode("signup");
+                    setShowAuthDialog(true);
+                  }}
+                  className={`w-full h-14 rounded-xl text-base font-semibold mb-8 ${
+                    plan.popular 
+                      ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
+                      : ''
+                  }`}
+                  variant={plan.popular ? "default" : "outline"}
+                >
+                  {plan.name === "Enterprise" ? "Kontakta oss" : "Starta gratis"}
+                </Button>
+
+                <div className="space-y-4">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
+                    Inkluderat:
+                  </p>
                   {plan.features.map((f, i) => (
                     <div key={i} className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
-                      <span>{f}</span>
+                      <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">{f}</span>
                     </div>
                   ))}
-                  {plan.notIncluded.map((f, i) => (
-                    <div key={i} className="flex items-start gap-3 opacity-40">
+                  {plan.notIncluded.length > 0 && plan.notIncluded.map((f, i) => (
+                    <div key={i} className="flex items-start gap-3 opacity-30">
                       <X className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground">{f}</span>
+                      <span className="text-sm text-muted-foreground">{f}</span>
                     </div>
                   ))}
-                </CardContent>
-                <CardFooter>
-                  <Button 
-                    onClick={() => {
-                      setAuthMode("signup");
-                      setShowAuthDialog(true);
-                    }}
-                    className={`w-full h-12 ${plan.popular ? 'bg-accent hover:bg-accent-dark text-accent-foreground' : ''}`}
-                    variant={plan.popular ? "default" : "outline"}
-                  >
-                    {plan.name === "Enterprise" ? "Kontakta oss" : "Kom igång gratis"}
-                  </Button>
-                </CardFooter>
-              </Card>
+                </div>
+              </div>
             ))}
+          </div>
+
+          <div className="text-center mt-16">
+            <p className="text-muted-foreground">
+              Alla planer inkluderar 14 dagars gratis provperiod • Inget kreditkort krävs
+            </p>
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-20 bg-muted/30">
+      {/* FAQ - Instantly.ai Style */}
+      <section className="py-32">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold mb-4">Vanliga frågor</h2>
+          <div className="text-center mb-20">
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
+              Vanliga frågor
+            </h2>
+            <p className="text-xl text-muted-foreground">
+              Svar på de vanligaste frågorna om Spotlight
+            </p>
           </div>
 
-          <div className="max-w-3xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-4">
+          <div className="max-w-4xl mx-auto">
+            <Accordion type="single" collapsible className="space-y-3">
               {faqs.map((faq, i) => (
-                <AccordionItem key={i} value={`item-${i}`} className="bg-card border-2 rounded-lg px-6">
-                  <AccordionTrigger className="text-left text-lg font-semibold hover:no-underline py-6">
-                    {faq.question}
+                <AccordionItem 
+                  key={i} 
+                  value={`item-${i}`} 
+                  className="bg-card border border-border rounded-xl px-8 transition-all hover:border-muted-foreground/30"
+                >
+                  <AccordionTrigger className="text-left text-xl font-semibold hover:no-underline py-7">
+                    <div className="flex items-start gap-4">
+                      <HelpCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                      <span className="pr-4">{faq.question}</span>
+                    </div>
                   </AccordionTrigger>
-                  <AccordionContent className="text-base text-muted-foreground pb-6">
+                  <AccordionContent className="text-lg text-muted-foreground pb-7 pl-10 leading-relaxed">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -763,52 +818,58 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA - Clean and Minimal */}
-      <section className="py-32">
+      {/* CTA - Instantly.ai Style */}
+      <section className="py-32 bg-muted/20">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-4xl mx-auto text-center space-y-12">
-            <div className="space-y-6">
-              <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-                Redo att komma igång?
+          <div className="max-w-5xl mx-auto text-center space-y-14">
+            <div className="space-y-8">
+              <h2 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1]">
+                Börja idag
               </h2>
-              <p className="text-2xl text-muted-foreground">
-                Gå med i hundratals företag som redan använder Spotlight
+              <p className="text-2xl sm:text-3xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                Gå med i hundratals företag som redan ökar sin försäljning med Spotlight
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+            <div className="flex flex-col sm:flex-row gap-5 justify-center pt-6">
               <Button 
                 size="lg"
                 onClick={() => {
                   setAuthMode("signup");
                   setShowAuthDialog(true);
                 }}
-                className="h-16 px-10 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold"
+                className="h-16 px-12 text-lg bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all"
               >
-                Kom igång gratis <ArrowRight className="ml-2 h-5 w-5" />
+                Starta gratis <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button 
                 size="lg"
                 variant="outline"
                 onClick={() => navigate('/contact')}
-                className="h-16 px-10 text-lg rounded-xl font-semibold"
+                className="h-16 px-12 text-lg rounded-2xl font-semibold border-2 hover:bg-muted/50"
               >
                 Kontakta oss
               </Button>
             </div>
             
-            <div className="flex flex-wrap gap-8 justify-center pt-4 text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-primary" />
-                <span>14 dagars gratis</span>
+            <div className="flex flex-col sm:flex-row gap-6 sm:gap-10 justify-center pt-6">
+              <div className="flex items-center gap-3">
+                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Check className="h-5 w-5 text-primary" />
+                </div>
+                <span className="text-base text-muted-foreground">14 dagars gratis provperiod</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-primary" />
-                <span>Ingen bindningstid</span>
+              <div className="flex items-center gap-3">
+                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Check className="h-5 w-5 text-primary" />
+                </div>
+                <span className="text-base text-muted-foreground">Ingen bindningstid</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-primary" />
-                <span>Inget kreditkort behövs</span>
+              <div className="flex items-center gap-3">
+                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Check className="h-5 w-5 text-primary" />
+                </div>
+                <span className="text-base text-muted-foreground">Inget kreditkort behövs</span>
               </div>
             </div>
           </div>
