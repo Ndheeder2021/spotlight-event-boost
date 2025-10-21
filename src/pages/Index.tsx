@@ -679,8 +679,8 @@ const Index = () => {
               </div>
 
               <div className="overflow-x-auto">
-                <div className="min-w-[700px] bg-card border rounded-2xl shadow-lg overflow-hidden">
-                  <div className="grid grid-cols-4">
+                <div className="min-w-[600px] bg-card border rounded-2xl shadow-lg overflow-hidden">
+                  <div className="grid grid-cols-3">
                     <div className="p-6 bg-accent/30 border-b border-r">
                       <h3 className="font-semibold text-lg">Funktion</h3>
                     </div>
@@ -690,14 +690,9 @@ const Index = () => {
                         Spotlight
                       </h3>
                     </div>
-                    <div className="p-6 bg-accent/10 border-b border-r">
-                      <h3 className="font-semibold text-lg text-muted-foreground">
-                        Konkurrent A
-                      </h3>
-                    </div>
                     <div className="p-6 bg-accent/10 border-b">
                       <h3 className="font-semibold text-lg text-muted-foreground">
-                        Konkurrent B
+                        Konkurrent
                       </h3>
                     </div>
                   </div>
@@ -706,53 +701,45 @@ const Index = () => {
                     {
                       feature: "AI-genererad kampanjtext",
                       spotlight: true,
-                      competitorA: false,
-                      competitorB: true
+                      competitor: false
                     },
                     {
                       feature: "Automatisk eventbevakning",
                       spotlight: true,
-                      competitorA: true,
-                      competitorB: false
+                      competitor: true
                     },
                     {
                       feature: "Real-time analytics",
                       spotlight: true,
-                      competitorA: false,
-                      competitorB: true
+                      competitor: false
                     },
                     {
                       feature: "A/B-testning",
                       spotlight: true,
-                      competitorA: false,
-                      competitorB: false
+                      competitor: false
                     },
                     {
                       feature: "Flerspråksstöd",
                       spotlight: true,
-                      competitorA: false,
-                      competitorB: true
+                      competitor: false
                     },
                     {
                       feature: "PDF-export",
                       spotlight: true,
-                      competitorA: true,
-                      competitorB: false
+                      competitor: true
                     },
                     {
                       feature: "14 dagars gratis trial",
                       spotlight: true,
-                      competitorA: false,
-                      competitorB: false
+                      competitor: false
                     },
                     {
                       feature: "Startpris/månad",
                       spotlight: "€29",
-                      competitorA: "€79",
-                      competitorB: "€49"
+                      competitor: "€79"
                     }
                   ].map((row, index) => (
-                    <div key={index} className="grid grid-cols-4">
+                    <div key={index} className="grid grid-cols-3">
                       <div className="p-4 border-b border-r bg-background">
                         <p className="font-medium text-sm">{row.feature}</p>
                       </div>
@@ -769,29 +756,16 @@ const Index = () => {
                           )}
                         </div>
                       </div>
-                      <div className="p-4 border-b border-r bg-accent/10">
-                        <div className="flex items-center justify-center">
-                          {typeof row.competitorA === 'boolean' ? (
-                            row.competitorA ? (
-                              <Check className="h-6 w-6 text-muted-foreground/50" />
-                            ) : (
-                              <X className="h-6 w-6 text-muted-foreground/30" />
-                            )
-                          ) : (
-                            <span className="text-sm text-muted-foreground">{row.competitorA}</span>
-                          )}
-                        </div>
-                      </div>
                       <div className="p-4 border-b bg-accent/10">
                         <div className="flex items-center justify-center">
-                          {typeof row.competitorB === 'boolean' ? (
-                            row.competitorB ? (
+                          {typeof row.competitor === 'boolean' ? (
+                            row.competitor ? (
                               <Check className="h-6 w-6 text-muted-foreground/50" />
                             ) : (
                               <X className="h-6 w-6 text-muted-foreground/30" />
                             )
                           ) : (
-                            <span className="text-sm text-muted-foreground">{row.competitorB}</span>
+                            <span className="text-sm text-muted-foreground">{row.competitor}</span>
                           )}
                         </div>
                       </div>
