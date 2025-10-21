@@ -218,7 +218,7 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
         </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-3 gap-6">
         {(Object.keys(planDetails) as PlanType[]).map((plan) => {
           const details = planDetails[plan];
           const Icon = details.icon;
@@ -226,95 +226,104 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
           const isHigherTier = 
             (currentPlan === "starter" && (plan === "professional" || plan === "enterprise")) ||
             (currentPlan === "professional" && plan === "enterprise");
-          const isLowerTier = 
-            (currentPlan === "enterprise" && (plan === "professional" || plan === "starter")) ||
-            (currentPlan === "professional" && plan === "starter");
 
           return (
             <Card
               key={plan}
-              className={`relative ${
+              className={`flex flex-col glass-card transition-all hover:scale-105 ${
                 isCurrent
-                  ? "border-2 border-accent shadow-glow"
+                  ? "border-2 border-accent shadow-glow premium-glow-lg"
                   : plan === "professional"
-                  ? "border-accent/50"
-                  : ""
+                  ? "border-2 border-accent/50 premium-glow"
+                  : "border-2 hover:border-accent/30 premium-glow"
               }`}
             >
               {isCurrent && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-accent text-accent-foreground text-xs font-bold rounded-full">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-accent to-accent-glow text-primary-foreground text-xs font-bold rounded-full">
                   NUVARANDE PLAN
                 </div>
               )}
-              <CardHeader>
-                <div className="flex items-center gap-2 mb-2">
-                  <Icon className={`h-6 w-6 ${plan === "professional" ? "text-accent" : ""}`} />
-                  <CardTitle>{details.name}</CardTitle>
+              {plan === "professional" && !isCurrent && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-accent to-accent-glow text-primary-foreground text-xs font-bold rounded-full">
+                  MEST POPULÄR
                 </div>
-                <div className="space-y-2">
+              )}
+              <CardHeader className="text-center pb-6">
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <Icon className={`h-7 w-7 ${plan === "professional" ? "text-accent" : ""}`} />
+                  <CardTitle className="text-2xl">{details.name}</CardTitle>
+                </div>
+                <div className="pt-2">
                   {isYearly && details.yearlyPrice ? (
-                    <div>
-                      <div className="text-2xl font-bold">
-                        {details.yearlyPrice}
+                    <>
+                      <div className="mb-2">
+                        <span className="text-4xl font-bold">{details.yearlyPrice.replace('/år', '')}</span>
+                        <span className="text-muted-foreground text-lg ml-1">/år</span>
                       </div>
                       {details.yearlyDiscount && (
-                        <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/20 text-accent text-xs font-bold mt-1">
+                        <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-bold">
                           💰 {details.yearlyDiscount}
                         </div>
                       )}
-                    </div>
+                    </>
                   ) : (
-                    <div className="text-2xl font-bold">
-                      {details.monthlyPrice}
+                    <div>
+                      <span className="text-4xl font-bold">{details.monthlyPrice.replace('/mån', '')}</span>
+                      <span className="text-muted-foreground text-lg ml-1">/mån</span>
                     </div>
                   )}
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2 min-h-[300px]">
+              <CardContent className="flex-grow space-y-4">
+                <div className="space-y-3">
                   {details.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-start gap-2">
-                      <Check className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
+                    <div key={idx} className="flex items-start gap-3">
+                      <Check className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
                       <span className="text-sm">{feature}</span>
                     </div>
                   ))}
                 </div>
-                {!isCurrent && plan !== "enterprise" && (
-                  <Button
-                    onClick={() => handlePlanChange(plan)}
-                    disabled={updating !== null || loadingStripe}
-                    variant={isHigherTier ? "default" : "outline"}
-                    className="w-full"
-                  >
-                    {updating === plan ? (
-                      "Öppnar checkout..."
-                    ) : (
-                      <>
-                        <Crown className="h-4 w-4 mr-2" />
-                        Starta 14 dagars gratis provperiod
-                      </>
-                    )}
-                  </Button>
-                )}
-                {!isCurrent && plan === "enterprise" && (
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => toast.info("Kontakta oss på info@spotlight.se för Enterprise-planen")}
-                  >
-                    Kontakta oss
-                  </Button>
-                )}
-                {isCurrent && stripeSubscription?.subscribed && (
-                  <Button
-                    onClick={handleManageSubscription}
-                    variant="outline"
-                    className="w-full"
-                  >
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    Hantera prenumeration
-                  </Button>
-                )}
+                <div className="pt-4">
+                  {!isCurrent && plan !== "enterprise" && (
+                    <Button
+                      onClick={() => handlePlanChange(plan)}
+                      disabled={updating !== null || loadingStripe}
+                      variant={plan === "professional" ? "default" : "outline"}
+                      size="lg"
+                      className="w-full"
+                    >
+                      {updating === plan ? (
+                        "Öppnar..."
+                      ) : (
+                        <>
+                          <Crown className="h-4 w-4 mr-2" />
+                          Prova gratis
+                        </>
+                      )}
+                    </Button>
+                  )}
+                  {!isCurrent && plan === "enterprise" && (
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="w-full"
+                      onClick={() => toast.info("Kontakta oss på info@spotlight.se för Enterprise-planen")}
+                    >
+                      Kontakta oss
+                    </Button>
+                  )}
+                  {isCurrent && stripeSubscription?.subscribed && (
+                    <Button
+                      onClick={handleManageSubscription}
+                      variant="outline"
+                      size="lg"
+                      className="w-full"
+                    >
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      Hantera
+                    </Button>
+                  )}
+                </div>
               </CardContent>
             </Card>
           );
