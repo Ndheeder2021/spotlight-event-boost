@@ -257,7 +257,7 @@ export default function HowItWorks() {
             Redo att <span className="gradient-text">komma igång</span>?
           </h2>
           <p className="text-xl text-muted-foreground">
-            Prova Spotlight gratis i 14 dagar. Inget kreditkort krävs.
+            Prova Spotlight gratis i 14 dagar.
           </p>
           <Button size="lg" className="text-lg px-8 h-14 hover:scale-105 transition-transform" asChild>
             <Link to="/auth">

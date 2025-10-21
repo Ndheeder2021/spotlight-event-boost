@@ -153,7 +153,7 @@ const faqs = [
   },
   {
     question: "Kan jag testa Spotlight gratis?",
-    answer: "Ja! Vi erbjuder en 14-dagars gratis testperiod där du får full tillgång till alla funktioner i din valda plan. Inget kreditkort krävs för att komma igång."
+    answer: "Ja! Vi erbjuder en 14-dagars gratis testperiod där du får full tillgång till alla funktioner i din valda plan."
   },
   {
     question: "Hur avbokar jag mitt abonnemang?",
@@ -519,10 +519,6 @@ const Index = () => {
                 <Check className="h-4 w-4 text-primary" />
                 <span>14 dagar gratis</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-primary" />
-                <span>Inget kreditkort krävs</span>
-              </div>
             </div>
           </div>
         </div>
@@ -788,7 +784,7 @@ const Index = () => {
 
           <div className="text-center mt-16">
             <p className="text-muted-foreground">
-              Alla planer inkluderar 14 dagars gratis provperiod • Inget kreditkort krävs
+              Alla planer inkluderar 14 dagars gratis provperiod
             </p>
           </div>
         </div>

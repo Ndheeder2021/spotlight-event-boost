@@ -294,7 +294,7 @@ export default function Pricing() {
 
           <div className="text-center mt-16">
             <p className="text-muted-foreground">
-              Alla planer inkluderar 14 dagars gratis provperiod • Inget kreditkort krävs
+              Alla planer inkluderar 14 dagars gratis provperiod
             </p>
           </div>
         </div>
@@ -456,7 +456,7 @@ export default function Pricing() {
             <span className="gradient-text-animated">smarta kampanjer</span>?
           </h2>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-            Börja din 14-dagars gratisperiod idag. Inget kreditkort krävs. Avsluta när som helst.
+            Börja din 14-dagars gratisperiod idag. Avsluta när som helst.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Button 
