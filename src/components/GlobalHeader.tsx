@@ -45,6 +45,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const hoverTimeoutRef = useState<NodeJS.Timeout | null>(null)[0];
 
   const publicNavItems: { title: string; url: string; icon: any }[] = [];
 
@@ -111,6 +112,17 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
     }
   };
 
+  const handleMouseEnter = (dropdown: string) => {
+    if (hoverTimeoutRef) {
+      clearTimeout(hoverTimeoutRef);
+    }
+    setOpenDropdown(dropdown);
+  };
+
+  const handleMouseLeave = () => {
+    setOpenDropdown(null);
+  };
+
   const navItems = variant === "authenticated" ? authenticatedNavItems : publicNavItems;
   const isAuthenticated = variant === "authenticated" || user;
 
@@ -158,26 +170,23 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
 
             {/* More Dropdown for Authenticated Users */}
             {isAuthenticated && (
-              <DropdownMenu open={openDropdown === 'more'} onOpenChange={(open) => setOpenDropdown(open ? 'more' : null)}>
-                <DropdownMenuTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
-                    onMouseEnter={() => setOpenDropdown('more')}
-                    onMouseLeave={() => setOpenDropdown(null)}
+              <div onMouseEnter={() => handleMouseEnter('more')} onMouseLeave={handleMouseLeave}>
+                <DropdownMenu open={openDropdown === 'more'} onOpenChange={(open) => !open && setOpenDropdown(null)}>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
+                    >
+                      <span>Mer</span>
+                      <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent 
+                    align="center" 
+                    className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
+                    sideOffset={12}
                   >
-                    <span>Mer</span>
-                    <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                  align="center" 
-                  className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
-                  sideOffset={12}
-                  onMouseEnter={() => setOpenDropdown('more')}
-                  onMouseLeave={() => setOpenDropdown(null)}
-                >
                   <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
                     Verktyg
                   </DropdownMenuLabel>
@@ -211,31 +220,29 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>
+              </div>
             )}
 
             {/* Product Dropdown for Public */}
             {!isAuthenticated && (
               <>
-                <DropdownMenu open={openDropdown === 'product'} onOpenChange={(open) => setOpenDropdown(open ? 'product' : null)}>
-                  <DropdownMenuTrigger asChild>
-                    <Button 
-                      variant="ghost" 
-                      className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
-                      onMouseEnter={() => setOpenDropdown('product')}
-                      onMouseLeave={() => setOpenDropdown(null)}
+                <div onMouseEnter={() => handleMouseEnter('product')} onMouseLeave={handleMouseLeave}>
+                  <DropdownMenu open={openDropdown === 'product'} onOpenChange={(open) => !open && setOpenDropdown(null)}>
+                    <DropdownMenuTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
+                      >
+                        <span>Produkt</span>
+                        <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent 
+                      align="center" 
+                      className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
+                      sideOffset={12}
                     >
-                      <span>Produkt</span>
-                      <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent 
-                    align="center" 
-                    className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
-                    sideOffset={12}
-                    onMouseEnter={() => setOpenDropdown('product')}
-                    onMouseLeave={() => setOpenDropdown(null)}
-                  >
                   <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
                     Produkt
                   </DropdownMenuLabel>
@@ -252,30 +259,28 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       </Link>
                     </DropdownMenuItem>
                   ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
 
                 {/* Blog Dropdown */}
-                <DropdownMenu open={openDropdown === 'blog'} onOpenChange={(open) => setOpenDropdown(open ? 'blog' : null)}>
-                  <DropdownMenuTrigger asChild>
-                    <Button 
-                      variant="ghost" 
-                      className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
-                      onMouseEnter={() => setOpenDropdown('blog')}
-                      onMouseLeave={() => setOpenDropdown(null)}
+                <div onMouseEnter={() => handleMouseEnter('blog')} onMouseLeave={handleMouseLeave}>
+                  <DropdownMenu open={openDropdown === 'blog'} onOpenChange={(open) => !open && setOpenDropdown(null)}>
+                    <DropdownMenuTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
+                      >
+                        <span>Blog</span>
+                        <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent 
+                      align="center" 
+                      className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
+                      sideOffset={12}
                     >
-                      <span>Blog</span>
-                      <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent 
-                    align="center" 
-                    className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
-                    sideOffset={12}
-                    onMouseEnter={() => setOpenDropdown('blog')}
-                    onMouseLeave={() => setOpenDropdown(null)}
-                  >
                   <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
                     Blog
                   </DropdownMenuLabel>
@@ -292,30 +297,28 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       </Link>
                     </DropdownMenuItem>
                   ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
 
                 {/* Prices & Perks Dropdown */}
-                <DropdownMenu open={openDropdown === 'perks'} onOpenChange={(open) => setOpenDropdown(open ? 'perks' : null)}>
-                  <DropdownMenuTrigger asChild>
-                    <Button 
-                      variant="ghost" 
-                      className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
-                      onMouseEnter={() => setOpenDropdown('perks')}
-                      onMouseLeave={() => setOpenDropdown(null)}
+                <div onMouseEnter={() => handleMouseEnter('perks')} onMouseLeave={handleMouseLeave}>
+                  <DropdownMenu open={openDropdown === 'perks'} onOpenChange={(open) => !open && setOpenDropdown(null)}>
+                    <DropdownMenuTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
+                      >
+                        <span>Prices & Perks</span>
+                        <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent 
+                      align="center" 
+                      className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
+                      sideOffset={12}
                     >
-                      <span>Prices & Perks</span>
-                      <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent 
-                    align="center" 
-                    className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
-                    sideOffset={12}
-                    onMouseEnter={() => setOpenDropdown('perks')}
-                    onMouseLeave={() => setOpenDropdown(null)}
-                  >
                   <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
                     Priser & Förmåner
                   </DropdownMenuLabel>
@@ -332,8 +335,9 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       </Link>
                     </DropdownMenuItem>
                   ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </>
             )}
           </nav>
