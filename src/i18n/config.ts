@@ -1860,6 +1860,19 @@ const resources = {
       noEventsFoundDesc: "Try adjusting your filters or come back later",
       allEvents: "All events",
       campaignFor: "Campaign for",
+      
+      // Event Metrics
+      withinRadius: "Within 10 km",
+      totalUpcoming: "Total Upcoming",
+      eventsTotal: "Events Total",
+      expectedAudience: "Expected Audience",
+      totalThisWeek: "Total This Week",
+      biggestEvent: "Biggest Event",
+      noEvent: "No Event",
+      
+      // Event Card
+      createCampaign: "Create Campaign",
+      expectedGuests: "expected guests",
 
       // Calendar Page
       calendarForecast: "Calendar & Forecast",

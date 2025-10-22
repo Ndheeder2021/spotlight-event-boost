@@ -36,57 +36,65 @@ export const EventMetrics = ({ events }: EventMetricsProps) => {
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
       <Card className="glass-card border-primary/20 hover-lift group">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-          <CardTitle className="text-sm font-medium text-foreground/80">{t('eventsThisWeek')}</CardTitle>
+          <CardTitle className="text-sm font-medium text-foreground/80 leading-tight">
+            {t('eventsThisWeek')}
+          </CardTitle>
           <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
             <Calendar className="h-5 w-5 text-primary" />
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold gradient-text mb-1">{eventsThisWeek.length}</div>
-          <p className="text-sm text-muted-foreground">{t('withinRadius')}</p>
+          <div className="text-3xl font-bold gradient-text mb-2">{eventsThisWeek.length}</div>
+          <p className="text-sm text-muted-foreground leading-snug">{t('withinRadius')}</p>
         </CardContent>
       </Card>
 
       <Card className="glass-card border-accent/20 hover-lift group">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-          <CardTitle className="text-sm font-medium text-foreground/80">{t('totalUpcoming')}</CardTitle>
+          <CardTitle className="text-sm font-medium text-foreground/80 leading-tight">
+            {t('totalUpcoming')}
+          </CardTitle>
           <div className="p-2 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
             <MapPin className="h-5 w-5 text-accent" />
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold gradient-text mb-1">{events.length}</div>
-          <p className="text-sm text-muted-foreground">{t('eventsTotal')}</p>
+          <div className="text-3xl font-bold gradient-text mb-2">{events.length}</div>
+          <p className="text-sm text-muted-foreground leading-snug">{t('eventsTotal')}</p>
         </CardContent>
       </Card>
 
       <Card className="glass-card border-primary/20 hover-lift group">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-          <CardTitle className="text-sm font-medium text-foreground/80">{t('expectedAudience')}</CardTitle>
+          <CardTitle className="text-sm font-medium text-foreground/80 leading-tight">
+            {t('expectedAudience')}
+          </CardTitle>
           <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
             <Users className="h-5 w-5 text-primary" />
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold gradient-text mb-1">
+          <div className="text-3xl font-bold gradient-text mb-2">
             {totalExpectedAttendance.toLocaleString()}
           </div>
-          <p className="text-sm text-muted-foreground">{t('totalThisWeek')}</p>
+          <p className="text-sm text-muted-foreground leading-snug">{t('totalThisWeek')}</p>
         </CardContent>
       </Card>
 
       <Card className="glass-card border-accent/20 hover-lift group">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-          <CardTitle className="text-sm font-medium text-foreground/80">{t('biggestEvent')}</CardTitle>
+          <CardTitle className="text-sm font-medium text-foreground/80 leading-tight">
+            {t('biggestEvent')}
+          </CardTitle>
           <div className="p-2 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
             <TrendingUp className="h-5 w-5 text-accent" />
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold gradient-text mb-1">
+          <div className="text-3xl font-bold gradient-text mb-2">
             {biggestEvent?.expected_attendance?.toLocaleString() || 0}
           </div>
-          <p className="text-sm text-muted-foreground truncate">
+          <p className="text-sm text-muted-foreground truncate leading-snug">
             {biggestEvent?.title || t('noEvent')}
           </p>
         </CardContent>
