@@ -188,8 +188,8 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
           <div className="flex items-center gap-2">
             <p className="text-2xl font-bold capitalize">{planDetails[currentPlan].name}</p>
             {currentPlan !== "starter" && (
-              <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-accent/20 text-accent text-xs font-bold">
-                <Crown className="h-3 w-3" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-accent to-accent-glow text-primary-foreground text-sm font-bold shadow-glow animate-pulse border-2 border-accent/50">
+                <Crown className="h-4 w-4 animate-[spin_3s_ease-in-out_infinite]" />
                 {t('premium')}
               </div>
             )}
