@@ -226,6 +226,7 @@ const resources = {
       // Newsletter
       newsletterTitle: "Få marknadsföringstips direkt i din inkorg",
       newsletterDesc: "Prenumerera på vårt nyhetsbrev och få exklusiva tips, case studies och branschinsikter.",
+      newsletterIndexMainTitle: "Få event marketing tips varje vecka",
       newsletterIndexTitle: "Få insikter, strategier och tips direkt i din inkorg. Gratis.",
       newsletterIndexDisclaimer: "Vi respekterar din integritet. Avsluta prenumerationen när som helst.",
       
@@ -1128,6 +1129,7 @@ const resources = {
       // Newsletter
       newsletterTitle: "Get marketing tips straight to your inbox",
       newsletterDesc: "Subscribe to our newsletter and receive exclusive tips, case studies, and industry insights.",
+      newsletterIndexMainTitle: "Get event marketing tips every week",
       newsletterIndexTitle: "Get insights, strategies and tips straight to your inbox. Free.",
       newsletterIndexDisclaimer: "We respect your privacy. Unsubscribe at any time.",
       
