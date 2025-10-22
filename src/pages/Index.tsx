@@ -885,7 +885,95 @@ const Index = () => {
             )}
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+          {/* Horizontal scroll container on mobile, grid on desktop */}
+          <div className="md:hidden overflow-x-auto pb-8 -mx-4 px-4">
+            <div className="flex gap-6 min-w-max">
+              {plans.map((plan) => (
+                <div 
+                  key={plan.name} 
+                  className={`relative p-8 rounded-2xl transition-all w-[85vw] max-w-[400px] flex-shrink-0 ${
+                    plan.popular 
+                      ? 'bg-primary/5 border-2 border-primary shadow-lg' 
+                      : 'bg-card border border-border hover:border-muted-foreground/30'
+                  }`}
+                >
+                  {plan.popular && (
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                      <span className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-bold rounded-full uppercase tracking-wide">
+                        Mest populär
+                      </span>
+                    </div>
+                  )}
+                  
+                  <div className="mb-8">
+                    <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                    <p className="text-muted-foreground text-sm">{plan.description}</p>
+                  </div>
+
+                  <div className="mb-8">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-5xl sm:text-6xl font-bold">
+                        {isYearly ? (plan.yearlyPrice || plan.monthlyPrice) : plan.monthlyPrice}
+                      </span>
+                      {plan.monthlyPrice !== "Kontakta oss" && (
+                        <span className="text-muted-foreground text-lg">
+                          /{isYearly ? "år" : "mån"}
+                        </span>
+                      )}
+                    </div>
+                    {isYearly && plan.yearlyDiscount && (
+                      <p className="text-sm text-primary font-medium mt-2">{plan.yearlyDiscount}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-4 mb-8">
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
+                      Inkluderat:
+                    </p>
+                    {plan.features.map((f, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                        <span className="text-sm">{f}</span>
+                      </div>
+                    ))}
+                    {plan.notIncluded.length > 0 && plan.notIncluded.map((f, i) => (
+                      <div key={i} className="flex items-start gap-3 opacity-30">
+                        <X className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+                        <span className="text-sm text-muted-foreground">{f}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {plan.name === "Enterprise" ? (
+                    <Link to="/contact" className="w-full">
+                      <Button 
+                        variant="animatedOutline"
+                        className="w-full"
+                        size="xl"
+                      >
+                        Kontakta oss
+                        <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Link to="/auth" className="w-full">
+                      <Button 
+                        variant={plan.popular ? "animated" : "animatedOutline"}
+                        className="w-full"
+                        size="xl"
+                      >
+                        Starta gratis
+                        <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop grid layout */}
+          <div className="hidden md:grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {plans.map((plan) => (
               <div 
                 key={plan.name} 
