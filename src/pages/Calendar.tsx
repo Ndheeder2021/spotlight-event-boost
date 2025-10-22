@@ -43,6 +43,7 @@ interface InternalEvent {
 }
 
 export default function Calendar() {
+  const { t } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<Event[]>([]);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
@@ -295,8 +296,6 @@ export default function Calendar() {
       "_blank"
     );
   };
-
-  const { t } = useTranslation();
 
   if (loading) {
     return (
