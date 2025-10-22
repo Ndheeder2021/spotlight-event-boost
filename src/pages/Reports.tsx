@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, TrendingUp, Users, Calendar, DollarSign, Target, Activity, Lock, Download, MapPin, TestTube2 } from "lucide-react";
+import { BarChart, TrendingUp, Users, Calendar, DollarSign, Target, Activity, Lock, Download, MapPin, TestTube2, Sparkles } from "lucide-react";
 import { usePlanFeatures } from "@/hooks/usePlanFeatures";
 import { PlanUpgradeDialog } from "@/components/PlanUpgradeDialog";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +10,7 @@ import { sv } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
 
 interface AnalyticsData {
   totalCampaigns: number;
@@ -269,320 +270,353 @@ export default function Reports() {
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">Analytics & Rapporter</h1>
-        <p className="text-muted-foreground">Översikt och statistik för dina kampanjer och events</p>
-      </div>
+    <div className="min-h-screen bg-background relative">
+      <AnimatedHeroBackground />
+      
+      {/* Hero Section */}
+      <section className="relative overflow-hidden py-20 px-4">
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="text-center space-y-6 mb-12 animate-on-scroll">
+            <h1 className="text-5xl sm:text-6xl font-bold gradient-text">
+              Analytics & Rapporter
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Översikt och statistik för dina kampanjer och events
+            </p>
+          </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Target className="h-4 w-4 text-accent" />
-              Totalt Kampanjer
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">{analyticsData?.totalCampaigns || 0}</p>
-            <p className="text-xs text-muted-foreground mt-1">Alla skapade kampanjer</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Activity className="h-4 w-4 text-green-500" />
-              Aktiva Kampanjer
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-green-600">{analyticsData?.activeCampaigns || 0}</p>
-            <p className="text-xs text-muted-foreground mt-1">Publicerade kampanjer</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-blue-500" />
-              Events Denna Vecka
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-blue-600">{analyticsData?.eventsThisWeek || 0}</p>
-            <p className="text-xs text-muted-foreground mt-1">I ditt område</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Users className="h-4 w-4 text-purple-500" />
-              Totalt Events
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-purple-600">{analyticsData?.totalEvents || 0}</p>
-            <p className="text-xs text-muted-foreground mt-1">Närliggande events</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2 mb-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BarChart className="h-5 w-5 text-accent" />
-              Kampanjer per Status
-            </CardTitle>
-            <CardDescription>Fördelning av kampanjstatus</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {Object.entries(analyticsData?.campaignsByStatus || {}).map(([status, count]) => {
-                const statusLabels: Record<string, string> = {
-                  draft: "Utkast",
-                  scheduled: "Schemalagd",
-                  published: "Publicerad",
-                };
-                const statusColors: Record<string, string> = {
-                  draft: "bg-gray-500",
-                  scheduled: "bg-yellow-500",
-                  published: "bg-green-500",
-                };
-                return (
-                  <div key={status} className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className={`w-3 h-3 rounded-full ${statusColors[status] || 'bg-gray-500'}`} />
-                      <span className="text-sm">{statusLabels[status] || status}</span>
-                    </div>
-                    <span className="text-sm font-semibold">{count}</span>
+          {/* Stats Cards */}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+            <Card className="glass-card hover-lift premium-glow animate-on-scroll stagger-1">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium flex items-center gap-2">
+                  <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                    <Target className="h-5 w-5 text-accent" />
                   </div>
-                );
-              })}
-              {Object.keys(analyticsData?.campaignsByStatus || {}).length === 0 && (
-                <p className="text-sm text-muted-foreground text-center py-4">Ingen data tillgänglig</p>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-4xl font-bold gradient-text">{analyticsData?.totalCampaigns || 0}</p>
+                <p className="text-sm text-muted-foreground mt-2">Totalt Kampanjer</p>
+              </CardContent>
+            </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-accent" />
-              Aktivitet Senaste 7 Dagarna
-            </CardTitle>
-            <CardDescription>Skapade kampanjer och nya events</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {analyticsData?.recentActivity.map((day, idx) => (
-                <div key={idx} className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{day.date}</span>
-                  <div className="flex items-center gap-4 text-sm">
-                    <span className="flex items-center gap-1">
-                      <div className="w-2 h-2 rounded-full bg-accent" />
-                      {day.campaigns} kampanjer
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      {day.events} events
-                    </span>
+            <Card className="glass-card hover-lift premium-glow animate-on-scroll stagger-2">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium flex items-center gap-2">
+                  <div className="h-10 w-10 rounded-xl bg-green-500/10 flex items-center justify-center">
+                    <Activity className="h-5 w-5 text-green-500" />
                   </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-4xl font-bold text-green-600">{analyticsData?.activeCampaigns || 0}</p>
+                <p className="text-sm text-muted-foreground mt-2">Aktiva Kampanjer</p>
+              </CardContent>
+            </Card>
+
+            <Card className="glass-card hover-lift premium-glow animate-on-scroll stagger-3">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium flex items-center gap-2">
+                  <div className="h-10 w-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                    <Calendar className="h-5 w-5 text-blue-500" />
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-4xl font-bold text-blue-600">{analyticsData?.eventsThisWeek || 0}</p>
+                <p className="text-sm text-muted-foreground mt-2">Events Denna Vecka</p>
+              </CardContent>
+            </Card>
+
+            <Card className="glass-card hover-lift premium-glow animate-on-scroll stagger-4">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium flex items-center gap-2">
+                  <div className="h-10 w-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                    <Users className="h-5 w-5 text-purple-500" />
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-4xl font-bold text-purple-600">{analyticsData?.totalEvents || 0}</p>
+                <p className="text-sm text-muted-foreground mt-2">Totalt Events</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Analytics Content */}
+      <div className="container mx-auto px-4 max-w-6xl relative z-10 pb-16">
+        <div className="grid gap-6 md:grid-cols-2 mb-8">
+          <Card className="glass-card hover-lift premium-glow animate-on-scroll">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-2xl">
+                <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <BarChart className="h-5 w-5 text-accent" />
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2 mb-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <DollarSign className="h-5 w-5 text-accent" />
-              ROI-beräkning
-            </CardTitle>
-            <CardDescription>Beräkna avkastning på kampanjer</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="cost">Kampanjkostnad (SEK)</Label>
-              <Input
-                id="cost"
-                type="number"
-                placeholder="ex. 5000"
-                value={roiCost}
-                onChange={(e) => setRoiCost(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="revenue">Intäkter/Värde (SEK)</Label>
-              <Input
-                id="revenue"
-                type="number"
-                placeholder="ex. 15000"
-                value={roiRevenue}
-                onChange={(e) => setRoiRevenue(e.target.value)}
-              />
-            </div>
-            <Button onClick={calculateROI} className="w-full">
-              Beräkna ROI
-            </Button>
-            {calculatedROI !== null && (
-              <div className="p-4 rounded-lg bg-muted">
-                <p className="text-sm text-muted-foreground mb-1">Beräknad ROI</p>
-                <p className={`text-3xl font-bold ${calculatedROI >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  {calculatedROI.toFixed(1)}%
-                </p>
-                <p className="text-xs text-muted-foreground mt-2">
-                  {calculatedROI >= 0 
-                    ? `Du fick tillbaka ${(calculatedROI / 100 + 1).toFixed(2)}x din investering`
-                    : 'Negativ avkastning - justera din strategi'}
-                </p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TestTube2 className="h-5 w-5 text-accent" />
-              Kampanjprestanda
-            </CardTitle>
-            <CardDescription>Jämför dina kampanjer</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {analyticsData?.topCampaigns.map((campaign, idx) => {
-                const statusLabels: Record<string, string> = {
-                  draft: "Utkast",
-                  scheduled: "Schemalagd",
-                  published: "Publicerad",
-                };
-                const statusColors: Record<string, string> = {
-                  draft: "bg-gray-500",
-                  scheduled: "bg-yellow-500",
-                  published: "bg-green-500",
-                };
-                return (
-                  <div key={campaign.id} className="p-3 rounded-lg border">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-sm">#{idx + 1} {campaign.title}</span>
-                      <div className={`px-2 py-1 rounded text-xs text-white ${statusColors[campaign.status]}`}>
-                        {statusLabels[campaign.status]}
+                Kampanjer per Status
+              </CardTitle>
+              <CardDescription>Fördelning av kampanjstatus</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {Object.entries(analyticsData?.campaignsByStatus || {}).map(([status, count]) => {
+                  const statusLabels: Record<string, string> = {
+                    draft: "Utkast",
+                    scheduled: "Schemalagd",
+                    published: "Publicerad",
+                  };
+                  const statusColors: Record<string, string> = {
+                    draft: "bg-gray-500",
+                    scheduled: "bg-yellow-500",
+                    published: "bg-green-500",
+                  };
+                  return (
+                    <div key={status} className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className={`w-3 h-3 rounded-full ${statusColors[status] || 'bg-gray-500'}`} />
+                        <span className="text-sm">{statusLabels[status] || status}</span>
                       </div>
+                      <span className="text-sm font-semibold">{count}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Calendar className="h-3 w-3" />
-                      <span>Events: {campaign.eventCount}</span>
+                  );
+                })}
+                {Object.keys(analyticsData?.campaignsByStatus || {}).length === 0 && (
+                  <p className="text-sm text-muted-foreground text-center py-4">Ingen data tillgänglig</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="glass-card hover-lift premium-glow animate-on-scroll">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-2xl">
+                <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <TrendingUp className="h-5 w-5 text-accent" />
+                </div>
+                Aktivitet Senaste 7 Dagarna
+              </CardTitle>
+              <CardDescription>Skapade kampanjer och nya events</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {analyticsData?.recentActivity.map((day, idx) => (
+                  <div key={idx} className="flex items-center justify-between">
+                    <span className="text-sm font-medium">{day.date}</span>
+                    <div className="flex items-center gap-4 text-sm">
+                      <span className="flex items-center gap-1">
+                        <div className="w-2 h-2 rounded-full bg-accent" />
+                        {day.campaigns} kampanjer
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <div className="w-2 h-2 rounded-full bg-blue-500" />
+                        {day.events} events
+                      </span>
                     </div>
                   </div>
-                );
-              })}
-              {(!analyticsData?.topCampaigns || analyticsData.topCampaigns.length === 0) && (
-                <p className="text-sm text-muted-foreground text-center py-4">Ingen kampanjdata tillgänglig</p>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-      <div className="grid gap-6 md:grid-cols-2 mb-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Target className="h-5 w-5 text-accent" />
-              Events per Kategori
-            </CardTitle>
-            <CardDescription>Målgruppsinsikter - kategorier</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {Object.entries(analyticsData?.eventsByCategory || {})
-                .sort(([, a], [, b]) => b - a)
-                .slice(0, 6)
-                .map(([category, count]) => {
-                  const total = analyticsData?.totalEvents || 1;
-                  const percentage = ((count / total) * 100).toFixed(0);
+        <div className="grid gap-6 md:grid-cols-2 mb-8">
+          <Card className="glass-card hover-lift premium-glow animate-on-scroll">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-2xl">
+                <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <DollarSign className="h-5 w-5 text-accent" />
+                </div>
+                ROI-beräkning
+              </CardTitle>
+              <CardDescription>Beräkna avkastning på kampanjer</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="cost">Kampanjkostnad (SEK)</Label>
+                <Input
+                  id="cost"
+                  type="number"
+                  placeholder="ex. 5000"
+                  value={roiCost}
+                  onChange={(e) => setRoiCost(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="revenue">Intäkter/Värde (SEK)</Label>
+                <Input
+                  id="revenue"
+                  type="number"
+                  placeholder="ex. 15000"
+                  value={roiRevenue}
+                  onChange={(e) => setRoiRevenue(e.target.value)}
+                />
+              </div>
+              <Button onClick={calculateROI} className="w-full">
+                Beräkna ROI
+              </Button>
+              {calculatedROI !== null && (
+                <div className="p-4 rounded-lg bg-muted">
+                  <p className="text-sm text-muted-foreground mb-1">Beräknad ROI</p>
+                  <p className={`text-3xl font-bold ${calculatedROI >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {calculatedROI.toFixed(1)}%
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    {calculatedROI >= 0 
+                      ? `Du fick tillbaka ${(calculatedROI / 100 + 1).toFixed(2)}x din investering`
+                      : 'Negativ avkastning - justera din strategi'}
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card className="glass-card hover-lift premium-glow animate-on-scroll">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-2xl">
+                <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <Sparkles className="h-5 w-5 text-accent" />
+                </div>
+                Kampanjprestanda
+              </CardTitle>
+              <CardDescription>Jämför dina kampanjer</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {analyticsData?.topCampaigns.map((campaign, idx) => {
+                  const statusLabels: Record<string, string> = {
+                    draft: "Utkast",
+                    scheduled: "Schemalagd",
+                    published: "Publicerad",
+                  };
+                  const statusColors: Record<string, string> = {
+                    draft: "bg-gray-500",
+                    scheduled: "bg-yellow-500",
+                    published: "bg-green-500",
+                  };
                   return (
-                    <div key={category} className="space-y-1">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="font-medium capitalize">{category}</span>
-                        <span className="text-muted-foreground">{count} ({percentage}%)</span>
+                    <div key={campaign.id} className="p-3 rounded-lg border">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-medium text-sm">#{idx + 1} {campaign.title}</span>
+                        <div className={`px-2 py-1 rounded text-xs text-white ${statusColors[campaign.status]}`}>
+                          {statusLabels[campaign.status]}
+                        </div>
                       </div>
-                      <div className="h-2 bg-muted rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-accent rounded-full transition-all"
-                          style={{ width: `${percentage}%` }}
-                        />
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <Calendar className="h-3 w-3" />
+                        <span>Events: {campaign.eventCount}</span>
                       </div>
                     </div>
                   );
                 })}
-              {Object.keys(analyticsData?.eventsByCategory || {}).length === 0 && (
-                <p className="text-sm text-muted-foreground text-center py-4">Ingen kategoridata tillgänglig</p>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+                {(!analyticsData?.topCampaigns || analyticsData.topCampaigns.length === 0) && (
+                  <p className="text-sm text-muted-foreground text-center py-4">Ingen kampanjdata tillgänglig</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-        <Card>
+        <div className="grid gap-6 md:grid-cols-2 mb-8">
+          <Card className="glass-card hover-lift premium-glow animate-on-scroll">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-2xl">
+                <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <Users className="h-5 w-5 text-accent" />
+                </div>
+                Events per Kategori
+              </CardTitle>
+              <CardDescription>Fördelning av evenemangskategorier</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {Object.entries(analyticsData?.eventsByCategory || {})
+                  .sort(([, a], [, b]) => b - a)
+                  .slice(0, 6)
+                  .map(([category, count]) => {
+                    const total = analyticsData?.totalEvents || 1;
+                    const percentage = ((count / total) * 100).toFixed(0);
+                    return (
+                      <div key={category} className="space-y-1">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="font-medium capitalize">{category}</span>
+                          <span className="text-muted-foreground">{count} ({percentage}%)</span>
+                        </div>
+                        <div className="h-2 bg-muted rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-accent rounded-full transition-all"
+                            style={{ width: `${percentage}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                {Object.keys(analyticsData?.eventsByCategory || {}).length === 0 && (
+                  <p className="text-sm text-muted-foreground text-center py-4">Ingen kategoridata tillgänglig</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="glass-card hover-lift premium-glow animate-on-scroll">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-2xl">
+                <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <MapPin className="h-5 w-5 text-accent" />
+                </div>
+                Geografisk Fördelning
+              </CardTitle>
+              <CardDescription>Events per stad</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {Object.entries(analyticsData?.eventsByCity || {})
+                  .sort(([, a], [, b]) => b - a)
+                  .slice(0, 6)
+                  .map(([city, count]) => (
+                    <div key={city} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm font-medium">{city}</span>
+                      </div>
+                      <span className="text-sm font-semibold text-accent">{count} events</span>
+                    </div>
+                  ))}
+                {Object.keys(analyticsData?.eventsByCity || {}).length === 0 && (
+                  <p className="text-sm text-muted-foreground text-center py-4">Ingen geografisk data tillgänglig</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Card className="glass-card hover-lift premium-glow animate-on-scroll">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <MapPin className="h-5 w-5 text-accent" />
-              Geografisk Fördelning
+            <CardTitle className="flex items-center gap-2 text-2xl">
+              <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                <Download className="h-5 w-5 text-accent" />
+              </div>
+              Exportera Data
             </CardTitle>
-            <CardDescription>Målgruppsinsikter - städer</CardDescription>
+            <CardDescription>Ladda ner din analytics-rapport som CSV</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {Object.entries(analyticsData?.eventsByCity || {})
-                .sort(([, a], [, b]) => b - a)
-                .slice(0, 6)
-                .map(([city, count]) => (
-                  <div key={city} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm font-medium">{city}</span>
-                    </div>
-                    <span className="text-sm font-semibold text-accent">{count} events</span>
-                  </div>
-                ))}
-              {Object.keys(analyticsData?.eventsByCity || {}).length === 0 && (
-                <p className="text-sm text-muted-foreground text-center py-4">Ingen geografisk data tillgänglig</p>
-              )}
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium mb-1">Excel/CSV Export</p>
+                <p className="text-xs text-muted-foreground">
+                  Exportera all analytics-data till en CSV-fil som kan öppnas i Excel
+                </p>
+              </div>
+              <Button onClick={exportToExcel} variant="outline">
+                <Download className="h-4 w-4 mr-2" />
+                Exportera
+              </Button>
             </div>
           </CardContent>
         </Card>
       </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Download className="h-5 w-5 text-accent" />
-            Exportera Data
-          </CardTitle>
-          <CardDescription>Ladda ner din analytics-rapport</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium mb-1">Excel/CSV Export</p>
-              <p className="text-xs text-muted-foreground">
-                Exportera all analytics-data till en CSV-fil som kan öppnas i Excel
-              </p>
-            </div>
-            <Button onClick={exportToExcel} variant="outline">
-              <Download className="h-4 w-4 mr-2" />
-              Exportera
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }
