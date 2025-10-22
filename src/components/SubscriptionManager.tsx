@@ -266,8 +266,10 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                         <span className="text-muted-foreground text-lg ml-1">/år</span>
                       </div>
                       {details.yearlyDiscount && (
-                        <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-bold">
-                          💰 {details.yearlyDiscount}
+                        <div className="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground text-base font-extrabold shadow-glow animate-pulse border-2 border-accent/70 hover-scale">
+                          <span className="text-xl">💰</span>
+                          <span className="relative z-10">{details.yearlyDiscount}</span>
+                          <span className="absolute inset-0 rounded-full bg-accent/40 animate-[ping_2s_ease-in-out_infinite]"></span>
                         </div>
                       )}
                     </>
