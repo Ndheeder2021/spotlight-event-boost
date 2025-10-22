@@ -10,6 +10,7 @@ import { sv } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useTranslation } from "react-i18next";
 
 interface AnalyticsData {
   totalCampaigns: number;
@@ -33,6 +34,7 @@ interface AnalyticsData {
 }
 
 export default function Reports() {
+  const { t } = useTranslation();
   const { features, loading } = usePlanFeatures();
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData>({
@@ -258,22 +260,22 @@ export default function Reports() {
     if (!analyticsData) return;
 
     const csvData = [
-      ["Analytics Rapport", ""],
+      [t('analyticsReports'), ""],
       ["Genererad", format(new Date(), "PPP", { locale: sv })],
       ["", ""],
       ["Översikt", ""],
-      ["Totalt Kampanjer", analyticsData.totalCampaigns],
-      ["Aktiva Kampanjer", analyticsData.activeCampaigns],
-      ["Totalt Events", analyticsData.totalEvents],
-      ["Events Denna Vecka", analyticsData.eventsThisWeek],
+      [t('totalCampaignsReport'), analyticsData.totalCampaigns],
+      [t('activeCampaignsReport'), analyticsData.activeCampaigns],
+      [t('totalEvents'), analyticsData.totalEvents],
+      [t('eventsThisWeekReport'), analyticsData.eventsThisWeek],
       ["", ""],
-      ["Kampanjer per Status", ""],
+      [t('campaignsByStatus'), ""],
       ...Object.entries(analyticsData.campaignsByStatus).map(([status, count]) => [status, count]),
       ["", ""],
-      ["Events per Kategori", ""],
+      [t('eventsByCategory'), ""],
       ...Object.entries(analyticsData.eventsByCategory).map(([cat, count]) => [cat, count]),
       ["", ""],
-      ["Events per Stad", ""],
+      [t('eventsByCity'), ""],
       ...Object.entries(analyticsData.eventsByCity).map(([city, count]) => [city, count]),
     ];
 
@@ -287,7 +289,7 @@ export default function Reports() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    toast.success("Rapport exporterad!");
+    toast.success(t('reportExported'));
   };
 
   if (loading || loadingData) {
@@ -305,8 +307,8 @@ export default function Reports() {
     return (
       <div className="container mx-auto p-6 max-w-6xl">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">Analytics & Rapporter</h1>
-          <p className="text-muted-foreground">Detaljerad statistik och insikter</p>
+          <h1 className="text-3xl font-bold mb-2">{t('analyticsReports')}</h1>
+          <p className="text-muted-foreground">{t('detailedStats')}</p>
         </div>
 
         <Card className="border-2 border-dashed">
@@ -314,13 +316,13 @@ export default function Reports() {
             <div className="p-4 rounded-full bg-muted mb-4">
               <Lock className="h-12 w-12 text-muted-foreground" />
             </div>
-            <h3 className="text-2xl font-semibold mb-2">Analytics kräver Professional</h3>
+            <h3 className="text-2xl font-semibold mb-2">{t('analyticsRequiresProReport')}</h3>
             <p className="text-muted-foreground text-center mb-6 max-w-md">
-              Uppgradera till Professional eller Enterprise för att få tillgång till detaljerad analytics, grafer och insikter om dina kampanjer och events.
+              {t('upgradeForAnalytics')}
             </p>
             <Button onClick={() => setShowUpgrade(true)} size="lg">
               <TrendingUp className="h-4 w-4 mr-2" />
-              Uppgradera nu
+              {t('upgradeNow')}
             </Button>
           </CardContent>
         </Card>
@@ -328,7 +330,7 @@ export default function Reports() {
         <PlanUpgradeDialog
           open={showUpgrade}
           onOpenChange={setShowUpgrade}
-          featureName="Analytics"
+          featureName={t('analytics')}
         />
       </div>
     );
@@ -341,10 +343,10 @@ export default function Reports() {
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center space-y-6 mb-12 animate-on-scroll">
             <h1 className="text-5xl sm:text-6xl font-bold gradient-text">
-              Analytics & Rapporter
+              {t('analyticsReports')}
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Översikt och statistik för dina kampanjer och events
+              {t('overviewStats')}
             </p>
           </div>
 
@@ -360,7 +362,7 @@ export default function Reports() {
               </CardHeader>
               <CardContent>
                 <p className="text-4xl font-bold gradient-text">{analyticsData.totalCampaigns}</p>
-                <p className="text-sm text-muted-foreground mt-2">Totalt Kampanjer</p>
+                <p className="text-sm text-muted-foreground mt-2">{t('totalCampaignsReport')}</p>
               </CardContent>
             </Card>
 
@@ -374,7 +376,7 @@ export default function Reports() {
               </CardHeader>
               <CardContent>
                 <p className="text-4xl font-bold text-green-600">{analyticsData.activeCampaigns}</p>
-                <p className="text-sm text-muted-foreground mt-2">Aktiva Kampanjer</p>
+                <p className="text-sm text-muted-foreground mt-2">{t('activeCampaignsReport')}</p>
               </CardContent>
             </Card>
 
@@ -388,7 +390,7 @@ export default function Reports() {
               </CardHeader>
               <CardContent>
                 <p className="text-4xl font-bold text-blue-600">{analyticsData.eventsThisWeek}</p>
-                <p className="text-sm text-muted-foreground mt-2">Events Denna Vecka</p>
+                <p className="text-sm text-muted-foreground mt-2">{t('eventsThisWeekReport')}</p>
               </CardContent>
             </Card>
 
@@ -402,7 +404,7 @@ export default function Reports() {
               </CardHeader>
               <CardContent>
                 <p className="text-4xl font-bold text-purple-600">{analyticsData.totalEvents}</p>
-                <p className="text-sm text-muted-foreground mt-2">Totalt Events</p>
+                <p className="text-sm text-muted-foreground mt-2">{t('totalEvents')}</p>
               </CardContent>
             </Card>
           </div>
@@ -418,17 +420,17 @@ export default function Reports() {
                 <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
                   <BarChart className="h-5 w-5 text-accent" />
                 </div>
-                Kampanjer per Status
+                {t('campaignsByStatus')}
               </CardTitle>
-              <CardDescription>Fördelning av kampanjstatus</CardDescription>
+              <CardDescription>{t('campaignStatusDistribution')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {Object.entries(analyticsData.campaignsByStatus).map(([status, count]) => {
                   const statusLabels: Record<string, string> = {
-                    draft: "Utkast",
-                    scheduled: "Schemalagd",
-                    published: "Publicerad",
+                    draft: t('draft'),
+                    scheduled: t('scheduled'),
+                    published: t('published'),
                   };
                   const statusColors: Record<string, string> = {
                     draft: "bg-gray-500",
@@ -446,7 +448,7 @@ export default function Reports() {
                   );
                 })}
                 {Object.keys(analyticsData.campaignsByStatus).length === 0 && (
-                  <p className="text-sm text-muted-foreground text-center py-4">Ingen data tillgänglig</p>
+                  <p className="text-sm text-muted-foreground text-center py-4">{t('noDataAvailable')}</p>
                 )}
               </div>
             </CardContent>
@@ -458,9 +460,9 @@ export default function Reports() {
                 <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
                   <TrendingUp className="h-5 w-5 text-accent" />
                 </div>
-                Aktivitet Senaste 7 Dagarna
+                {t('activityLast7Days')}
               </CardTitle>
-              <CardDescription>Skapade kampanjer och nya events</CardDescription>
+              <CardDescription>{t('createdCampaignsNewEvents')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -470,11 +472,11 @@ export default function Reports() {
                     <div className="flex items-center gap-4 text-sm">
                       <span className="flex items-center gap-1">
                         <div className="w-2 h-2 rounded-full bg-accent" />
-                        {day.campaigns} kampanjer
+                        {day.campaigns} {t('campaigns_lowercase')}
                       </span>
                       <span className="flex items-center gap-1">
                         <div className="w-2 h-2 rounded-full bg-blue-500" />
-                        {day.events} events
+                        {day.events} {t('events_lowercase')}
                       </span>
                     </div>
                   </div>
@@ -491,13 +493,13 @@ export default function Reports() {
                 <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
                   <DollarSign className="h-5 w-5 text-accent" />
                 </div>
-                ROI-beräkning
+                {t('roiCalculation')}
               </CardTitle>
-              <CardDescription>Beräkna avkastning på kampanjer</CardDescription>
+              <CardDescription>{t('calculateROI')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="cost">Kampanjkostnad (SEK)</Label>
+                <Label htmlFor="cost">{t('campaignCost')}</Label>
                 <Input
                   id="cost"
                   type="number"
@@ -507,7 +509,7 @@ export default function Reports() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="revenue">Intäkter/Värde (SEK)</Label>
+                <Label htmlFor="revenue">{t('revenueValue')}</Label>
                 <Input
                   id="revenue"
                   type="number"
@@ -517,18 +519,18 @@ export default function Reports() {
                 />
               </div>
               <Button onClick={calculateROI} className="w-full">
-                Beräkna ROI
+                {t('calculateROIButton')}
               </Button>
               {calculatedROI !== null && (
                 <div className="p-4 rounded-lg bg-muted">
-                  <p className="text-sm text-muted-foreground mb-1">Beräknad ROI</p>
+                  <p className="text-sm text-muted-foreground mb-1">{t('calculatedROI')}</p>
                   <p className={`text-3xl font-bold ${calculatedROI >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                     {calculatedROI.toFixed(1)}%
                   </p>
                   <p className="text-xs text-muted-foreground mt-2">
                     {calculatedROI >= 0 
-                      ? `Du fick tillbaka ${(calculatedROI / 100 + 1).toFixed(2)}x din investering`
-                      : 'Negativ avkastning - justera din strategi'}
+                      ? t('youGotBack', { value: (calculatedROI / 100 + 1).toFixed(2) })
+                      : t('negativeROI')}
                   </p>
                 </div>
               )}
@@ -541,17 +543,17 @@ export default function Reports() {
                 <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
                   <Sparkles className="h-5 w-5 text-accent" />
                 </div>
-                Kampanjprestanda
+                {t('campaignPerformance')}
               </CardTitle>
-              <CardDescription>Jämför dina kampanjer</CardDescription>
+              <CardDescription>{t('compareCampaigns')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {analyticsData.topCampaigns.map((campaign, idx) => {
                   const statusLabels: Record<string, string> = {
-                    draft: "Utkast",
-                    scheduled: "Schemalagd",
-                    published: "Publicerad",
+                    draft: t('draft'),
+                    scheduled: t('scheduled'),
+                    published: t('published'),
                   };
                   const statusColors: Record<string, string> = {
                     draft: "bg-gray-500",
@@ -568,13 +570,13 @@ export default function Reports() {
                       </div>
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <Calendar className="h-3 w-3" />
-                        <span>Events: {campaign.eventCount}</span>
+                        <span>{t('eventsLabel')} {campaign.eventCount}</span>
                       </div>
                     </div>
                   );
                 })}
                 {analyticsData.topCampaigns.length === 0 && (
-                  <p className="text-sm text-muted-foreground text-center py-4">Ingen kampanjdata tillgänglig</p>
+                  <p className="text-sm text-muted-foreground text-center py-4">{t('noCampaignData')}</p>
                 )}
               </div>
             </CardContent>
@@ -588,9 +590,9 @@ export default function Reports() {
                 <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
                   <Users className="h-5 w-5 text-accent" />
                 </div>
-                Events per Kategori
+                {t('eventsByCategory')}
               </CardTitle>
-              <CardDescription>Fördelning av evenemangskategorier</CardDescription>
+              <CardDescription>{t('categoryDistribution')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -616,7 +618,7 @@ export default function Reports() {
                     );
                   })}
                 {Object.keys(analyticsData.eventsByCategory).length === 0 && (
-                  <p className="text-sm text-muted-foreground text-center py-4">Ingen kategoridata tillgänglig</p>
+                  <p className="text-sm text-muted-foreground text-center py-4">{t('noCategoryData')}</p>
                 )}
               </div>
             </CardContent>
@@ -628,9 +630,9 @@ export default function Reports() {
                 <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
                   <MapPin className="h-5 w-5 text-accent" />
                 </div>
-                Geografisk Fördelning
+                {t('geographicDistribution')}
               </CardTitle>
-              <CardDescription>Events per stad</CardDescription>
+              <CardDescription>{t('eventsByCity')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -643,11 +645,11 @@ export default function Reports() {
                         <MapPin className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm font-medium">{city}</span>
                       </div>
-                      <span className="text-sm font-semibold text-accent">{count} events</span>
+                      <span className="text-sm font-semibold text-accent">{count} {t('events_lowercase')}</span>
                     </div>
                   ))}
                 {Object.keys(analyticsData.eventsByCity).length === 0 && (
-                  <p className="text-sm text-muted-foreground text-center py-4">Ingen geografisk data tillgänglig</p>
+                  <p className="text-sm text-muted-foreground text-center py-4">{t('noGeographicData')}</p>
                 )}
               </div>
             </CardContent>
@@ -660,21 +662,21 @@ export default function Reports() {
               <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center">
                 <Download className="h-5 w-5 text-accent" />
               </div>
-              Exportera Data
+              {t('exportData')}
             </CardTitle>
-            <CardDescription>Ladda ner din analytics-rapport som CSV</CardDescription>
+            <CardDescription>{t('downloadReportCSV')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium mb-1">Excel/CSV Export</p>
+                <p className="text-sm font-medium mb-1">{t('excelCSVExport')}</p>
                 <p className="text-xs text-muted-foreground">
-                  Exportera all analytics-data till en CSV-fil som kan öppnas i Excel
+                  {t('exportAllData')}
                 </p>
               </div>
               <Button onClick={exportToExcel} variant="outline">
                 <Download className="h-4 w-4 mr-2" />
-                Exportera
+                {t('export')}
               </Button>
             </div>
           </CardContent>
