@@ -103,39 +103,45 @@ export const CalendarForecast = ({ forecastData, locationLat, locationLon }: Cal
 
   return (
     <div className="space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
-            {t('trafficForecast')}
-          </CardTitle>
-          <CardDescription>
-            Baserat på eventdensitet och kampanjer
-          </CardDescription>
+      <Card className="glass-card border-primary/20 hover-lift group animate-fade-in">
+        <CardHeader className="pb-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 group-hover:from-primary/30 group-hover:to-primary/20 transition-all">
+              <TrendingUp className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <CardTitle className="text-lg font-bold gradient-text">
+                {t('trafficForecast')}
+              </CardTitle>
+              <CardDescription className="text-sm">
+                Baserat på eventdensitet och kampanjer
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-3 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">
+          <div className="grid grid-cols-3 gap-3">
+            <div className="text-center p-3 rounded-lg glass-card border-border/50 hover:border-primary/50 transition-colors">
+              <div className="text-2xl font-bold gradient-text mb-1">
                 {highTrafficDays.length}
               </div>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-xs text-muted-foreground font-medium">
                 Högtrafik-dagar
               </div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">
+            <div className="text-center p-3 rounded-lg glass-card border-border/50 hover:border-accent/50 transition-colors">
+              <div className="text-2xl font-bold gradient-text mb-1">
                 {totalProjectedRevenue.toLocaleString()} kr
               </div>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-xs text-muted-foreground font-medium">
                 Prognostiserad intäkt
               </div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">
+            <div className="text-center p-3 rounded-lg glass-card border-border/50 hover:border-primary/50 transition-colors">
+              <div className="text-2xl font-bold gradient-text mb-1">
                 {Math.max(...topDays.map(d => d.metrics.staff))}
               </div>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-xs text-muted-foreground font-medium">
                 Max personal behov
               </div>
             </div>
@@ -143,37 +149,45 @@ export const CalendarForecast = ({ forecastData, locationLat, locationLon }: Cal
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
-            {t('staffPlanning')}
-          </CardTitle>
+      <Card className="glass-card border-accent/20 hover-lift group animate-fade-in stagger-1">
+        <CardHeader className="pb-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 group-hover:from-accent/30 group-hover:to-accent/20 transition-all">
+              <Users className="h-5 w-5 text-accent" />
+            </div>
+            <CardTitle className="text-lg font-bold gradient-text">
+              {t('staffPlanning')}
+            </CardTitle>
+          </div>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            {highTrafficDays.map((day) => (
+          <div className="space-y-2">
+            {highTrafficDays.map((day, index) => (
               <div
                 key={day.date.toISOString()}
-                className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
+                className={`flex items-center justify-between p-3 glass-card border-border/50 rounded-lg hover:border-accent/50 transition-all hover-scale animate-fade-in stagger-${index + 1}`}
               >
-                <div>
-                  <div className="font-medium">
+                <div className="flex-1">
+                  <div className="font-semibold text-sm text-foreground">
                     {format(day.date, "EEEE d MMMM", { locale: sv })}
                   </div>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3" />
                     {day.metrics.traffic} förväntade besökare
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge
                     variant={day.metrics.staff > 4 ? "destructive" : "secondary"}
+                    className={day.metrics.staff > 4 ? "bg-destructive/10 text-destructive border-destructive/30" : "bg-primary/10 text-primary border-primary/30"}
                   >
                     <Users className="h-3 w-3 mr-1" />
-                    {day.metrics.staff} personal
+                    {day.metrics.staff}
                   </Badge>
                   {day.metrics.staff > 4 && (
-                    <AlertTriangle className="h-4 w-4 text-destructive" />
+                    <div className="p-1 rounded-lg bg-destructive/10">
+                      <AlertTriangle className="h-4 w-4 text-destructive" />
+                    </div>
                   )}
                 </div>
               </div>
@@ -182,42 +196,51 @@ export const CalendarForecast = ({ forecastData, locationLat, locationLon }: Cal
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <DollarSign className="h-5 w-5" />
-            {t('bestCampaignDays')}
-          </CardTitle>
-          <CardDescription>
-            Dagar med högst intäktspotential
-          </CardDescription>
+      <Card className="glass-card border-primary/20 premium-glow hover-lift group animate-fade-in stagger-2">
+        <CardHeader className="pb-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 group-hover:from-primary/30 group-hover:to-primary/20 transition-all">
+              <DollarSign className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <CardTitle className="text-lg font-bold gradient-text">
+                {t('bestCampaignDays')}
+              </CardTitle>
+              <CardDescription className="text-sm">
+                Dagar med högst intäktspotential
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
             {topDays.map((day, index) => (
               <div
                 key={day.date.toISOString()}
-                className="flex items-center justify-between p-2 hover:bg-muted/50 rounded-lg transition-colors"
+                className={`flex items-center justify-between p-3 glass-card border-border/50 rounded-lg hover:border-primary/50 transition-all hover-scale animate-fade-in stagger-${index + 1}`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="text-2xl font-bold text-muted-foreground">
-                    #{index + 1}
+                  <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 text-lg font-bold gradient-text">
+                    {index + 1}
                   </div>
                   <div>
-                    <div className="font-medium text-sm">
+                    <div className="font-semibold text-sm text-foreground">
                       {format(day.date, "EEE d MMM", { locale: sv })}
                     </div>
-                    <div className="text-xs text-muted-foreground">
-                      {day.events.length} events
+                    <div className="text-xs text-muted-foreground flex items-center gap-1">
+                      <span className="inline-flex items-center">
+                        {day.events.length} events
+                      </span>
                     </div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-semibold text-primary">
+                  <div className="font-bold text-sm gradient-text">
                     {day.metrics.revenue.toLocaleString()} kr
                   </div>
-                  <div className="text-xs text-muted-foreground">
-                    ~{day.metrics.traffic} besökare
+                  <div className="text-xs text-muted-foreground flex items-center justify-end gap-1">
+                    <Users className="h-3 w-3" />
+                    ~{day.metrics.traffic}
                   </div>
                 </div>
               </div>
