@@ -16,6 +16,7 @@ import {
   Zap
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import featureEvents from "@/assets/feature-event-radar-new.png";
 import featureAiCampaign from "@/assets/feature-ai-campaign-new.png";
 import featureAnalytics from "@/assets/feature-analytics-new.png";
@@ -86,9 +87,65 @@ const tourSteps: TourStep[] = [
 ];
 
 export const InteractiveProductTour = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   
+  const tourSteps: TourStep[] = [
+    {
+      id: 1,
+      title: t('tourStep1Title'),
+      description: t('tourStep1Desc'),
+      icon: <MapPin className="h-6 w-6" />,
+      image: featureEvents,
+      features: [
+        t('tourStep1Feature1'),
+        t('tourStep1Feature2'),
+        t('tourStep1Feature3')
+      ],
+      color: "from-blue-500 to-cyan-500"
+    },
+    {
+      id: 2,
+      title: t('tourStep2Title'),
+      description: t('tourStep2Desc'),
+      icon: <Sparkles className="h-6 w-6" />,
+      image: featureAiCampaign,
+      features: [
+        t('tourStep2Feature1'),
+        t('tourStep2Feature2'),
+        t('tourStep2Feature3')
+      ],
+      color: "from-purple-500 to-pink-500"
+    },
+    {
+      id: 3,
+      title: t('tourStep3Title'),
+      description: t('tourStep3Desc'),
+      icon: <BarChart3 className="h-6 w-6" />,
+      image: featureAnalytics,
+      features: [
+        t('tourStep3Feature1'),
+        t('tourStep3Feature2'),
+        t('tourStep3Feature3')
+      ],
+      color: "from-green-500 to-emerald-500"
+    },
+    {
+      id: 4,
+      title: t('tourStep4Title'),
+      description: t('tourStep4Desc'),
+      icon: <Calendar className="h-6 w-6" />,
+      image: "/hero-video.mp4",
+      features: [
+        t('tourStep4Feature1'),
+        t('tourStep4Feature2'),
+        t('tourStep4Feature3')
+      ],
+      color: "from-orange-500 to-red-500"
+    }
+  ];
+
   const step = tourSteps[currentStep];
   const progress = ((currentStep + 1) / tourSteps.length) * 100;
   const isLastStep = currentStep === tourSteps.length - 1;
@@ -120,14 +177,14 @@ export const InteractiveProductTour = () => {
         className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-lg hover:shadow-xl"
       >
         <Zap className="mr-2 h-5 w-5" />
-        Ta en rundtur
+        {t('takeATour')}
         <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
       </Button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-w-6xl h-[95vh] p-0 border-2 border-primary/20 flex flex-col bg-background overflow-hidden">
           <DialogTitle className="sr-only">
-            Interaktiv produktrundtur - Steg {currentStep + 1} av {tourSteps.length}
+            {t('interactiveDemo')} - {t('tourStep')} {currentStep + 1} {t('of')} {tourSteps.length}
           </DialogTitle>
           <DialogDescription className="sr-only">
             {step.description}
@@ -138,7 +195,7 @@ export const InteractiveProductTour = () => {
             <button
               onClick={handleClose}
               className="absolute right-4 top-4 rounded-full p-2 hover:bg-background/80 transition-colors z-10"
-              aria-label="Stäng"
+              aria-label={t('close')}
             >
               <X className="h-4 w-4" />
             </button>
@@ -149,7 +206,7 @@ export const InteractiveProductTour = () => {
               </div>
               <div>
                 <Badge variant="outline" className="mb-1.5 border-primary/30 bg-primary/5 text-xs">
-                  Steg {currentStep + 1} av {tourSteps.length}
+                  {t('tourStep')} {currentStep + 1} {t('of')} {tourSteps.length}
                 </Badge>
                 <h2 className="text-xl font-bold tracking-tight">{step.title}</h2>
               </div>
@@ -189,7 +246,7 @@ export const InteractiveProductTour = () => {
                       </div>
                       <div className="space-y-2">
                         <div className="inline-block px-4 py-2 bg-background/90 backdrop-blur-sm rounded-lg border shadow-sm">
-                          <p className="text-sm font-medium">Interaktiv demo</p>
+                          <p className="text-sm font-medium">{t('interactiveDemo')}</p>
                         </div>
                       </div>
                     </div>
@@ -206,7 +263,7 @@ export const InteractiveProductTour = () => {
 
               {/* Features List */}
               <div className="space-y-2">
-                <h3 className="font-semibold text-base">Nyckelfunktioner:</h3>
+                <h3 className="font-semibold text-base">{t('keyFeatures')}</h3>
                 <div className="grid gap-2">
                   {step.features.map((feature, index) => (
                     <div 
@@ -234,7 +291,7 @@ export const InteractiveProductTour = () => {
                 className="gap-2"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Föregående
+                {t('previous')}
               </Button>
 
               <div className="flex gap-2">
@@ -247,7 +304,7 @@ export const InteractiveProductTour = () => {
                         ? 'w-8 bg-primary' 
                         : 'w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
                     }`}
-                    aria-label={`Gå till steg ${index + 1}`}
+                    aria-label={`${t('goToStep')} ${index + 1}`}
                   />
                 ))}
               </div>
@@ -255,7 +312,7 @@ export const InteractiveProductTour = () => {
               {isLastStep ? (
                 <Link to="/auth" onClick={handleClose}>
                   <Button variant="animated" className="gap-2">
-                    Kom igång gratis
+                    {t('getStartedFree')}
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
@@ -265,7 +322,7 @@ export const InteractiveProductTour = () => {
                   variant="animated"
                   className="gap-2"
                 >
-                  Nästa
+                  {t('next')}
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               )}

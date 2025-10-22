@@ -6,8 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Clock, DollarSign, Zap, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export const ROICalculator = () => {
+  const { t } = useTranslation();
   const [eventsPerMonth, setEventsPerMonth] = useState(10);
   const [hoursPerCampaign, setHoursPerCampaign] = useState(3);
 
@@ -28,13 +30,13 @@ export const ROICalculator = () => {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <Badge variant="outline" className="border-primary/30 bg-primary/5 mb-4">
-              ROI Kalkylator
+              {t('roiCalculator')}
             </Badge>
             <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-              Beräkna din ROI med Spotlight
+              {t('calculateRoi')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Se hur mycket tid och pengar du kan spara genom att automatisera din eventmarknadsföring
+              {t('roiDescription')}
             </p>
           </div>
 
@@ -44,10 +46,10 @@ export const ROICalculator = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Zap className="h-5 w-5 text-primary" />
-                  Dina siffror
+                  {t('yourNumbers')}
                 </CardTitle>
                 <CardDescription>
-                  Justera värdena för att se din potentiella ROI
+                  {t('adjustValues')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-8">
@@ -55,7 +57,7 @@ export const ROICalculator = () => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="events" className="text-base font-semibold">
-                      Antal events per månad
+                      {t('eventsPerMonth')}
                     </Label>
                     <Badge variant="secondary" className="text-lg font-bold">
                       {eventsPerMonth}
@@ -71,7 +73,7 @@ export const ROICalculator = () => {
                     className="py-4"
                   />
                   <p className="text-xs text-muted-foreground">
-                    Genomsnittligt antal lokala events du skulle vilja marknadsföra mot
+                    {t('averageEvents')}
                   </p>
                 </div>
 
@@ -79,7 +81,7 @@ export const ROICalculator = () => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="hours" className="text-base font-semibold">
-                      Timmar per kampanj (manuellt)
+                      {t('hoursPerCampaign')}
                     </Label>
                     <Badge variant="secondary" className="text-lg font-bold">
                       {hoursPerCampaign}h
@@ -95,14 +97,14 @@ export const ROICalculator = () => {
                     className="py-4"
                   />
                   <p className="text-xs text-muted-foreground">
-                    Tid du spenderar på att hitta events, skapa kampanjtext och planera
+                    {t('timeSpentManual')}
                   </p>
                 </div>
 
                 <div className="pt-4 border-t">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Med Spotlight:</span>
-                    <span className="font-semibold text-primary">~15 min per kampanj</span>
+                    <span className="text-muted-foreground">{t('withSpotlight')}</span>
+                    <span className="font-semibold text-primary">{t('minPerCampaign')}</span>
                   </div>
                 </div>
               </CardContent>
@@ -113,10 +115,10 @@ export const ROICalculator = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-primary" />
-                  Din ROI
+                  {t('yourRoi')}
                 </CardTitle>
                 <CardDescription>
-                  Så här mycket kan du spara varje månad
+                  {t('savingsPerMonth')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -127,12 +129,12 @@ export const ROICalculator = () => {
                       <Clock className="h-5 w-5 text-primary" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm text-muted-foreground mb-1">Tid sparad</p>
+                      <p className="text-sm text-muted-foreground mb-1">{t('timeSaved')}</p>
                       <p className="text-3xl font-bold text-primary">
                         {totalTimeSaved.toFixed(1)}h
                       </p>
                       <p className="text-xs text-muted-foreground mt-1">
-                        {timeSavedPerCampaign.toFixed(1)}h per kampanj × {eventsPerMonth} events
+                        {timeSavedPerCampaign.toFixed(1)}h {t('perCampaign')} × {eventsPerMonth} {t('events')}
                       </p>
                     </div>
                   </div>
@@ -145,12 +147,12 @@ export const ROICalculator = () => {
                       <DollarSign className="h-5 w-5 text-primary" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm text-muted-foreground mb-1">Värde av sparad tid</p>
+                      <p className="text-sm text-muted-foreground mb-1">{t('valueOfTime')}</p>
                       <p className="text-3xl font-bold text-primary">
                         ${moneySavedOnTime.toFixed(0)}
                       </p>
                       <p className="text-xs text-muted-foreground mt-1">
-                        {totalTimeSaved.toFixed(1)}h × ${hourlyRate}/timme
+                        {totalTimeSaved.toFixed(1)}h × ${hourlyRate}{t('perHour')}
                       </p>
                     </div>
                   </div>
@@ -163,12 +165,12 @@ export const ROICalculator = () => {
                       <TrendingUp className="h-5 w-5 text-primary" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-medium mb-1">Nettobesparing per månad</p>
+                      <p className="text-sm font-medium mb-1">{t('netSavingsMonth')}</p>
                       <p className="text-4xl font-bold text-primary mb-1">
                         ${netSavings.toFixed(0)}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        Efter Spotlight-kostnad ($29/mån)
+                        {t('afterSpotlightCost')}
                       </p>
                       <div className="mt-3 pt-3 border-t border-primary/20">
                         <div className="flex items-center justify-between">
@@ -186,12 +188,12 @@ export const ROICalculator = () => {
                 <div className="pt-4">
                   <Link to="/auth" className="block">
                     <Button variant="animated" size="xl" className="w-full">
-                      Starta gratis & spara tid
+                      {t('startFreeAndSave')}
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </Link>
                   <p className="text-xs text-center text-muted-foreground mt-3">
-                    14 dagars gratis provperiod • Ingen bindningstid
+                    {t('freeTrialNoBind')}
                   </p>
                 </div>
               </CardContent>
@@ -201,8 +203,7 @@ export const ROICalculator = () => {
           {/* Additional context */}
           <div className="mt-12 text-center">
             <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-              * Beräkningarna baseras på en genomsnittlig timkostnad på ${hourlyRate} och Spotlights 
-              förmåga att reducera kampanjskapande från {hoursPerCampaign}h till ~15 minuter med AI-automation.
+              {t('roiDisclaimer')}
             </p>
           </div>
         </div>

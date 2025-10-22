@@ -4,8 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Mail, CheckCircle2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 export const NewsletterSignup = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -14,7 +16,7 @@ export const NewsletterSignup = () => {
     e.preventDefault();
     
     if (!email || !email.includes("@")) {
-      toast.error("Vänligen ange en giltig e-postadress");
+      toast.error(t('newsletterInvalidEmail'));
       return;
     }
 
@@ -34,10 +36,10 @@ export const NewsletterSignup = () => {
       if (error) throw error;
 
       setIsSubmitted(true);
-      toast.success("Tack! Du är nu prenumerant.");
+      toast.success(t('newsletterThankYou'));
     } catch (error) {
       console.error("Newsletter signup error:", error);
-      toast.error("Något gick fel. Försök igen.");
+      toast.error(t('newsletterError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -47,7 +49,7 @@ export const NewsletterSignup = () => {
     return (
       <div className="flex items-center justify-center gap-3 text-primary">
         <CheckCircle2 className="h-6 w-6" />
-        <p className="font-medium">Du är nu prenumerant på vårt nyhetsbrev!</p>
+        <p className="font-medium">{t('newsletterSuccess')}</p>
       </div>
     );
   }
@@ -58,7 +60,7 @@ export const NewsletterSignup = () => {
         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <Input
           type="email"
-          placeholder="Din e-postadress"
+          placeholder={t('newsletterEmailPlaceholder')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="pl-10"
@@ -70,7 +72,7 @@ export const NewsletterSignup = () => {
         disabled={isSubmitting}
         className="whitespace-nowrap"
       >
-        {isSubmitting ? "Prenumererar..." : "Prenumerera"}
+        {isSubmitting ? t('newsletterSubscribing') : t('newsletterSubscribe')}
       </Button>
     </form>
   );

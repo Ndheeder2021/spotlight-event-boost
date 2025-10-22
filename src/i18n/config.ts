@@ -238,6 +238,99 @@ const resources = {
       allPlansInclude: "Alla planer inkluderar 14 dagars gratis provperiod",
       everythingYouNeed: "Allt du behöver veta om Spotlight. Hittar du inte svaret du söker? Kontakta oss gärna!",
       startToday: "Börja idag",
+
+      // ROI Calculator
+      roiCalculator: "ROI Kalkylator",
+      calculateRoi: "Beräkna din ROI med Spotlight",
+      roiDescription: "Se hur mycket tid och pengar du kan spara genom att automatisera din eventmarknadsföring",
+      yourNumbers: "Dina siffror",
+      adjustValues: "Justera värdena för att se din potentiella ROI",
+      eventsPerMonth: "Antal events per månad",
+      averageEvents: "Genomsnittligt antal lokala events du skulle vilja marknadsföra mot",
+      hoursPerCampaign: "Timmar per kampanj (manuellt)",
+      timeSpentManual: "Tid du spenderar på att hitta events, skapa kampanjtext och planera",
+      withSpotlight: "Med Spotlight:",
+      minPerCampaign: "~15 min per kampanj",
+      yourRoi: "Din ROI",
+      savingsPerMonth: "Så här mycket kan du spara varje månad",
+      timeSaved: "Tid sparad",
+      perCampaign: "per kampanj",
+      events: "events",
+      valueOfTime: "Värde av sparad tid",
+      perHour: "/timme",
+      netSavingsMonth: "Nettobesparing per månad",
+      afterSpotlightCost: "Efter Spotlight-kostnad ($29/mån)",
+      startFreeAndSave: "Starta gratis & spara tid",
+      freeTrialNoBind: "14 dagars gratis provperiod • Ingen bindningstid",
+      roiDisclaimer: "* Beräkningarna baseras på en genomsnittlig timkostnad på $50 och Spotlights förmåga att reducera kampanjskapande från 3h till ~15 minuter med AI-automation.",
+
+      // Product Tour
+      takeATour: "Ta en rundtur",
+      tourStep: "Steg",
+      of: "av",
+      previous: "Föregående",
+      next: "Nästa",
+      tools: "Verktyg",
+      
+      tourStep1Title: "Upptäck lokala evenemang automatiskt",
+      tourStep1Desc: "Spotlight övervakar kontinuerligt alla evenemang i ditt område och notifierar dig när det händer något relevant för din verksamhet.",
+      tourStep1Feature1: "Realtidsbevakning av 10,000+ evenemang",
+      tourStep1Feature2: "Filtrera efter typ, storlek och avstånd",
+      tourStep1Feature3: "Direkta notiser vid nya events",
+
+      tourStep2Title: "AI skapar kampanjer på 60 sekunder",
+      tourStep2Desc: "Välj ett evenemang och låt vår AI generera professionella, skräddarsydda kampanjtexter som matchar din målgrupp och varumärke.",
+      tourStep2Feature1: "ChatGPT-driven copywriting",
+      tourStep2Feature2: "Anpassat efter din bransch",
+      tourStep2Feature3: "Flera varianter att välja mellan",
+
+      tourStep3Title: "Spåra och optimera dina resultat",
+      tourStep3Desc: "Se exakt hur dina kampanjer presterar med detaljerad analytics, ROI-tracking och A/B-testning i realtid.",
+      tourStep3Feature1: "Real-time analytics dashboard",
+      tourStep3Feature2: "ROI-beräkning per kampanj",
+      tourStep3Feature3: "A/B-testning för optimering",
+
+      tourStep4Title: "Planera framåt med Event Calendar",
+      tourStep4Desc: "Få full översikt över kommande evenemang och planera dina kampanjer i förväg för maximalt genomslag.",
+      tourStep4Feature1: "Kalendervy över alla events",
+      tourStep4Feature2: "Prognoser för kundflöde",
+      tourStep4Feature3: "Automatiska påminnelser",
+
+      keyFeatures: "Nyckelfunktioner:",
+      interactiveDemo: "Interaktiv demo",
+
+      // Newsletter
+      newsletterEmailPlaceholder: "Din e-postadress",
+      newsletterSubscribe: "Prenumerera",
+      newsletterSubscribing: "Prenumererar...",
+      newsletterSuccess: "Du är nu prenumerant på vårt nyhetsbrev!",
+      newsletterError: "Något gick fel. Försök igen.",
+      newsletterInvalidEmail: "Vänligen ange en giltig e-postadress",
+      newsletterThankYou: "Tack! Du är nu prenumerant.",
+
+      // Trust Badge
+      trustedByLocal: "BETRODD AV LOKALA FÖRETAG ÖVER HELA SVERIGE",
+
+      // Header Menu Items
+      product: "Produkt",
+      solution: "Lösning",
+      more: "Mer",
+      pricesPerks: "Prices & Perks",
+      pricesBenefits: "Priser & Förmåner",
+      blog: "Blog",
+      caseStudies: "Case Studies",
+      referFriend: "Refer a Friend",
+      affiliate: "Affiliate",
+      investors: "Investerare",
+
+      // FAQ Page Titles
+      moreQuestions: "Har du fler frågor?",
+      supportTeamHelp: "Vårt supportteam är här för att hjälpa dig. Tveka inte att höra av dig!",
+      contactSupportButton: "Contact Support",
+      
+      // Close/Actions
+      close: "Stäng",
+      goToStep: "Gå till steg",
     }
   },
   en: {
@@ -475,6 +568,99 @@ const resources = {
       allPlansInclude: "All plans include 14-day free trial",
       everythingYouNeed: "Everything you need to know about Spotlight. Can't find the answer you're looking for? Feel free to contact us!",
       startToday: "Start today",
+
+      // ROI Calculator
+      roiCalculator: "ROI Calculator",
+      calculateRoi: "Calculate Your ROI with Spotlight",
+      roiDescription: "See how much time and money you can save by automating your event marketing",
+      yourNumbers: "Your Numbers",
+      adjustValues: "Adjust values to see your potential ROI",
+      eventsPerMonth: "Events per month",
+      averageEvents: "Average number of local events you'd like to market to",
+      hoursPerCampaign: "Hours per campaign (manual)",
+      timeSpentManual: "Time spent finding events, creating campaign copy and planning",
+      withSpotlight: "With Spotlight:",
+      minPerCampaign: "~15 min per campaign",
+      yourRoi: "Your ROI",
+      savingsPerMonth: "How much you can save each month",
+      timeSaved: "Time saved",
+      perCampaign: "per campaign",
+      events: "events",
+      valueOfTime: "Value of saved time",
+      perHour: "/hour",
+      netSavingsMonth: "Net savings per month",
+      afterSpotlightCost: "After Spotlight cost ($29/month)",
+      startFreeAndSave: "Start Free & Save Time",
+      freeTrialNoBind: "14-day free trial • No commitment",
+      roiDisclaimer: "* Calculations based on an average hourly rate of $50 and Spotlight's ability to reduce campaign creation from 3h to ~15 minutes with AI automation.",
+
+      // Product Tour
+      takeATour: "Take a Tour",
+      tourStep: "Step",
+      of: "of",
+      previous: "Previous",
+      next: "Next",
+      tools: "Tools",
+      
+      tourStep1Title: "Discover local events automatically",
+      tourStep1Desc: "Spotlight continuously monitors all events in your area and notifies you when something relevant happens for your business.",
+      tourStep1Feature1: "Real-time monitoring of 10,000+ events",
+      tourStep1Feature2: "Filter by type, size and distance",
+      tourStep1Feature3: "Direct notifications for new events",
+
+      tourStep2Title: "AI creates campaigns in 60 seconds",
+      tourStep2Desc: "Choose an event and let our AI generate professional, customized campaign texts that match your target audience and brand.",
+      tourStep2Feature1: "ChatGPT-driven copywriting",
+      tourStep2Feature2: "Adapted to your industry",
+      tourStep2Feature3: "Multiple variants to choose from",
+
+      tourStep3Title: "Track and optimize your results",
+      tourStep3Desc: "See exactly how your campaigns perform with detailed analytics, ROI tracking and real-time A/B testing.",
+      tourStep3Feature1: "Real-time analytics dashboard",
+      tourStep3Feature2: "ROI calculation per campaign",
+      tourStep3Feature3: "A/B testing for optimization",
+
+      tourStep4Title: "Plan ahead with Event Calendar",
+      tourStep4Desc: "Get a full overview of upcoming events and plan your campaigns in advance for maximum impact.",
+      tourStep4Feature1: "Calendar view of all events",
+      tourStep4Feature2: "Customer flow forecasts",
+      tourStep4Feature3: "Automatic reminders",
+
+      keyFeatures: "Key Features:",
+      interactiveDemo: "Interactive demo",
+
+      // Newsletter
+      newsletterEmailPlaceholder: "Your email address",
+      newsletterSubscribe: "Subscribe",
+      newsletterSubscribing: "Subscribing...",
+      newsletterSuccess: "You are now subscribed to our newsletter!",
+      newsletterError: "Something went wrong. Please try again.",
+      newsletterInvalidEmail: "Please enter a valid email address",
+      newsletterThankYou: "Thank you! You are now subscribed.",
+
+      // Trust Badge
+      trustedByLocal: "TRUSTED BY LOCAL BUSINESSES ACROSS SWEDEN",
+
+      // Header Menu Items
+      product: "Product",
+      solution: "Solution",
+      more: "More",
+      pricesPerks: "Prices & Perks",
+      pricesBenefits: "Prices & Benefits",
+      blog: "Blog",
+      caseStudies: "Case Studies",
+      referFriend: "Refer a Friend",
+      affiliate: "Affiliate",
+      investors: "Investors",
+
+      // FAQ Page Titles
+      moreQuestions: "Have more questions?",
+      supportTeamHelp: "Our support team is here to help you. Don't hesitate to reach out!",
+      contactSupportButton: "Contact Support",
+      
+      // Close/Actions
+      close: "Close",
+      goToStep: "Go to step",
     }
   }
 };

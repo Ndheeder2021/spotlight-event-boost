@@ -50,13 +50,13 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
   const publicNavItems: { title: string; url: string; icon: any }[] = [];
 
   const productItems = [
-    { title: "Lösning", url: "/solution", icon: Zap },
-    { title: "Hur det fungerar", url: "/how-it-works", icon: BookOpen },
+    { title: t('solution'), url: "/solution", icon: Zap },
+    { title: t('howItWorks'), url: "/how-it-works", icon: BookOpen },
   ];
 
   const blogItems = [
-    { title: "Blog", url: "/blog", icon: BookOpen },
-    { title: "Case Studies", url: "/case-studies", icon: BarChart },
+    { title: t('blog'), url: "/blog", icon: BookOpen },
+    { title: t('caseStudies'), url: "/case-studies", icon: BarChart },
   ];
 
   const authenticatedNavItems = [
@@ -73,10 +73,10 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
   ];
 
   const pricesPerksItems = [
-    { title: "Priser", url: "/pricing", icon: DollarSign },
-    { title: "Refer a Friend", url: "/refer-a-friend", icon: Gift },
-    { title: "Affiliate", url: "/affiliate", icon: Users },
-    { title: "Investerare", url: "/investors", icon: TrendingUp },
+    { title: t('pricing'), url: "/pricing", icon: DollarSign },
+    { title: t('referFriend'), url: "/refer-a-friend", icon: Gift },
+    { title: t('affiliate'), url: "/affiliate", icon: Users },
+    { title: t('investors'), url: "/investors", icon: TrendingUp },
   ];
 
   useEffect(() => {
@@ -177,7 +177,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       variant="ghost" 
                       className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
                     >
-                      <span>Mer</span>
+                      <span>{t('more')}</span>
                       <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
                       <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </Button>
@@ -188,7 +188,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                     sideOffset={12}
                   >
                   <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
-                    Verktyg
+                    {t('tools')}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="my-2" />
                   {moreMenuItems.map((item, index) => (
@@ -233,7 +233,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                         variant="ghost" 
                         className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
                       >
-                        <span>Produkt</span>
+                        <span>{t('product')}</span>
                         <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </Button>
@@ -244,7 +244,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       sideOffset={12}
                     >
                   <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
-                    Produkt
+                    {t('product')}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="my-2" />
                   {productItems.map((item, index) => (
@@ -271,7 +271,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                         variant="ghost" 
                         className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
                       >
-                        <span>Blog</span>
+                        <span>{t('blog')}</span>
                         <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </Button>
@@ -282,7 +282,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       sideOffset={12}
                     >
                   <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
-                    Blog
+                    {t('blog')}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="my-2" />
                   {blogItems.map((item, index) => (
@@ -309,7 +309,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                         variant="ghost" 
                         className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
                       >
-                        <span>Prices & Perks</span>
+                        <span>{t('pricesPerks')}</span>
                         <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </Button>
@@ -320,7 +320,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       sideOffset={12}
                     >
                   <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
-                    Priser & Förmåner
+                    {t('pricesBenefits')}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="my-2" />
                   {pricesPerksItems.map((item, index) => (
