@@ -226,6 +226,26 @@ const resources = {
       // Newsletter
       newsletterTitle: "Få marknadsföringstips direkt i din inkorg",
       newsletterDesc: "Prenumerera på vårt nyhetsbrev och få exklusiva tips, case studies och branschinsikter.",
+      newsletterIndexTitle: "Få insikter, strategier och tips direkt i din inkorg. Gratis.",
+      newsletterIndexDisclaimer: "Vi respekterar din integritet. Avsluta prenumerationen när som helst.",
+      
+      // Footer
+      footerDescription: "Automatisera din eventdrivna marknadsföring och öka försäljningen med AI.",
+      footerProduct: "Produkt",
+      footerSolution: "Lösning",
+      footerHowItWorks: "Hur det fungerar",
+      footerPricing: "Priser",
+      footerResources: "Resurser",
+      footerBlog: "Blogg",
+      footerCaseStudies: "Case Studies",
+      footerContact: "Kontakt",
+      footerInvestors: "Investerare",
+      footerLegal: "Juridiskt",
+      footerPrivacy: "Integritetspolicy",
+      footerGDPR: "GDPR",
+      footerTerms: "Användarvillkor",
+      footerCookies: "Cookies",
+      footerCopyright: "© 2025 Spotlight. Alla rättigheter reserverade.",
       
       // Other sections
       everythingInOnePlace: "Allt du behöver på ett ställe",
@@ -1108,6 +1128,26 @@ const resources = {
       // Newsletter
       newsletterTitle: "Get marketing tips straight to your inbox",
       newsletterDesc: "Subscribe to our newsletter and receive exclusive tips, case studies, and industry insights.",
+      newsletterIndexTitle: "Get insights, strategies and tips straight to your inbox. Free.",
+      newsletterIndexDisclaimer: "We respect your privacy. Unsubscribe at any time.",
+      
+      // Footer
+      footerDescription: "Automate your event-driven marketing and increase sales with AI.",
+      footerProduct: "Product",
+      footerSolution: "Solution",
+      footerHowItWorks: "How It Works",
+      footerPricing: "Pricing",
+      footerResources: "Resources",
+      footerBlog: "Blog",
+      footerCaseStudies: "Case Studies",
+      footerContact: "Contact",
+      footerInvestors: "Investors",
+      footerLegal: "Legal",
+      footerPrivacy: "Privacy Policy",
+      footerGDPR: "GDPR",
+      footerTerms: "Terms of Service",
+      footerCookies: "Cookies",
+      footerCopyright: "© 2025 Spotlight. All rights reserved.",
       
       // Other sections
       everythingInOnePlace: "Everything you need in one place",

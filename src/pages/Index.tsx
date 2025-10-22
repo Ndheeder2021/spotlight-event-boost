@@ -1351,11 +1351,11 @@ const Index = () => {
               Få event marketing tips varje vecka
             </h2>
             <p className="text-lg text-muted-foreground">
-              Få insikter, strategier och tips direkt i din inkorg. Gratis.
+              {t('newsletterIndexTitle')}
             </p>
             <NewsletterSignup />
             <p className="text-sm text-muted-foreground">
-              Vi respekterar din integritet. Avsluta prenumerationen när som helst.
+              {t('newsletterIndexDisclaimer')}
             </p>
           </div>
         </div>

@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { Zap, Linkedin, Facebook, X, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 export function Footer() {
+  const { t } = useTranslation();
   return (
     <footer className="border-t py-16 bg-gradient-to-br from-muted/30 via-background to-muted/30" role="contentinfo">
       <div className="container mx-auto px-4">
@@ -20,28 +22,28 @@ export function Footer() {
             <span className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent hover-underline">Spotlight</span>
           </Link>
             <p className="text-base text-muted-foreground leading-relaxed">
-              Automatisera din eventdrivna marknadsföring och öka försäljningen med AI.
+              {t('footerDescription')}
             </p>
           </div>
 
           {/* Product */}
           <div>
-            <h3 className="font-bold text-lg mb-6">Produkt</h3>
+            <h3 className="font-bold text-lg mb-6">{t('footerProduct')}</h3>
             <nav aria-label="Produkt navigation">
               <ul className="space-y-4">
               <li>
                 <Link to="/solution" className="text-base text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block">
-                  Lösning
+                  {t('footerSolution')}
                 </Link>
               </li>
               <li>
                 <Link to="/how-it-works" className="text-base text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block">
-                  Hur det fungerar
+                  {t('footerHowItWorks')}
                 </Link>
               </li>
               <li>
                 <Link to="/pricing" className="text-base text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block">
-                  Priser
+                  {t('footerPricing')}
                 </Link>
               </li>
               </ul>
@@ -50,27 +52,27 @@ export function Footer() {
 
           {/* Resources */}
           <div>
-            <h3 className="font-bold text-lg mb-6">Resurser</h3>
+            <h3 className="font-bold text-lg mb-6">{t('footerResources')}</h3>
             <nav aria-label="Resurser navigation">
               <ul className="space-y-4">
               <li>
                 <Link to="/blog" className="text-base text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block">
-                  Blogg
+                  {t('footerBlog')}
                 </Link>
               </li>
               <li>
                 <Link to="/case-studies" className="text-base text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block">
-                  Case Studies
+                  {t('footerCaseStudies')}
                 </Link>
               </li>
               <li>
                 <Link to="/contact" className="text-base text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block">
-                  Kontakt
+                  {t('footerContact')}
                 </Link>
               </li>
               <li>
                 <Link to="/investors" className="text-base text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block">
-                  Investerare
+                  {t('footerInvestors')}
                 </Link>
               </li>
               </ul>
@@ -79,27 +81,27 @@ export function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="font-bold text-lg mb-6">Juridiskt</h3>
+            <h3 className="font-bold text-lg mb-6">{t('footerLegal')}</h3>
             <nav aria-label="Juridiskt navigation">
               <ul className="space-y-4">
               <li>
                 <Link to="/privacy" className="text-base text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block">
-                  Integritetspolicy
+                  {t('footerPrivacy')}
                 </Link>
               </li>
               <li>
                 <Link to="/gdpr" className="text-base text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block">
-                  GDPR
+                  {t('footerGDPR')}
                 </Link>
               </li>
               <li>
                 <Link to="/terms" className="text-base text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block">
-                  Användarvillkor
+                  {t('footerTerms')}
                 </Link>
               </li>
               <li>
                 <Link to="/cookies" className="text-base text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 inline-block">
-                  Cookies
+                  {t('footerCookies')}
                 </Link>
               </li>
               </ul>
@@ -137,7 +139,7 @@ export function Footer() {
 
           {/* Copyright */}
           <p className="text-base text-muted-foreground">
-            © 2025 Spotlight. Alla rättigheter reserverade.
+            {t('footerCopyright')}
           </p>
         </div>
       </div>

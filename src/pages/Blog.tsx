@@ -8,8 +8,10 @@ import { SkeletonBlogCard, SkeletonHero } from "@/components/ui/skeleton-card";
 import { toast } from "sonner";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import { blogPosts } from "@/data/blogData";
+import { useTranslation } from "react-i18next";
 
 export default function Blog() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -248,16 +250,16 @@ export default function Blog() {
       <section className="container mx-auto px-4 py-20">
         <div className="max-w-4xl mx-auto text-center space-y-6 glass-card p-12 rounded-3xl border-2">
           <h2 className="text-3xl md:text-4xl font-bold">
-            Få de senaste insikterna direkt i inboxen
+            {t('blogNewsletterTitle')}
           </h2>
           <p className="text-lg text-muted-foreground">
-            Prenumerera på vårt nyhetsbrev och få värdefulla tips om eventdriven marknadsföring varje vecka.
+            {t('blogNewsletterDesc')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 w-full">
               <input
                 type="email"
-                placeholder="Din e-postadress"
+                placeholder={t('newsletterEmailPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 px-4 py-3 rounded-lg border-2 bg-background focus:border-accent outline-none transition-colors"
@@ -268,7 +270,7 @@ export default function Blog() {
                 className="px-6 py-3 bg-accent hover:bg-accent-glow text-primary-foreground font-semibold rounded-lg transition-all hover:scale-105 flex items-center justify-center gap-2"
               >
                 <Mail className="h-4 w-4" />
-                Prenumerera
+                {t('blogSubscribe')}
               </button>
             </form>
           </div>
