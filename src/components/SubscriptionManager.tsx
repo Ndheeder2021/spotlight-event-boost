@@ -172,8 +172,11 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
             }`}
           >
             {t('yearly')}
-            <span className="px-2 py-1 bg-accent/20 text-accent text-xs font-bold rounded-full">
-              {t('saveMoney')}
+            <span className="relative px-3 py-1.5 bg-gradient-to-r from-accent to-accent-glow text-primary-foreground text-xs font-bold rounded-full animate-pulse shadow-glow hover-scale">
+              <span className="relative z-10 flex items-center gap-1">
+                💰 {t('saveMoney')}
+              </span>
+              <span className="absolute inset-0 rounded-full bg-accent/30 animate-[ping_2s_ease-in-out_infinite]"></span>
             </span>
           </button>
         </div>
