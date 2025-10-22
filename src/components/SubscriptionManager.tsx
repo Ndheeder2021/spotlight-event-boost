@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Check, Crown, Sparkles, Zap, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import type { PlanType } from "@/hooks/usePlanFeatures";
 
 interface SubscriptionManagerProps {
@@ -83,6 +84,7 @@ const planDetails = {
 };
 
 export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: SubscriptionManagerProps) {
+  const { t } = useTranslation();
   const [updating, setUpdating] = useState<PlanType | null>(null);
   const [stripeSubscription, setStripeSubscription] = useState<StripeSubscription | null>(null);
   const [loadingStripe, setLoadingStripe] = useState(true);
@@ -109,14 +111,14 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
   const handlePlanChange = async (newPlan: PlanType) => {
     if (newPlan === currentPlan) return;
     if (newPlan === "enterprise") {
-      toast.info("Kontakta oss för Enterprise-planen");
+      toast.info(t('contactUsForEnterprise'));
       return;
     }
 
     setUpdating(newPlan);
     try {
       const priceId = isYearly ? planDetails[newPlan].yearlyPriceId : planDetails[newPlan].monthlyPriceId;
-      if (!priceId) throw new Error("Pris-ID saknas");
+      if (!priceId) throw new Error(t('priceIdMissing'));
 
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: { priceId }
@@ -126,10 +128,10 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
       
       if (data?.url) {
         window.open(data.url, '_blank');
-        toast.success("Öppnar Stripe Checkout i ny flik...");
+        toast.success(t('openingStripeCheckout'));
       }
     } catch (error: any) {
-      toast.error("Kunde inte öppna checkout: " + error.message);
+      toast.error(t('couldNotOpenCheckout') + error.message);
     } finally {
       setUpdating(null);
     }
@@ -143,10 +145,10 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
       
       if (data?.url) {
         window.open(data.url, '_blank');
-        toast.success("Öppnar Stripe Customer Portal...");
+        toast.success(t('openingStripePortal'));
       }
     } catch (error: any) {
-      toast.error("Kunde inte öppna portalen: " + error.message);
+      toast.error(t('couldNotOpenPortal') + error.message);
     }
   };
 
@@ -161,7 +163,7 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
               !isYearly ? 'bg-background shadow-sm font-medium' : 'text-muted-foreground'
             }`}
           >
-            Månadsvis
+            {t('monthly')}
           </button>
           <button
             onClick={() => setIsYearly(true)}
@@ -169,23 +171,23 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
               isYearly ? 'bg-background shadow-sm font-medium' : 'text-muted-foreground'
             }`}
           >
-            Årsvis
+            {t('yearly')}
             <span className="px-2 py-1 bg-accent/20 text-accent text-xs font-bold rounded-full">
-              Spara pengar
+              {t('saveMoney')}
             </span>
           </button>
         </div>
       </div>
 
       <div>
-        <h3 className="text-lg font-semibold mb-2">Ditt nuvarande abonnemang</h3>
+        <h3 className="text-lg font-semibold mb-2">{t('yourCurrentSubscription')}</h3>
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <p className="text-2xl font-bold capitalize">{planDetails[currentPlan].name}</p>
             {currentPlan !== "starter" && (
               <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-accent/20 text-accent text-xs font-bold">
                 <Crown className="h-3 w-3" />
-                PREMIUM
+                {t('premium')}
               </div>
             )}
           </div>
@@ -194,12 +196,12 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
             <div className="flex flex-col gap-1 text-sm text-muted-foreground">
               {stripeSubscription.trial && (
                 <p className="text-accent font-medium">
-                  🎉 Provperiod aktiv till {stripeSubscription.trial_end ? new Date(stripeSubscription.trial_end).toLocaleDateString('sv-SE') : 'N/A'}
+                  🎉 {t('trialActiveUntil', { date: stripeSubscription.trial_end ? new Date(stripeSubscription.trial_end).toLocaleDateString(t('locale')) : 'N/A' })}
                 </p>
               )}
               {stripeSubscription.subscribed && !stripeSubscription.trial && (
                 <p>
-                  Nästa betalning: {stripeSubscription.subscription_end ? new Date(stripeSubscription.subscription_end).toLocaleDateString('sv-SE') : 'N/A'}
+                  {t('nextPayment')}: {stripeSubscription.subscription_end ? new Date(stripeSubscription.subscription_end).toLocaleDateString(t('locale')) : 'N/A'}
                 </p>
               )}
               {stripeSubscription.subscribed && (
@@ -210,7 +212,7 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                   className="w-fit mt-2"
                 >
                   <ExternalLink className="h-4 w-4 mr-2" />
-                  Hantera prenumeration
+                  {t('manageSubscription')}
                 </Button>
               )}
             </div>
@@ -240,12 +242,12 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
             >
               {isCurrent && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-accent to-accent-glow text-primary-foreground text-xs font-bold rounded-full">
-                  NUVARANDE PLAN
+                  {t('currentPlan')}
                 </div>
               )}
               {plan === "professional" && !isCurrent && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-accent to-accent-glow text-primary-foreground text-xs font-bold rounded-full">
-                  MEST POPULÄR
+                  {t('mostPopular')}
                 </div>
               )}
               <CardHeader className="text-center pb-6">
@@ -293,11 +295,11 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                       className="w-full"
                     >
                       {updating === plan ? (
-                        "Öppnar..."
+                        t('opening')
                       ) : (
                         <>
                           <Crown className="h-4 w-4 mr-2" />
-                          Prova gratis
+                          {t('tryFree')}
                         </>
                       )}
                     </Button>
@@ -307,9 +309,9 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                       variant="outline"
                       size="lg"
                       className="w-full"
-                      onClick={() => toast.info("Kontakta oss på info@spotlight.se för Enterprise-planen")}
+                      onClick={() => toast.info(t('contactUsForEnterpriseEmail'))}
                     >
-                      Kontakta oss
+                      {t('contactUs')}
                     </Button>
                   )}
                   {isCurrent && plan !== "enterprise" && stripeSubscription?.subscribed && (
@@ -320,7 +322,7 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                       className="w-full"
                     >
                       <ExternalLink className="h-4 w-4 mr-2" />
-                      Hantera
+                      {t('manage')}
                     </Button>
                   )}
                 </div>

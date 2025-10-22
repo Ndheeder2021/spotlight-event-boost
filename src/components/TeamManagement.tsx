@@ -119,7 +119,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
       }
     } catch (error: any) {
       console.error("Error loading team:", error);
-      toast.error("Kunde inte ladda team-data");
+      toast.error(t('couldNotLoadTeamData'));
     } finally {
       setLoading(false);
     }
@@ -127,12 +127,12 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
 
   const handleInvite = async () => {
     if (!newEmail.trim()) {
-      toast.error("Ange en e-postadress");
+      toast.error(t('enterEmailAddress'));
       return;
     }
 
     if (!canInvite) {
-      toast.error(`Din plan tillåter max ${maxUsers} användare`);
+      toast.error(t('planMaxUsers', { maxUsers }));
       return;
     }
 
@@ -155,7 +155,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
 
       if (error) throw error;
 
-      toast.success(`Inbjudan skickad till ${newEmail}`);
+      toast.success(t('invitationSentTo', { email: newEmail }));
       setNewEmail("");
       loadTeamData();
     } catch (error: any) {
@@ -167,7 +167,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
 
   const handleRemoveMember = async (userId: string) => {
     if (userId === currentUserId) {
-      toast.error("Du kan inte ta bort dig själv");
+      toast.error(t('cannotRemoveYourself'));
       return;
     }
 
@@ -180,7 +180,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
 
       if (error) throw error;
 
-      toast.success("Användare borttagen");
+      toast.success(t('userRemoved'));
       loadTeamData();
     } catch (error: any) {
       toast.error(error.message);
@@ -196,7 +196,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
 
       if (error) throw error;
 
-      toast.success("Inbjudan avbruten");
+      toast.success(t('invitationCancelled'));
       loadTeamData();
     } catch (error: any) {
       toast.error(error.message);
@@ -208,7 +208,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
       <div className="flex items-center justify-center p-12">
         <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-card">
           <Sparkles className="h-6 w-6 animate-spin text-primary" />
-          <p className="text-lg font-medium">Laddar team...</p>
+          <p className="text-lg font-medium">{t('loadingTeam')}</p>
         </div>
       </div>
     );
@@ -224,10 +224,10 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
             </div>
             <div className="flex-1">
               <CardTitle className="text-xl font-bold gradient-text">
-                Bjud in teammedlemmar
+                {t('inviteTeamMembers')}
               </CardTitle>
               <CardDescription className="text-base flex items-center gap-2 mt-1">
-                Du har <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">{currentUserCount}/{maxUsers}</Badge> användare i ditt team
+                {t('youHaveUsersInTeam', { current: currentUserCount, max: maxUsers })}
               </CardDescription>
             </div>
           </div>
@@ -235,11 +235,11 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-2 space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium">E-postadress</Label>
+              <Label htmlFor="email" className="text-sm font-medium">{t('emailAddress')}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="kollega@företag.se"
+                placeholder={t('emailPlaceholder')}
                 value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
                 disabled={!canInvite || inviting}
@@ -247,7 +247,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="role" className="text-sm font-medium">Roll</Label>
+              <Label htmlFor="role" className="text-sm font-medium">{t('role')}</Label>
               <Select
                 value={newRole}
                 onValueChange={(value: any) => setNewRole(value)}
@@ -279,12 +279,12 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
             className="w-full h-11 hover-scale"
           >
             <UserPlus className="h-4 w-4 mr-2" />
-            {inviting ? "Skickar..." : "Skicka inbjudan"}
+            {inviting ? t('sending') : t('sendInvitation')}
           </Button>
           {!canInvite && (
             <div className="p-3 rounded-lg glass-card border-destructive/30 bg-destructive/5">
               <p className="text-sm text-destructive font-medium">
-                Du har nått maxgränsen för din plan. Uppgradera för fler användare.
+                {t('planLimitReached')}
               </p>
             </div>
           )}
@@ -298,10 +298,10 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
               <Users className="h-5 w-5 text-accent" />
             </div>
             <div className="flex-1">
-              <CardTitle className="text-xl font-bold gradient-text">Teammedlemmar</CardTitle>
+              <CardTitle className="text-xl font-bold gradient-text">{t('teamMembers')}</CardTitle>
               <CardDescription className="text-base mt-1">
                 <Badge variant="secondary" className="bg-accent/10 text-accent border-accent/20">
-                  {members.length} {members.length === 1 ? "medlem" : "medlemmar"}
+                  {t('memberCount', { count: members.length })}
                 </Badge>
               </CardDescription>
             </div>
@@ -312,10 +312,10 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-accent/5">
-                  <TableHead className="font-semibold">E-post</TableHead>
-                  <TableHead className="font-semibold">Roll</TableHead>
-                  <TableHead className="font-semibold">Tillagd</TableHead>
-                  <TableHead className="text-right font-semibold">Åtgärder</TableHead>
+                  <TableHead className="font-semibold">{t('email')}</TableHead>
+                  <TableHead className="font-semibold">{t('role')}</TableHead>
+                  <TableHead className="font-semibold">{t('addedOn')}</TableHead>
+                  <TableHead className="text-right font-semibold">{t('actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -363,10 +363,10 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
                 <Mail className="h-5 w-5 text-warning" />
               </div>
               <div className="flex-1">
-                <CardTitle className="text-xl font-bold gradient-text">Väntande inbjudningar</CardTitle>
+                <CardTitle className="text-xl font-bold gradient-text">{t('pendingInvitations')}</CardTitle>
                 <CardDescription className="text-base mt-1">
                   <Badge variant="secondary" className="bg-warning/10 text-warning border-warning/20">
-                    {invitations.length} {invitations.length === 1 ? "inbjudan" : "inbjudningar"}
+                    {t('invitationCount', { count: invitations.length })}
                   </Badge>
                 </CardDescription>
               </div>
@@ -377,10 +377,10 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
               <Table>
                 <TableHeader>
                   <TableRow className="hover:bg-accent/5">
-                    <TableHead className="font-semibold">E-post</TableHead>
-                    <TableHead className="font-semibold">Roll</TableHead>
-                    <TableHead className="font-semibold">Utgår</TableHead>
-                    <TableHead className="text-right font-semibold">Åtgärder</TableHead>
+                    <TableHead className="font-semibold">{t('email')}</TableHead>
+                    <TableHead className="font-semibold">{t('role')}</TableHead>
+                    <TableHead className="font-semibold">{t('expires')}</TableHead>
+                    <TableHead className="text-right font-semibold">{t('actions')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -431,7 +431,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
             <div className="p-2 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10">
               <Sparkles className="h-4 w-4 text-accent" />
             </div>
-            <CardTitle className="text-base font-semibold gradient-text">Rollbeskrivningar</CardTitle>
+            <CardTitle className="text-base font-semibold gradient-text">{t('roleDescriptions')}</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="space-y-4 text-sm">
@@ -440,7 +440,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
               <Crown className="h-4 w-4 text-primary flex-shrink-0" />
             </div>
             <div>
-              <strong className="text-foreground">Ägare:</strong> <span className="text-muted-foreground">Full tillgång till allt inklusive fakturering, inställningar, analytics och team-hantering</span>
+              <strong className="text-foreground">{t('ownerRole')}:</strong> <span className="text-muted-foreground">{t('ownerRoleDesc')}</span>
             </div>
           </div>
           <div className="flex gap-3 p-3 rounded-lg glass-card border-border/50 hover:border-accent/30 transition-colors">
@@ -448,7 +448,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
               <Edit3 className="h-4 w-4 text-accent flex-shrink-0" />
             </div>
             <div>
-              <strong className="text-foreground">Redaktör:</strong> <span className="text-muted-foreground">Kan skapa, redigera och ta bort kampanjer, generera PDF/mockups och dela</span>
+              <strong className="text-foreground">{t('editorRole')}:</strong> <span className="text-muted-foreground">{t('editorRoleDesc')}</span>
             </div>
           </div>
           <div className="flex gap-3 p-3 rounded-lg glass-card border-border/50 hover:border-muted/30 transition-colors">
@@ -456,7 +456,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
               <Eye className="h-4 w-4 text-muted-foreground flex-shrink-0" />
             </div>
             <div>
-              <strong className="text-foreground">Granskare:</strong> <span className="text-muted-foreground">Kan endast visa kampanjer och lämna kommentarer</span>
+              <strong className="text-foreground">{t('viewerRole')}:</strong> <span className="text-muted-foreground">{t('viewerRoleDesc')}</span>
             </div>
           </div>
         </CardContent>
