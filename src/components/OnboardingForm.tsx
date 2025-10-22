@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -14,6 +15,7 @@ interface OnboardingFormProps {
 }
 
 export const OnboardingForm = ({ userId, onComplete }: OnboardingFormProps) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<{
     businessName: string;
@@ -99,7 +101,7 @@ export const OnboardingForm = ({ userId, onComplete }: OnboardingFormProps) => {
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Kom igång
+            {t("heroCtaPrimary")}
           </Button>
         </form>
       </CardContent>

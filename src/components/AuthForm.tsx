@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -15,6 +16,7 @@ interface AuthFormProps {
 }
 
 export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) => {
+  const { t } = useTranslation();
   const [isLogin, setIsLogin] = useState(initialMode === "login");
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -195,9 +197,9 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
   return (
     <Card className="w-full max-w-md max-h-[90vh] flex flex-col">
       <CardHeader className="flex-shrink-0">
-        <CardTitle>{isLogin ? "Logga in" : "Skapa konto"}</CardTitle>
+        <CardTitle>{isLogin ? t("authFormLoginTitle") : t("authFormSignupTitle")}</CardTitle>
         <CardDescription>
-          {isLogin ? "Logga in på ditt Spotlight-konto" : "Kom igång med Spotlight"}
+          {isLogin ? t("authFormLoginDesc") : t("authFormSignupDesc")}
         </CardDescription>
       </CardHeader>
       <CardContent className="overflow-y-auto flex-1">
@@ -359,7 +361,7 @@ export const AuthForm = ({ onSuccess, initialMode = "login" }: AuthFormProps) =>
           )}
           <Button type="submit" className="w-full" disabled={loading || (!isLogin && !acceptPolicies)}>
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isLogin ? "Logga in" : "Skapa konto"}
+            {isLogin ? t("authFormLoginButton") : t("authFormSignupButton")}
           </Button>
           {isLogin && (
             <Button

@@ -362,7 +362,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                   asChild
                   className="gap-2.5 px-6 py-3 hover:bg-accent hover:text-foreground transition-all duration-300 hover:scale-105 rounded-xl font-semibold border-2"
                 >
-                  <Link to="/auth">Logga in</Link>
+                  <Link to="/auth">{t("login")}</Link>
                 </Button>
                 <Button 
                   size="lg" 
@@ -370,7 +370,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                   className="gap-2.5 px-8 py-3 bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl rounded-xl font-bold text-base relative overflow-hidden group"
                 >
                   <Link to="/auth">
-                    <span className="relative z-10">Kom igång</span>
+                    <span className="relative z-10">{t("heroCtaPrimary")}</span>
                     <div className="absolute inset-0 bg-gradient-to-r from-primary-glow to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </Link>
                 </Button>
@@ -541,7 +541,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                         asChild
                       >
                         <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                          Kom igång
+                          {t("heroCtaPrimary")}
                         </Link>
                       </Button>
                     )}
