@@ -21,7 +21,6 @@ import {
 import { Footer } from "@/components/Footer";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { SEO } from "@/components/SEO";
-import { LiveChatSupport } from "@/components/LiveChatSupport";
 import { useTranslation } from "react-i18next";
 
 const Contact = () => {
@@ -255,9 +254,6 @@ const Contact = () => {
 
       {/* Footer */}
       <Footer />
-      
-      {/* Live Chat Support */}
-      <LiveChatSupport />
     </div>
   );
 };

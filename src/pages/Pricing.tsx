@@ -7,7 +7,6 @@ import { Zap, Check, X, ArrowRight, Shield, Sparkles, TrendingUp, Bell, BarChart
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
-import { LiveChatSupport } from "@/components/LiveChatSupport";
 import { TrustBadges } from "@/components/TrustBadges";
 
 export default function Pricing() {
@@ -497,9 +496,6 @@ export default function Pricing() {
 
       {/* Footer */}
       <Footer />
-      
-      {/* Live Chat Support */}
-      <LiveChatSupport />
     </div>
   );
 }

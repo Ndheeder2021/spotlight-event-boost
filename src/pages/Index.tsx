@@ -15,7 +15,6 @@ import { LogoCarousel } from "@/components/LogoCarousel";
 import { SEO } from "@/components/SEO";
 import { SkipToContent } from "@/components/SkipToContent";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
-import { LiveChatSupport } from "@/components/LiveChatSupport";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { InteractiveProductTour } from "@/components/InteractiveProductTour";
 import { StickyCTABar } from "@/components/StickyCTABar";
@@ -1367,9 +1366,6 @@ const Index = () => {
       <TrustBadges />
 
       <Footer />
-      
-      {/* Live Chat Support */}
-      <LiveChatSupport />
       
       {/* Exit Intent Popup */}
       <ExitIntentPopup />

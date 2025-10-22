@@ -3,23 +3,18 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { AILiveSupport } from "./AILiveSupport";
-import { usePlanFeatures } from "@/hooks/usePlanFeatures";
 import { Footer } from "./Footer";
 import { SkipToContent } from "./SkipToContent";
 import { GlobalHeader } from "./GlobalHeader";
 
 export function AppLayout() {
   const navigate = useNavigate();
-  const { features, loading } = usePlanFeatures();
-  const [user, setUser] = useState<any>(null);
   const [checkingSubscription, setCheckingSubscription] = useState(true);
   const [hasSubscription, setHasSubscription] = useState(false);
 
   useEffect(() => {
     const checkUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
       
       if (user) {
         // Check subscription status
@@ -48,9 +43,6 @@ export function AppLayout() {
     checkUser();
   }, [navigate]);
 
-  // Show AI support only for enterprise plan
-  const showAISupport = !loading && user && features.canUseAISupport;
-
   if (checkingSubscription) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -75,9 +67,6 @@ export function AppLayout() {
       </main>
       
       <Footer />
-      
-      {/* AI Live Support for paid users */}
-      {showAISupport && <AILiveSupport />}
     </div>
   );
 }
