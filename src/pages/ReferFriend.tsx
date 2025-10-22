@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,6 +12,7 @@ import { toast } from "sonner";
 import { Zap, Copy, Check, Gift, TrendingUp, Users, DollarSign } from "lucide-react";
 
 export default function ReferFriend() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [referralData, setReferralData] = useState<any>(null);
@@ -133,14 +135,14 @@ export default function ReferFriend() {
             </Link>
             <div className="flex items-center gap-4">
               <Link to="/" className="text-sm font-medium text-white/80 hover:text-white transition-colors hidden sm:inline">
-                Hem
+                {t('referFriendHome')}
               </Link>
               <Link to="/pricing" className="text-sm font-medium text-white/80 hover:text-white transition-colors hidden sm:inline">
-                Priser
+                {t('referFriendPricing')}
               </Link>
               <Link to="/auth">
                 <Button className="bg-white hover:bg-white/90 text-black">
-                  Logga in
+                  {t('referFriendLogin')}
                 </Button>
               </Link>
             </div>
@@ -153,16 +155,16 @@ export default function ReferFriend() {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-8 animate-fade-in">
               <Gift className="h-4 w-4 text-white" />
-              <span className="text-sm font-medium text-white">REFER A FRIEND</span>
+              <span className="text-sm font-medium text-white">{t('referFriendBadge')}</span>
             </div>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white animate-fade-in">
-              Älskar du Spotlight?{" "}
+              {t('referFriendTitle')}{" "}
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Dela det med ditt nätverk och bli belönad!
+                {t('referFriendTitleHighlight')}
               </span>
             </h1>
             <p className="text-xl sm:text-2xl text-white/80 max-w-3xl mx-auto animate-fade-in">
-              Tjäna 20% provision på kunder som registrerar sig med din unika referral-länk. Ange din e-post nedan för att få din referral-länk.
+              {t('referFriendSubtitle')}
             </p>
           </div>
 
@@ -172,7 +174,7 @@ export default function ReferFriend() {
               <div className="flex gap-3 mb-4">
                 <Input
                   type="email"
-                  placeholder="Ange din e-post"
+                  placeholder={t('referFriendEmailPlaceholder')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="h-14 text-base bg-white/95 backdrop-blur-sm border-white/20 text-gray-900 placeholder:text-gray-500"
@@ -183,18 +185,18 @@ export default function ReferFriend() {
                   disabled={loading}
                   className="h-14 px-8 text-base font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
                 >
-                  {loading ? "SKAPAR..." : "ENTER"}
+                  {loading ? t('referFriendCreatingButton') : t('referFriendEnterButton')}
                 </Button>
               </div>
               <p className="text-xs text-white/60 text-center">
-                Genom att skicka din e-postadress och gå med i referral-programmet godkänner du våra villkor
+                {t('referFriendDisclaimer')}
               </p>
             </div>
           ) : (
             <Card className="max-w-2xl mx-auto mb-16 bg-white/95 backdrop-blur-sm border-white/20 animate-scale-in">
               <CardContent className="p-8 space-y-6">
                 <div className="space-y-3">
-                  <label className="text-sm font-medium text-gray-700">Din unika referral-länk</label>
+                  <label className="text-sm font-medium text-gray-700">{t('referFriendLinkLabel')}</label>
                   <div className="flex gap-2">
                     <Input
                       value={referralLink}
@@ -219,22 +221,22 @@ export default function ReferFriend() {
                   <div className="text-center p-4 bg-gray-50 rounded-lg">
                     <Users className="h-6 w-6 text-blue-600 mx-auto mb-2" />
                     <p className="text-2xl font-bold text-gray-900">{referralData.referred_count}</p>
-                    <p className="text-sm text-gray-600">Referenser</p>
+                    <p className="text-sm text-gray-600">{t('referFriendReferences')}</p>
                   </div>
                   <div className="text-center p-4 bg-gray-50 rounded-lg">
                     <DollarSign className="h-6 w-6 text-green-600 mx-auto mb-2" />
                     <p className="text-2xl font-bold text-gray-900">${referralData.total_commission}</p>
-                    <p className="text-sm text-gray-600">Intjänat</p>
+                    <p className="text-sm text-gray-600">{t('referFriendEarned')}</p>
                   </div>
                   <div className="text-center p-4 bg-gray-50 rounded-lg">
                     <TrendingUp className="h-6 w-6 text-purple-600 mx-auto mb-2" />
                     <p className="text-2xl font-bold text-gray-900">{(referralData.commission_rate * 100).toFixed(0)}%</p>
-                    <p className="text-sm text-gray-600">Provision</p>
+                    <p className="text-sm text-gray-600">{t('referFriendCommission')}</p>
                   </div>
                 </div>
 
                 <div className="text-center text-sm text-gray-600">
-                  <p>Dela länken via email, sociala medier eller direkt med dina vänner!</p>
+                  <p>{t('referFriendShareText')}</p>
                 </div>
               </CardContent>
             </Card>
@@ -242,7 +244,7 @@ export default function ReferFriend() {
 
           {/* How it Works */}
           <div className="mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-center mb-12 text-white">Hur fungerar det?</h2>
+            <h2 className="text-4xl sm:text-5xl font-bold text-center mb-12 text-white">{t('referFriendHowTitle')}</h2>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="group relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
@@ -250,9 +252,9 @@ export default function ReferFriend() {
                   <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/50">
                     <Gift className="h-10 w-10 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900">Skapa din referral-länk</h3>
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('referFriendStep1Title')}</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Ange din e-post ovan för att få din unika referral-länk.
+                    {t('referFriendStep1Desc')}
                   </p>
                 </Card>
               </div>
@@ -263,9 +265,9 @@ export default function ReferFriend() {
                   <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-500/50">
                     <Users className="h-10 w-10 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900">Dela med ditt nätverk</h3>
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('referFriendStep2Title')}</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Kopiera din referral-länk och dela den över ditt nätverk - till exempel via email, sociala medier eller direktmeddelanden.
+                    {t('referFriendStep2Desc')}
                   </p>
                 </Card>
               </div>
@@ -276,9 +278,9 @@ export default function ReferFriend() {
                   <div className="bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-red-500/50">
                     <DollarSign className="h-10 w-10 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900">Tjäna pengar</h3>
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('referFriendStep3Title')}</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Du tjänar 20% i provision på alla som registrerar sig med din länk.
+                    {t('referFriendStep3Desc')}
                   </p>
                 </Card>
               </div>
