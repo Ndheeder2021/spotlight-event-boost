@@ -81,7 +81,7 @@ const Contact = () => {
       if (error) throw error;
 
       toast({
-        title: t('contactSuccessTitle'),
+        title: t('contactSuccess'),
         description: t('contactSuccessDesc'),
       });
       
@@ -89,7 +89,7 @@ const Contact = () => {
     } catch (error) {
       console.error("Error sending contact form:", error);
       toast({
-        title: t('contactErrorTitle'),
+        title: t('contactError'),
         description: t('contactErrorDesc'),
         variant: "destructive",
       });
@@ -235,7 +235,7 @@ const Contact = () => {
                   ) : (
                     <>
                       <Send className="mr-2 h-5 w-5" />
-                      {t('contactSend')}
+                      {t('contactSendButton')}
                     </>
                   )}
                 </Button>
@@ -246,7 +246,7 @@ const Contact = () => {
           {/* Additional Contact Info */}
           <div className="mt-12 text-center text-muted-foreground">
             <p className="text-base">
-              {t('contactEmailPrefer')}{" "}
+              {t('contactPreferEmail')}{" "}
               <a href="mailto:support@spotlightevents.online" className="text-primary hover:underline font-semibold">
                 support@spotlightevents.online
               </a>

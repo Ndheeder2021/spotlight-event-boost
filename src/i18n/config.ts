@@ -870,6 +870,16 @@ const resources = {
       contactPreferEmail: "Föredrar du e-post? Skicka direkt till",
       back: "Tillbaka",
 
+      // Contact Form Validation
+      contactNameRequired: "Namn är obligatoriskt",
+      contactNameMax: "Namnet får inte vara längre än 100 tecken",
+      contactEmailInvalid: "Ange en giltig e-postadress",
+      contactEmailMax: "E-postadressen får inte vara längre än 255 tecken",
+      contactSubjectRequired: "Ämne är obligatoriskt",
+      contactSubjectMax: "Ämnet får inte vara längre än 200 tecken",
+      contactMessageMin: "Meddelandet måste vara minst 10 tecken",
+      contactMessageMax: "Meddelandet får inte vara längre än 2000 tecken",
+
       // Blog Page
       blogHero: "Insikter & tips om",
       blogHeroHighlight: "eventdriven marknadsföring",
@@ -1816,6 +1826,16 @@ const resources = {
       contactErrorDesc: "Could not send the message. Please try again later.",
       contactPreferEmail: "Prefer email? Send directly to",
       back: "Back",
+
+      // Contact Form Validation
+      contactNameRequired: "Name is required",
+      contactNameMax: "Name must be less than 100 characters",
+      contactEmailInvalid: "Please enter a valid email address",
+      contactEmailMax: "Email must be less than 255 characters",
+      contactSubjectRequired: "Subject is required",
+      contactSubjectMax: "Subject must be less than 200 characters",
+      contactMessageMin: "Message must be at least 10 characters",
+      contactMessageMax: "Message must be less than 2000 characters",
 
       // Blog Page
       blogHero: "Insights & tips on",
