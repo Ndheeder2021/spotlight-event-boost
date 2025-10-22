@@ -676,6 +676,10 @@ const resources = {
       campaignStartsIn24Hours: "Din kampanj för {{title}} startar inom 24 timmar!",
       calendarFileDownloaded: "Kalenderfil nedladdad!",
       noEventsToExport: "Inga events att exportera",
+      addInternalEvent: "Lägg till internt event",
+      trafficForecast: "Trafikprognos",
+      staffPlanning: "Personalplanering",
+      bestCampaignDays: "Bästa Kampanjdagar",
 
       // Settings Page
       settingsTitle: "Inställningar",
@@ -1881,6 +1885,10 @@ const resources = {
       campaignStartsIn24Hours: "Your campaign for {{title}} starts within 24 hours!",
       calendarFileDownloaded: "Calendar file downloaded!",
       noEventsToExport: "No events to export",
+      addInternalEvent: "Add Internal Event",
+      trafficForecast: "Traffic Forecast",
+      staffPlanning: "Staff Planning",
+      bestCampaignDays: "Best Campaign Days",
 
       // Settings Page
       settingsTitle: "Settings",

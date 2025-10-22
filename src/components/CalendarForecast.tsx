@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Users, DollarSign, AlertTriangle } from "lucide-react";
 import { format } from "date-fns";
 import { sv } from "date-fns/locale";
+import { useTranslation } from "react-i18next";
 
 interface Event {
   id: string;
@@ -35,6 +36,8 @@ interface CalendarForecastProps {
 }
 
 export const CalendarForecast = ({ forecastData, locationLat, locationLon }: CalendarForecastProps) => {
+  const { t } = useTranslation();
+  
   const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
     const R = 6371; // Earth's radius in km
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -104,7 +107,7 @@ export const CalendarForecast = ({ forecastData, locationLat, locationLon }: Cal
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5" />
-            Trafikprognos
+            {t('trafficForecast')}
           </CardTitle>
           <CardDescription>
             Baserat på eventdensitet och kampanjer
@@ -144,7 +147,7 @@ export const CalendarForecast = ({ forecastData, locationLat, locationLon }: Cal
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Users className="h-5 w-5" />
-            Personalplanering
+            {t('staffPlanning')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -183,7 +186,7 @@ export const CalendarForecast = ({ forecastData, locationLat, locationLon }: Cal
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <DollarSign className="h-5 w-5" />
-            Bästa Kampanjdagar
+            {t('bestCampaignDays')}
           </CardTitle>
           <CardDescription>
             Dagar med högst intäktspotential

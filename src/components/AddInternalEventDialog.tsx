@@ -8,12 +8,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 interface AddInternalEventDialogProps {
   onEventAdded: () => void;
 }
 
 export const AddInternalEventDialog = ({ onEventAdded }: AddInternalEventDialogProps) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -71,7 +73,7 @@ export const AddInternalEventDialog = ({ onEventAdded }: AddInternalEventDialogP
       <DialogTrigger asChild>
         <Button>
           <Plus className="h-4 w-4 mr-2" />
-          Lägg till internt event
+          {t('addInternalEvent')}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md">
