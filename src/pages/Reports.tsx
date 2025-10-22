@@ -398,7 +398,7 @@ export default function Reports() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {analyticsData?.recentActivity.map((day, idx) => (
+                {analyticsData?.recentActivity?.map((day, idx) => (
                   <div key={idx} className="flex items-center justify-between">
                     <span className="text-sm font-medium">{day.date}</span>
                     <div className="flex items-center gap-4 text-sm">
@@ -481,7 +481,7 @@ export default function Reports() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {analyticsData?.topCampaigns.map((campaign, idx) => {
+                {analyticsData?.topCampaigns?.map((campaign, idx) => {
                   const statusLabels: Record<string, string> = {
                     draft: "Utkast",
                     scheduled: "Schemalagd",
