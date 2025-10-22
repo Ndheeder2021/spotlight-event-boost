@@ -17,7 +17,6 @@ import { SkipToContent } from "@/components/SkipToContent";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { InteractiveProductTour } from "@/components/InteractiveProductTour";
-import { StickyCTABar } from "@/components/StickyCTABar";
 import { ROICalculator } from "@/components/ROICalculator";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
@@ -414,7 +413,6 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <SkipToContent />
-      <StickyCTABar />
       <SEO
         title="Spotlight - AI-Driven Event Marketing för Lokala Företag"
         description="Förvandla lokala evenemang till ökad försäljning med AI. Spotlight hjälper dig automatiskt upptäcka närliggande evenemang och skapa datadrivna kampanjer som maximerar ditt kundflöde."
