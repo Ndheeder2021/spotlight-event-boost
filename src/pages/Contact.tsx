@@ -23,18 +23,20 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { SEO } from "@/components/SEO";
 import { LiveChatSupport } from "@/components/LiveChatSupport";
-
-const contactSchema = z.object({
-  name: z.string().trim().min(1, "Namn är obligatoriskt").max(100, "Namn får vara max 100 tecken"),
-  email: z.string().trim().email("Ogiltig e-postadress").max(255, "E-post får vara max 255 tecken"),
-  subject: z.string().trim().min(1, "Ämne är obligatoriskt").max(200, "Ämne får vara max 200 tecken"),
-  message: z.string().trim().min(10, "Meddelandet måste vara minst 10 tecken").max(2000, "Meddelandet får vara max 2000 tecken"),
-});
-
-type ContactFormData = z.infer<typeof contactSchema>;
+import { useTranslation } from "react-i18next";
 
 const Contact = () => {
+  const { t } = useTranslation();
   const { toast } = useToast();
+  
+  const contactSchema = z.object({
+    name: z.string().trim().min(1, t('contactNameRequired')).max(100, t('contactNameMax')),
+    email: z.string().trim().email(t('contactEmailInvalid')).max(255, t('contactEmailMax')),
+    subject: z.string().trim().min(1, t('contactSubjectRequired')).max(200, t('contactSubjectMax')),
+    message: z.string().trim().min(10, t('contactMessageMin')).max(2000, t('contactMessageMax')),
+  });
+
+  type ContactFormData = z.infer<typeof contactSchema>;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<ContactFormData>({
@@ -79,16 +81,16 @@ const Contact = () => {
       if (error) throw error;
 
       toast({
-        title: "Meddelande skickat!",
-        description: "Vi återkommer till dig inom 24 timmar.",
+        title: t('contactSuccessTitle'),
+        description: t('contactSuccessDesc'),
       });
       
       form.reset();
     } catch (error) {
       console.error("Error sending contact form:", error);
       toast({
-        title: "Något gick fel",
-        description: "Kunde inte skicka meddelandet. Försök igen senare.",
+        title: t('contactErrorTitle'),
+        description: t('contactErrorDesc'),
         variant: "destructive",
       });
     } finally {
@@ -118,7 +120,7 @@ const Contact = () => {
           </Link>
           <div className="flex items-center gap-2">
             <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:inline">
-              Hem
+              {t('home')}
             </Link>
             <LanguageSwitch />
             <ThemeToggle />
@@ -131,12 +133,12 @@ const Contact = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-20">
             <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight mb-8">
-              Kontakta{" "}
-              <span className="text-primary">oss</span>
+              {t('contactHero')}{" "}
+              <span className="text-primary">{t('contactHeroHighlight')}</span>
             </h1>
             
             <p className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Vi svarar inom 24 timmar
+              {t('contactHeroDesc')}
             </p>
           </div>
 
@@ -150,10 +152,10 @@ const Contact = () => {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base font-semibold">Namn</FormLabel>
+                        <FormLabel className="text-base font-semibold">{t('contactName')}</FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="Ditt namn" 
+                            placeholder={t('contactNamePlaceholder')} 
                             className="h-12 text-base" 
                             {...field} 
                           />
@@ -168,11 +170,11 @@ const Contact = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base font-semibold">E-post</FormLabel>
+                        <FormLabel className="text-base font-semibold">{t('contactEmail')}</FormLabel>
                         <FormControl>
                           <Input 
                             type="email" 
-                            placeholder="din@email.se" 
+                            placeholder={t('contactEmailPlaceholder')} 
                             className="h-12 text-base"
                             {...field} 
                           />
@@ -188,10 +190,10 @@ const Contact = () => {
                   name="subject"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base font-semibold">Ämne</FormLabel>
+                      <FormLabel className="text-base font-semibold">{t('contactSubject')}</FormLabel>
                       <FormControl>
                         <Input 
-                          placeholder="Vad gäller det?" 
+                          placeholder={t('contactSubjectPlaceholder')} 
                           className="h-12 text-base"
                           {...field} 
                         />
@@ -206,10 +208,10 @@ const Contact = () => {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base font-semibold">Meddelande</FormLabel>
+                      <FormLabel className="text-base font-semibold">{t('contactMessage')}</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Berätta mer om din fråga eller förfrågan..."
+                          placeholder={t('contactMessagePlaceholder')}
                           className="min-h-[200px] text-base resize-none"
                           {...field}
                         />
@@ -228,12 +230,12 @@ const Contact = () => {
                   {isSubmitting ? (
                     <>
                       <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Skickar meddelande...
+                      {t('contactSending')}
                     </>
                   ) : (
                     <>
                       <Send className="mr-2 h-5 w-5" />
-                      Skicka Meddelande
+                      {t('contactSend')}
                     </>
                   )}
                 </Button>
@@ -244,7 +246,7 @@ const Contact = () => {
           {/* Additional Contact Info */}
           <div className="mt-12 text-center text-muted-foreground">
             <p className="text-base">
-              Föredrar du e-post? Skicka direkt till{" "}
+              {t('contactEmailPrefer')}{" "}
               <a href="mailto:support@spotlightevents.online" className="text-primary hover:underline font-semibold">
                 support@spotlightevents.online
               </a>
