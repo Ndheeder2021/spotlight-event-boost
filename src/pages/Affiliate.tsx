@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,57 +17,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { toast } from "sonner";
 import { z } from "zod";
 
-const benefits = [
-  {
-    icon: DollarSign,
-    title: "Generös provision",
-    description: "Tjäna upp till 30% återkommande provision på varje betalande kund du refererar"
-  },
-  {
-    icon: Users,
-    title: "Obegränsad potential",
-    description: "Ingen gräns för hur mycket du kan tjäna - desto fler du refererar, desto mer tjänar du"
-  },
-  {
-    icon: TrendingUp,
-    title: "Återkommande intäkter",
-    description: "Få provision varje månad så länge dina refererade kunder är aktiva"
-  }
-];
-
-const howItWorks = [
-  {
-    step: "1",
-    title: "Ansök till programmet",
-    description: "Fyll i ansökningsformuläret och berätta om hur du planerar att marknadsföra Spotlight"
-  },
-  {
-    step: "2",
-    title: "Få din unika länk",
-    description: "Efter godkännande får du tillgång till din personliga affiliate-dashboard med spårningslänkar"
-  },
-  {
-    step: "3",
-    title: "Dela och tjäna",
-    description: "Dela dina länkar med din målgrupp och börja tjäna provision på alla konverteringar"
-  },
-  {
-    step: "4",
-    title: "Få utbetalning",
-    description: "Ta ut dina intjänade provisioner månadsvis direkt till ditt bankkonto"
-  }
-];
-
-const affiliateSchema = z.object({
-  name: z.string().trim().min(1, "Namn krävs").max(100, "Namn måste vara mindre än 100 tecken"),
-  email: z.string().trim().email("Ogiltig e-postadress").max(255, "E-post måste vara mindre än 255 tecken"),
-  company: z.string().trim().max(100, "Företagsnamn måste vara mindre än 100 tecken").optional(),
-  website: z.string().trim().url("Ogiltig webbadress").max(255, "Webbadress måste vara mindre än 255 tecken").optional().or(z.literal("")),
-  description: z.string().trim().min(50, "Beskriv hur du planerar att marknadsföra Spotlight (minst 50 tecken)").max(1000, "Beskrivning måste vara mindre än 1000 tecken"),
-  audience: z.string().trim().min(20, "Beskriv din målgrupp (minst 20 tecken)").max(500, "Målgrupp måste vara mindre än 500 tecken"),
-});
-
 const Affiliate = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
@@ -79,6 +31,56 @@ const Affiliate = () => {
     website: "",
     description: "",
     audience: "",
+  });
+
+  const benefits = [
+    {
+      icon: DollarSign,
+      title: t('affiliateBenefit1Title'),
+      description: t('affiliateBenefit1Desc')
+    },
+    {
+      icon: Users,
+      title: t('affiliateBenefit2Title'),
+      description: t('affiliateBenefit2Desc')
+    },
+    {
+      icon: TrendingUp,
+      title: t('affiliateBenefit3Title'),
+      description: t('affiliateBenefit3Desc')
+    }
+  ];
+
+  const howItWorks = [
+    {
+      step: "1",
+      title: t('affiliateHowStep1Title'),
+      description: t('affiliateHowStep1Desc')
+    },
+    {
+      step: "2",
+      title: t('affiliateHowStep2Title'),
+      description: t('affiliateHowStep2Desc')
+    },
+    {
+      step: "3",
+      title: t('affiliateHowStep3Title'),
+      description: t('affiliateHowStep3Desc')
+    },
+    {
+      step: "4",
+      title: t('affiliateHowStep4Title'),
+      description: t('affiliateHowStep4Desc')
+    }
+  ];
+
+  const affiliateSchema = z.object({
+    name: z.string().trim().min(1, t('affiliateValidationNameRequired')).max(100, t('affiliateValidationNameMax')),
+    email: z.string().trim().email(t('affiliateValidationEmailInvalid')).max(255, t('affiliateValidationEmailMax')),
+    company: z.string().trim().max(100, t('affiliateValidationCompanyMax')).optional(),
+    website: z.string().trim().url(t('affiliateValidationWebsiteInvalid')).max(255, t('affiliateValidationWebsiteMax')).optional().or(z.literal("")),
+    description: z.string().trim().min(50, t('affiliateValidationDescriptionMin')).max(1000, t('affiliateValidationDescriptionMax')),
+    audience: z.string().trim().min(20, t('affiliateValidationAudienceMin')).max(500, t('affiliateValidationAudienceMax')),
   });
 
   const scrollToForm = () => {
@@ -110,17 +112,15 @@ const Affiliate = () => {
     setIsSubmitting(true);
 
     try {
-      // Validate form data
       const validatedData = affiliateSchema.parse(formData);
 
-      // Send email via edge function
       const { error } = await supabase.functions.invoke("send-affiliate-application", {
         body: validatedData,
       });
 
       if (error) throw error;
 
-      toast.success("Tack för din ansökan! Vi återkommer inom 2-3 arbetsdagar.");
+      toast.success(t('affiliateFormSuccess'));
       setFormData({
         name: "",
         email: "",
@@ -136,7 +136,7 @@ const Affiliate = () => {
         toast.error(firstError.message);
       } else {
         console.error("Error submitting application:", error);
-        toast.error("Något gick fel. Försök igen senare.");
+        toast.error(t('affiliateFormError'));
       }
     } finally {
       setIsSubmitting(false);
@@ -146,8 +146,8 @@ const Affiliate = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <SEO
-        title="Affiliate Program - Spotlight"
-        description="Bli en Spotlight affiliate partner och tjäna generös provision genom att referera lokala företag till vår AI-driven event marketing plattform."
+        title={`${t('affiliateBadge')} - Spotlight`}
+        description={t('affiliateHeroDesc')}
         keywords="affiliate program, partner program, marknadsföring, provision"
       />
 
@@ -167,18 +167,18 @@ const Affiliate = () => {
           
           <div className="hidden md:flex items-center gap-6">
             <Link to="/contact" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
-              Kontakt
+              {t('affiliateContact')}
             </Link>
             {user ? (
               <Link to="/dashboard">
                 <Button className="bg-white hover:bg-white/90 text-black">
-                  Dashboard
+                  {t('affiliateDashboard')}
                 </Button>
               </Link>
             ) : (
               <Link to="/auth">
                 <Button className="bg-white hover:bg-white/90 text-black">
-                  Logga in
+                  {t('affiliateLogin')}
                 </Button>
               </Link>
             )}
@@ -194,18 +194,18 @@ const Affiliate = () => {
               <SheetContent className="bg-white">
                 <div className="flex flex-col gap-4 mt-8">
                   <Link to="/contact" className="text-lg font-medium" onClick={() => setMobileMenuOpen(false)}>
-                    Kontakt
+                    {t('affiliateContact')}
                   </Link>
                   {user ? (
                     <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)}>
                       <Button className="w-full">
-                        Dashboard
+                        {t('affiliateDashboard')}
                       </Button>
                     </Link>
                   ) : (
                     <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
                       <Button className="w-full">
-                        Logga in
+                        {t('affiliateLogin')}
                       </Button>
                     </Link>
                   )}
@@ -222,18 +222,18 @@ const Affiliate = () => {
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-8 animate-fade-in">
               <Users className="h-4 w-4 text-white" />
-              <span className="text-sm font-medium text-white">AFFILIATE PROGRAM</span>
+              <span className="text-sm font-medium text-white">{t('affiliateBadge')}</span>
             </div>
             
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight text-white animate-fade-in">
-              Tjäna återkommande inkomst genom att{" "}
+              {t('affiliateHero')}{" "}
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                rekommendera Spotlight
+                {t('affiliateHeroHighlight')}
               </span>
             </h1>
             
             <p className="text-xl text-white/80 max-w-2xl mx-auto animate-fade-in">
-              Bli en Spotlight affiliate och tjäna 50% återkommande provision varje månad
+              {t('affiliateHeroDesc')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -242,7 +242,7 @@ const Affiliate = () => {
                 onClick={scrollToForm}
                 className="h-14 px-10 text-lg bg-white hover:bg-white/90 text-black rounded-xl font-semibold animate-scale-in"
               >
-                BLI AFFILIATE
+                {t('affiliateCta')}
               </Button>
             </div>
           </div>
@@ -258,9 +258,11 @@ const Affiliate = () => {
                 <div className="bg-blue-600 rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-6">
                   <Gift className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Gå med i programmet</h3>
+                <h3 className="text-xl font-bold mb-3 text-gray-900">{t('affiliateHow1Title')}</h3>
                 <p className="text-gray-600">
-                  Fyll i detta <button onClick={scrollToForm} className="text-blue-600 underline font-semibold">formulär</button> för att gå med i vårt affiliate-program - det tar bara 5 minuter!
+                  {t('affiliateHow1Desc').split(t('affiliateFormLink'))[0]}
+                  <button onClick={scrollToForm} className="text-blue-600 underline font-semibold">{t('affiliateFormLink')}</button>
+                  {t('affiliateHow1Desc').split(t('affiliateFormLink'))[1]}
                 </p>
               </Card>
 
@@ -268,9 +270,9 @@ const Affiliate = () => {
                 <div className="bg-green-600 rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-6">
                   <Users className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Dela din länk</h3>
+                <h3 className="text-xl font-bold mb-3 text-gray-900">{t('affiliateHow2Title')}</h3>
                 <p className="text-gray-600">
-                  Bjud in andra att prova Spotlight genom att dela din affiliate-länk över ditt nätverk.
+                  {t('affiliateHow2Desc')}
                 </p>
               </Card>
 
@@ -278,9 +280,9 @@ const Affiliate = () => {
                 <div className="bg-red-600 rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-6">
                   <DollarSign className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Tjäna för evigt</h3>
+                <h3 className="text-xl font-bold mb-3 text-gray-900">{t('affiliateHow3Title')}</h3>
                 <p className="text-gray-600">
-                  Du kan tjäna 50% återkommande provision för varje ny referral.
+                  {t('affiliateHow3Desc')}
                 </p>
               </Card>
             </div>
@@ -292,9 +294,9 @@ const Affiliate = () => {
       <section className="py-24">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-white">Så fungerar det</h2>
+            <h2 className="text-4xl font-bold mb-4 text-white">{t('affiliateHowItWorksTitle')}</h2>
             <p className="text-xl text-white/80 max-w-2xl mx-auto">
-              Kom igång på några minuter och börja tjäna provision
+              {t('affiliateHowItWorksDesc')}
             </p>
           </div>
 
@@ -317,9 +319,9 @@ const Affiliate = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4 text-white">Provisionsstruktur</h2>
+              <h2 className="text-4xl font-bold mb-4 text-white">{t('affiliateCommissionTitle')}</h2>
               <p className="text-xl text-white/80">
-                Transparent och rättvis provision på alla dina refererade kunder
+                {t('affiliateCommissionDesc')}
               </p>
             </div>
 
@@ -329,31 +331,30 @@ const Affiliate = () => {
                   <div className="flex items-start gap-4">
                     <CheckCircle className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900">Starter Plan</h3>
-                      <p className="text-gray-600">50% återkommande provision ($14.50/månad per kund)</p>
+                      <h3 className="text-xl font-semibold mb-2 text-gray-900">{t('affiliateCommission1Title')}</h3>
+                      <p className="text-gray-600">{t('affiliateCommission1Desc')}</p>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-4">
                     <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900">Professional Plan</h3>
-                      <p className="text-gray-600">50% återkommande provision ($24.50/månad per kund)</p>
+                      <h3 className="text-xl font-semibold mb-2 text-gray-900">{t('affiliateCommission2Title')}</h3>
+                      <p className="text-gray-600">{t('affiliateCommission2Desc')}</p>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-4">
                     <CheckCircle className="h-6 w-6 text-purple-600 flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900">Enterprise Plan</h3>
-                      <p className="text-gray-600">50% återkommande provision på anpassade enterprise-avtal</p>
+                      <h3 className="text-xl font-semibold mb-2 text-gray-900">{t('affiliateCommission3Title')}</h3>
+                      <p className="text-gray-600">{t('affiliateCommission3Desc')}</p>
                     </div>
                   </div>
                   
                   <div className="pt-6 border-t border-gray-200 mt-8">
                     <p className="text-sm text-gray-600">
-                      * Provision betalas ut månadsvis via banköverföring. Minimum utbetalning: $100. 
-                      Cookie-längd: 90 dagar.
+                      {t('affiliateCommissionNote')}
                     </p>
                   </div>
                 </div>
@@ -369,9 +370,9 @@ const Affiliate = () => {
           <div className="container mx-auto px-4 sm:px-6">
             <div className="max-w-2xl mx-auto">
               <div className="text-center mb-12">
-                <h2 className="text-4xl font-bold mb-4 text-white">Ansök till vårt affiliate-program</h2>
+                <h2 className="text-4xl font-bold mb-4 text-white">{t('affiliateFormTitle')}</h2>
                 <p className="text-xl text-white/80">
-                  Fyll i formuläret nedan så återkommer vi inom 2-3 arbetsdagar
+                  {t('affiliateFormDesc')}
                 </p>
               </div>
 
@@ -379,13 +380,13 @@ const Affiliate = () => {
                 <CardContent className="pt-8">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
-                      <Label htmlFor="name" className="text-gray-900">Namn *</Label>
+                      <Label htmlFor="name" className="text-gray-900">{t('affiliateFormName')}</Label>
                       <Input
                         id="name"
                         type="text"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="Ditt för- och efternamn"
+                        placeholder={t('affiliateFormNamePlaceholder')}
                         required
                         maxLength={100}
                         className="bg-white border-gray-200 text-gray-900"
@@ -393,13 +394,13 @@ const Affiliate = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="email" className="text-gray-900">E-post *</Label>
+                      <Label htmlFor="email" className="text-gray-900">{t('affiliateFormEmail')}</Label>
                       <Input
                         id="email"
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="din@epost.se"
+                        placeholder={t('affiliateFormEmailPlaceholder')}
                         required
                         maxLength={255}
                         className="bg-white border-gray-200 text-gray-900"
@@ -407,62 +408,62 @@ const Affiliate = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="company" className="text-gray-900">Företagsnamn (valfritt)</Label>
+                      <Label htmlFor="company" className="text-gray-900">{t('affiliateFormCompany')}</Label>
                       <Input
                         id="company"
                         type="text"
                         value={formData.company}
                         onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                        placeholder="Ditt företag"
+                        placeholder={t('affiliateFormCompanyPlaceholder')}
                         maxLength={100}
                         className="bg-white border-gray-200 text-gray-900"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="website" className="text-gray-900">Webbplats (valfritt)</Label>
+                      <Label htmlFor="website" className="text-gray-900">{t('affiliateFormWebsite')}</Label>
                       <Input
                         id="website"
                         type="url"
                         value={formData.website}
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-                        placeholder="https://dinwebbplats.se"
+                        placeholder={t('affiliateFormWebsitePlaceholder')}
                         maxLength={255}
                         className="bg-white border-gray-200 text-gray-900"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="description" className="text-gray-900">Hur planerar du att marknadsföra Spotlight? *</Label>
+                      <Label htmlFor="description" className="text-gray-900">{t('affiliateFormDescription')}</Label>
                       <Textarea
                         id="description"
                         value={formData.description}
                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                        placeholder="Beskriv din strategi för att marknadsföra Spotlight (minst 50 tecken)"
+                        placeholder={t('affiliateFormDescriptionMinPlaceholder')}
                         required
                         rows={4}
                         maxLength={1000}
                         className="resize-none bg-white border-gray-200 text-gray-900"
                       />
                       <p className="text-sm text-gray-600">
-                        {formData.description.length}/1000 tecken
+                        {formData.description.length}/1000 {t('affiliateFormChars')}
                       </p>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="audience" className="text-gray-900">Beskriv din målgrupp *</Label>
+                      <Label htmlFor="audience" className="text-gray-900">{t('affiliateFormAudience')}</Label>
                       <Textarea
                         id="audience"
                         value={formData.audience}
                         onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
-                        placeholder="Vilka är dina följare/kunder? (minst 20 tecken)"
+                        placeholder={t('affiliateFormAudienceMinPlaceholder')}
                         required
                         rows={3}
                         maxLength={500}
                         className="resize-none bg-white border-gray-200 text-gray-900"
                       />
                       <p className="text-sm text-gray-600">
-                        {formData.audience.length}/500 tecken
+                        {formData.audience.length}/500 {t('affiliateFormChars')}
                       </p>
                     </div>
 
@@ -473,14 +474,14 @@ const Affiliate = () => {
                         onClick={() => setShowForm(false)}
                         className="flex-1 border-gray-200 hover:bg-gray-50"
                       >
-                        Avbryt
+                        {t('affiliateFormCancel')}
                       </Button>
                       <Button
                         type="submit"
                         disabled={isSubmitting}
                         className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
                       >
-                        {isSubmitting ? "Skickar..." : "Skicka ansökan"}
+                        {isSubmitting ? t('affiliateFormSubmitting') : t('affiliateFormSubmit')}
                       </Button>
                     </div>
                   </form>
@@ -497,17 +498,17 @@ const Affiliate = () => {
           <div className="container mx-auto px-4 sm:px-6">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-4xl sm:text-5xl font-bold mb-6 text-white">
-                Redo att börja tjäna?
+                {t('affiliateCtaTitle')}
               </h2>
               <p className="text-xl text-white/80 mb-8">
-                Ansök till vårt affiliate-program idag och börja tjäna 50% provision på dina referrals
+                {t('affiliateCtaDesc')}
               </p>
               <Button 
                 size="lg"
                 onClick={scrollToForm}
                 className="h-14 px-10 text-lg bg-white hover:bg-white/90 text-black rounded-xl font-semibold"
               >
-                Ansök till programmet
+                {t('affiliateCtaBtn')}
               </Button>
             </div>
           </div>
