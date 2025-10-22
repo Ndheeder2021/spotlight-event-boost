@@ -24,10 +24,10 @@ export default function Blog() {
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (email && email.includes("@")) {
-      toast.success(`Tack för din prenumeration! Vi har skickat en bekräftelse till ${email}.`);
+      toast.success(`${t("blogSubscribeSuccess")} ${email}.`);
       setEmail("");
     } else {
-      toast.error("Vänligen ange en giltig e-postadress.");
+      toast.error(t("blogSubscribeError"));
     }
   };
 
@@ -42,10 +42,10 @@ export default function Blog() {
           </Link>
           <div className="flex items-center gap-4">
             <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Hem
+              {t("home")}
             </Link>
             <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Kontakt
+              {t("contact")}
             </Link>
           </div>
         </div>
@@ -59,12 +59,12 @@ export default function Blog() {
           ) : (
             <div className="animate-fade-in">
               <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight">
-                Insikter & tips om
+                {t("blogHero")}
                 <br />
-                <span className="text-primary">eventdriven marknadsföring</span>
+                <span className="text-primary">{t("blogHeroHighlight")}</span>
               </h1>
               <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed">
-                Lär dig hur du kan växa ditt företag genom att dra nytta av lokala evenemang
+                {t("blogHeroDesc")}
               </p>
             </div>
           )}
@@ -79,7 +79,7 @@ export default function Blog() {
           ) : (
             <div className="animate-fade-in">
               <div className="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-bold mb-6">
-                Utvalda artiklar
+                {t("blogFeatured")}
               </div>
               <Link to="/blog/1">
                 <Card className="overflow-hidden border-2 hover:border-accent/50 transition-all hover:shadow-xl group cursor-pointer">
@@ -87,7 +87,7 @@ export default function Blog() {
                     <div className="relative overflow-hidden h-80 md:h-auto">
                       <OptimizedImage
                         src={blogPosts[0].image}
-                        alt="Lokala evenemang" 
+                        alt={t("blogFeaturedAlt")}
                         width={800}
                         height={600}
                         priority
@@ -95,22 +95,22 @@ export default function Blog() {
                       />
                     </div>
                     <div className="p-8 flex flex-col justify-center">
-                      <Badge className="w-fit mb-4">Tips & Tricks</Badge>
+                      <Badge className="w-fit mb-4">{t("blogFeaturedCategory")}</Badge>
                       <h2 className="text-3xl font-bold mb-4 group-hover:text-accent transition-colors">
-                        5 sätt att maximera försäljningen vid lokala evenemang
+                        {t("blogFeaturedTitle")}
                       </h2>
                       <p className="text-muted-foreground mb-6">
-                        Lär dig hur du kan utnyttja lokala evenemang för att öka trafiken till din butik och öka försäljningen med upp till 40%. Vi delar med oss av beprövade strategier från framgångsrika företag.
+                        {t("blogFeaturedDesc")}
                       </p>
                       <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
                         <div className="flex items-center gap-2">
                           <Calendar className="h-4 w-4" />
-                          15 jan 2025
+                          {t("blogFeaturedDate")}
                         </div>
-                        <span>5 min läsning</span>
+                        <span>{t("blogFeaturedReadTime")}</span>
                       </div>
                       <div className="text-accent group-hover:text-accent-glow flex items-center gap-2 font-semibold">
-                        Läs mer
+                        {t("blogReadMore")}
                         <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
@@ -127,14 +127,14 @@ export default function Blog() {
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold">
-              {selectedCategory ? `${selectedCategory}` : "Senaste artiklarna"}
+              {selectedCategory ? `${selectedCategory}` : t("blogLatest")}
             </h2>
             {selectedCategory && (
               <button
                 onClick={() => setSelectedCategory(null)}
                 className="text-sm text-accent hover:text-accent-glow transition-colors font-semibold"
               >
-                Visa alla
+                {t("blogShowAll")}
               </button>
             )}
           </div>
@@ -184,7 +184,7 @@ export default function Blog() {
                           <span>{post.readTime}</span>
                         </div>
                         <div className="text-accent group-hover:text-accent-glow flex items-center gap-2 font-semibold">
-                          Läs mer
+                          {t("blogReadMore")}
                           <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </CardContent>
@@ -200,46 +200,46 @@ export default function Blog() {
       {/* Categories Section */}
       <section className="container mx-auto px-4 py-20 bg-muted/30">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8 text-center">Utforska kategorier</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center">{t("blogExploreCategories")}</h2>
           <div className="grid md:grid-cols-4 gap-6">
             <Card 
-              onClick={() => setSelectedCategory("Tips & Tricks")}
+              onClick={() => setSelectedCategory(t("blogCategoryTipsTricks"))}
               className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105 cursor-pointer"
             >
               <div className="h-8 w-8 text-accent mx-auto mb-3">📈</div>
-              <h3 className="font-bold mb-1">Tips & Tricks</h3>
+              <h3 className="font-bold mb-1">{t("blogCategoryTipsTricks")}</h3>
               <p className="text-sm text-muted-foreground">
-                {blogPosts.filter(p => p.category === "Tips & Tricks").length} artiklar
+                {blogPosts.filter(p => p.category === "Tips & Tricks").length} {t("blogArticles")}
               </p>
             </Card>
             <Card 
-              onClick={() => setSelectedCategory("AI & Teknologi")}
+              onClick={() => setSelectedCategory(t("blogCategoryAiTech"))}
               className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105 cursor-pointer"
             >
               <div className="h-8 w-8 text-accent mx-auto mb-3">💡</div>
-              <h3 className="font-bold mb-1">AI & Teknologi</h3>
+              <h3 className="font-bold mb-1">{t("blogCategoryAiTech")}</h3>
               <p className="text-sm text-muted-foreground">
-                {blogPosts.filter(p => p.category === "AI & Teknologi").length} artiklar
+                {blogPosts.filter(p => p.category === "AI & Teknologi").length} {t("blogArticles")}
               </p>
             </Card>
             <Card 
-              onClick={() => setSelectedCategory("Fallstudier")}
+              onClick={() => setSelectedCategory(t("blogCategoryCaseStudies"))}
               className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105 cursor-pointer"
             >
               <div className="h-8 w-8 text-accent mx-auto mb-3">👥</div>
-              <h3 className="font-bold mb-1">Fallstudier</h3>
+              <h3 className="font-bold mb-1">{t("blogCategoryCaseStudies")}</h3>
               <p className="text-sm text-muted-foreground">
-                {blogPosts.filter(p => p.category === "Fallstudier").length} artiklar
+                {blogPosts.filter(p => p.category === "Fallstudier").length} {t("blogArticles")}
               </p>
             </Card>
             <Card 
-              onClick={() => setSelectedCategory("Strategi")}
+              onClick={() => setSelectedCategory(t("blogCategoryStrategy"))}
               className="text-center p-6 border-2 hover:border-accent/50 transition-all hover:scale-105 cursor-pointer"
             >
               <div className="h-8 w-8 text-accent mx-auto mb-3">🎯</div>
-              <h3 className="font-bold mb-1">Strategi</h3>
+              <h3 className="font-bold mb-1">{t("blogCategoryStrategy")}</h3>
               <p className="text-sm text-muted-foreground">
-                {blogPosts.filter(p => p.category === "Strategi").length} artiklar
+                {blogPosts.filter(p => p.category === "Strategi").length} {t("blogArticles")}
               </p>
             </Card>
           </div>
