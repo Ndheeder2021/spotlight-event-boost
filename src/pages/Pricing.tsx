@@ -106,9 +106,6 @@ export default function Pricing() {
     }
   ];
 
-export default function Pricing() {
-  const [isYearly, setIsYearly] = useState(false);
-
   return (
     <div className="min-h-screen bg-background">
       <SEO
