@@ -129,12 +129,15 @@ export function PlanSelector({ onSuccess }: PlanSelectorProps) {
             </button>
             <button
               onClick={() => setIsYearly(true)}
-              className={`px-6 py-2 rounded-full transition-all flex items-center gap-2 ${
-                isYearly ? 'bg-background shadow-sm font-medium' : 'text-muted-foreground'
+              className={`px-6 py-2 rounded-full transition-all flex items-center gap-2 relative group ${
+                isYearly ? 'bg-gradient-to-r from-primary to-primary-glow shadow-lg shadow-primary/20 font-medium text-primary-foreground scale-105' : 'text-muted-foreground hover:scale-105'
               }`}
             >
-              {t("planSelector.billing.yearly")}
-              <span className="px-2 py-1 bg-accent/20 text-accent text-xs font-bold rounded-full">
+              {isYearly && (
+                <span className="absolute inset-0 rounded-full bg-primary opacity-20 animate-pulse" />
+              )}
+              <span className="relative z-10">{t("planSelector.billing.yearly")}</span>
+              <span className="relative z-10 px-2.5 py-1 bg-accent text-accent-foreground text-xs font-bold rounded-full animate-pulse shadow-lg">
                 {t("planSelector.billing.save")}
               </span>
             </button>
