@@ -4,10 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Download, Bell, Users } from "lucide-react";
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Download, Bell, Users, Sparkles } from "lucide-react";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, parseISO, addMonths, subMonths, differenceInHours } from "date-fns";
 import { sv } from "date-fns/locale";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import { AddInternalEventDialog } from "@/components/AddInternalEventDialog";
 import { EventDetailsDialog } from "@/components/EventDetailsDialog";
 import { CalendarForecast } from "@/components/CalendarForecast";
@@ -295,103 +296,130 @@ export default function Calendar() {
     );
   };
 
+  const { t } = useTranslation();
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-96">
-        <div className="animate-pulse">Laddar...</div>
+      <div className="min-h-screen bg-gradient-to-b from-background via-background to-accent/5 flex items-center justify-center">
+        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-card">
+          <Sparkles className="h-6 w-6 animate-spin text-primary" />
+          <p className="text-lg font-medium">{t('loadingEvents')}</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-full">
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">Kalender & Prognos</h1>
-          <p className="text-muted-foreground">Översikt över events, kampanjer och trafikprognos</p>
-        </div>
-        <div className="flex gap-2">
-          <AddInternalEventDialog onEventAdded={loadData} />
-        </div>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-4">
-        {/* Main Calendar - Takes 3 columns */}
-        <div className="lg:col-span-3 space-y-6">
-          <div className="grid gap-6 mb-6 md:grid-cols-3">
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium">Publika Events</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{events.length}</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium">Mina Kampanjer</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{campaigns.length}</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium">Interna Events</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{internalEvents.length}</div>
-              </CardContent>
-            </Card>
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-accent/5">
+      <div className="container mx-auto px-4 py-12">
+        {/* Hero Section */}
+        <div className="mb-12 space-y-6 animate-fade-in">
+          <div className="flex items-center gap-3">
+            <div className="h-12 w-1 bg-gradient-to-b from-primary to-accent rounded-full" />
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold gradient-text">
+                {t('calendarForecast')}
+              </h1>
+              <p className="text-lg text-muted-foreground mt-2">
+                {t('overviewEvents')}
+              </p>
+            </div>
           </div>
+          <div className="flex gap-3">
+            <AddInternalEventDialog onEventAdded={loadData} />
+          </div>
+        </div>
 
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setCurrentDate(subMonths(currentDate, 1))}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <CardTitle className="flex items-center gap-2">
-                    <CalendarIcon className="h-5 w-5" />
-                    {format(currentDate, "MMMM yyyy", { locale: sv })}
-                  </CardTitle>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setCurrentDate(addMonths(currentDate, 1))}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
+        <div className="grid gap-6 lg:grid-cols-4">
+          {/* Main Calendar - Takes 3 columns */}
+          <div className="lg:col-span-3 space-y-6">
+            {/* Stats Grid */}
+            <div className="grid gap-6 mb-6 md:grid-cols-3 animate-fade-in">
+              <Card className="glass-card border-primary/20 hover-lift group">
+                <CardHeader className="pb-3 flex flex-row items-center justify-between space-y-0">
+                  <CardTitle className="text-sm font-medium text-foreground/80">{t('publicEvents')}</CardTitle>
+                  <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                    <CalendarIcon className="h-4 w-4 text-primary" />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold gradient-text">{events.length}</div>
+                </CardContent>
+              </Card>
+              <Card className="glass-card border-accent/20 hover-lift group">
+                <CardHeader className="pb-3 flex flex-row items-center justify-between space-y-0">
+                  <CardTitle className="text-sm font-medium text-foreground/80">{t('myCampaigns')}</CardTitle>
+                  <div className="p-2 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
+                    <Sparkles className="h-4 w-4 text-accent" />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold gradient-text">{campaigns.length}</div>
+                </CardContent>
+              </Card>
+              <Card className="glass-card border-primary/20 hover-lift group">
+                <CardHeader className="pb-3 flex flex-row items-center justify-between space-y-0">
+                  <CardTitle className="text-sm font-medium text-foreground/80">{t('internalEvents')}</CardTitle>
+                  <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                    <Bell className="h-4 w-4 text-primary" />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold gradient-text">{internalEvents.length}</div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Calendar Card */}
+            <Card className="glass-card premium-glow animate-fade-in stagger-1">
+              <CardHeader>
+                <div className="flex items-center justify-between flex-wrap gap-4">
+                  <div className="flex items-center gap-4">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setCurrentDate(subMonths(currentDate, 1))}
+                      className="hover-scale"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <CardTitle className="flex items-center gap-2 text-2xl">
+                      <CalendarIcon className="h-6 w-6 text-primary" />
+                      {format(currentDate, "MMMM yyyy", { locale: sv })}
+                    </CardTitle>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setCurrentDate(addMonths(currentDate, 1))}
+                      className="hover-scale"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="flex gap-2">
+                    <Select value={filter} onValueChange={(v: any) => setFilter(v)}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">{t('all')}</SelectItem>
+                        <SelectItem value="events">{t('publicEventsFilter')}</SelectItem>
+                        <SelectItem value="campaigns">{t('myCampaignsFilter')}</SelectItem>
+                        <SelectItem value="internal">{t('internalEventsFilter')}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Button variant="outline" size="icon" onClick={exportToICS} title={t('exportICS')} className="hover-scale">
+                      <Download className="h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" size="icon" onClick={exportToGoogleCalendar} title={t('addToGoogleCal')} className="hover-scale">
+                      <CalendarIcon className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <Select value={filter} onValueChange={(v: any) => setFilter(v)}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Alla</SelectItem>
-                      <SelectItem value="events">Publika Events</SelectItem>
-                      <SelectItem value="campaigns">Mina Kampanjer</SelectItem>
-                      <SelectItem value="internal">Interna Events</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Button variant="outline" size="icon" onClick={exportToICS} title="Exportera ICS">
-                    <Download className="h-4 w-4" />
-                  </Button>
-                  <Button variant="outline" size="icon" onClick={exportToGoogleCalendar} title="Lägg till i Google Calendar">
-                    <CalendarIcon className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-              <CardDescription>
-                Färgkodning: Grön = Låg trafik, Gul = Medel, Orange = Hög, Röd = Mycket hög
-              </CardDescription>
-            </CardHeader>
+                <CardDescription className="text-base">
+                  {t('colorCoding')}
+                </CardDescription>
+              </CardHeader>
             <CardContent>
               <div className="grid grid-cols-7 gap-2">
                 {["Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön"].map((day) => (
@@ -474,28 +502,28 @@ export default function Calendar() {
             </CardContent>
           </Card>
 
-          <div className="flex items-center gap-4 text-sm">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground animate-fade-in stagger-2">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-primary rounded"></div>
-              <span>Publika events</span>
+              <span>{t('publicEvents')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-secondary rounded"></div>
-              <span>Kampanjer</span>
+              <span>{t('campaigns')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded" style={{ backgroundColor: "#FFD700" }}></div>
-              <span>Interna events</span>
+              <span>{t('internalEvents')}</span>
             </div>
             <div className="flex items-center gap-2">
               <Users className="h-4 w-4 text-destructive" />
-              <span>Personalmarkering ({'>'}4 personal)</span>
+              <span>{t('staffMarker')}</span>
             </div>
           </div>
         </div>
 
         {/* Forecast Sidebar - Takes 1 column */}
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 animate-fade-in stagger-3">
           <CalendarForecast
             forecastData={forecastData}
             locationLat={userLocation.lat}
@@ -511,5 +539,6 @@ export default function Calendar() {
         type={selectedType}
       />
     </div>
+  </div>
   );
 }
