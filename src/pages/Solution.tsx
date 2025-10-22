@@ -19,10 +19,10 @@ export default function Solution() {
           </Link>
           <div className="flex items-center gap-4">
             <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              {t("solution.nav.home")}
+              {t("solutionPage.nav.home")}
             </Link>
             <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              {t("solution.nav.contact")}
+              {t("solutionPage.nav.contact")}
             </Link>
           </div>
         </div>
@@ -32,12 +32,12 @@ export default function Solution() {
       <section className="container mx-auto px-4 sm:px-6 py-32 lg:py-40">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight">
-            {t("solution.hero.title1")}
+            {t("solutionPage.hero.title1")}
             <br />
-            <span className="text-primary">{t("solution.hero.title2")}</span>
+            <span className="text-primary">{t("solutionPage.hero.title2")}</span>
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            {t("solution.hero.description")}
+            {t("solutionPage.hero.description")}
           </p>
         </div>
       </section>
@@ -46,39 +46,39 @@ export default function Solution() {
       <section className="container mx-auto px-4 py-16 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("solution.problem.title")}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("solutionPage.problem.title")}</h2>
             <p className="text-lg text-muted-foreground">
-              {t("solution.problem.subtitle")}
+              {t("solutionPage.problem.subtitle")}
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             <Card className="border-2 glass-card hover:border-accent/30 transition-all hover:scale-105 hover:shadow-xl group">
               <CardHeader>
-                <CardTitle className="text-xl group-hover:text-accent transition-colors">{t("solution.problem.cards.0.title")}</CardTitle>
+                <CardTitle className="text-xl group-hover:text-accent transition-colors">{t("solutionPage.problem.cards.0.title")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  {t("solution.problem.cards.0.description")}
+                  {t("solutionPage.problem.cards.0.description")}
                 </p>
               </CardContent>
             </Card>
             <Card className="border-2 glass-card hover:border-accent/30 transition-all hover:scale-105 hover:shadow-xl group">
               <CardHeader>
-                <CardTitle className="text-xl group-hover:text-accent transition-colors">{t("solution.problem.cards.1.title")}</CardTitle>
+                <CardTitle className="text-xl group-hover:text-accent transition-colors">{t("solutionPage.problem.cards.1.title")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  {t("solution.problem.cards.1.description")}
+                  {t("solutionPage.problem.cards.1.description")}
                 </p>
               </CardContent>
             </Card>
             <Card className="border-2 glass-card hover:border-accent/30 transition-all hover:scale-105 hover:shadow-xl group">
               <CardHeader>
-                <CardTitle className="text-xl group-hover:text-accent transition-colors">{t("solution.problem.cards.2.title")}</CardTitle>
+                <CardTitle className="text-xl group-hover:text-accent transition-colors">{t("solutionPage.problem.cards.2.title")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  {t("solution.problem.cards.2.description")}
+                  {t("solutionPage.problem.cards.2.description")}
                 </p>
               </CardContent>
             </Card>
@@ -90,9 +90,9 @@ export default function Solution() {
       <section className="container mx-auto px-4 py-20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("solution.howItWorks.title")}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("solutionPage.howItWorks.title")}</h2>
             <p className="text-lg text-muted-foreground">
-              {t("solution.howItWorks.subtitle")}
+              {t("solutionPage.howItWorks.subtitle")}
             </p>
           </div>
 
@@ -101,33 +101,33 @@ export default function Solution() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="order-2 md:order-1">
                 <div className="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-bold mb-4">
-                  {t("solution.howItWorks.step1.badge")}
+                  {t("solutionPage.howItWorks.step1.badge")}
                 </div>
                 <h3 className="text-3xl font-bold mb-4 flex items-center gap-3">
                   <MapPin className="h-8 w-8 text-accent" />
-                  {t("solution.howItWorks.step1.title")}
+                  {t("solutionPage.howItWorks.step1.title")}
                 </h3>
                 <p className="text-lg text-muted-foreground mb-6">
-                  {t("solution.howItWorks.step1.description")}
+                  {t("solutionPage.howItWorks.step1.description")}
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
                     <div className="h-6 w-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-accent text-sm">✓</span>
                     </div>
-                    <span className="text-muted-foreground">{t("solution.howItWorks.step1.features.0")}</span>
+                    <span className="text-muted-foreground">{t("solutionPage.howItWorks.step1.features.0")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="h-6 w-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-accent text-sm">✓</span>
                     </div>
-                    <span className="text-muted-foreground">{t("solution.howItWorks.step1.features.1")}</span>
+                    <span className="text-muted-foreground">{t("solutionPage.howItWorks.step1.features.1")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="h-6 w-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-accent text-sm">✓</span>
                     </div>
-                    <span className="text-muted-foreground">{t("solution.howItWorks.step1.features.2")}</span>
+                    <span className="text-muted-foreground">{t("solutionPage.howItWorks.step1.features.2")}</span>
                   </li>
                 </ul>
               </div>
@@ -138,7 +138,7 @@ export default function Solution() {
                     <Bell className="h-16 w-16 text-accent mb-4 mx-auto relative animate-pulse" />
                   </div>
                   <p className="text-center text-muted-foreground">
-                    {t("solution.howItWorks.step1.card")}
+                    {t("solutionPage.howItWorks.step1.card")}
                   </p>
                 </div>
               </div>
@@ -153,39 +153,39 @@ export default function Solution() {
                     <Sparkles className="h-16 w-16 text-accent mb-4 mx-auto relative animate-pulse" />
                   </div>
                   <p className="text-center text-muted-foreground">
-                    {t("solution.howItWorks.step2.card")}
+                    {t("solutionPage.howItWorks.step2.card")}
                   </p>
                 </div>
               </div>
               <div>
                 <div className="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-bold mb-4">
-                  {t("solution.howItWorks.step2.badge")}
+                  {t("solutionPage.howItWorks.step2.badge")}
                 </div>
                 <h3 className="text-3xl font-bold mb-4 flex items-center gap-3">
                   <TrendingUp className="h-8 w-8 text-accent" />
-                  {t("solution.howItWorks.step2.title")}
+                  {t("solutionPage.howItWorks.step2.title")}
                 </h3>
                 <p className="text-lg text-muted-foreground mb-6">
-                  {t("solution.howItWorks.step2.description")}
+                  {t("solutionPage.howItWorks.step2.description")}
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
                     <div className="h-6 w-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-accent text-sm">✓</span>
                     </div>
-                    <span className="text-muted-foreground">{t("solution.howItWorks.step2.features.0")}</span>
+                    <span className="text-muted-foreground">{t("solutionPage.howItWorks.step2.features.0")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="h-6 w-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-accent text-sm">✓</span>
                     </div>
-                    <span className="text-muted-foreground">{t("solution.howItWorks.step2.features.1")}</span>
+                    <span className="text-muted-foreground">{t("solutionPage.howItWorks.step2.features.1")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="h-6 w-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-accent text-sm">✓</span>
                     </div>
-                    <span className="text-muted-foreground">{t("solution.howItWorks.step2.features.2")}</span>
+                    <span className="text-muted-foreground">{t("solutionPage.howItWorks.step2.features.2")}</span>
                   </li>
                 </ul>
               </div>
@@ -195,33 +195,33 @@ export default function Solution() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="order-2 md:order-1">
                 <div className="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-bold mb-4">
-                  {t("solution.howItWorks.step3.badge")}
+                  {t("solutionPage.howItWorks.step3.badge")}
                 </div>
                 <h3 className="text-3xl font-bold mb-4 flex items-center gap-3">
                   <BarChart className="h-8 w-8 text-accent" />
-                  {t("solution.howItWorks.step3.title")}
+                  {t("solutionPage.howItWorks.step3.title")}
                 </h3>
                 <p className="text-lg text-muted-foreground mb-6">
-                  {t("solution.howItWorks.step3.description")}
+                  {t("solutionPage.howItWorks.step3.description")}
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
                     <div className="h-6 w-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-accent text-sm">✓</span>
                     </div>
-                    <span className="text-muted-foreground">{t("solution.howItWorks.step3.features.0")}</span>
+                    <span className="text-muted-foreground">{t("solutionPage.howItWorks.step3.features.0")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="h-6 w-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-accent text-sm">✓</span>
                     </div>
-                    <span className="text-muted-foreground">{t("solution.howItWorks.step3.features.1")}</span>
+                    <span className="text-muted-foreground">{t("solutionPage.howItWorks.step3.features.1")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="h-6 w-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-accent text-sm">✓</span>
                     </div>
-                    <span className="text-muted-foreground">{t("solution.howItWorks.step3.features.2")}</span>
+                    <span className="text-muted-foreground">{t("solutionPage.howItWorks.step3.features.2")}</span>
                   </li>
                 </ul>
               </div>
@@ -232,7 +232,7 @@ export default function Solution() {
                     <Target className="h-16 w-16 text-accent mb-4 mx-auto relative animate-pulse" />
                   </div>
                   <p className="text-center text-muted-foreground">
-                    {t("solution.howItWorks.step3.card")}
+                    {t("solutionPage.howItWorks.step3.card")}
                   </p>
                 </div>
               </div>
@@ -245,20 +245,20 @@ export default function Solution() {
       <section className="container mx-auto px-4 py-20 bg-gradient-to-b from-accent/5 to-background">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("solution.benefits.title")}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("solutionPage.benefits.title")}</h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card className="text-center p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
               <div className="text-5xl font-bold gradient-text mb-2 group-hover:scale-110 transition-transform">40%</div>
-              <p className="text-sm text-muted-foreground">{t("solution.benefits.stats.0")}</p>
+              <p className="text-sm text-muted-foreground">{t("solutionPage.benefits.stats.0")}</p>
             </Card>
             <Card className="text-center p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
               <div className="text-5xl font-bold gradient-text mb-2 group-hover:scale-110 transition-transform">15min</div>
-              <p className="text-sm text-muted-foreground">{t("solution.benefits.stats.1")}</p>
+              <p className="text-sm text-muted-foreground">{t("solutionPage.benefits.stats.1")}</p>
             </Card>
             <Card className="text-center p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
               <div className="text-5xl font-bold gradient-text mb-2 group-hover:scale-110 transition-transform">3x</div>
-              <p className="text-sm text-muted-foreground">{t("solution.benefits.stats.2")}</p>
+              <p className="text-sm text-muted-foreground">{t("solutionPage.benefits.stats.2")}</p>
             </Card>
           </div>
         </div>
@@ -269,10 +269,10 @@ export default function Solution() {
         <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-background -z-10" />
         <div className="max-w-4xl mx-auto text-center space-y-8 glass-card p-12 rounded-3xl border-2 premium-glow-lg">
           <h2 className="text-4xl md:text-5xl font-bold">
-            {t("solution.cta.title1")} <span className="gradient-text">{t("solution.cta.title2")}</span>?
+            {t("solutionPage.cta.title1")} <span className="gradient-text">{t("solutionPage.cta.title2")}</span>?
           </h2>
           <p className="text-xl text-muted-foreground">
-            {t("solution.cta.description")}
+            {t("solutionPage.cta.description")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -281,7 +281,7 @@ export default function Solution() {
               asChild
             >
               <Link to="/auth">
-                {t("solution.cta.buttons.start")}
+                {t("solutionPage.cta.buttons.start")}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </Button>
@@ -291,7 +291,7 @@ export default function Solution() {
               asChild
             >
               <Link to="/contact">
-                {t("solution.cta.buttons.contact")}
+                {t("solutionPage.cta.buttons.contact")}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </Button>

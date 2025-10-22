@@ -196,55 +196,6 @@ const resources = {
       referFriendPricing: "Priser",
       referFriendLogin: "Logga in",
       
-      // Solution Page
-      solutionHome: "Hem",
-      solutionContact: "Kontakt",
-      solutionHeroTitle: "En komplett lösning för",
-      solutionHeroTitleHighlight: "eventdriven marknadsföring",
-      solutionHeroSubtitle: "Spotlight kombinerar AI-teknologi med lokal eventdata för att automatiskt skapa och optimera marknadsföringskampanjer",
-      solutionChallengeTitle: "Utmaningen",
-      solutionChallengeSubtitle: "Lokala företag missar dagligen värdefulla möjligheter",
-      solutionChallenge1Title: "Missade evenemang",
-      solutionChallenge1Desc: "Tusentals lokala evenemang sker varje vecka, men de flesta företag saknar resurser att övervaka och agera på dem i tid.",
-      solutionChallenge2Title: "Tidskrävande kampanjer",
-      solutionChallenge2Desc: "Att skapa effektiva marknadsföringskampanjer tar tid och expertis som små företag ofta inte har tillgång till.",
-      solutionChallenge3Title: "Ingen insikt",
-      solutionChallenge3Desc: "Utan verktyg för att mäta och analysera resultat går företag miste om värdefulla lärdomar för framtida kampanjer.",
-      solutionHowTitle: "Så fungerar Spotlight",
-      solutionHowSubtitle: "En komplett plattform som automatiserar hela processen",
-      solutionStep1Badge: "Steg 1",
-      solutionStep1Title: "Automatisk Eventövervakning",
-      solutionStep1Desc: "Spotlight övervakar kontinuerligt tusentals evenemang i ditt område. Vi analyserar storlek, typ, och relevans för ditt företag.",
-      solutionStep1Feature1: "Realtidsuppdatering av lokala evenemang",
-      solutionStep1Feature2: "Intelligent filtrering baserat på din bransch",
-      solutionStep1Feature3: "Uppskattat besöksantal för varje event",
-      solutionStep1Note: "Få notifieringar om relevanta evenemang innan de händer",
-      solutionStep2Badge: "Steg 2",
-      solutionStep2Title: "AI-Genererade Kampanjer",
-      solutionStep2Desc: "Vår AI analyserar eventet och skapar automatiskt professionella kampanjtexter anpassade för din målgrupp och kanal.",
-      solutionStep2Feature1: "Personliga kampanjtexter på sekunder",
-      solutionStep2Feature2: "Optimerad för olika kanaler (social, email, webb)",
-      solutionStep2Feature3: "Enkelt att redigera och anpassa",
-      solutionStep2Note: "AI skapar skräddarsydda kampanjer på sekunder",
-      solutionStep3Badge: "Steg 3",
-      solutionStep3Title: "Mätning & Optimering",
-      solutionStep3Desc: "Följ resultat i realtid och lär dig vad som fungerar bäst för just ditt företag.",
-      solutionStep3Feature1: "Detaljerad analys av kampanjprestanda",
-      solutionStep3Feature2: "ROI-tracking per kampanj",
-      solutionStep3Feature3: "AI-rekommendationer för förbättring",
-      solutionStep3Note: "Se exakt vilka kampanjer som ger bäst resultat",
-      solutionResultsTitle: "Resultat du kan förvänta dig",
-      solutionResult1: "40%",
-      solutionResult1Desc: "Ökad försäljning under evenemang",
-      solutionResult2: "15min",
-      solutionResult2Desc: "Sparad tid per kampanj",
-      solutionResult3: "3x",
-      solutionResult3Desc: "Fler kampanjer per månad",
-      solutionCtaTitle: "Redo att öka din",
-      solutionCtaTitleHighlight: "försäljning",
-      solutionCtaSubtitle: "Börja använda Spotlight idag och se resultat redan vid nästa lokala evenemang.",
-      solutionCtaButton: "Kom igång gratis",
-      solutionCtaContactButton: "Kontakta oss",
       
       // How It Works Page
       howWorksHome: "Hem",
@@ -1021,6 +972,150 @@ const resources = {
       cookiesThirdText: "Vi använder följande tredjepartstjänster som kan placera cookies:",
       cookiesManageTitle: "Hantera cookies",
       cookiesManageText: "Du kan när som helst ändra dina cookie-inställningar genom din webbläsare. Observera att vissa funktioner kanske inte fungerar korrekt om du blockerar cookies.",
+
+      // Plan Selector
+      planSelector: {
+        logout: "Logga ut",
+        header: {
+          badge: "Välj ditt abonnemang",
+          title: "Välkommen till",
+          subtitle: "Välj den plan som passar ditt företag bäst.",
+          trial: "Alla planer inkluderar 14 dagars gratis provperiod.",
+        },
+        billing: {
+          monthly: "Månadsvis",
+          yearly: "Årsvis",
+          save: "Spara pengar",
+          monthSuffix: "/mån",
+          yearSuffix: "/år",
+        },
+        popular: "MEST POPULÄR",
+        plans: {
+          starter: {
+            name: "Starter",
+            yearlyDiscount: "Spara $19",
+            features: {
+              0: "14 dagars gratis provperiod",
+              1: "Spara kampanjer till databasen",
+              2: "Grundläggande kampanjvy",
+              3: "Redigera kampanjförslag",
+              4: "Upp till 10 kampanjer",
+            },
+          },
+          professional: {
+            name: "Professional",
+            yearlyDiscount: "Spara $229",
+            features: {
+              0: "14 dagars gratis provperiod",
+              1: "Alla Starter-funktioner",
+              2: "Upp till 3 användare",
+              3: "PDF-export med professionell design",
+              4: "Dela kampanjer via länk",
+              5: "Analytics & ROI-tracking",
+              6: "AI-genererade visuella mockups",
+              7: "Flerspråksstöd",
+              8: "A/B-testning",
+              9: "Obegränsat antal kampanjer",
+            },
+          },
+        },
+        buttons: {
+          select: "Välj",
+          opening: "Öppnar checkout...",
+        },
+        trust: {
+          features: "✓ Ingen bindningstid • ✓ Avsluta när du vill • ✓ Säker betalning via Stripe",
+          noCharge: "Du kommer inte debiteras under provperioden på 14 dagar",
+        },
+        errors: {
+          checkout: "Kunde inte starta checkout: ",
+        },
+      },
+
+      // Solution Page
+      solutionPage: {
+        nav: {
+          home: "Hem",
+          contact: "Kontakt",
+        },
+        hero: {
+          title1: "En komplett lösning för",
+          title2: "eventdriven marknadsföring",
+          description: "Spotlight kombinerar AI-teknologi med lokal eventdata för att automatiskt skapa och optimera marknadsföringskampanjer",
+        },
+        problem: {
+          title: "Utmaningen",
+          subtitle: "Lokala företag missar dagligen värdefulla möjligheter",
+          cards: {
+            0: {
+              title: "Missade evenemang",
+              description: "Tusentals lokala evenemang sker varje vecka, men de flesta företag saknar resurser att övervaka och agera på dem i tid.",
+            },
+            1: {
+              title: "Tidskrävande kampanjer",
+              description: "Att skapa effektiva marknadsföringskampanjer tar tid och expertis som små företag ofta inte har tillgång till.",
+            },
+            2: {
+              title: "Ingen insikt",
+              description: "Utan verktyg för att mäta och analysera resultat går företag miste om värdefulla lärdomar för framtida kampanjer.",
+            },
+          },
+        },
+        howItWorks: {
+          title: "Så fungerar Spotlight",
+          subtitle: "En komplett plattform som automatiserar hela processen",
+          step1: {
+            badge: "Steg 1",
+            title: "Automatisk Eventövervakning",
+            description: "Spotlight övervakar kontinuerligt tusentals evenemang i ditt område. Vi analyserar storlek, typ, och relevans för ditt företag.",
+            features: {
+              0: "Realtidsuppdatering av lokala evenemang",
+              1: "Intelligent filtrering baserat på din bransch",
+              2: "Uppskattat besöksantal för varje event",
+            },
+            card: "Få notifieringar om relevanta evenemang innan de händer",
+          },
+          step2: {
+            badge: "Steg 2",
+            title: "AI-Genererade Kampanjer",
+            description: "Vår AI analyserar eventet och skapar automatiskt professionella kampanjtexter anpassade för din målgrupp och kanal.",
+            features: {
+              0: "Personliga kampanjtexter på sekunder",
+              1: "Optimerad för olika kanaler (social, email, webb)",
+              2: "Enkelt att redigera och anpassa",
+            },
+            card: "AI skapar skräddarsydda kampanjer på sekunder",
+          },
+          step3: {
+            badge: "Steg 3",
+            title: "Mätning & Optimering",
+            description: "Följ resultat i realtid och lär dig vad som fungerar bäst för just ditt företag.",
+            features: {
+              0: "Detaljerad analys av kampanjprestanda",
+              1: "ROI-tracking per kampanj",
+              2: "AI-rekommendationer för förbättring",
+            },
+            card: "Se exakt vilka kampanjer som ger bäst resultat",
+          },
+        },
+        benefits: {
+          title: "Resultat du kan förvänta dig",
+          stats: {
+            0: "Ökad försäljning under evenemang",
+            1: "Sparad tid per kampanj",
+            2: "Fler kampanjer per månad",
+          },
+        },
+        cta: {
+          title1: "Redo att öka din",
+          title2: "försäljning",
+          description: "Börja använda Spotlight idag och se resultat redan vid nästa lokala evenemang.",
+          buttons: {
+            start: "Kom igång gratis",
+            contact: "Kontakta oss",
+          },
+        },
+      },
     }
   },
   en: {
@@ -1612,55 +1707,6 @@ const resources = {
       start: "Start",
       end: "End",
 
-      // Solution page
-      solutionHero: "A complete solution for",
-      solutionHeroHighlight: "event-driven marketing",
-      solutionHeroDesc: "Spotlight combines AI technology with local event data to automatically create and optimize marketing campaigns",
-      solutionChallengeTitle: "The Challenge",
-      solutionChallengeDesc: "Local businesses miss valuable opportunities daily",
-      solutionChallenge1Title: "Missed events",
-      solutionChallenge1Desc: "Thousands of local events happen every week, but most businesses lack the resources to monitor and act on them in time.",
-      solutionChallenge2Title: "Time-consuming campaigns",
-      solutionChallenge2Desc: "Creating effective marketing campaigns takes time and expertise that small businesses often don't have access to.",
-      solutionChallenge3Title: "No insights",
-      solutionChallenge3Desc: "Without tools to measure and analyze results, businesses miss out on valuable learnings for future campaigns.",
-      solutionHowTitle: "How Spotlight Works",
-      solutionHowDesc: "A complete platform that automates the entire process",
-      solutionStep1: "Step 1",
-      solutionStep1Title: "Automatic Event Monitoring",
-      solutionStep1Desc: "Spotlight continuously monitors thousands of events in your area. We analyze size, type, and relevance for your business.",
-      solutionStep1Feature1: "Real-time updates of local events",
-      solutionStep1Feature2: "Intelligent filtering based on your industry",
-      solutionStep1Feature3: "Estimated attendance for each event",
-      solutionStep1Card: "Get notifications about relevant events before they happen",
-      solutionStep2: "Step 2",
-      solutionStep2Title: "AI-Generated Campaigns",
-      solutionStep2Desc: "Our AI analyzes the event and automatically creates professional campaign texts tailored to your audience and channel.",
-      solutionStep2Feature1: "Personalized campaign texts in seconds",
-      solutionStep2Feature2: "Optimized for different channels (social, email, web)",
-      solutionStep2Feature3: "Easy to edit and customize",
-      solutionStep2Card: "AI creates customized campaigns in seconds",
-      solutionStep3: "Step 3",
-      solutionStep3Title: "Measurement & Optimization",
-      solutionStep3Desc: "Track results in real-time and learn what works best for your business.",
-      solutionStep3Feature1: "Detailed analysis of campaign performance",
-      solutionStep3Feature2: "ROI tracking per campaign",
-      solutionStep3Feature3: "AI recommendations for improvement",
-      solutionStep3Card: "See exactly which campaigns give the best results",
-      solutionResultsTitle: "Results you can expect",
-      solutionResult1: "40%",
-      solutionResult1Desc: "Increased sales during events",
-      solutionResult2: "15min",
-      solutionResult2Desc: "Time saved per campaign",
-      solutionResult3: "3x",
-      solutionResult3Desc: "More campaigns per month",
-      solutionResult4: "500+",
-      solutionResult4Desc: "Happy businesses",
-      solutionCtaTitle: "Ready to increase your",
-      solutionCtaHighlight: "sales",
-      solutionCtaDesc: "Start using Spotlight today and see results at the next local event.",
-      solutionCtaBtn1: "Get started free",
-      solutionCtaBtn2: "Contact us",
 
       // How It Works page
       howItWorksHero: "From events to",
@@ -1873,6 +1919,150 @@ const resources = {
       cookiesThirdText: "We use the following third-party services that may place cookies:",
       cookiesManageTitle: "Manage cookies",
       cookiesManageText: "You can change your cookie settings at any time through your browser. Note that some features may not work properly if you block cookies.",
+
+      // Plan Selector
+      planSelector: {
+        logout: "Log out",
+        header: {
+          badge: "Choose your subscription",
+          title: "Welcome to",
+          subtitle: "Choose the plan that best suits your business.",
+          trial: "All plans include a 14-day free trial.",
+        },
+        billing: {
+          monthly: "Monthly",
+          yearly: "Yearly",
+          save: "Save money",
+          monthSuffix: "/mo",
+          yearSuffix: "/yr",
+        },
+        popular: "MOST POPULAR",
+        plans: {
+          starter: {
+            name: "Starter",
+            yearlyDiscount: "Save $19",
+            features: {
+              0: "14-day free trial",
+              1: "Save campaigns to database",
+              2: "Basic campaign view",
+              3: "Edit campaign suggestions",
+              4: "Up to 10 campaigns",
+            },
+          },
+          professional: {
+            name: "Professional",
+            yearlyDiscount: "Save $229",
+            features: {
+              0: "14-day free trial",
+              1: "All Starter features",
+              2: "Up to 3 users",
+              3: "PDF export with professional design",
+              4: "Share campaigns via link",
+              5: "Analytics & ROI tracking",
+              6: "AI-generated visual mockups",
+              7: "Multi-language support",
+              8: "A/B testing",
+              9: "Unlimited campaigns",
+            },
+          },
+        },
+        buttons: {
+          select: "Select",
+          opening: "Opening checkout...",
+        },
+        trust: {
+          features: "✓ No commitment • ✓ Cancel anytime • ✓ Secure payment via Stripe",
+          noCharge: "You will not be charged during the 14-day trial period",
+        },
+        errors: {
+          checkout: "Could not start checkout: ",
+        },
+      },
+
+      // Solution Page
+      solutionPage: {
+        nav: {
+          home: "Home",
+          contact: "Contact",
+        },
+        hero: {
+          title1: "A complete solution for",
+          title2: "event-driven marketing",
+          description: "Spotlight combines AI technology with local event data to automatically create and optimize marketing campaigns",
+        },
+        problem: {
+          title: "The Challenge",
+          subtitle: "Local businesses miss valuable opportunities daily",
+          cards: {
+            0: {
+              title: "Missed events",
+              description: "Thousands of local events happen every week, but most businesses lack the resources to monitor and act on them in time.",
+            },
+            1: {
+              title: "Time-consuming campaigns",
+              description: "Creating effective marketing campaigns takes time and expertise that small businesses often don't have access to.",
+            },
+            2: {
+              title: "No insights",
+              description: "Without tools to measure and analyze results, businesses miss out on valuable learnings for future campaigns.",
+            },
+          },
+        },
+        howItWorks: {
+          title: "How Spotlight Works",
+          subtitle: "A complete platform that automates the entire process",
+          step1: {
+            badge: "Step 1",
+            title: "Automatic Event Monitoring",
+            description: "Spotlight continuously monitors thousands of events in your area. We analyze size, type, and relevance for your business.",
+            features: {
+              0: "Real-time updates of local events",
+              1: "Intelligent filtering based on your industry",
+              2: "Estimated attendance for each event",
+            },
+            card: "Get notifications about relevant events before they happen",
+          },
+          step2: {
+            badge: "Step 2",
+            title: "AI-Generated Campaigns",
+            description: "Our AI analyzes the event and automatically creates professional campaign texts tailored to your audience and channel.",
+            features: {
+              0: "Personalized campaign texts in seconds",
+              1: "Optimized for different channels (social, email, web)",
+              2: "Easy to edit and customize",
+            },
+            card: "AI creates customized campaigns in seconds",
+          },
+          step3: {
+            badge: "Step 3",
+            title: "Measurement & Optimization",
+            description: "Track results in real-time and learn what works best for your business.",
+            features: {
+              0: "Detailed analysis of campaign performance",
+              1: "ROI tracking per campaign",
+              2: "AI recommendations for improvement",
+            },
+            card: "See exactly which campaigns give the best results",
+          },
+        },
+        benefits: {
+          title: "Results you can expect",
+          stats: {
+            0: "Increased sales during events",
+            1: "Time saved per campaign",
+            2: "More campaigns per month",
+          },
+        },
+        cta: {
+          title1: "Ready to increase your",
+          title2: "sales",
+          description: "Start using Spotlight today and see results at the next local event.",
+          buttons: {
+            start: "Get started free",
+            contact: "Contact us",
+          },
+        },
+      },
 
       // User Ratings Section
       customerSatisfactionBadge: "⭐ Customer Satisfaction",
