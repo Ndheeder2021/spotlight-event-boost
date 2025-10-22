@@ -55,6 +55,18 @@ const resources = {
       createCampaign: "Skapa kampanj",
       expectedGuests: "förväntade gäster",
       
+      // Campaigns Page
+      savedEventsAndCampaigns: "Sparade Events & Kampanjer",
+      savedEventsAndCampaignsDesc: "Dina sparade events och AI-genererade kampanjer",
+      loadingCampaigns: "Laddar kampanjer...",
+      noSavedEventsYet: "Inga sparade events än",
+      noSavedEventsDesc: "Gå till Dashboard och spara events genom att klicka på bookmark-ikonen",
+      event: "Event",
+      unknownEvent: "Okänt event",
+      statusDraft: "Utkast",
+      statusScheduled: "Schemalagd",
+      statusPublished: "Publicerad",
+      
       // Campaigns
       saveCampaign: "Spara kampanj",
       exportPDF: "Exportera PDF",
@@ -726,17 +738,6 @@ const resources = {
       compareCampaigns: "Jämför dina kampanjer",
       exportReport: "Exportera rapport",
       reportExported: "Rapport exporterad!",
-
-      // Campaigns Page
-      savedEventsAndCampaigns: "Sparade Events & Kampanjer",
-      yourSavedEvents: "Dina sparade events och AI-genererade kampanjer",
-      noSavedEventsYet: "Inga sparade events än",
-      goToDashboardSave: "Gå till Dashboard och spara events genom att klicka på bookmark-ikonen",
-      event: "Event",
-      unknownEvent: "Okänt event",
-      start: "Start",
-      end: "Slut",
-
 
       // How It Works page
       howItWorksHero: "Från evenemang till",

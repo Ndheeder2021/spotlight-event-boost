@@ -70,9 +70,9 @@ export default function Campaigns() {
 
   const getStatusBadge = (status: string) => {
     const statusMap = {
-      draft: { className: "bg-secondary/80 text-secondary-foreground border-secondary/30", text: "Utkast" },
-      scheduled: { className: "bg-accent/10 text-accent border-accent/30", text: "Schemalagd" },
-      published: { className: "bg-primary/10 text-primary border-primary/30", text: "Publicerad" },
+      draft: { className: "bg-secondary/80 text-secondary-foreground border-secondary/30", text: t('statusDraft') },
+      scheduled: { className: "bg-accent/10 text-accent border-accent/30", text: t('statusScheduled') },
+      published: { className: "bg-primary/10 text-primary border-primary/30", text: t('statusPublished') },
     };
     const config = statusMap[status as keyof typeof statusMap] || statusMap.draft;
     return (
@@ -87,7 +87,7 @@ export default function Campaigns() {
       <div className="min-h-screen bg-gradient-to-b from-background via-background to-accent/5 flex items-center justify-center">
         <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-card">
           <Loader2 className="h-6 w-6 animate-spin text-primary" />
-          <p className="text-lg font-medium">Laddar kampanjer...</p>
+          <p className="text-lg font-medium">{t('loadingCampaigns')}</p>
         </div>
       </div>
     );
@@ -102,10 +102,10 @@ export default function Campaigns() {
             <div className="h-12 w-1 bg-gradient-to-b from-primary to-accent rounded-full" />
             <div>
               <h1 className="text-4xl md:text-5xl font-bold gradient-text">
-                Sparade Events & Kampanjer
+                {t('savedEventsAndCampaigns')}
               </h1>
               <p className="text-lg text-muted-foreground mt-2">
-                Dina sparade events och AI-genererade kampanjer
+                {t('savedEventsAndCampaignsDesc')}
               </p>
             </div>
           </div>
@@ -118,9 +118,9 @@ export default function Campaigns() {
                 <div className="p-4 rounded-2xl bg-primary/10 mb-6">
                   <Megaphone className="h-12 w-12 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Inga sparade events än</h3>
+                <h3 className="text-2xl font-bold mb-3">{t('noSavedEventsYet')}</h3>
                 <p className="text-muted-foreground text-center text-lg max-w-md">
-                  Gå till Dashboard och spara events genom att klicka på bookmark-ikonen
+                  {t('noSavedEventsDesc')}
                 </p>
               </CardContent>
             </Card>
@@ -144,7 +144,7 @@ export default function Campaigns() {
                     </div>
                     <CardDescription className="text-base flex items-center gap-2">
                       <Megaphone className="h-4 w-4 text-accent shrink-0" />
-                      <span className="line-clamp-1">{campaign.events?.title || "Okänt event"}</span>
+                      <span className="line-clamp-1">{campaign.events?.title || t('unknownEvent')}</span>
                     </CardDescription>
                   </CardHeader>
                   
