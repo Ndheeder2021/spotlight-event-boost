@@ -10,7 +10,6 @@ import { sv } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
 
 interface AnalyticsData {
   totalCampaigns: number;
@@ -270,9 +269,7 @@ export default function Reports() {
   }
 
   return (
-    <div className="min-h-screen bg-background relative">
-      <AnimatedHeroBackground />
-      
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-accent/5 relative">
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 px-4">
         <div className="container mx-auto max-w-6xl relative z-10">
