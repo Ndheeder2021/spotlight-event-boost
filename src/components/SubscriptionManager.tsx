@@ -210,11 +210,11 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
               {stripeSubscription.subscribed && (
                 <Button 
                   onClick={handleManageSubscription}
-                  variant="outline" 
-                  size="sm"
-                  className="w-fit mt-2"
+                  variant="default" 
+                  size="lg"
+                  className="w-full mt-4 bg-gradient-to-r from-primary to-primary-glow hover:shadow-glow transition-all hover-scale group"
                 >
-                  <ExternalLink className="h-4 w-4 mr-2" />
+                  <ExternalLink className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform" />
                   {t('manageSubscriptionButton')}
                 </Button>
               )}
