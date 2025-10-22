@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { GlobalHeader } from "@/components/GlobalHeader";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
@@ -20,19 +21,18 @@ import { toast } from "sonner";
 import { TrendingUp, Target, Users, Sparkles } from "lucide-react";
 import { z } from "zod";
 
-const investorSchema = z.object({
-  name: z.string().trim().min(2, "Namn måste vara minst 2 tecken").max(100, "Namn får vara max 100 tecken"),
-  email: z.string().trim().email("Ogiltig e-postadress").max(255, "E-post får vara max 255 tecken"),
-  company: z.string().trim().max(100, "Företag får vara max 100 tecken").optional(),
-  phone: z.string().trim().max(20, "Telefon får vara max 20 tecken").optional(),
-  investment_range: z.string().min(1, "Välj ett investeringsintervall"),
-  message: z.string().trim().min(10, "Meddelande måste vara minst 10 tecken").max(2000, "Meddelande får vara max 2000 tecken"),
-});
-
-type InvestorFormData = z.infer<typeof investorSchema>;
+type InvestorFormData = {
+  name: string;
+  email: string;
+  company: string;
+  phone: string;
+  investment_range: string;
+  message: string;
+};
 
 export default function Investors() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<InvestorFormData>({
     name: "",
@@ -47,6 +47,16 @@ export default function Investors() {
     e.preventDefault();
     
     try {
+      // Manual validation
+      const investorSchema = z.object({
+        name: z.string().trim().min(2, t("investorFormErrorNameMin")).max(100, t("investorFormErrorNameMax")),
+        email: z.string().trim().email(t("investorFormErrorEmailInvalid")).max(255, t("investorFormErrorEmailMax")),
+        company: z.string().trim().max(100, t("investorFormErrorCompanyMax")).optional(),
+        phone: z.string().trim().max(20, t("investorFormErrorPhoneMax")).optional(),
+        investment_range: z.string().min(1, t("investorFormErrorInvestmentRange")),
+        message: z.string().trim().min(10, t("investorFormErrorMessageMin")).max(2000, t("investorFormErrorMessageMax")),
+      });
+
       const validatedData = investorSchema.parse(formData);
       setIsSubmitting(true);
 
@@ -63,7 +73,7 @@ export default function Investors() {
 
       if (error) throw error;
 
-      toast.success("Tack för ditt intresse! Vi återkommer inom kort.");
+      toast.success(t("investorFormSuccess"));
       setFormData({
         name: "",
         email: "",
@@ -80,7 +90,7 @@ export default function Investors() {
           toast.error(err.message);
         });
       } else {
-        toast.error("Något gick fel. Försök igen.");
+        toast.error(t("investorFormErrorGeneral"));
       }
     } finally {
       setIsSubmitting(false);
@@ -106,8 +116,8 @@ export default function Investors() {
   return (
     <>
       <SEO 
-        title="Investera i Spotlight | Investerings möjligheter"
-        description="Bli en del av Spotlights tillväxtresa. Upptäck investeringsmöjligheter i den ledande AI-drivna marknadsföringsplattformen för lokala företag."
+        title={`${t("investors")} | Spotlight`}
+        description={t("investorHeroDesc")}
       />
       <GlobalHeader variant="default" />
       
@@ -118,13 +128,13 @@ export default function Investors() {
             <div className="text-center mb-16 space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
                 <Sparkles className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium text-primary">Investeringsmöjligheter</span>
+                <span className="text-sm font-medium text-primary">{t("investorBadgeText")}</span>
               </div>
               <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary via-primary-glow to-primary bg-clip-text text-transparent leading-tight">
-                Investera i framtidens <br />marknadsföring
+                {t("investorHero")} <br />{t("investorHeroLine2")}
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Bli en del av Spotlights tillväxtresa och hjälp oss revolutionera hur lokala företag når sina kunder genom AI-driven marknadsföring.
+                {t("investorHeroDesc")}
               </p>
             </div>
 
@@ -133,9 +143,9 @@ export default function Investors() {
               <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
                 <CardHeader>
                   <TrendingUp className="h-10 w-10 text-primary mb-2" />
-                  <CardTitle className="text-2xl">Snabb tillväxt</CardTitle>
+                  <CardTitle className="text-2xl">{t("investorStat1Title")}</CardTitle>
                   <CardDescription>
-                    Expanderar snabbt inom den nordiska marknaden
+                    {t("investorStat1Desc")}
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -143,9 +153,9 @@ export default function Investors() {
               <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
                 <CardHeader>
                   <Target className="h-10 w-10 text-primary mb-2" />
-                  <CardTitle className="text-2xl">Beprövad modell</CardTitle>
+                  <CardTitle className="text-2xl">{t("investorStat2Title")}</CardTitle>
                   <CardDescription>
-                    Validerad affärsmodell med återkommande intäkter
+                    {t("investorStat2Desc")}
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -153,9 +163,9 @@ export default function Investors() {
               <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
                 <CardHeader>
                   <Users className="h-10 w-10 text-primary mb-2" />
-                  <CardTitle className="text-2xl">Stor marknad</CardTitle>
+                  <CardTitle className="text-2xl">{t("investorStat3Title")}</CardTitle>
                   <CardDescription>
-                    Miljontals små och medelstora företag är vår målgrupp
+                    {t("investorStat3Desc")}
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -164,35 +174,35 @@ export default function Investors() {
             {/* Form */}
             <Card className="max-w-2xl mx-auto border-2">
               <CardHeader>
-                <CardTitle className="text-3xl">Ansök om investeringsmöjlighet</CardTitle>
+                <CardTitle className="text-3xl">{t("investorFormTitle")}</CardTitle>
                 <CardDescription className="text-base">
-                  Fyll i formuläret nedan så återkommer vi med mer information
+                  {t("investorFormDesc")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Namn *</Label>
+                    <Label htmlFor="name">{t("investorFormName")}</Label>
                     <Input
                       id="name"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="Ditt fullständiga namn"
+                      placeholder={t("investorFormNamePlaceholder")}
                       required
                       maxLength={100}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">E-post *</Label>
+                    <Label htmlFor="email">{t("investorFormEmail")}</Label>
                     <Input
                       id="email"
                       name="email"
                       type="email"
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="din@email.com"
+                      placeholder={t("investorFormEmailPlaceholder")}
                       required
                       maxLength={255}
                     />
@@ -200,65 +210,65 @@ export default function Investors() {
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="company">Företag</Label>
+                      <Label htmlFor="company">{t("investorFormCompany")}</Label>
                       <Input
                         id="company"
                         name="company"
                         value={formData.company}
                         onChange={handleChange}
-                        placeholder="Ditt företag (valfritt)"
+                        placeholder={t("investorFormCompanyPlaceholder")}
                         maxLength={100}
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Telefon</Label>
+                      <Label htmlFor="phone">{t("investorFormPhone")}</Label>
                       <Input
                         id="phone"
                         name="phone"
                         type="tel"
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="+46 70 123 45 67"
+                        placeholder={t("investorFormPhonePlaceholder")}
                         maxLength={20}
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="investment_range">Investeringsintervall *</Label>
+                    <Label htmlFor="investment_range">{t("investorFormInvestmentRange")}</Label>
                     <Select
                       value={formData.investment_range}
                       onValueChange={handleSelectChange}
                       required
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Välj ett intervall" />
+                        <SelectValue placeholder={t("investorFormInvestmentPlaceholder")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="100k-500k">100k - 500k SEK</SelectItem>
-                        <SelectItem value="500k-1m">500k - 1M SEK</SelectItem>
-                        <SelectItem value="1m-5m">1M - 5M SEK</SelectItem>
-                        <SelectItem value="5m+">5M+ SEK</SelectItem>
+                        <SelectItem value="100k-500k">{t("investorFormInvestment1")}</SelectItem>
+                        <SelectItem value="500k-1m">{t("investorFormInvestment2")}</SelectItem>
+                        <SelectItem value="1m-5m">{t("investorFormInvestment3")}</SelectItem>
+                        <SelectItem value="5m+">{t("investorFormInvestment4")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message">Meddelande *</Label>
+                    <Label htmlFor="message">{t("investorFormMessage")}</Label>
                     <Textarea
                       id="message"
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="Berätta varför du är intresserad av att investera i Spotlight..."
+                      placeholder={t("investorFormMessagePlaceholder")}
                       required
                       rows={6}
                       maxLength={2000}
                       className="resize-none"
                     />
                     <p className="text-xs text-muted-foreground">
-                      {formData.message.length}/2000 tecken
+                      {formData.message.length}/2000 {t("investorFormCharCount")}
                     </p>
                   </div>
 
@@ -268,11 +278,11 @@ export default function Investors() {
                     disabled={isSubmitting}
                     className="w-full bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90 transition-all duration-300 hover:scale-[1.02] shadow-lg font-bold text-lg h-14"
                   >
-                    {isSubmitting ? "Skickar..." : "Skicka ansökan"}
+                    {isSubmitting ? t("investorFormSubmitting") : t("investorFormSubmit")}
                   </Button>
 
                   <p className="text-xs text-muted-foreground text-center">
-                    Genom att skicka in detta formulär godkänner du att vi kontaktar dig angående investeringsmöjligheter.
+                    {t("investorFormTerms")}
                   </p>
                 </form>
               </CardContent>
