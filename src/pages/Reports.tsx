@@ -52,9 +52,10 @@ export default function Reports() {
   const [calculatedROI, setCalculatedROI] = useState<number | null>(null);
 
   useEffect(() => {
+    console.log("[Reports] features loading:", loading, "canViewAnalytics:", features.canViewAnalytics);
     if (!loading && features.canViewAnalytics) {
       loadAnalytics();
-    } else {
+    } else if (!loading && !features.canViewAnalytics) {
       setLoadingData(false);
     }
   }, [loading, features.canViewAnalytics]);
@@ -62,13 +63,18 @@ export default function Reports() {
   const loadAnalytics = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      console.log("[Reports] user:", user?.id);
+      if (!user) { 
+        setLoadingData(false);
+        return;
+      }
 
       const { data: userRole } = await supabase
         .from("user_roles")
         .select("tenant_id")
         .eq("user_id", user.id)
         .maybeSingle();
+      console.log("[Reports] userRole:", userRole);
 
       if (!userRole) {
         toast.error("Kunde inte hitta din organisation. Kontakta support.");
@@ -81,6 +87,7 @@ export default function Reports() {
         .select("lat, lon, radius_km")
         .eq("tenant_id", userRole.tenant_id)
         .maybeSingle();
+      console.log("[Reports] location:", location);
 
       if (!location) {
         toast.error("Du behöver ställa in din plats i inställningar först.");
@@ -93,11 +100,13 @@ export default function Reports() {
         .from("campaigns")
         .select("*")
         .eq("tenant_id", userRole.tenant_id);
+      console.log("[Reports] campaigns count:", campaigns?.length || 0);
 
       // Get events data
       const { data: events } = await supabase
         .from("events")
         .select("*");
+      console.log("[Reports] events count:", events?.length || 0);
 
       // Filter events within radius
       const radiusKm = location.radius_km || 20;
