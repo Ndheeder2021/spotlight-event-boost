@@ -120,16 +120,16 @@ export default function CampaignDashboard() {
       // Performance data for top campaigns
       const performanceData = (campaignsData || []).slice(0, 5).map(campaign => ({
         name: campaign.title.slice(0, 20),
-        visningar: Math.floor(Math.random() * 500) + 100,
-        klick: Math.floor(Math.random() * 100) + 20,
-        roi: Math.floor(Math.random() * 150) + 50,
+        [t('chartViews')]: Math.floor(Math.random() * 500) + 100,
+        [t('chartClicks')]: Math.floor(Math.random() * 100) + 20,
+        [t('chartROI')]: Math.floor(Math.random() * 150) + 50,
       }));
 
       // Views over time data (mock - replace with real data)
       const viewsData = Array.from({ length: 7 }, (_, i) => ({
-        dag: ['Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör', 'Sön'][i],
-        visningar: Math.floor(Math.random() * 300) + 100,
-        klick: Math.floor(Math.random() * 80) + 20,
+        dag: [t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday'), t('sunday')][i],
+        [t('chartViews')]: Math.floor(Math.random() * 300) + 100,
+        [t('chartClicks')]: Math.floor(Math.random() * 80) + 20,
       }));
 
       setChartData({
@@ -150,19 +150,19 @@ export default function CampaignDashboard() {
         <div className="container mx-auto px-4 py-12">
           <Button variant="ghost" onClick={() => navigate("/dashboard")} className="mb-8">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Tillbaka
+            {t('backButton')}
           </Button>
 
           <Card className="glass-card max-w-2xl mx-auto border-0 animate-fade-in">
             <CardHeader>
-              <CardTitle className="text-2xl">Analytics kräver Professional-paketet</CardTitle>
+              <CardTitle className="text-2xl">{t('analyticsRequiresPro')}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-6">
-                För att se kampanjanalytics och ROI-tracking behöver du uppgradera till Professional-paketet.
+                {t('analyticsUpgradeMessage')}
               </p>
               <Button onClick={() => setShowUpgrade(true)} size="lg" className="hover-scale">
-                Visa paket
+                {t('showPlans')}
               </Button>
             </CardContent>
           </Card>
@@ -193,7 +193,7 @@ export default function CampaignDashboard() {
       <div className="container mx-auto px-4 py-12">
         <Button variant="ghost" onClick={() => navigate("/dashboard")} className="mb-8 hover-scale">
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Tillbaka
+          {t('backButton')}
         </Button>
 
         {/* Hero Section */}
@@ -202,10 +202,10 @@ export default function CampaignDashboard() {
             <div className="h-12 w-1 bg-gradient-to-b from-primary to-accent rounded-full" />
             <div>
               <h1 className="text-4xl md:text-5xl font-bold gradient-text">
-                Kampanj Analytics
+                {t('campaignAnalytics')}
               </h1>
               <p className="text-lg text-muted-foreground mt-2">
-                Översikt över dina kampanjers prestanda
+                {t('performanceOverview')}
               </p>
             </div>
           </div>
@@ -216,7 +216,7 @@ export default function CampaignDashboard() {
           <Card className="glass-card border-primary/20 hover-lift group">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
               <CardTitle className="text-sm font-medium text-foreground/80">
-                Totalt antal kampanjer
+                {t('totalCampaigns')}
               </CardTitle>
               <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
                 <Calendar className="h-5 w-5 text-primary" />
@@ -224,14 +224,14 @@ export default function CampaignDashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold gradient-text mb-1">{analytics.totalCampaigns}</div>
-              <p className="text-sm text-muted-foreground">Alla skapade kampanjer</p>
+              <p className="text-sm text-muted-foreground">{t('allCreatedCampaigns')}</p>
             </CardContent>
           </Card>
 
           <Card className="glass-card border-accent/20 hover-lift group">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
               <CardTitle className="text-sm font-medium text-foreground/80">
-                Aktiva kampanjer
+                {t('activeCampaigns')}
               </CardTitle>
               <div className="p-2 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
                 <TrendingUp className="h-5 w-5 text-accent" />
@@ -239,14 +239,14 @@ export default function CampaignDashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold gradient-text mb-1">{analytics.activeCampaigns}</div>
-              <p className="text-sm text-muted-foreground">Publicerade kampanjer</p>
+              <p className="text-sm text-muted-foreground">{t('publishedCampaigns')}</p>
             </CardContent>
           </Card>
 
           <Card className="glass-card border-primary/20 hover-lift group">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
               <CardTitle className="text-sm font-medium text-foreground/80">
-                Totala visningar
+                {t('totalViews')}
               </CardTitle>
               <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
                 <Eye className="h-5 w-5 text-primary" />
@@ -254,14 +254,14 @@ export default function CampaignDashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold gradient-text mb-1">{analytics.totalViews.toLocaleString()}</div>
-              <p className="text-sm text-muted-foreground">Kampanjvisningar</p>
+              <p className="text-sm text-muted-foreground">{t('campaignViews')}</p>
             </CardContent>
           </Card>
 
           <Card className="glass-card border-accent/20 hover-lift group">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
               <CardTitle className="text-sm font-medium text-foreground/80">
-                Genomsnittlig ROI
+                {t('avgROI')}
               </CardTitle>
               <div className="p-2 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
                 <DollarSign className="h-5 w-5 text-accent" />
@@ -269,7 +269,7 @@ export default function CampaignDashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold gradient-text mb-1">{analytics.avgROI.toFixed(1)}%</div>
-              <p className="text-sm text-muted-foreground">Avkastning på investering</p>
+              <p className="text-sm text-muted-foreground">{t('returnOnInvestment')}</p>
             </CardContent>
           </Card>
         </div>
@@ -281,9 +281,9 @@ export default function CampaignDashboard() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Activity className="h-5 w-5 text-primary" />
-                Visningar över tid
+                {t('viewsOverTime')}
               </CardTitle>
-              <CardDescription>Senaste veckans aktivitet</CardDescription>
+              <CardDescription>{t('lastWeekActivity')}</CardDescription>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -311,14 +311,14 @@ export default function CampaignDashboard() {
                   <Legend />
                   <Area 
                     type="monotone" 
-                    dataKey="visningar" 
+                    dataKey={t('chartViews')} 
                     stroke="hsl(var(--primary))" 
                     fillOpacity={1}
                     fill="url(#colorVisningar)"
                   />
                   <Area 
                     type="monotone" 
-                    dataKey="klick" 
+                    dataKey={t('chartClicks')} 
                     stroke="hsl(var(--accent))" 
                     fillOpacity={1}
                     fill="url(#colorKlick)"
@@ -334,9 +334,9 @@ export default function CampaignDashboard() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Target className="h-5 w-5 text-accent" />
-                  Kampanjstatus
+                  {t('campaignStatus')}
                 </CardTitle>
-                <CardDescription>Fördelning av kampanjstatus</CardDescription>
+                <CardDescription>{t('statusDistribution')}</CardDescription>
               </CardHeader>
               <CardContent className="flex justify-center">
                 <ResponsiveContainer width="100%" height={300}>
@@ -375,9 +375,9 @@ export default function CampaignDashboard() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <BarChartIcon className="h-5 w-5 text-primary" />
-                Kampanjprestanda
+                {t('campaignPerformance')}
               </CardTitle>
-              <CardDescription>Jämförelse av dina senaste kampanjer</CardDescription>
+              <CardDescription>{t('compareRecentCampaigns')}</CardDescription>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={400}>
@@ -393,9 +393,9 @@ export default function CampaignDashboard() {
                     }}
                   />
                   <Legend />
-                  <Bar dataKey="visningar" fill="hsl(var(--primary))" radius={[8, 8, 0, 0]} />
-                  <Bar dataKey="klick" fill="hsl(var(--accent))" radius={[8, 8, 0, 0]} />
-                  <Bar dataKey="roi" fill="hsl(var(--secondary))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey={t('chartViews')} fill="hsl(var(--primary))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey={t('chartClicks')} fill="hsl(var(--accent))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey={t('chartROI')} fill="hsl(var(--secondary))" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
@@ -407,7 +407,7 @@ export default function CampaignDashboard() {
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
               <Calendar className="h-6 w-6 text-accent" />
-              Senaste kampanjer
+              {t('recentCampaigns')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -415,7 +415,7 @@ export default function CampaignDashboard() {
               <div className="text-center py-12">
                 <Sparkles className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                 <p className="text-muted-foreground">
-                  Inga kampanjer än. Skapa din första kampanj!
+                  {t('noCampaignsYet')}
                 </p>
               </div>
             ) : (
@@ -431,7 +431,7 @@ export default function CampaignDashboard() {
                         <h3 className="font-semibold text-lg mb-1">{campaign.title}</h3>
                         <p className="text-sm text-muted-foreground flex items-center gap-2">
                           <Target className="h-4 w-4" />
-                          Event: {campaign.events?.title || "N/A"}
+                          {t('eventLabel')} {campaign.events?.title || "N/A"}
                         </p>
                       </div>
                       <div className="text-right">
