@@ -129,16 +129,22 @@ export function PlanSelector({ onSuccess }: PlanSelectorProps) {
             </button>
             <button
               onClick={() => setIsYearly(true)}
-              className={`px-6 py-2.5 rounded-full transition-all flex items-center gap-2 relative group ${
-                isYearly ? 'bg-gradient-to-r from-primary to-primary-glow shadow-lg shadow-primary/20 font-medium text-primary-foreground scale-105' : 'text-muted-foreground hover:scale-105'
+              className={`px-7 py-3 rounded-full transition-all flex items-center gap-2 relative group overflow-hidden ${
+                isYearly 
+                  ? 'bg-gradient-to-r from-primary via-accent to-primary-glow shadow-2xl shadow-primary/30 font-bold text-primary-foreground scale-110 ring-2 ring-accent/50 ring-offset-2 ring-offset-background' 
+                  : 'text-muted-foreground hover:scale-105 hover:text-foreground'
               }`}
             >
               {isYearly && (
-                <span className="absolute inset-0 rounded-full bg-primary opacity-20 animate-pulse" />
+                <>
+                  <span className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/30 via-accent/30 to-primary-glow/30 animate-pulse" />
+                  <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary via-accent to-primary-glow opacity-20 blur-md" />
+                </>
               )}
-              <span className="relative z-10">{t("planSelector.billing.yearly")}</span>
-              <span className="relative z-10 px-2.5 py-1 bg-accent text-accent-foreground text-xs font-bold rounded-full animate-pulse shadow-lg">
-                {t("planSelector.billing.save")}
+              <Sparkles className="relative z-10 h-4 w-4" />
+              <span className="relative z-10 text-base">{t("planSelector.billing.yearly")}</span>
+              <span className="relative z-10 px-3 py-1 bg-gradient-to-r from-accent to-accent-glow text-primary-foreground text-xs font-extrabold rounded-full shadow-xl border border-accent-foreground/20 animate-pulse">
+                ✨ {t("planSelector.billing.save")}
               </span>
             </button>
           </div>
