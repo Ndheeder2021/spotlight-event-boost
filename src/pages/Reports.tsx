@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, TrendingUp, Users, Calendar, DollarSign, Target, Activity, Lock, Download, MapPin, TestTube2, Sparkles } from "lucide-react";
 import { usePlanFeatures } from "@/hooks/usePlanFeatures";
