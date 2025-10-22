@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { AddressAutocomplete } from "@/components/AddressAutocomplete";
-import { MapPin, Building2 } from "lucide-react";
+import { MapPin, Building2, Circle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "react-i18next";
 import mapAddressRadius from "@/assets/map-address-radius.jpg";
@@ -232,16 +232,21 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="radius">{t('searchRadius')}</Label>
-              <Input
-                id="radius"
-                type="number"
-                step="1"
-                min="1"
-                max="100"
-                value={location?.radius_km || 20}
-                onChange={(e) => onChange({ radius_km: parseFloat(e.target.value) })}
-              />
+              <Label htmlFor="radius" className="text-sm font-medium">{t('searchRadius')}</Label>
+              <div className="relative">
+                <Circle className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="radius"
+                  type="number"
+                  step="1"
+                  min="1"
+                  max="100"
+                  value={location?.radius_km || 20}
+                  onChange={(e) => onChange({ radius_km: parseFloat(e.target.value) })}
+                  className="pl-10 h-11 glass-card border-border/50 hover:border-primary/50 focus:border-primary transition-all shadow-sm hover:shadow-md focus:shadow-glow"
+                />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-muted-foreground">km</span>
+              </div>
               <p className="text-xs text-muted-foreground">
                 {t('radiusRecommendation')}
               </p>
