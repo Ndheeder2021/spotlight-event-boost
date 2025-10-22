@@ -146,7 +146,10 @@ export default function EventDetail() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="glass-card p-8 flex items-center gap-3">
+          <Sparkles className="h-6 w-6 text-primary animate-pulse" />
+          <span className="text-lg font-medium">Laddar eventdetaljer...</span>
+        </div>
       </div>
     );
   }
@@ -161,9 +164,9 @@ export default function EventDetail() {
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
-      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b glass-card sticky top-0 z-10 border-primary/10">
         <div className="container mx-auto px-4 py-4">
-          <Button variant="ghost" onClick={() => navigate("/dashboard")} className="hover:bg-accent/10">
+          <Button variant="ghost" onClick={() => navigate("/dashboard")} className="hover-lift">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Tillbaka
           </Button>
@@ -171,46 +174,45 @@ export default function EventDetail() {
       </header>
 
       <main className="container mx-auto px-4 py-12 max-w-5xl">
-        <Card className="mb-8 shadow-premium border-2 border-accent/20 animate-fade-in overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-premium opacity-5 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />
+        <Card className="mb-8 glass-card premium-glow-lg animate-fade-in border-2 border-primary/20 overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary/20 to-primary-glow/20 opacity-20 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />
           <CardHeader className="relative pb-8">
-            <div className="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-semibold mb-3 w-fit">
+            <div className="inline-block px-3 py-1 rounded-full bg-gradient-to-r from-accent/20 to-accent-glow/20 text-accent border border-accent/30 text-sm font-semibold mb-3 w-fit premium-glow">
               {event.category}
             </div>
-            <CardTitle className="text-4xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+            <CardTitle className="text-4xl font-bold tracking-tight gradient-text">
               {event.title}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-5 relative">
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
-              <div className="p-2 rounded-md bg-accent/10">
-                <Calendar className="h-5 w-5 text-accent" />
+            <div className="flex items-center gap-3 p-3 rounded-lg glass-card hover-lift">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 premium-glow">
+                <Calendar className="h-5 w-5 text-primary" />
               </div>
               <span className="font-medium">{format(new Date(event.start_time), "PPP", { locale: sv })}</span>
             </div>
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
-              <div className="p-2 rounded-md bg-accent/10">
+            <div className="flex items-center gap-3 p-3 rounded-lg glass-card hover-lift">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 premium-glow">
                 <MapPin className="h-5 w-5 text-accent" />
               </div>
               <span className="font-medium">{event.venue_name}</span>
             </div>
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
-              <div className="p-2 rounded-md bg-accent/10">
-                <Users className="h-5 w-5 text-accent" />
+            <div className="flex items-center gap-3 p-3 rounded-lg glass-card hover-lift">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-secondary/20 to-secondary/10 premium-glow">
+                <Users className="h-5 w-5 text-secondary" />
               </div>
               <span className="font-medium">{event.expected_attendance.toLocaleString()} förväntade gäster</span>
             </div>
           </CardContent>
         </Card>
 
-        <div className="relative mb-10 animate-fade-in-up">
+        <div className="relative mb-10 animate-fade-in stagger-2">
           <Button
             onClick={generateCampaigns}
             disabled={generating || campaigns.length > 0}
-            className="w-full relative overflow-hidden group shadow-glow hover:shadow-premium transition-all duration-300"
+            className="w-full relative overflow-hidden group bg-gradient-to-r from-primary to-primary-glow hover:shadow-elegant premium-glow-lg transition-all duration-300 hover-lift"
             size="lg"
           >
-            <div className="absolute inset-0 bg-gradient-premium opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <span className="relative z-10 flex items-center justify-center gap-2 text-lg font-semibold">
               {generating ? (
                 <>
@@ -219,7 +221,7 @@ export default function EventDetail() {
                 </>
               ) : campaigns.length > 0 ? (
                 <>
-                  <Sparkles className="h-5 w-5 animate-glow" />
+                  <Sparkles className="h-5 w-5 animate-pulse" />
                   <span>Kampanjer genererade</span>
                 </>
               ) : (
@@ -233,12 +235,12 @@ export default function EventDetail() {
         </div>
 
         {campaigns.length > 0 && (
-          <div className="space-y-8 animate-fade-in">
+          <div className="space-y-8 animate-fade-in stagger-3">
             {eventContact && (
-              <Card className="bg-gradient-to-br from-accent/5 to-accent/10 border-2 border-accent/30 shadow-card hover:shadow-premium transition-all duration-300">
+              <Card className="glass-card border-2 border-accent/30 premium-glow-lg hover-lift">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-3 text-2xl">
-                    <div className="p-2 rounded-lg bg-accent/20">
+                  <CardTitle className="flex items-center gap-3 text-2xl gradient-text">
+                    <div className="p-2 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 premium-glow">
                       <Users className="h-6 w-6 text-accent" />
                     </div>
                     Event-kontakt & Information
@@ -246,31 +248,31 @@ export default function EventDetail() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div className="p-3 rounded-lg bg-card">
+                    <div className="p-3 rounded-lg glass-card hover-lift">
                       <span className="text-sm text-muted-foreground">Event</span>
                       <p className="font-semibold mt-1">{eventContact.title}</p>
                     </div>
-                    <div className="p-3 rounded-lg bg-card">
+                    <div className="p-3 rounded-lg glass-card hover-lift">
                       <span className="text-sm text-muted-foreground">Plats</span>
                       <p className="font-semibold mt-1">{eventContact.venue}</p>
                     </div>
-                    <div className="p-3 rounded-lg bg-card">
+                    <div className="p-3 rounded-lg glass-card hover-lift">
                       <span className="text-sm text-muted-foreground">Datum</span>
                       <p className="font-semibold mt-1">{format(new Date(eventContact.date), "PPP", { locale: sv })}</p>
                     </div>
-                    <div className="p-3 rounded-lg bg-card">
+                    <div className="p-3 rounded-lg glass-card hover-lift">
                       <span className="text-sm text-muted-foreground">Förväntade besökare</span>
                       <p className="font-semibold mt-1">{eventContact.expected_attendance.toLocaleString()}</p>
                     </div>
                   </div>
-                  <div className="p-4 rounded-lg bg-card">
+                  <div className="p-4 rounded-lg glass-card">
                     <span className="text-sm text-muted-foreground">Beskrivning</span>
                     <p className="mt-2 leading-relaxed">{eventContact.description}</p>
                   </div>
                   {eventContact.event_url && (
                     <Button
                       variant="outline"
-                      className="w-full border-accent/30 hover:bg-accent/10 hover:border-accent transition-all duration-300"
+                      className="w-full hover-lift glass-card border-accent/30"
                       onClick={() => window.open(eventContact.event_url!, '_blank')}
                     >
                       <MapPin className="h-4 w-4 mr-2" />
@@ -283,7 +285,7 @@ export default function EventDetail() {
 
             <div className="flex items-center gap-3 mb-6">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
-              <h3 className="text-3xl font-bold bg-gradient-premium bg-clip-text text-transparent">
+              <h3 className="text-3xl font-bold gradient-text">
                 AI-genererade kampanjidéer
               </h3>
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
@@ -291,66 +293,69 @@ export default function EventDetail() {
             {campaigns.map((campaign, idx) => (
               <Card 
                 key={idx} 
-                className="border-2 border-accent/20 shadow-card hover:shadow-premium transition-all duration-500 hover:border-accent/40 group animate-scale-in overflow-hidden"
-                style={{ animationDelay: `${idx * 150}ms` }}
+                className={`glass-card border-2 border-primary/20 premium-glow-lg hover-lift animate-fade-in stagger-${(idx % 5) + 1} overflow-hidden relative`}
               >
-                <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-premium opacity-0 group-hover:opacity-5 blur-3xl transition-opacity duration-700 -translate-y-1/2 translate-x-1/2" />
-                <CardHeader className="relative border-b bg-gradient-subtle pb-6">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-semibold mb-3 w-fit">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-primary/10 to-primary-glow/10 opacity-50 blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <CardHeader className="relative border-b glass-card pb-6">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-accent/20 to-accent-glow/20 border border-accent/30 text-accent text-sm font-semibold mb-3 w-fit premium-glow">
                     <Sparkles className="h-3.5 w-3.5" />
                     Kampanj #{idx + 1}
                   </div>
-                  <CardTitle className="text-2xl font-bold leading-tight">{campaign.title}</CardTitle>
+                  <CardTitle className="text-2xl font-bold leading-tight gradient-text">{campaign.title}</CardTitle>
                   <CardDescription className="text-base mt-2 flex items-center gap-2">
                     <Users className="h-4 w-4" />
                     {campaign.target_audience}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6 pt-6 relative">
-                  <div className="p-4 rounded-lg bg-muted/50 border border-accent/10">
-                    <h4 className="font-semibold mb-2 flex items-center gap-2 text-accent">
-                      <div className="w-1 h-4 bg-accent rounded-full" />
+                  <div className="p-4 rounded-lg glass-card border border-primary/10">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2 text-primary">
+                      <div className="w-1 h-4 bg-gradient-to-b from-primary to-primary-glow rounded-full" />
                       Beskrivning
                     </h4>
                     <p className="leading-relaxed">{campaign.description}</p>
                   </div>
                   
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-lg bg-gradient-to-br from-accent/5 to-transparent border border-accent/10">
+                    <div className="p-4 rounded-lg glass-card border border-accent/10 hover-lift">
                       <h4 className="font-semibold mb-2 flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-accent" />
+                        <div className="p-1.5 rounded-md bg-gradient-to-br from-accent/20 to-accent/10">
+                          <Calendar className="h-4 w-4 text-accent" />
+                        </div>
                         Timing
                       </h4>
                       <p className="text-sm leading-relaxed">{campaign.recommended_timing}</p>
                     </div>
-                    <div className="p-4 rounded-lg bg-gradient-to-br from-accent/5 to-transparent border border-accent/10">
+                    <div className="p-4 rounded-lg glass-card border border-accent/10 hover-lift">
                       <h4 className="font-semibold mb-2 flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-accent" />
+                        <div className="p-1.5 rounded-md bg-gradient-to-br from-secondary/20 to-secondary/10">
+                          <MapPin className="h-4 w-4 text-secondary" />
+                        </div>
                         Kanaler
                       </h4>
                       <p className="text-sm leading-relaxed">{campaign.channels}</p>
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-lg bg-accent/5 border border-accent/20">
+                  <div className="p-4 rounded-lg glass-card border border-accent/20 premium-glow">
                     <h4 className="font-semibold mb-2 flex items-center gap-2 text-accent">
-                      <div className="w-1 h-4 bg-accent rounded-full" />
+                      <div className="w-1 h-4 bg-gradient-to-b from-accent to-accent-glow rounded-full" />
                       Förväntade resultat
                     </h4>
                     <p className="text-sm leading-relaxed">{campaign.expected_outcome}</p>
                   </div>
 
-                  <div className="p-4 rounded-lg border-2 border-dashed border-accent/20 bg-card">
+                  <div className="p-4 rounded-lg border-2 border-dashed border-primary/20 glass-card">
                     <h4 className="font-semibold mb-3 flex items-center gap-2">
-                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-bold">
+                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-br from-primary/20 to-primary-glow/20 text-primary text-xs font-bold premium-glow">
                         ✓
                       </div>
                       Genomförande (steg-för-steg)
                     </h4>
                     <ol className="space-y-2">
                       {campaign.action_steps.map((step, stepIdx) => (
-                        <li key={stepIdx} className="flex gap-3 text-sm">
-                          <span className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-accent/10 text-accent font-semibold text-xs">
+                        <li key={stepIdx} className="flex gap-3 text-sm hover-lift">
+                          <span className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-br from-accent/20 to-accent-glow/20 text-accent font-semibold text-xs premium-glow">
                             {stepIdx + 1}
                           </span>
                           <span className="leading-relaxed pt-0.5">{step}</span>
@@ -375,14 +380,14 @@ export default function EventDetail() {
 
                   {/* Generated Mockups */}
                   {campaignIds[idx] && campaignMockups[campaignIds[idx]]?.length > 0 && (
-                    <div className="mt-6 p-4 rounded-lg bg-accent/5 border border-accent/20">
-                      <h4 className="font-bold mb-4 text-lg flex items-center gap-2">
+                    <div className="mt-6 p-4 rounded-lg glass-card border border-accent/20 premium-glow">
+                      <h4 className="font-bold mb-4 text-lg flex items-center gap-2 gradient-text">
                         <Sparkles className="h-5 w-5 text-accent" />
                         Genererade Mockups
                       </h4>
                       <div className="grid md:grid-cols-2 gap-4">
                         {campaignMockups[campaignIds[idx]].map((mockup, mIdx) => (
-                          <div key={mIdx} className="group relative rounded-lg overflow-hidden border-2 border-accent/20 hover:border-accent/40 transition-all">
+                          <div key={mIdx} className={`group relative rounded-lg overflow-hidden border-2 border-primary/20 hover:border-accent/40 transition-all hover-lift premium-glow stagger-${(mIdx % 5) + 1}`}>
                             <img 
                               src={mockup.file_data} 
                               alt={mockup.file_name}
@@ -402,7 +407,7 @@ export default function EventDetail() {
                                 }
                               }}
                             />
-                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3">
                               <p className="text-white text-sm font-semibold">{mockup.metadata?.platform || 'Mockup'}</p>
                               <p className="text-white/70 text-xs mt-1">{new Date(mockup.created_at).toLocaleDateString('sv-SE')}</p>
                             </div>
