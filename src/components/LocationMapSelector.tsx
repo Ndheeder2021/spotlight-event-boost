@@ -243,7 +243,7 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
                   max="100"
                   value={location?.radius_km || 20}
                   onChange={(e) => onChange({ radius_km: parseFloat(e.target.value) })}
-                  className="pl-10 h-11 glass-card border-border/50 hover:border-primary/50 focus:border-primary transition-all shadow-sm hover:shadow-md focus:shadow-glow"
+                  className="pl-10 pr-12 h-11 glass-card border-border/50 hover:border-primary/50 focus:border-primary transition-all shadow-sm hover:shadow-md focus:shadow-glow"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-muted-foreground">km</span>
               </div>
