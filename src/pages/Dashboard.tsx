@@ -247,75 +247,99 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-accent/5">
+      <div className="container mx-auto px-4 py-12">
+        {/* Hero Section */}
+        <div className="mb-12 space-y-6 animate-fade-in">
+          <div className="flex items-center gap-3">
+            <div className="h-12 w-1 bg-gradient-to-b from-primary to-accent rounded-full" />
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold gradient-text">
+                Event Radar
+              </h1>
+              <p className="text-lg text-muted-foreground mt-2">
+                Upptäck event i närheten och skapa kraftfulla kampanjer
+              </p>
+            </div>
+          </div>
+        </div>
+
         {bigEvent && (
-          <Alert className="mb-6 border-primary bg-primary/10">
-            <Sparkles className="h-4 w-4 text-primary" />
-            <AlertDescription>
-              <strong>Stort event!</strong> {bigEvent.title} med {bigEvent.expected_attendance.toLocaleString()} gäster närmar sig!
+          <Alert className="mb-8 glass-card border-primary/50 premium-glow animate-fade-in">
+            <Sparkles className="h-5 w-5 text-primary" />
+            <AlertDescription className="text-base">
+              <strong className="text-primary">Stort event!</strong> {bigEvent.title} med <strong>{bigEvent.expected_attendance.toLocaleString()}</strong> gäster närmar sig!
             </AlertDescription>
           </Alert>
         )}
 
         {/* Sparade Events Section */}
         {savedEvents.length > 0 && (
-          <Card className="mb-6 border-accent">
+          <Card className="mb-8 glass-card border-accent/50 hover-lift animate-fade-in">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-accent" />
-                  <CardTitle>Sparade Events</CardTitle>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-accent/10">
+                    <Sparkles className="h-5 w-5 text-accent" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl">Sparade Events</CardTitle>
+                    <CardDescription className="text-base mt-1">
+                      Du har {savedEvents.length} sparade event{savedEvents.length !== 1 ? 's' : ''}
+                    </CardDescription>
+                  </div>
                 </div>
                 <Button 
                   variant="outline" 
-                  size="sm"
+                  size="lg"
                   onClick={() => navigate("/campaigns")}
+                  className="hover-scale"
                 >
                   Visa alla
                 </Button>
               </div>
-              <CardDescription>
-                Du har {savedEvents.length} sparade event{savedEvents.length !== 1 ? 's' : ''}
-              </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {events.filter(e => savedEvents.includes(e.id)).slice(0, 3).map((event) => (
-                  <EventCard
-                    key={event.id}
-                    event={event}
-                    onClick={() => navigate(`/events/${event.id}`)}
-                    onSaveEvent={handleSaveEvent}
-                    isSaved={true}
-                  />
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {events.filter(e => savedEvents.includes(e.id)).slice(0, 3).map((event, index) => (
+                  <div key={event.id} className={`animate-fade-in stagger-${index + 1}`}>
+                    <EventCard
+                      event={event}
+                      onClick={() => navigate(`/events/${event.id}`)}
+                      onSaveEvent={handleSaveEvent}
+                      isSaved={true}
+                    />
+                  </div>
                 ))}
               </div>
             </CardContent>
           </Card>
         )}
 
-        <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-2">Event Radar</h2>
-          <p className="text-muted-foreground">
-            Event i närheten av din verksamhet
-          </p>
-        </div>
-
         {loading ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">Laddar event...</p>
+          <div className="text-center py-20 animate-fade-in">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-card">
+              <Sparkles className="h-5 w-5 text-primary animate-pulse" />
+              <p className="text-lg font-medium">Laddar event...</p>
+            </div>
           </div>
         ) : events.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">Inga event hittades</p>
+          <div className="text-center py-20 animate-fade-in">
+            <Card className="glass-card max-w-md mx-auto">
+              <CardContent className="pt-12 pb-12">
+                <Sparkles className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <p className="text-xl text-muted-foreground">Inga event hittades</p>
+                <p className="text-sm text-muted-foreground mt-2">Prova att justera dina filter eller kom tillbaka senare</p>
+              </CardContent>
+            </Card>
           </div>
         ) : (
           <>
-            <div className="mb-6">
+            <div className="mb-8 animate-fade-in">
               <EventMetrics events={filteredEvents} />
             </div>
 
-            <div className="mb-6">
+            <div className="mb-8 animate-fade-in">
               <EventFilters
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
@@ -329,34 +353,44 @@ export default function Dashboard() {
             </div>
 
             {userLocation && (
-              <div className="mb-6">
-                <EventMap 
-                  events={filteredEvents}
-                  userLocation={userLocation}
-                  onEventClick={(eventId) => navigate(`/events/${eventId}`)}
-                />
+              <div className="mb-10 animate-fade-in">
+                <Card className="glass-card overflow-hidden border-0 premium-glow">
+                  <CardContent className="p-0">
+                    <EventMap 
+                      events={filteredEvents}
+                      userLocation={userLocation}
+                      onEventClick={(eventId) => navigate(`/events/${eventId}`)}
+                    />
+                  </CardContent>
+                </Card>
               </div>
             )}
             
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-xl font-semibold">
-                Alla event ({filteredEvents.length})
-              </h3>
+            <div className="mb-8 flex items-center justify-between animate-fade-in">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-1 bg-gradient-to-b from-primary to-accent rounded-full" />
+                <h3 className="text-2xl font-bold">
+                  Alla event <span className="text-muted-foreground">({filteredEvents.length})</span>
+                </h3>
+              </div>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {filteredEvents.map((event) => (
-                <EventCard
-                  key={event.id}
-                  event={event}
-                  onClick={() => navigate(`/events/${event.id}`)}
-                  onGenerateCampaign={handleGenerateCampaign}
-                  onSaveEvent={handleSaveEvent}
-                  isSaved={savedEvents.includes(event.id)}
-                />
+            
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {filteredEvents.map((event, index) => (
+                <div key={event.id} className={`animate-fade-in stagger-${(index % 5) + 1}`}>
+                  <EventCard
+                    event={event}
+                    onClick={() => navigate(`/events/${event.id}`)}
+                    onGenerateCampaign={handleGenerateCampaign}
+                    onSaveEvent={handleSaveEvent}
+                    isSaved={savedEvents.includes(event.id)}
+                  />
+                </div>
               ))}
             </div>
           </>
         )}
+      </div>
     </div>
   );
 }
