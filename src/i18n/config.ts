@@ -2003,13 +2003,15 @@ const resources = {
 
       // Campaigns Page
       savedEventsAndCampaigns: "Saved Events & Campaigns",
-      yourSavedEvents: "Your saved events and AI-generated campaigns",
+      savedEventsAndCampaignsDesc: "Your saved events and AI-generated campaigns",
+      loadingCampaigns: "Loading campaigns...",
       noSavedEventsYet: "No saved events yet",
-      goToDashboardSave: "Go to Dashboard and save events by clicking the bookmark icon",
+      noSavedEventsDesc: "Go to Dashboard and save events by clicking the bookmark icon",
       event: "Event",
       unknownEvent: "Unknown event",
-      start: "Start",
-      end: "End",
+      statusDraft: "Draft",
+      statusScheduled: "Scheduled",
+      statusPublished: "Published",
 
       // Campaign Analytics
       campaignAnalytics: "Campaign Analytics",
