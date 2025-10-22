@@ -60,6 +60,32 @@ export default function Reports() {
     }
   }, [loading, features.canViewAnalytics]);
 
+  // Reveal animations for elements with .animate-on-scroll
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const observerCallback = (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      };
+
+      const observer = new IntersectionObserver(observerCallback, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      });
+
+      document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+        observer.observe(el);
+      });
+
+      return () => observer.disconnect();
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const loadAnalytics = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
