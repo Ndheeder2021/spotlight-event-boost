@@ -274,8 +274,8 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                   )}
                 </div>
               </CardHeader>
-              <CardContent className="flex-grow space-y-4">
-                <div className="space-y-3">
+              <CardContent className="flex flex-col flex-grow">
+                <div className="space-y-3 flex-grow">
                   {details.features.map((feature, idx) => (
                     <div key={idx} className="flex items-start gap-3">
                       <Check className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
@@ -283,7 +283,7 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                     </div>
                   ))}
                 </div>
-                <div className="pt-4">
+                <div className="pt-6 mt-auto">
                   {!isCurrent && plan !== "enterprise" && (
                     <Button
                       onClick={() => handlePlanChange(plan)}
