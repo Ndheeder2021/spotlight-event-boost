@@ -76,64 +76,64 @@ const featureShowcase = [
 ];
 
 
-const plans = [
+const Plans = ({ t }: { t: any }) => [
   {
-    name: "Starter",
+    name: t('planStarterName'),
     monthlyPrice: "$29",
     yearlyPrice: "$329",
-    yearlyDiscount: "Spara $19",
-    description: "Perfekt för små företag som vill komma igång",
+    yearlyDiscount: t('planStarterYearlyDiscount'),
+    description: t('planStarterDesc'),
     features: [
-      "Spara kampanjer till databasen",
-      "Grundläggande kampanjvy",
-      "Redigera kampanjförslag",
-      "Upp till 10 kampanjer"
+      t('planStarterFeature1'),
+      t('planStarterFeature2'),
+      t('planStarterFeature3'),
+      t('planStarterFeature4')
     ],
     notIncluded: [
-      "PDF-export",
-      "Dela kampanjer",
-      "Analytics & ROI-tracking",
-      "AI-genererade visuella mockups"
+      t('planStarterNotIncluded1'),
+      t('planStarterNotIncluded2'),
+      t('planStarterNotIncluded3'),
+      t('planStarterNotIncluded4')
     ]
   },
   {
-    name: "Professional",
+    name: t('planProfessionalName'),
     monthlyPrice: "$49",
     yearlyPrice: "$359",
-    yearlyDiscount: "Spara 40%",
-    description: "För växande företag med högre ambitioner",
+    yearlyDiscount: t('planProfessionalYearlyDiscount'),
+    description: t('planProfessionalDesc'),
     features: [
-      "Alla Starter-funktioner",
-      "AI Live Support",
-      "PDF-export med professionell design",
-      "Dela kampanjer via länk (lösenordsskydd)",
-      "Skicka kampanjer via email",
-      "Analytics & ROI-tracking",
-      "AI-genererade visuella mockups",
-      "Flerspråksstöd",
-      "A/B-testning",
-      "Kommentarer från klienter",
-      "Obegränsat antal kampanjer"
+      t('planProfessionalFeature1'),
+      t('planProfessionalFeature2'),
+      t('planProfessionalFeature3'),
+      t('planProfessionalFeature4'),
+      t('planProfessionalFeature5'),
+      t('planProfessionalFeature6'),
+      t('planProfessionalFeature7'),
+      t('planProfessionalFeature8'),
+      t('planProfessionalFeature9'),
+      t('planProfessionalFeature10'),
+      t('planProfessionalFeature11')
     ],
     notIncluded: [
-      "Dedikerad support"
+      t('planProfessionalNotIncluded1')
     ],
     popular: true
   },
   {
-    name: "Enterprise",
-    monthlyPrice: "Kontakta oss",
+    name: t('planEnterpriseName'),
+    monthlyPrice: t('plansContactUs'),
     yearlyPrice: null,
     yearlyDiscount: null,
-    description: "För stora organisationer med specialbehov",
+    description: t('planEnterpriseDesc'),
     features: [
-      "Alla Professional-funktioner",
-      "AI Live Support",
-      "Dedikerad support",
-      "Anpassade integrationer",
-      "White-label lösning",
-      "Avancerad rollhantering",
-      "SLA-garantier"
+      t('planEnterpriseFeature1'),
+      t('planEnterpriseFeature2'),
+      t('planEnterpriseFeature3'),
+      t('planEnterpriseFeature4'),
+      t('planEnterpriseFeature5'),
+      t('planEnterpriseFeature6'),
+      t('planEnterpriseFeature7')
     ],
     notIncluded: []
   }
@@ -198,6 +198,8 @@ const Index = () => {
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const [needsSubscription, setNeedsSubscription] = useState(false);
   const [loading, setLoading] = useState(true);
+  
+  const plans = Plans({ t });
   const [isYearly, setIsYearly] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -1036,7 +1038,7 @@ const Index = () => {
             </span>
             {isYearly && (
               <span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary">
-                Spara 20%
+                {t('plansSave20')}
               </span>
             )}
           </div>
@@ -1056,7 +1058,7 @@ const Index = () => {
                   {plan.popular && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                       <span className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-bold rounded-full uppercase tracking-wide">
-                        Mest populär
+                        {t('plansMostPopular')}
                       </span>
                     </div>
                   )}
@@ -1071,11 +1073,11 @@ const Index = () => {
                       <span className="text-5xl sm:text-6xl font-bold">
                         {isYearly ? (plan.yearlyPrice || plan.monthlyPrice) : plan.monthlyPrice}
                       </span>
-                      {plan.monthlyPrice !== "Kontakta oss" && (
-                        <span className="text-muted-foreground text-lg">
-                          /{isYearly ? "år" : "mån"}
-                        </span>
-                      )}
+                    {plan.monthlyPrice !== t('plansContactUs') && (
+                      <span className="text-muted-foreground text-lg">
+                        {isYearly ? t('plansPerYear') : t('plansPerMonth')}
+                      </span>
+                    )}
                     </div>
                     {isYearly && plan.yearlyDiscount && (
                       <p className="text-sm text-primary font-medium mt-2">{plan.yearlyDiscount}</p>
@@ -1084,7 +1086,7 @@ const Index = () => {
 
                   <div className="space-y-4 mb-8">
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-                      Inkluderat:
+                      {t('plansIncluded')}
                     </p>
                     {plan.features.map((f, i) => (
                       <div key={i} className="flex items-start gap-3">
@@ -1100,14 +1102,14 @@ const Index = () => {
                     ))}
                   </div>
 
-                  {plan.name === "Enterprise" ? (
+                  {plan.name === t('planEnterpriseName') ? (
                     <Link to="/contact" className="w-full">
                       <Button 
                         variant="animatedOutline"
                         className="w-full"
                         size="xl"
                       >
-                        Kontakta oss
+                        {t('plansContactUs')}
                         <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                       </Button>
                     </Link>
@@ -1118,7 +1120,7 @@ const Index = () => {
                         className="w-full"
                         size="xl"
                       >
-                        Starta gratis
+                        {t('plansStartFree')}
                         <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                       </Button>
                     </Link>
@@ -1142,7 +1144,7 @@ const Index = () => {
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                     <span className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-bold rounded-full uppercase tracking-wide">
-                      Mest populär
+                      {t('plansMostPopular')}
                     </span>
                   </div>
                 )}
@@ -1157,9 +1159,9 @@ const Index = () => {
                     <span className="text-5xl sm:text-6xl font-bold">
                       {isYearly ? (plan.yearlyPrice || plan.monthlyPrice) : plan.monthlyPrice}
                     </span>
-                    {plan.monthlyPrice !== "Kontakta oss" && (
+                    {plan.monthlyPrice !== t('plansContactUs') && (
                       <span className="text-muted-foreground text-lg">
-                        /{isYearly ? "år" : "mån"}
+                        {isYearly ? t('plansPerYear') : t('plansPerMonth')}
                       </span>
                     )}
                   </div>
@@ -1170,7 +1172,7 @@ const Index = () => {
 
                 <div className="space-y-4 mb-8">
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-                    Inkluderat:
+                    {t('plansIncluded')}
                   </p>
                   {plan.features.map((f, i) => (
                     <div key={i} className="flex items-start gap-3">
@@ -1186,14 +1188,14 @@ const Index = () => {
                   ))}
                 </div>
 
-                {plan.name === "Enterprise" ? (
+                {plan.name === t('planEnterpriseName') ? (
                   <Link to="/contact" className="w-full">
                     <Button 
                       variant="animatedOutline"
                       className="w-full"
                       size="xl"
                     >
-                      Kontakta oss
+                      {t('plansContactUs')}
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </Link>
@@ -1204,7 +1206,7 @@ const Index = () => {
                       className="w-full"
                       size="xl"
                     >
-                      Starta gratis
+                      {t('plansStartFree')}
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </Link>
