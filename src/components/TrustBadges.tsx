@@ -1,37 +1,40 @@
 import { Shield, Lock, CheckCircle, Award, Globe, Zap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "react-i18next";
 
 export function TrustBadges() {
+  const { t } = useTranslation();
+  
   const badges = [
     {
       icon: Lock,
-      title: "SSL Säker",
-      description: "256-bit kryptering",
+      title: t('trustBadgeSSL'),
+      description: t('trustBadgeSSLDesc'),
     },
     {
       icon: Shield,
-      title: "GDPR Compliant",
-      description: "EU-godkänd",
+      title: t('trustBadgeGDPR'),
+      description: t('trustBadgeGDPRDesc'),
     },
     {
       icon: Zap,
-      title: "99.9% Uptime",
-      description: "Garanterad tillgänglighet",
+      title: t('trustBadgeUptime'),
+      description: t('trustBadgeUptimeDesc'),
     },
     {
       icon: CheckCircle,
-      title: "ISO 27001",
-      description: "Certifierad säkerhet",
+      title: t('trustBadgeISO'),
+      description: t('trustBadgeISODesc'),
     },
     {
       icon: Globe,
-      title: "EU Datacenter",
-      description: "Data i Sverige",
+      title: t('trustBadgeEU'),
+      description: t('trustBadgeEUDesc'),
     },
     {
       icon: Award,
-      title: "SOC 2 Type II",
-      description: "Tredjepartsgranskad",
+      title: t('trustBadgeSOC'),
+      description: t('trustBadgeSOCDesc'),
     },
   ];
 
@@ -40,10 +43,10 @@ export function TrustBadges() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
           <Badge variant="outline" className="mb-4 text-sm px-4 py-1">
-            Säkerhet & Compliance
+            {t('trustBadgesTitle')}
           </Badge>
           <h3 className="text-lg font-semibold text-muted-foreground">
-            Pålitlig och säker plattform du kan lita på
+            {t('trustBadgesSubtitle')}
           </h3>
         </div>
         
@@ -71,15 +74,15 @@ export function TrustBadges() {
         <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground">
           <div className="flex items-center gap-2 hover:text-foreground transition-colors duration-300">
             <CheckCircle className="h-4 w-4 text-primary" />
-            <span>PCI DSS Compliant</span>
+            <span>{t('trustBadgePCI')}</span>
           </div>
           <div className="flex items-center gap-2 hover:text-foreground transition-colors duration-300">
             <CheckCircle className="h-4 w-4 text-primary" />
-            <span>24/7 Övervakning</span>
+            <span>{t('trustBadgeMonitoring')}</span>
           </div>
           <div className="flex items-center gap-2 hover:text-foreground transition-colors duration-300">
             <CheckCircle className="h-4 w-4 text-primary" />
-            <span>Automatiska backups</span>
+            <span>{t('trustBadgeBackups')}</span>
           </div>
         </div>
       </div>

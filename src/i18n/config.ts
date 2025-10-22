@@ -152,6 +152,25 @@ const resources = {
       planEnterpriseFeature6: "Avancerad rollhantering",
       planEnterpriseFeature7: "SLA-garantier",
       
+      // Trust Badges
+      trustBadgesTitle: "Säkerhet & Compliance",
+      trustBadgesSubtitle: "Pålitlig och säker plattform du kan lita på",
+      trustBadgeSSL: "SSL Säker",
+      trustBadgeSSLDesc: "256-bit kryptering",
+      trustBadgeGDPR: "GDPR Compliant",
+      trustBadgeGDPRDesc: "EU-godkänd",
+      trustBadgeUptime: "99.9% Uptime",
+      trustBadgeUptimeDesc: "Garanterad tillgänglighet",
+      trustBadgeISO: "ISO 27001",
+      trustBadgeISODesc: "Certifierad säkerhet",
+      trustBadgeEU: "EU Datacenter",
+      trustBadgeEUDesc: "Data i Sverige",
+      trustBadgeSOC: "SOC 2 Type II",
+      trustBadgeSOCDesc: "Tredjepartsgranskad",
+      trustBadgePCI: "PCI DSS Compliant",
+      trustBadgeMonitoring: "24/7 Övervakning",
+      trustBadgeBackups: "Automatiska backups",
+      
       // Plan Features
       planFeatureSaveCampaigns: "Spara kampanjer till databasen",
       planFeatureBasicView: "Grundläggande kampanjvy",
@@ -1094,6 +1113,25 @@ const resources = {
       planEnterpriseFeature5: "White-label solution",
       planEnterpriseFeature6: "Advanced role management",
       planEnterpriseFeature7: "SLA guarantees",
+      
+      // Trust Badges
+      trustBadgesTitle: "Security & Compliance",
+      trustBadgesSubtitle: "Reliable and secure platform you can trust",
+      trustBadgeSSL: "SSL Secure",
+      trustBadgeSSLDesc: "256-bit encryption",
+      trustBadgeGDPR: "GDPR Compliant",
+      trustBadgeGDPRDesc: "EU-approved",
+      trustBadgeUptime: "99.9% Uptime",
+      trustBadgeUptimeDesc: "Guaranteed availability",
+      trustBadgeISO: "ISO 27001",
+      trustBadgeISODesc: "Certified security",
+      trustBadgeEU: "EU Datacenter",
+      trustBadgeEUDesc: "Data in Sweden",
+      trustBadgeSOC: "SOC 2 Type II",
+      trustBadgeSOCDesc: "Third-party audited",
+      trustBadgePCI: "PCI DSS Compliant",
+      trustBadgeMonitoring: "24/7 Monitoring",
+      trustBadgeBackups: "Automatic backups",
       
       // Plan Features
       planFeatureSaveCampaigns: "Save campaigns to database",
