@@ -219,8 +219,8 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
       <Card className="glass-card border-primary/20 premium-glow hover-lift animate-fade-in">
         <CardHeader>
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10">
-              <UserPlus className="h-5 w-5 text-primary" />
+            <div className="p-3 rounded-xl bg-gradient-to-br from-primary via-primary-glow to-primary/50 shadow-glow animate-pulse">
+              <UserPlus className="h-6 w-6 text-primary-foreground" />
             </div>
             <div className="flex-1">
               <CardTitle className="text-xl font-bold gradient-text">
@@ -294,8 +294,8 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
       <Card className="glass-card border-accent/20 hover-lift animate-fade-in stagger-1">
         <CardHeader>
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10">
-              <Users className="h-5 w-5 text-accent" />
+            <div className="p-3 rounded-xl bg-gradient-to-br from-accent via-accent-glow to-accent/50 shadow-glow animate-pulse">
+              <Users className="h-6 w-6 text-primary-foreground" />
             </div>
             <div className="flex-1">
               <CardTitle className="text-xl font-bold gradient-text">{t('teamMembers')}</CardTitle>
@@ -359,8 +359,8 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
         <Card className="glass-card border-warning/20 hover-lift animate-fade-in stagger-2">
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-gradient-to-br from-warning/20 to-warning/10">
-                <Mail className="h-5 w-5 text-warning" />
+              <div className="p-3 rounded-xl bg-gradient-to-br from-warning via-warning/80 to-warning/50 shadow-glow animate-pulse">
+                <Mail className="h-6 w-6 text-primary-foreground" />
               </div>
               <div className="flex-1">
                 <CardTitle className="text-xl font-bold gradient-text">{t('pendingInvitations')}</CardTitle>
