@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const customers = [
   "Café Bröd & Salt",
@@ -19,6 +20,7 @@ const customers = [
 ];
 
 export const LogoCarousel = () => {
+  const { t } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -50,7 +52,7 @@ export const LogoCarousel = () => {
     <div className="w-full overflow-hidden py-16 bg-gradient-to-b from-background via-muted/20 to-background">
       <div className="text-center mb-12">
         <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-          Betrodd av lokala företag över hela Sverige
+          {t('trustedByLocal')}
         </p>
       </div>
       

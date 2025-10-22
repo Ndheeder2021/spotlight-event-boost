@@ -309,7 +309,7 @@ const resources = {
       newsletterThankYou: "Tack! Du är nu prenumerant.",
 
       // Trust Badge
-      trustedByLocal: "BETRODD AV LOKALA FÖRETAG ÖVER HELA SVERIGE",
+      trustedByLocal: "TRUSTED BY LOCAL BUSINESSES ACROSS SWEDEN",
 
       // Header Menu Items
       product: "Produkt",
