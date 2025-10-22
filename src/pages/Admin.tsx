@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Users, MessageSquare, Building2, BarChart, Eye, Trash2, Gift, UserCheck } from "lucide-react";
+import { Users, MessageSquare, Building2, BarChart, Eye, Trash2, Gift, UserCheck, Sparkles, Shield } from "lucide-react";
 import { toast } from "sonner";
 
 interface Tenant {
@@ -407,7 +407,10 @@ export default function Admin() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-lg">Laddar...</div>
+        <div className="glass-card p-8 flex items-center gap-3">
+          <Sparkles className="h-6 w-6 text-primary animate-pulse" />
+          <span className="text-lg font-medium">Laddar admin-panel...</span>
+        </div>
       </div>
     );
   }
@@ -418,87 +421,106 @@ export default function Admin() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Admin Dashboard</h1>
-        <p className="text-muted-foreground">Hantera användare, företag och meddelanden</p>
+      <div className="mb-8 animate-fade-in">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 premium-glow">
+            <Shield className="h-8 w-8 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-4xl font-bold gradient-text">Admin Dashboard</h1>
+            <p className="text-muted-foreground">Hantera användare, företag och meddelanden</p>
+          </div>
+        </div>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-6 gap-6 mb-8">
         <Card 
-          className="cursor-pointer hover:shadow-lg transition-shadow"
+          className="glass-card cursor-pointer hover-lift premium-glow animate-fade-in stagger-1"
           onClick={() => setShowTenantsDialog(true)}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Totalt Företag</CardTitle>
-            <Building2 className="h-4 w-4 text-muted-foreground" />
+            <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10">
+              <Building2 className="h-4 w-4 text-primary" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{tenants.length}</div>
+            <div className="text-2xl font-bold gradient-text">{tenants.length}</div>
             <p className="text-xs text-muted-foreground mt-1">Klicka för att se lista</p>
           </CardContent>
         </Card>
 
         <Card 
-          className="cursor-pointer hover:shadow-lg transition-shadow"
+          className="glass-card cursor-pointer hover-lift premium-glow animate-fade-in stagger-2"
           onClick={() => setShowUsersDialog(true)}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Totalt Användare</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <div className="p-2 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10">
+              <Users className="h-4 w-4 text-accent" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{userRoles.length}</div>
+            <div className="text-2xl font-bold gradient-text">{userRoles.length}</div>
             <p className="text-xs text-muted-foreground mt-1">Klicka för att se lista</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="glass-card premium-glow animate-fade-in stagger-3">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Nya Meddelanden</CardTitle>
-            <MessageSquare className="h-4 w-4 text-muted-foreground" />
+            <div className="p-2 rounded-lg bg-gradient-to-br from-secondary/20 to-secondary/10">
+              <MessageSquare className="h-4 w-4 text-secondary" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold gradient-text">
               {contactMessages.filter(m => m.status === 'new').length}
             </div>
           </CardContent>
         </Card>
 
         <Card 
-          className="cursor-pointer hover:shadow-lg transition-shadow"
+          className="glass-card cursor-pointer hover-lift premium-glow animate-fade-in stagger-4"
           onClick={() => setShowPayingDialog(true)}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Betalande Kunder</CardTitle>
-            <BarChart className="h-4 w-4 text-muted-foreground" />
+            <div className="p-2 rounded-lg bg-gradient-to-br from-accent-glow/20 to-accent-glow/10">
+              <BarChart className="h-4 w-4 text-accent-glow" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold gradient-text">
               {tenants.filter(t => t.plan !== 'starter').length}
             </div>
             <p className="text-xs text-muted-foreground mt-1">Klicka för att se lista</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="glass-card premium-glow animate-fade-in stagger-5">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Referrals</CardTitle>
-            <Gift className="h-4 w-4 text-muted-foreground" />
+            <div className="p-2 rounded-lg bg-gradient-to-br from-primary-glow/20 to-primary-glow/10">
+              <Gift className="h-4 w-4 text-primary-glow" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{referrals.length}</div>
+            <div className="text-2xl font-bold gradient-text">{referrals.length}</div>
             <p className="text-xs text-muted-foreground mt-1">Aktiva referrals</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="glass-card premium-glow animate-fade-in stagger-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Affiliates</CardTitle>
-            <UserCheck className="h-4 w-4 text-muted-foreground" />
+            <div className="p-2 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10">
+              <UserCheck className="h-4 w-4 text-accent" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{affiliates.length}</div>
+            <div className="text-2xl font-bold gradient-text">{affiliates.length}</div>
             <p className="text-xs text-muted-foreground mt-1">
               {affiliates.filter(a => a.status === 'pending').length} väntande
             </p>
@@ -508,22 +530,45 @@ export default function Admin() {
 
       {/* Tabs */}
       <Tabs defaultValue="tenants" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="tenants">Företag</TabsTrigger>
-          <TabsTrigger value="users">Användare</TabsTrigger>
-          <TabsTrigger value="messages">Meddelanden</TabsTrigger>
-          <TabsTrigger value="referrals">Referrals</TabsTrigger>
-          <TabsTrigger value="affiliates">Affiliates</TabsTrigger>
+        <TabsList className="glass-card p-1">
+          <TabsTrigger value="tenants" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary-glow data-[state=active]:text-primary-foreground">
+            <Building2 className="h-4 w-4 mr-2" />
+            Företag
+          </TabsTrigger>
+          <TabsTrigger value="users" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary-glow data-[state=active]:text-primary-foreground">
+            <Users className="h-4 w-4 mr-2" />
+            Användare
+          </TabsTrigger>
+          <TabsTrigger value="messages" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary-glow data-[state=active]:text-primary-foreground">
+            <MessageSquare className="h-4 w-4 mr-2" />
+            Meddelanden
+          </TabsTrigger>
+          <TabsTrigger value="referrals" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary-glow data-[state=active]:text-primary-foreground">
+            <Gift className="h-4 w-4 mr-2" />
+            Referrals
+          </TabsTrigger>
+          <TabsTrigger value="affiliates" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary-glow data-[state=active]:text-primary-foreground">
+            <UserCheck className="h-4 w-4 mr-2" />
+            Affiliates
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="tenants" className="space-y-4">
-          <Card>
+          <Card className="glass-card premium-glow animate-fade-in">
             <CardHeader>
-              <CardTitle>Alla Företag</CardTitle>
-              <CardDescription>Översikt över alla registrerade företag</CardDescription>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10">
+                  <Building2 className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <CardTitle className="gradient-text">Alla Företag</CardTitle>
+                  <CardDescription>Översikt över alla registrerade företag</CardDescription>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
-              <Table>
+              <div className="rounded-lg overflow-hidden border glass-card">
+                <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Namn</TableHead>
@@ -533,16 +578,16 @@ export default function Admin() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {tenants.map((tenant) => (
-                    <TableRow key={tenant.id}>
+                  {tenants.map((tenant, idx) => (
+                    <TableRow key={tenant.id} className={`hover-lift stagger-${(idx % 5) + 1}`}>
                       <TableCell className="font-medium">{tenant.name}</TableCell>
                       <TableCell>
-                        <Badge variant={tenant.plan === 'enterprise' ? 'default' : tenant.plan === 'professional' ? 'secondary' : 'outline'}>
+                        <Badge className="bg-primary/10 text-primary border-primary/20" variant={tenant.plan === 'enterprise' ? 'default' : tenant.plan === 'professional' ? 'secondary' : 'outline'}>
                           {tenant.plan}
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={tenant.status === 'active' ? 'default' : 'secondary'}>
+                        <Badge className="bg-accent/10 text-accent border-accent/20" variant={tenant.status === 'active' ? 'default' : 'secondary'}>
                           {tenant.status}
                         </Badge>
                       </TableCell>
@@ -551,18 +596,27 @@ export default function Admin() {
                   ))}
                 </TableBody>
               </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="users" className="space-y-4">
-          <Card>
+          <Card className="glass-card premium-glow animate-fade-in">
             <CardHeader>
-              <CardTitle>Användarroller</CardTitle>
-              <CardDescription>Alla användare och deras roller</CardDescription>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10">
+                  <Users className="h-5 w-5 text-accent" />
+                </div>
+                <div>
+                  <CardTitle className="gradient-text">Användarroller</CardTitle>
+                  <CardDescription>Alla användare och deras roller</CardDescription>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
-              <Table>
+              <div className="rounded-lg overflow-hidden border glass-card">
+                <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>User ID</TableHead>
@@ -572,11 +626,11 @@ export default function Admin() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {userRoles.map((role) => (
-                    <TableRow key={role.id}>
+                  {userRoles.map((role, idx) => (
+                    <TableRow key={role.id} className={`hover-lift stagger-${(idx % 5) + 1}`}>
                       <TableCell className="font-mono text-xs">{role.user_id.slice(0, 8)}...</TableCell>
                       <TableCell>
-                        <Badge variant={role.role === 'admin' ? 'destructive' : role.role === 'owner' ? 'default' : 'secondary'}>
+                        <Badge className={role.role === 'admin' ? 'bg-destructive/10 text-destructive border-destructive/20' : 'bg-primary/10 text-primary border-primary/20'} variant={role.role === 'admin' ? 'destructive' : role.role === 'owner' ? 'default' : 'secondary'}>
                           {role.role}
                         </Badge>
                       </TableCell>
@@ -586,18 +640,27 @@ export default function Admin() {
                   ))}
                 </TableBody>
               </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="messages" className="space-y-4">
-          <Card>
+          <Card className="glass-card premium-glow animate-fade-in">
             <CardHeader>
-              <CardTitle>Kontaktmeddelanden</CardTitle>
-              <CardDescription>Meddelanden från kontaktformuläret</CardDescription>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-secondary/20 to-secondary/10">
+                  <MessageSquare className="h-5 w-5 text-secondary" />
+                </div>
+                <div>
+                  <CardTitle className="gradient-text">Kontaktmeddelanden</CardTitle>
+                  <CardDescription>Meddelanden från kontaktformuläret</CardDescription>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
-              <Table>
+              <div className="rounded-lg overflow-hidden border glass-card">
+                <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Namn</TableHead>
@@ -616,13 +679,13 @@ export default function Admin() {
                       </TableCell>
                     </TableRow>
                   ) : (
-                    contactMessages.map((message) => (
-                      <TableRow key={message.id}>
+                    contactMessages.map((message, idx) => (
+                      <TableRow key={message.id} className={`hover-lift stagger-${(idx % 5) + 1}`}>
                         <TableCell className="font-medium">{message.name}</TableCell>
                         <TableCell>{message.email}</TableCell>
                         <TableCell className="max-w-xs truncate">{message.subject}</TableCell>
                         <TableCell>
-                          <Badge variant={message.status === 'new' ? 'default' : 'secondary'}>
+                          <Badge className={message.status === 'new' ? 'bg-accent/10 text-accent border-accent/20' : 'bg-muted/50 text-muted-foreground'} variant={message.status === 'new' ? 'default' : 'secondary'}>
                             {message.status}
                           </Badge>
                         </TableCell>
@@ -631,6 +694,7 @@ export default function Admin() {
                           <Button 
                             variant="ghost" 
                             size="sm"
+                            className="hover-scale"
                             onClick={() => setSelectedMessage(message)}
                           >
                             <Eye className="h-4 w-4" />
@@ -641,18 +705,27 @@ export default function Admin() {
                   )}
                 </TableBody>
               </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="referrals" className="space-y-4">
-          <Card>
+          <Card className="glass-card premium-glow animate-fade-in">
             <CardHeader>
-              <CardTitle>Refer-a-Friend Program</CardTitle>
-              <CardDescription>Alla aktiva referrals och deras statistik</CardDescription>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-primary-glow/20 to-primary-glow/10">
+                  <Gift className="h-5 w-5 text-primary-glow" />
+                </div>
+                <div>
+                  <CardTitle className="gradient-text">Refer-a-Friend Program</CardTitle>
+                  <CardDescription>Alla aktiva referrals och deras statistik</CardDescription>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
-              <Table>
+              <div className="rounded-lg overflow-hidden border glass-card">
+                <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Email</TableHead>
@@ -672,8 +745,8 @@ export default function Admin() {
                       </TableCell>
                     </TableRow>
                   ) : (
-                    referrals.map((referral) => (
-                      <TableRow key={referral.id}>
+                    referrals.map((referral, idx) => (
+                      <TableRow key={referral.id} className={`hover-lift stagger-${(idx % 5) + 1}`}>
                         <TableCell className="font-medium">{referral.email}</TableCell>
                         <TableCell className="font-mono text-xs">{referral.referral_code}</TableCell>
                         <TableCell>{referral.referred_count}</TableCell>
@@ -684,6 +757,7 @@ export default function Admin() {
                           <Button 
                             variant="ghost" 
                             size="sm"
+                            className="hover-scale"
                             onClick={() => setSelectedReferral(referral)}
                           >
                             <Eye className="h-4 w-4" />
@@ -694,18 +768,27 @@ export default function Admin() {
                   )}
                 </TableBody>
               </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="affiliates" className="space-y-4">
-          <Card>
+          <Card className="glass-card premium-glow animate-fade-in">
             <CardHeader>
-              <CardTitle>Affiliate Program</CardTitle>
-              <CardDescription>Alla affiliate-ansökningar och partners</CardDescription>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10">
+                  <UserCheck className="h-5 w-5 text-accent" />
+                </div>
+                <div>
+                  <CardTitle className="gradient-text">Affiliate Program</CardTitle>
+                  <CardDescription>Alla affiliate-ansökningar och partners</CardDescription>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
-              <Table>
+              <div className="rounded-lg overflow-hidden border glass-card">
+                <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Namn</TableHead>
@@ -726,13 +809,18 @@ export default function Admin() {
                       </TableCell>
                     </TableRow>
                   ) : (
-                    affiliates.map((affiliate) => (
-                      <TableRow key={affiliate.id}>
+                    affiliates.map((affiliate, idx) => (
+                      <TableRow key={affiliate.id} className={`hover-lift stagger-${(idx % 5) + 1}`}>
                         <TableCell className="font-medium">{affiliate.name}</TableCell>
                         <TableCell>{affiliate.email}</TableCell>
                         <TableCell>{affiliate.company || "-"}</TableCell>
                         <TableCell>
                           <Badge 
+                            className={
+                              affiliate.status === 'approved' ? 'bg-accent/10 text-accent border-accent/20' : 
+                              affiliate.status === 'rejected' ? 'bg-destructive/10 text-destructive border-destructive/20' : 
+                              'bg-muted/50 text-muted-foreground'
+                            }
                             variant={
                               affiliate.status === 'approved' ? 'default' : 
                               affiliate.status === 'rejected' ? 'destructive' : 
@@ -749,6 +837,7 @@ export default function Admin() {
                           <Button 
                             variant="ghost" 
                             size="sm"
+                            className="hover-scale"
                             onClick={() => setSelectedAffiliate(affiliate)}
                           >
                             <Eye className="h-4 w-4" />
@@ -759,6 +848,7 @@ export default function Admin() {
                   )}
                 </TableBody>
               </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -766,20 +856,20 @@ export default function Admin() {
 
       {/* Message Detail Dialog */}
       <Dialog open={!!selectedMessage} onOpenChange={() => setSelectedMessage(null)}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl glass-card border-2 border-primary/20">
           <DialogHeader>
-            <DialogTitle>Meddelande från {selectedMessage?.name}</DialogTitle>
+            <DialogTitle className="gradient-text">Meddelande från {selectedMessage?.name}</DialogTitle>
             <DialogDescription>
               {selectedMessage?.email} • {selectedMessage && new Date(selectedMessage.created_at).toLocaleString('sv-SE')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div>
-              <h4 className="font-semibold mb-2">Ämne</h4>
+            <div className="glass-card p-4 rounded-lg">
+              <h4 className="font-semibold mb-2 text-primary">Ämne</h4>
               <p className="text-muted-foreground">{selectedMessage?.subject}</p>
             </div>
-            <div>
-              <h4 className="font-semibold mb-2">Meddelande</h4>
+            <div className="glass-card p-4 rounded-lg">
+              <h4 className="font-semibold mb-2 text-primary">Meddelande</h4>
               <p className="text-muted-foreground whitespace-pre-wrap">{selectedMessage?.message}</p>
             </div>
           </div>
