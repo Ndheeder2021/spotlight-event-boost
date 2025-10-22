@@ -391,8 +391,9 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                   <span className="sr-only">Öppna meny</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[85vw] max-w-[320px] bg-background/98 backdrop-blur-xl border-l-2 flex flex-col p-4">
-                <nav className="flex flex-col gap-1 mt-4 flex-1 overflow-y-auto pb-20">
+              <SheetContent side="right" className="w-[85vw] max-w-[320px] bg-background/98 backdrop-blur-xl border-l-2 flex flex-col p-0 pb-0">
+                <div className="p-4 flex-1 overflow-y-auto">
+                  <nav className="flex flex-col gap-1 mt-0">
                   {navItems.map((item) => (
                     <NavLink
                       key={item.url}
@@ -520,8 +521,11 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       ))}
                     </>
                   )}
+                </nav>
+                </div>
 
-                  <div className="border-t pt-4 mt-auto flex-shrink-0 pb-safe bg-background sticky bottom-0">
+                {/* Sticky footer with CTA button */}
+                <div className="border-t pt-4 px-4 pb-6 flex-shrink-0 bg-background/95 backdrop-blur-sm sticky bottom-0 shadow-[0_-4px_12px_rgba(0,0,0,0.1)]">
                     {isAuthenticated ? (
                       <Button 
                         variant="outline" 
@@ -545,7 +549,6 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       </Button>
                     )}
                   </div>
-                </nav>
               </SheetContent>
             </Sheet>
           </div>
