@@ -123,7 +123,60 @@ serve(async (req) => {
       .single();
 
     if (dbError || !dbSubscription) {
-      logStep("No database subscription found");
+      logStep("No database subscription found, checking tenant plan");
+
+      // Fallback: trust tenant plan set via migration/manual update
+      const { data: tenantIdData, error: tenantIdError } = await supabaseClient
+        .rpc('get_user_tenant_id', { _user_id: user.id });
+      if (tenantIdError || !tenantIdData) {
+        logStep("No tenant id found for user", { tenantIdError: tenantIdError?.message });
+        return new Response(JSON.stringify({ 
+          subscribed: false,
+          plan: "starter",
+          trial: false
+        }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        });
+      }
+
+      const tenantId = tenantIdData as string;
+      const { data: tenant, error: tenantError } = await supabaseClient
+        .from('tenants')
+        .select('plan, status')
+        .eq('id', tenantId)
+        .maybeSingle();
+
+      if (tenantError || !tenant) {
+        logStep("Tenant not found or error", { tenantError: tenantError?.message });
+        return new Response(JSON.stringify({ 
+          subscribed: false,
+          plan: "starter",
+          trial: false
+        }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        });
+      }
+
+      const planFromTenant = tenant.plan || 'starter';
+      const isActiveTenant = (tenant.status || '').toLowerCase() === 'active';
+
+      if (isActiveTenant && (planFromTenant === 'professional' || planFromTenant === 'enterprise')) {
+        logStep("Tenant indicates active paid plan", { plan: planFromTenant });
+        return new Response(JSON.stringify({
+          subscribed: true,
+          plan: planFromTenant,
+          trial: false,
+          subscription_end: null,
+          status: 'active'
+        }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        });
+      }
+
+      logStep("Tenant not on paid active plan", { plan: planFromTenant, status: tenant.status });
       return new Response(JSON.stringify({ 
         subscribed: false,
         plan: "starter",
