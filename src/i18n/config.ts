@@ -698,6 +698,7 @@ const resources = {
 
       // Settings Page
       settingsTitle: "Inställningar",
+      loadingSettings: "Laddar inställningar...",
       manageBusinessIntegrations: "Hantera din verksamhet och integrationer",
       businessTab: "Verksamhet",
       teamSubscriptionTab: "Team & Abonnemang",
@@ -710,7 +711,7 @@ const resources = {
       bar: "Bar",
       restaurant: "Restaurang",
       hotel: "Hotell",
-      locationAndRadius: "Plats och sökområde",
+      locationSearchArea: "Plats och sökområde",
       saveChanges: "Spara ändringar",
       saving: "Sparar...",
       settingsSaved: "Inställningar sparade!",
@@ -1936,6 +1937,7 @@ const resources = {
 
       // Settings Page
       settingsTitle: "Settings",
+      loadingSettings: "Loading settings...",
       manageBusinessIntegrations: "Manage your business and integrations",
       businessTab: "Business",
       teamSubscriptionTab: "Team & Subscription",
@@ -1948,7 +1950,7 @@ const resources = {
       bar: "Bar",
       restaurant: "Restaurant",
       hotel: "Hotel",
-      locationAndRadius: "Location and search area",
+      locationSearchArea: "Location and search area",
       saveChanges: "Save changes",
       saving: "Saving...",
       settingsSaved: "Settings saved!",
