@@ -163,7 +163,7 @@ const resources = {
       roiTrackingDesc: "Följ resultat i realtid och optimera för maximal avkastning.",
       
       // Social Proof
-      companiesUsing: "företag använder Spotlight",
+      companiesUsing: "använder Spotlight",
       over: "Över",
       companiesCount: "500+ företag",
       
@@ -1045,7 +1045,7 @@ const resources = {
       roiTrackingDesc: "Track results in real-time and optimize for maximum return.",
       
       // Social Proof
-      companiesUsing: "companies use Spotlight",
+      companiesUsing: "use Spotlight",
       over: "Over",
       companiesCount: "500+ companies",
       
