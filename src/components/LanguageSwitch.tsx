@@ -23,16 +23,22 @@ export function LanguageSwitch() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Languages className="h-5 w-5" />
+        <Button variant="ghost" size="icon" className="relative">
+          <span className="text-2xl">{currentLang === "sv" ? "🇸🇪" : "🇬🇧"}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => changeLanguage("sv")}>
-          🇸🇪 Svenska {currentLang === "sv" && "✓"}
+      <DropdownMenuContent align="end" className="min-w-[60px] bg-background z-50">
+        <DropdownMenuItem 
+          onClick={() => changeLanguage("sv")}
+          className="justify-center text-2xl cursor-pointer"
+        >
+          🇸🇪 {currentLang === "sv" && <span className="ml-2">✓</span>}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeLanguage("en")}>
-          🇬🇧 English {currentLang === "en" && "✓"}
+        <DropdownMenuItem 
+          onClick={() => changeLanguage("en")}
+          className="justify-center text-2xl cursor-pointer"
+        >
+          🇬🇧 {currentLang === "en" && <span className="ml-2">✓</span>}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
