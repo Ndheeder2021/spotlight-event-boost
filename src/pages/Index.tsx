@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -197,6 +198,7 @@ const faqs = [
 
 const Index = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
@@ -204,6 +206,24 @@ const Index = () => {
   const [loading, setLoading] = useState(true);
   const [isYearly, setIsYearly] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const featureShowcaseData = [
+    {
+      title: t('featureAnalytics'),
+      description: t('featureAnalyticsDesc'),
+      image: featureAnalytics,
+    },
+    {
+      title: t('featureAi'),
+      description: t('featureAiDesc'),
+      image: featureAiCampaign,
+    },
+    {
+      title: t('featureEvents'),
+      description: t('featureEventsDesc'),
+      image: featureEvents,
+    },
+  ];
 
   const scrollToFeatures = () => {
     const featuresSection = document.getElementById('features');
@@ -433,12 +453,11 @@ const Index = () => {
           <div className="max-w-5xl mx-auto text-center space-y-8 sm:space-y-12">
             <div className="space-y-6 sm:space-y-8">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.15] sm:leading-[1.1] tracking-tight px-2">
-                Förvandla lokala evenemang till{" "}
-                <span className="text-primary">försäljning</span>
+                {t('heroTitle')}
               </h1>
               
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
-                AI-driven plattform som automatiskt upptäcker evenemang och skapar kampanjer
+                {t('heroSubtitle')}
               </p>
             </div>
             
@@ -449,7 +468,7 @@ const Index = () => {
                   size="xl"
                   className="w-full sm:w-auto h-14 sm:h-auto text-base sm:text-lg"
                 >
-                  Kom igång gratis 
+                  {t('heroCtaPrimary')}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
@@ -515,14 +534,14 @@ const Index = () => {
       <section className="py-32">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-20">
-            <h2 className="text-5xl sm:text-6xl font-bold mb-6">Allt du behöver på ett ställe</h2>
+            <h2 className="text-5xl sm:text-6xl font-bold mb-6">{t('featuresTitle')}</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Kraftfulla verktyg för moderna marknadsförare
+              {t('featuresSubtitle')}
             </p>
           </div>
 
           <div className="space-y-32 max-w-7xl mx-auto">
-            {featureShowcase.map((feature, index) => (
+            {featureShowcaseData.map((feature, index) => (
               <div 
                 key={index} 
                 className={`grid lg:grid-cols-2 gap-12 items-center ${
@@ -623,7 +642,7 @@ const Index = () => {
               ⭐ Kundnöjdhet
             </Badge>
             <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-primary-glow to-accent bg-clip-text text-transparent">
-              Våra användare älskar oss!
+              {t('ratingsTitle')}
             </h2>
             <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto">
               Se vad våra kunder tycker om användarupplevelsen
@@ -975,8 +994,8 @@ const Index = () => {
       <section className="py-32">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-20">
-            <h2 className="text-5xl sm:text-6xl font-bold mb-6">Kundberättelser</h2>
-            <p className="text-xl text-muted-foreground">Se vad våra kunder tycker</p>
+            <h2 className="text-5xl sm:text-6xl font-bold mb-6">{t('testimonialsTitle')}</h2>
+            <p className="text-xl text-muted-foreground">{t('testimonialsSubtitle')}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -1014,20 +1033,20 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-20">
             <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
-              Enkla och transparenta priser
+              {t('plansTitle')}
             </h2>
             <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto">
-              Välj den plan som passar ditt företag bäst. Ingen bindningstid, avbryt när som helst.
+              {t('plansSubtitle')}
             </p>
           </div>
 
           <div className="flex items-center justify-center gap-4 mb-16">
             <span className={`text-lg font-medium transition-colors ${!isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
-              Månadsvis
+              {t('plansBillingMonthly')}
             </span>
             <Switch checked={isYearly} onCheckedChange={setIsYearly} />
             <span className={`text-lg font-medium transition-colors ${isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
-              Årsvis
+              {t('plansBillingYearly')}
             </span>
             {isYearly && (
               <span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary">
@@ -1222,10 +1241,10 @@ const Index = () => {
           <div className="text-center mb-20 animate-on-scroll">
             <Badge className="mb-6 text-base px-4 py-2">FAQ</Badge>
             <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
-              Vanliga frågor
+              {t('faqTitle')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Allt du behöver veta om Spotlight. Hittar du inte svaret du söker? Kontakta oss gärna!
+              {t('faqSubtitle')}
             </p>
           </div>
 
@@ -1274,10 +1293,10 @@ const Index = () => {
           <div className="max-w-5xl mx-auto text-center space-y-14">
             <div className="space-y-8">
               <h2 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1]">
-                Börja idag
+                {t('ctaTitle')}
               </h2>
               <p className="text-2xl sm:text-3xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Gå med i hundratals företag som redan ökar sin försäljning med Spotlight
+                {t('ctaSubtitle')}
               </p>
             </div>
             
@@ -1287,7 +1306,7 @@ const Index = () => {
                   variant="animated"
                   size="xl"
                 >
-                  Starta gratis 
+                  {t('ctaButton')}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
