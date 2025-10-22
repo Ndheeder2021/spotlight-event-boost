@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { AddressAutocomplete } from "@/components/AddressAutocomplete";
 import { MapPin, Building2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from "react-i18next";
 import mapAddressRadius from "@/assets/map-address-radius.jpg";
 import mapCityArea from "@/assets/map-city-area.jpg";
 
@@ -17,6 +18,7 @@ interface LocationMapSelectorProps {
 }
 
 export function LocationMapSelector({ location, onChange, onAddressChange }: LocationMapSelectorProps) {
+  const { t } = useTranslation();
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const marker = useRef<mapboxgl.Marker | null>(null);
@@ -165,7 +167,7 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
       {/* Left side - Form */}
       <div className="space-y-6">
         <div className="space-y-4">
-          <Label className="text-base font-semibold">Platstyp</Label>
+          <Label className="text-base font-semibold">{t('locationType')}</Label>
           <RadioGroup
             value={locationType}
             onValueChange={(value) => setLocationType(value as "address" | "city")}
@@ -188,8 +190,8 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
                 />
               </div>
               <div className="text-center">
-                <p className="font-medium">Gatuadress & Radie</p>
-                <p className="text-xs text-muted-foreground">t.ex. butiker, hotell eller restauranger</p>
+                <p className="font-medium">{t('streetAddressRadius')}</p>
+                <p className="text-xs text-muted-foreground">{t('streetAddressExample')}</p>
               </div>
             </div>
 
@@ -210,8 +212,8 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
                 />
               </div>
               <div className="text-center">
-                <p className="font-medium">Stad, Land, etc.</p>
-                <p className="text-xs text-muted-foreground">t.ex. Stockholm, Sverige</p>
+                <p className="font-medium">{t('cityCountryEtc')}</p>
+                <p className="text-xs text-muted-foreground">{t('cityExample')}</p>
               </div>
             </div>
           </RadioGroup>
@@ -220,17 +222,17 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
         {locationType === "address" ? (
           <>
             <div className="space-y-2">
-              <Label htmlFor="address">Gatuadress</Label>
+              <Label htmlFor="address">{t('streetAddress')}</Label>
               <AddressAutocomplete
                 value={location?.address_line ?? location?.address ?? ""}
                 onChange={onAddressChange}
-                placeholder="Sök gatuadress..."
+                placeholder={t('searchStreetAddress')}
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="radius">Sökradie (km)</Label>
+              <Label htmlFor="radius">{t('searchRadius')}</Label>
               <Input
                 id="radius"
                 type="number"
@@ -241,13 +243,13 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
                 onChange={(e) => onChange({ radius_km: parseFloat(e.target.value) })}
               />
               <p className="text-xs text-muted-foreground">
-                Större radie ger fler events (rekommenderat: 10-20 km)
+                {t('radiusRecommendation')}
               </p>
             </div>
           </>
         ) : (
           <div className="space-y-2">
-            <Label htmlFor="city-search">Stad eller område</Label>
+            <Label htmlFor="city-search">{t('cityOrArea')}</Label>
             <AddressAutocomplete
               value={location?.city ?? ""}
               onChange={(address, coordinates) => {
@@ -259,11 +261,11 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
                   radius_km: null,
                 });
               }}
-              placeholder="Sök stad eller område..."
+              placeholder={t('searchCityOrArea')}
               required
             />
             <p className="text-xs text-muted-foreground">
-              Sök efter en stad eller ett större område
+              {t('searchCityDescription')}
             </p>
           </div>
         )}
@@ -273,7 +275,7 @@ export function LocationMapSelector({ location, onChange, onAddressChange }: Loc
       <div className="lg:sticky lg:top-6 h-[400px] lg:h-[600px]">
         {!mapboxToken ? (
           <div className="w-full h-full rounded-lg border shadow-lg flex items-center justify-center bg-muted">
-            <p className="text-muted-foreground">Laddar karta...</p>
+            <p className="text-muted-foreground">{t('loadingMap')}</p>
           </div>
         ) : (
           <div ref={mapContainer} className="w-full h-full rounded-lg border shadow-lg" />

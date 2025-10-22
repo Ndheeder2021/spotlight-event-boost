@@ -760,6 +760,21 @@ const resources = {
       importError: "Ett fel uppstod vid import",
       importInfo: "Info: Events importeras automatiskt baserat på din konfigurerade plats och radie. Dubbletter filtreras automatiskt bort. Systemet hämtar events för de kommande 90 dagarna.",
 
+      // Location Map Selector
+      locationType: "Platstyp",
+      streetAddressRadius: "Gatuadress & Radie",
+      streetAddressExample: "t.ex. butiker, hotell eller restauranger",
+      cityCountryEtc: "Stad, Land, etc.",
+      cityExample: "t.ex. Stockholm, Sverige",
+      streetAddress: "Gatuadress",
+      searchStreetAddress: "Sök gatuadress...",
+      searchRadius: "Sökradie (km)",
+      radiusRecommendation: "Större radie ger fler events (rekommenderat: 10-20 km)",
+      cityOrArea: "Stad eller område",
+      searchCityOrArea: "Sök stad eller område...",
+      searchCityDescription: "Sök efter en stad eller ett större område",
+      loadingMap: "Laddar karta...",
+
       // Notifications Page
       notificationsTitle: "Notifieringar",
       notificationsDesc: "Konfigurera automatiska notifieringar för stora events",
@@ -2022,6 +2037,21 @@ const resources = {
       noEventsFoundImport: "0 events found. Try increasing the radius for more results.",
       importError: "An error occurred during import",
       importInfo: "Info: Events are automatically imported based on your configured location and radius. Duplicates are automatically filtered out. The system fetches events for the next 90 days.",
+
+      // Location Map Selector
+      locationType: "Location Type",
+      streetAddressRadius: "Street Address & Radius",
+      streetAddressExample: "e.g. stores, hotels or restaurants",
+      cityCountryEtc: "City, Country, etc.",
+      cityExample: "e.g. Stockholm, Sweden",
+      streetAddress: "Street Address",
+      searchStreetAddress: "Search street address...",
+      searchRadius: "Search Radius (km)",
+      radiusRecommendation: "Larger radius gives more events (recommended: 10-20 km)",
+      cityOrArea: "City or Area",
+      searchCityOrArea: "Search city or area...",
+      searchCityDescription: "Search for a city or larger area",
+      loadingMap: "Loading map...",
 
       // Notifications Page
       notificationsTitle: "Notifications",
