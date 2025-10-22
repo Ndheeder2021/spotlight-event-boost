@@ -26,20 +26,20 @@ export default function ReferFriend() {
     if (refCode) {
       // Store referral code in localStorage for later use during signup
       localStorage.setItem('referral_code', refCode);
-      toast.success("Referral kod sparad! Skapa ett konto för att fortsätta.");
+      toast.success(t('referFriendCodeSaved'));
     }
-  }, []);
+  }, [t]);
 
   const generateReferralCode = async () => {
     if (!email) {
-      toast.error("Vänligen ange din e-postadress");
+      toast.error(t('referFriendEnterEmail'));
       return;
     }
 
     // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      toast.error("Vänligen ange en giltig e-postadress");
+      toast.error(t('referFriendValidEmail'));
       return;
     }
 
@@ -57,7 +57,7 @@ export default function ReferFriend() {
 
       if (existing) {
         setReferralData(existing);
-        toast.success("Välkommen tillbaka! Din referral-länk är klar.");
+        toast.success(t('referFriendWelcomeBack'));
       } else {
         // Generate new referral code using the database function
         const { data: codeData, error: codeError } = await supabase
@@ -91,18 +91,18 @@ export default function ReferFriend() {
 
           if (emailError) {
             console.error('Error sending welcome email:', emailError);
-            toast.success("Din referral-länk har skapats! (Mail kunde inte skickas)");
+            toast.success(t('referFriendCreatedNoEmail'));
           } else {
-            toast.success("Din referral-länk har skapats! Kolla din e-post för mer information.");
+            toast.success(t('referFriendCreatedWithEmail'));
           }
         } catch (emailError) {
           console.error('Error sending welcome email:', emailError);
-          toast.success("Din referral-länk har skapats!");
+          toast.success(t('referFriendCreated'));
         }
       }
     } catch (error: any) {
       console.error('Error:', error);
-      toast.error(error.message || "Något gick fel");
+      toast.error(error.message || t('referFriendError'));
     } finally {
       setLoading(false);
     }
@@ -112,7 +112,7 @@ export default function ReferFriend() {
     const referralLink = `${window.location.origin}/?ref=${referralData.referral_code}`;
     navigator.clipboard.writeText(referralLink);
     setCopied(true);
-    toast.success("Länk kopierad!");
+    toast.success(t('referFriendCopied'));
     setTimeout(() => setCopied(false), 2000);
   };
 
