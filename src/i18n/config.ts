@@ -145,6 +145,99 @@ const resources = {
       ctaTitle: "Redo att revolutionera din marknadsföring?",
       ctaSubtitle: "Börja skapa AI-drivna kampanjer idag. Ingen kreditkort krävs för provperioden.",
       ctaButton: "Starta din kostnadsfria provperiod",
+      
+      // Buttons & Actions
+      readMore: "Läs mer",
+      getStartedFree: "Kom igång gratis",
+      startFree: "Starta gratis",
+      contactUs: "Kontakta oss",
+      contactSupport: "Kontakta support",
+      trySpotlightFree: "Prova Spotlight gratis",
+      
+      // Simple Features
+      autoMonitoring: "Automatisk bevakning",
+      autoMonitoringDesc: "Vi övervakar kontinuerligt lokala evenemang och notifierar dig omedelbart.",
+      aiCampaigns: "AI-kampanjer",
+      aiCampaignsDesc: "Skräddarsydda kampanjtexter genererade av avancerad AI-teknologi.",
+      roiTracking: "ROI-tracking",
+      roiTrackingDesc: "Följ resultat i realtid och optimera för maximal avkastning.",
+      
+      // Social Proof
+      companiesUsing: "företag använder Spotlight",
+      over: "Över",
+      companiesCount: "500+ företag",
+      
+      // Live Stats
+      companiesUsingSpotlight: "Företag använder Spotlight",
+      campaignsThisMonth: "Kampanjer skapade denna månad",
+      customerSatisfaction: "Kundnöjdhet",
+      
+      // Trust points
+      noCommitment: "Ingen bindningstid",
+      daysFree: "14 dagar gratis",
+      noCreditCard: "Inget kreditkort behövs",
+      
+      // Rating Categories
+      easeOfUse: "Användarvänlighet",
+      customerSupport: "Kundsupport",
+      
+      // Comparison Tables
+      comparisonTitle: "Spotlight vs Traditionell Marknadsföring",
+      comparisonSubtitle: "Se skillnaden",
+      vsCompetitorsTitle: "Spotlight vs Konkurrenter",
+      vsCompetitorsSubtitle: "Varför våra kunder väljer oss",
+      feature: "Funktion",
+      traditionalMarketing: "Traditionell marknadsföring",
+      competitor: "Konkurrent",
+      
+      // Comparison Features
+      findEvents: "Hitta relevanta evenemang",
+      autoMonitoring247: "Automatisk bevakning 24/7",
+      manualSearchWeekly: "Manuell sökning varje vecka",
+      createCampaignText: "Skapa kampanjtext",
+      aiGenerated60s: "AI-genererad på 60 sekunder",
+      manual24hours: "2-4 timmar per kampanj",
+      analyticsRoi: "Analytics & ROI",
+      realtimeDashboard: "Real-time dashboard",
+      manualExcel: "Manuell uppföljning i Excel",
+      abTesting: "A/B-testning",
+      builtInAutomated: "Inbyggt & automatiserat",
+      difficultTimeConsuming: "Svårt och tidskrävande",
+      costPerMonth: "Kostnad per månad",
+      fromEuro29: "Från €29",
+      euro500Plus: "€500+ (timkostnad)",
+      
+      eventDiscoveryAi: "Event Discovery med AI",
+      localEventDatabase: "Lokal eventdatabas",
+      basicEventCalendar: "Grundläggande eventkalender",
+      swedishSupport: "Support på svenska",
+      emailOnly: "Endast email",
+      unlimitedCampaigns: "Obegränsade kampanjer",
+      limited: "Begränsat",
+      realTimeNotifications: "Realtidsnotiser",
+      pdfExport: "PDF-export",
+      freeTrial14Days: "14 dagars gratis trial",
+      startingPriceMonth: "Startpris/månad",
+      
+      // Customer Stories
+      customerStories: "Kundberättelser",
+      seeWhatCustomersThink: "Se vad våra kunder tycker",
+      
+      // Newsletter
+      newsletterTitle: "Få marknadsföringstips direkt i din inkorg",
+      newsletterDesc: "Prenumerera på vårt nyhetsbrev och få exklusiva tips, case studies och branschinsikter.",
+      
+      // Other sections
+      everythingInOnePlace: "Allt du behöver på ett ställe",
+      powerfulToolsModern: "Kraftfulla verktyg för moderna marknadsförare",
+      basedOnReviews: "baserat på 500+ recensioner",
+      recommendSpotlight: "rekommenderar Spotlight",
+      seeUserExperience: "Se vad våra kunder tycker om användarupplevelsen",
+      happyCompanies: "Nöjda företag",
+      joinHundreds: "Gå med i hundratals företag som redan ökar sin försäljning med Spotlight",
+      allPlansInclude: "Alla planer inkluderar 14 dagars gratis provperiod",
+      everythingYouNeed: "Allt du behöver veta om Spotlight. Hittar du inte svaret du söker? Kontakta oss gärna!",
+      startToday: "Börja idag",
     }
   },
   en: {
@@ -289,6 +382,99 @@ const resources = {
       ctaTitle: "Ready to revolutionize your marketing?",
       ctaSubtitle: "Start creating AI-powered campaigns today. No credit card required for trial.",
       ctaButton: "Start Your Free Trial",
+      
+      // Buttons & Actions
+      readMore: "Read more",
+      getStartedFree: "Get Started Free",
+      startFree: "Start Free",
+      contactUs: "Contact Us",
+      contactSupport: "Contact Support",
+      trySpotlightFree: "Try Spotlight Free",
+      
+      // Simple Features
+      autoMonitoring: "Automatic Monitoring",
+      autoMonitoringDesc: "We continuously monitor local events and notify you immediately.",
+      aiCampaigns: "AI Campaigns",
+      aiCampaignsDesc: "Custom campaign texts generated by advanced AI technology.",
+      roiTracking: "ROI Tracking",
+      roiTrackingDesc: "Track results in real-time and optimize for maximum return.",
+      
+      // Social Proof
+      companiesUsing: "companies use Spotlight",
+      over: "Over",
+      companiesCount: "500+ companies",
+      
+      // Live Stats
+      companiesUsingSpotlight: "Companies use Spotlight",
+      campaignsThisMonth: "Campaigns created this month",
+      customerSatisfaction: "Customer satisfaction",
+      
+      // Trust points
+      noCommitment: "No commitment",
+      daysFree: "14 days free",
+      noCreditCard: "No credit card needed",
+      
+      // Rating Categories
+      easeOfUse: "Ease of Use",
+      customerSupport: "Customer Support",
+      
+      // Comparison Tables
+      comparisonTitle: "Spotlight vs Traditional Marketing",
+      comparisonSubtitle: "See the difference",
+      vsCompetitorsTitle: "Spotlight vs Competitors",
+      vsCompetitorsSubtitle: "Why our customers choose us",
+      feature: "Feature",
+      traditionalMarketing: "Traditional marketing",
+      competitor: "Competitor",
+      
+      // Comparison Features
+      findEvents: "Find relevant events",
+      autoMonitoring247: "Automatic monitoring 24/7",
+      manualSearchWeekly: "Manual search every week",
+      createCampaignText: "Create campaign text",
+      aiGenerated60s: "AI-generated in 60 seconds",
+      manual24hours: "2-4 hours per campaign",
+      analyticsRoi: "Analytics & ROI",
+      realtimeDashboard: "Real-time dashboard",
+      manualExcel: "Manual tracking in Excel",
+      abTesting: "A/B Testing",
+      builtInAutomated: "Built-in & automated",
+      difficultTimeConsuming: "Difficult and time-consuming",
+      costPerMonth: "Cost per month",
+      fromEuro29: "From €29",
+      euro500Plus: "€500+ (hourly cost)",
+      
+      eventDiscoveryAi: "Event Discovery with AI",
+      localEventDatabase: "Local event database",
+      basicEventCalendar: "Basic event calendar",
+      swedishSupport: "Swedish support",
+      emailOnly: "Email only",
+      unlimitedCampaigns: "Unlimited campaigns",
+      limited: "Limited",
+      realTimeNotifications: "Real-time notifications",
+      pdfExport: "PDF export",
+      freeTrial14Days: "14-day free trial",
+      startingPriceMonth: "Starting price/month",
+      
+      // Customer Stories
+      customerStories: "Customer Stories",
+      seeWhatCustomersThink: "See what our customers think",
+      
+      // Newsletter
+      newsletterTitle: "Get marketing tips straight to your inbox",
+      newsletterDesc: "Subscribe to our newsletter and receive exclusive tips, case studies, and industry insights.",
+      
+      // Other sections
+      everythingInOnePlace: "Everything you need in one place",
+      powerfulToolsModern: "Powerful tools for modern marketers",
+      basedOnReviews: "based on 500+ reviews",
+      recommendSpotlight: "recommend Spotlight",
+      seeUserExperience: "See what our customers think about the user experience",
+      happyCompanies: "Happy companies",
+      joinHundreds: "Join hundreds of companies already boosting their sales with Spotlight",
+      allPlansInclude: "All plans include 14-day free trial",
+      everythingYouNeed: "Everything you need to know about Spotlight. Can't find the answer you're looking for? Feel free to contact us!",
+      startToday: "Start today",
     }
   }
 };

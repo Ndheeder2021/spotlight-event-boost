@@ -482,7 +482,7 @@ const Index = () => {
                   <AnimatedCounter end={2547} suffix="+" />
                 </div>
                 <div className="text-xs sm:text-sm lg:text-base text-muted-foreground">
-                  Företag använder Spotlight
+                  {t('companiesUsingSpotlight')}
                 </div>
               </div>
               
@@ -491,7 +491,7 @@ const Index = () => {
                   <AnimatedCounter end={12349} suffix="+" />
                 </div>
                 <div className="text-sm sm:text-base text-muted-foreground">
-                  Kampanjer skapade denna månad
+                  {t('campaignsThisMonth')}
                 </div>
               </div>
               
@@ -500,7 +500,7 @@ const Index = () => {
                   <AnimatedCounter end={98} suffix="%" />
                 </div>
                 <div className="text-sm sm:text-base text-muted-foreground">
-                  Kundnöjdhet
+                  {t('customerSatisfaction')}
                 </div>
               </div>
             </div>
@@ -508,11 +508,11 @@ const Index = () => {
             <div className="flex flex-wrap gap-8 justify-center pt-8 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Check className="h-4 w-4 text-primary" />
-                <span>Ingen bindningstid</span>
+                <span>{t('noCommitment')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Check className="h-4 w-4 text-primary" />
-                <span>14 dagar gratis</span>
+                <span>{t('daysFree')}</span>
               </div>
             </div>
           </div>
@@ -524,7 +524,7 @@ const Index = () => {
       <section className="py-16 border-y">
         <div className="container mx-auto px-4 sm:px-6">
           <p className="text-center text-muted-foreground mb-12 text-lg">
-            Över <span className="font-semibold text-foreground">500+ företag</span> använder Spotlight
+            {t('over')} <span className="font-semibold text-foreground">{t('companiesCount')}</span> {t('companiesUsing')}
           </p>
           <LogoCarousel />
         </div>
@@ -558,7 +558,7 @@ const Index = () => {
                       variant="animated"
                       size="xl"
                     >
-                      Läs mer 
+                      {t('readMore')}
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </Link>
@@ -587,9 +587,9 @@ const Index = () => {
               <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
                 <Bell className="h-7 w-7 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold">Automatisk bevakning</h3>
+              <h3 className="text-2xl font-bold">{t('autoMonitoring')}</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Vi övervakar kontinuerligt lokala evenemang och notifierar dig omedelbart.
+                {t('autoMonitoringDesc')}
               </p>
             </div>
 
@@ -597,9 +597,9 @@ const Index = () => {
               <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
                 <Sparkles className="h-7 w-7 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold">AI-kampanjer</h3>
+              <h3 className="text-2xl font-bold">{t('aiCampaigns')}</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Skräddarsydda kampanjtexter genererade av avancerad AI-teknologi.
+                {t('aiCampaignsDesc')}
               </p>
             </div>
 
@@ -607,9 +607,9 @@ const Index = () => {
               <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
                 <BarChart className="h-7 w-7 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold">ROI-tracking</h3>
+              <h3 className="text-2xl font-bold">{t('roiTracking')}</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Följ resultat i realtid och optimera för maximal avkastning.
+                {t('roiTrackingDesc')}
               </p>
             </div>
           </div>
@@ -645,7 +645,7 @@ const Index = () => {
               {t('ratingsTitle')}
             </h2>
             <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto">
-              Se vad våra kunder tycker om användarupplevelsen
+              {t('seeUserExperience')}
             </p>
           </div>
 
@@ -668,12 +668,12 @@ const Index = () => {
                       ))}
                     </div>
                     <p className="text-lg font-semibold text-muted-foreground">
-                      Baserat på 500+ recensioner
+                      {t('basedOnReviews')}
                     </p>
                   </div>
                 </div>
                 <p className="text-2xl font-bold text-primary">
-                  96% rekommenderar Spotlight till andra företag
+                  96% {t('recommendSpotlight')}
                 </p>
               </CardContent>
             </Card>
@@ -683,28 +683,28 @@ const Index = () => {
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
             {[
               {
-                category: "Användarvänlighet",
+                category: t('ratingsEaseOfUse'),
                 rating: 98,
                 icon: Target,
                 color: "from-blue-500 to-cyan-500",
                 bgColor: "from-blue-500/10 to-cyan-500/10"
               },
               {
-                category: "Kundsupport",
+                category: t('ratingsSupport'),
                 rating: 97,
                 icon: Users,
                 color: "from-purple-500 to-pink-500",
                 bgColor: "from-purple-500/10 to-pink-500/10"
               },
               {
-                category: "ROI & Resultat",
+                category: t('ratingsRoi'),
                 rating: 95,
                 icon: TrendingUp,
                 color: "from-green-500 to-emerald-500",
                 bgColor: "from-green-500/10 to-emerald-500/10"
               },
               {
-                category: "Funktioner",
+                category: t('ratingsFeatures'),
                 rating: 96,
                 icon: Sparkles,
                 color: "from-amber-500 to-orange-500",
@@ -760,10 +760,10 @@ const Index = () => {
           {/* Trust Indicators */}
           <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {[
-              { icon: "👍", value: "98%", label: "Nöjda kunder" },
-              { icon: "🚀", value: "10min", label: "Snabb igångsättning" },
-              { icon: "💡", value: "24/7", label: "AI-support" },
-              { icon: "🎯", value: "500+", label: "Företag litar på oss" }
+              { icon: "👍", value: "98%", label: t('ratingsHappyCustomers') },
+              { icon: "🚀", value: "10min", label: t('ratingsQuickSetup') },
+              { icon: "💡", value: "24/7", label: t('ratingsFreeSupport') },
+              { icon: "🎯", value: "500+", label: t('happyCompanies') }
             ].map((stat, i) => (
               <div 
                 key={i} 
@@ -789,13 +789,13 @@ const Index = () => {
             <div className="space-y-8">
               <div className="text-center space-y-4">
                 <Badge variant="outline" className="border-primary/30 bg-primary/5">
-                  Jämförelse
+                  {t('comparisonTitle')}
                 </Badge>
                 <h2 className="text-4xl sm:text-5xl font-bold">
-                  Spotlight vs Traditionell Marknadsföring
+                  {t('comparisonTitle')}
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                  Se skillnaden mellan manuellt arbete och AI-driven automation
+                  {t('comparisonSubtitle')}
                 </p>
               </div>
 
@@ -803,7 +803,7 @@ const Index = () => {
                 <div className="min-w-[600px] bg-card border rounded-2xl shadow-lg overflow-hidden">
                   <div className="grid grid-cols-3">
                     <div className="p-6 bg-accent/30 border-b border-r">
-                      <h3 className="font-semibold text-lg">Funktion</h3>
+                      <h3 className="font-semibold text-lg">{t('feature')}</h3>
                     </div>
                     <div className="p-6 bg-primary/5 border-b border-r">
                       <h3 className="font-semibold text-lg flex items-center gap-2">
@@ -813,36 +813,36 @@ const Index = () => {
                     </div>
                     <div className="p-6 bg-accent/10 border-b">
                       <h3 className="font-semibold text-lg text-muted-foreground">
-                        Traditionell marknadsföring
+                        {t('traditionalMarketing')}
                       </h3>
                     </div>
                   </div>
 
                   {[
                     {
-                      feature: "Hitta relevanta evenemang",
-                      spotlight: "Automatisk bevakning 24/7",
-                      traditional: "Manuell sökning varje vecka"
+                      feature: t('findEvents'),
+                      spotlight: t('autoMonitoring247'),
+                      traditional: t('manualSearchWeekly')
                     },
                     {
-                      feature: "Skapa kampanjtext",
-                      spotlight: "AI-genererad på 60 sekunder",
-                      traditional: "2-4 timmar per kampanj"
+                      feature: t('createCampaignText'),
+                      spotlight: t('aiGenerated60s'),
+                      traditional: t('manual24hours')
                     },
                     {
-                      feature: "Analytics & ROI",
-                      spotlight: "Real-time dashboard",
-                      traditional: "Manuell uppföljning i Excel"
+                      feature: t('analyticsRoi'),
+                      spotlight: t('realtimeDashboard'),
+                      traditional: t('manualExcel')
                     },
                     {
-                      feature: "A/B-testning",
-                      spotlight: "Inbyggt & automatiserat",
-                      traditional: "Svårt och tidskrävande"
+                      feature: t('abTesting'),
+                      spotlight: t('builtInAutomated'),
+                      traditional: t('difficultTimeConsuming')
                     },
                     {
-                      feature: "Kostnad per månad",
-                      spotlight: "Från €29",
-                      traditional: "€500+ (timkostnad)"
+                      feature: t('costPerMonth'),
+                      spotlight: t('fromEuro29'),
+                      traditional: t('euro500Plus')
                     }
                   ].map((row, index) => (
                     <div key={index} className="grid grid-cols-3">
@@ -871,10 +871,10 @@ const Index = () => {
             <div className="space-y-8">
               <div className="text-center space-y-4">
                 <h2 className="text-4xl sm:text-5xl font-bold">
-                  Spotlight vs Konkurrenter
+                  {t('vsCompetitorsTitle')}
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                  Varför våra kunder väljer oss
+                  {t('vsCompetitorsSubtitle')}
                 </p>
               </div>
 
@@ -882,7 +882,7 @@ const Index = () => {
                 <div className="min-w-[600px] bg-card border rounded-2xl shadow-lg overflow-hidden">
                   <div className="grid grid-cols-3">
                     <div className="p-6 bg-accent/30 border-b border-r">
-                      <h3 className="font-semibold text-lg">Funktion</h3>
+                      <h3 className="font-semibold text-lg">{t('feature')}</h3>
                     </div>
                     <div className="p-6 bg-primary/5 border-b border-r">
                       <h3 className="font-semibold text-lg flex items-center gap-2">
@@ -892,49 +892,49 @@ const Index = () => {
                     </div>
                     <div className="p-6 bg-accent/10 border-b">
                       <h3 className="font-semibold text-lg text-muted-foreground">
-                        Konkurrent
+                        {t('competitor')}
                       </h3>
                     </div>
                   </div>
 
                   {[
                     {
-                      feature: "AI-genererad kampanjtext",
+                      feature: t('featureAi'),
                       spotlight: true,
                       competitor: false
                     },
                     {
-                      feature: "Automatisk eventbevakning",
+                      feature: t('autoMonitoring'),
                       spotlight: true,
                       competitor: true
                     },
                     {
-                      feature: "Real-time analytics",
+                      feature: t('realtimeDashboard'),
                       spotlight: true,
                       competitor: false
                     },
                     {
-                      feature: "A/B-testning",
+                      feature: t('abTesting'),
                       spotlight: true,
                       competitor: false
                     },
                     {
-                      feature: "Flerspråksstöd",
+                      feature: t('swedishSupport'),
                       spotlight: true,
                       competitor: false
                     },
                     {
-                      feature: "PDF-export",
+                      feature: t('pdfExport'),
                       spotlight: true,
                       competitor: true
                     },
                     {
-                      feature: "14 dagars gratis trial",
+                      feature: t('freeTrial14Days'),
                       spotlight: true,
                       competitor: false
                     },
                     {
-                      feature: "Startpris/månad",
+                      feature: t('startingPriceMonth'),
                       spotlight: "€29",
                       competitor: "€79"
                     }
@@ -977,7 +977,7 @@ const Index = () => {
               <div className="text-center pt-8">
                 <Link to="/auth">
                   <Button variant="animated" size="xl">
-                    Prova Spotlight gratis
+                    {t('trySpotlightFree')}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
@@ -1229,7 +1229,7 @@ const Index = () => {
 
           <div className="text-center mt-16">
             <p className="text-muted-foreground">
-              Alla planer inkluderar 14 dagars gratis provperiod
+              {t('allPlansInclude')}
             </p>
           </div>
         </div>
@@ -1278,7 +1278,7 @@ const Index = () => {
               </p>
               <Link to="/contact">
                 <Button size="lg" variant="animated">
-                  Kontakta support
+                  {t('contactSupport')}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
@@ -1293,10 +1293,10 @@ const Index = () => {
           <div className="max-w-5xl mx-auto text-center space-y-14">
             <div className="space-y-8">
               <h2 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1]">
-                {t('ctaTitle')}
+                {t('startToday')}
               </h2>
               <p className="text-2xl sm:text-3xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                {t('ctaSubtitle')}
+                {t('joinHundreds')}
               </p>
             </div>
             
@@ -1315,7 +1315,7 @@ const Index = () => {
                 size="xl"
                 onClick={() => navigate('/contact')}
               >
-                Kontakta oss
+                {t('contactUs')}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </div>
@@ -1325,19 +1325,19 @@ const Index = () => {
                 <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
                   <Check className="h-5 w-5 text-primary" />
                 </div>
-                <span className="text-base text-muted-foreground">14 dagars gratis provperiod</span>
+                <span className="text-base text-muted-foreground">{t('daysFree')}</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
                   <Check className="h-5 w-5 text-primary" />
                 </div>
-                <span className="text-base text-muted-foreground">Ingen bindningstid</span>
+                <span className="text-base text-muted-foreground">{t('noCommitment')}</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
                   <Check className="h-5 w-5 text-primary" />
                 </div>
-                <span className="text-base text-muted-foreground">Inget kreditkort behövs</span>
+                <span className="text-base text-muted-foreground">{t('noCreditCard')}</span>
               </div>
             </div>
           </div>
