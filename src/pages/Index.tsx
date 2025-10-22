@@ -456,12 +456,12 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-6 sm:pt-8 px-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch pt-6 sm:pt-8 px-4">
               <Link to="/auth" className="w-full sm:w-auto">
                 <Button 
                   variant="animated"
                   size="xl"
-                  className="w-full sm:w-auto h-14 sm:h-auto text-base sm:text-lg"
+                  className="w-full h-14 text-base sm:text-lg"
                 >
                   {t('heroCtaPrimary')}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />

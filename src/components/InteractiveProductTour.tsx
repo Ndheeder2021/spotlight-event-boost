@@ -174,7 +174,7 @@ export const InteractiveProductTour = () => {
         variant="outline" 
         size="xl"
         onClick={() => setIsOpen(true)}
-        className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-lg hover:shadow-xl"
+        className="w-full h-14 text-base sm:text-lg border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-lg hover:shadow-xl"
       >
         <Zap className="mr-2 h-5 w-5" />
         {t('takeATour')}
