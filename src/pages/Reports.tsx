@@ -35,7 +35,17 @@ interface AnalyticsData {
 export default function Reports() {
   const { features, loading } = usePlanFeatures();
   const [showUpgrade, setShowUpgrade] = useState(false);
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData>({
+    totalCampaigns: 0,
+    activeCampaigns: 0,
+    totalEvents: 0,
+    eventsThisWeek: 0,
+    campaignsByStatus: {},
+    recentActivity: [],
+    eventsByCategory: {},
+    eventsByCity: {},
+    topCampaigns: [],
+  });
   const [loadingData, setLoadingData] = useState(true);
   const [roiCost, setRoiCost] = useState("");
   const [roiRevenue, setRoiRevenue] = useState("");
@@ -58,17 +68,25 @@ export default function Reports() {
         .from("user_roles")
         .select("tenant_id")
         .eq("user_id", user.id)
-        .single();
+        .maybeSingle();
 
-      if (!userRole) return;
+      if (!userRole) {
+        toast.error("Kunde inte hitta din organisation. Kontakta support.");
+        setLoadingData(false);
+        return;
+      }
 
       const { data: location } = await supabase
         .from("locations")
         .select("lat, lon, radius_km")
         .eq("tenant_id", userRole.tenant_id)
-        .single();
+        .maybeSingle();
 
-      if (!location) return;
+      if (!location) {
+        toast.error("Du behöver ställa in din plats i inställningar först.");
+        setLoadingData(false);
+        return;
+      }
 
       // Get campaigns data
       const { data: campaigns } = await supabase
@@ -161,7 +179,9 @@ export default function Reports() {
         topCampaigns,
       });
     } catch (error: any) {
-      toast.error(error.message);
+      console.error("Error loading analytics:", error);
+      toast.error("Kunde inte ladda analytics-data");
+      setLoadingData(false);
     } finally {
       setLoadingData(false);
     }
@@ -293,7 +313,7 @@ export default function Reports() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-4xl font-bold gradient-text">{analyticsData?.totalCampaigns || 0}</p>
+                <p className="text-4xl font-bold gradient-text">{analyticsData.totalCampaigns}</p>
                 <p className="text-sm text-muted-foreground mt-2">Totalt Kampanjer</p>
               </CardContent>
             </Card>
@@ -307,7 +327,7 @@ export default function Reports() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-4xl font-bold text-green-600">{analyticsData?.activeCampaigns || 0}</p>
+                <p className="text-4xl font-bold text-green-600">{analyticsData.activeCampaigns}</p>
                 <p className="text-sm text-muted-foreground mt-2">Aktiva Kampanjer</p>
               </CardContent>
             </Card>
@@ -321,7 +341,7 @@ export default function Reports() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-4xl font-bold text-blue-600">{analyticsData?.eventsThisWeek || 0}</p>
+                <p className="text-4xl font-bold text-blue-600">{analyticsData.eventsThisWeek}</p>
                 <p className="text-sm text-muted-foreground mt-2">Events Denna Vecka</p>
               </CardContent>
             </Card>
@@ -335,7 +355,7 @@ export default function Reports() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-4xl font-bold text-purple-600">{analyticsData?.totalEvents || 0}</p>
+                <p className="text-4xl font-bold text-purple-600">{analyticsData.totalEvents}</p>
                 <p className="text-sm text-muted-foreground mt-2">Totalt Events</p>
               </CardContent>
             </Card>
@@ -358,7 +378,7 @@ export default function Reports() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {Object.entries(analyticsData?.campaignsByStatus || {}).map(([status, count]) => {
+                {Object.entries(analyticsData.campaignsByStatus).map(([status, count]) => {
                   const statusLabels: Record<string, string> = {
                     draft: "Utkast",
                     scheduled: "Schemalagd",
@@ -379,7 +399,7 @@ export default function Reports() {
                     </div>
                   );
                 })}
-                {Object.keys(analyticsData?.campaignsByStatus || {}).length === 0 && (
+                {Object.keys(analyticsData.campaignsByStatus).length === 0 && (
                   <p className="text-sm text-muted-foreground text-center py-4">Ingen data tillgänglig</p>
                 )}
               </div>
@@ -398,7 +418,7 @@ export default function Reports() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {analyticsData?.recentActivity?.map((day, idx) => (
+                {analyticsData.recentActivity.map((day, idx) => (
                   <div key={idx} className="flex items-center justify-between">
                     <span className="text-sm font-medium">{day.date}</span>
                     <div className="flex items-center gap-4 text-sm">
@@ -481,7 +501,7 @@ export default function Reports() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {analyticsData?.topCampaigns?.map((campaign, idx) => {
+                {analyticsData.topCampaigns.map((campaign, idx) => {
                   const statusLabels: Record<string, string> = {
                     draft: "Utkast",
                     scheduled: "Schemalagd",
@@ -507,7 +527,7 @@ export default function Reports() {
                     </div>
                   );
                 })}
-                {(!analyticsData?.topCampaigns || analyticsData.topCampaigns.length === 0) && (
+                {analyticsData.topCampaigns.length === 0 && (
                   <p className="text-sm text-muted-foreground text-center py-4">Ingen kampanjdata tillgänglig</p>
                 )}
               </div>
@@ -528,11 +548,11 @@ export default function Reports() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {Object.entries(analyticsData?.eventsByCategory || {})
+                {Object.entries(analyticsData.eventsByCategory)
                   .sort(([, a], [, b]) => b - a)
                   .slice(0, 6)
                   .map(([category, count]) => {
-                    const total = analyticsData?.totalEvents || 1;
+                    const total = analyticsData.totalEvents || 1;
                     const percentage = ((count / total) * 100).toFixed(0);
                     return (
                       <div key={category} className="space-y-1">
@@ -549,7 +569,7 @@ export default function Reports() {
                       </div>
                     );
                   })}
-                {Object.keys(analyticsData?.eventsByCategory || {}).length === 0 && (
+                {Object.keys(analyticsData.eventsByCategory).length === 0 && (
                   <p className="text-sm text-muted-foreground text-center py-4">Ingen kategoridata tillgänglig</p>
                 )}
               </div>
@@ -568,7 +588,7 @@ export default function Reports() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {Object.entries(analyticsData?.eventsByCity || {})
+                {Object.entries(analyticsData.eventsByCity)
                   .sort(([, a], [, b]) => b - a)
                   .slice(0, 6)
                   .map(([city, count]) => (
@@ -580,7 +600,7 @@ export default function Reports() {
                       <span className="text-sm font-semibold text-accent">{count} events</span>
                     </div>
                   ))}
-                {Object.keys(analyticsData?.eventsByCity || {}).length === 0 && (
+                {Object.keys(analyticsData.eventsByCity).length === 0 && (
                   <p className="text-sm text-muted-foreground text-center py-4">Ingen geografisk data tillgänglig</p>
                 )}
               </div>
