@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { GlobalHeader } from "@/components/GlobalHeader";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
@@ -12,7 +13,10 @@ import { caseStudies, getCaseStudyById, type CaseStudy } from "@/data/caseStudie
 import { ArrowRight, Building2, MapPin, TrendingUp, Target, Lightbulb, CheckCircle2, Quote } from "lucide-react";
 import { TrustBadges } from "@/components/TrustBadges";
 
-const CaseStudyCard = ({ study }: { study: CaseStudy }) => (
+const CaseStudyCard = ({ study }: { study: CaseStudy }) => {
+  const { t } = useTranslation();
+  
+  return (
   <Card className="group hover-lift hover:shadow-xl transition-all duration-500 overflow-hidden border-2 hover:border-primary/50">
     <div className="aspect-video bg-gradient-to-br from-primary/10 to-primary-glow/10 relative overflow-hidden hover-zoom-image">
       <img 
@@ -60,15 +64,17 @@ const CaseStudyCard = ({ study }: { study: CaseStudy }) => (
 
       <Link to={`/case-studies/${study.id}`}>
         <Button variant="animatedOutline" className="w-full group-hover:scale-105 transition-transform duration-300">
-          Läs hela case studien
+          {t("caseStudiesReadFull")}
           <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </Button>
       </Link>
     </CardContent>
   </Card>
-);
+  );
+};
 
 const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -149,7 +155,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12 animate-on-scroll">
-            Resultat
+            {t("caseStudiesResults")}
           </h2>
           <div className="grid md:grid-cols-4 gap-6">
             {study.results.map((result, idx) => (
@@ -178,7 +184,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <Target className="h-8 w-8 text-primary hover-glow transition-all duration-300" />
-            <h2 className="text-3xl font-bold">Utmaningen</h2>
+            <h2 className="text-3xl font-bold">{t("caseStudiesChallenge")}</h2>
           </div>
           <p className="text-lg text-muted-foreground leading-relaxed">
             {study.challenge}
@@ -195,7 +201,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <Lightbulb className="h-8 w-8 text-primary hover-glow transition-all duration-300" />
-            <h2 className="text-3xl font-bold">Lösningen</h2>
+            <h2 className="text-3xl font-bold">{t("caseStudiesSolution")}</h2>
           </div>
           <p className="text-lg text-muted-foreground leading-relaxed">
             {study.solution}
@@ -212,7 +218,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <TrendingUp className="h-8 w-8 text-primary hover-glow transition-all duration-300" />
-            <h2 className="text-3xl font-bold">Implementering</h2>
+            <h2 className="text-3xl font-bold">{t("caseStudiesImplementation")}</h2>
           </div>
           <div className="space-y-4">
             {study.implementation.map((step, idx) => (
@@ -265,7 +271,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
     <section className="py-16">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8">Viktiga lärdomar</h2>
+          <h2 className="text-3xl font-bold mb-8">{t("caseStudiesKeyTakeaways")}</h2>
           <div className="grid md:grid-cols-2 gap-4">
             {study.keyTakeaways.map((takeaway, idx) => (
               <Card key={idx} className="border-l-4 border-l-primary">
@@ -287,21 +293,21 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center space-y-6">
           <h2 className="text-3xl md:text-4xl font-bold">
-            Redo att uppnå liknande resultat?
+            {t("caseStudiesCtaTitle")}
           </h2>
           <p className="text-xl text-muted-foreground">
-            Starta din 14-dagars gratisperiod idag och se hur Spotlight kan transformera din marknadsföring.
+            {t("caseStudiesCtaDesc")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Link to="/auth">
               <Button size="xl" variant="animated">
-                Kom igång gratis
+                {t("caseStudiesCtaBtn1")}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>
             <Link to="/case-studies">
               <Button size="xl" variant="animatedOutline">
-                Se fler case studies
+                {t("caseStudiesCtaBtn2")}
               </Button>
             </Link>
           </div>
@@ -318,6 +324,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
 };
 
 const CaseStudiesOverview = () => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -351,8 +358,8 @@ const CaseStudiesOverview = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Case Studies - Spotlight Success Stories"
-        description="Upptäck hur företag över hela Sverige använder Spotlight för att öka försäljningen genom event-driven marknadsföring. Läs detaljerade case studies med verkliga resultat."
+        title={`${t("caseStudies")} - Spotlight`}
+        description={t("caseStudiesHeroDesc")}
         keywords="case studies, success stories, event marketing, ROI, kundberättelser"
       />
       <GlobalHeader />
@@ -383,12 +390,12 @@ const CaseStudiesOverview = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary-glow/5" />
       <div className="container relative mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          <Badge className="mb-4">Success Stories</Badge>
+          <Badge className="mb-4">{t("caseStudiesBadge")}</Badge>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-            Riktiga resultat från riktiga företag
+            {t("caseStudiesHero")}
           </h1>
           <p className="text-xl text-muted-foreground">
-            Upptäck hur företag över hela Sverige använder Spotlight för att öka försäljningen genom event-driven marknadsföring
+            {t("caseStudiesHeroDesc")}
           </p>
         </div>
         </div>
@@ -410,21 +417,21 @@ const CaseStudiesOverview = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center space-y-6">
           <h2 className="text-3xl md:text-4xl font-bold">
-            Vill du bli vår nästa success story?
+            {t("caseStudiesOverviewCtaTitle")}
           </h2>
           <p className="text-xl text-muted-foreground">
-            Starta din 14-dagars gratisperiod idag. Inget kreditkort behövs.
+            {t("caseStudiesOverviewCtaDesc")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Link to="/auth">
               <Button size="xl" variant="animated">
-                Kom igång gratis
+                {t("caseStudiesCtaBtn1")}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>
             <Link to="/contact">
               <Button size="xl" variant="animatedOutline">
-                Kontakta oss
+                {t("caseStudiesContactUs")}
               </Button>
             </Link>
           </div>
@@ -441,6 +448,7 @@ const CaseStudiesOverview = () => {
 };
 
 const CaseStudies = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   
   if (id) {
@@ -449,9 +457,9 @@ const CaseStudies = () => {
       return (
         <div className="min-h-screen bg-background flex items-center justify-center">
           <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold">Case study hittades inte</h1>
+            <h1 className="text-4xl font-bold">{t("caseStudiesNotFound")}</h1>
             <Link to="/case-studies">
-              <Button>Tillbaka till alla case studies</Button>
+              <Button>{t("caseStudiesBackBtn")}</Button>
             </Link>
           </div>
         </div>
