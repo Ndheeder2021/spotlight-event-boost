@@ -104,8 +104,8 @@ export function PlanSelector({ onSuccess }: PlanSelectorProps) {
 
         {/* Header */}
         <div className="text-center space-y-4">
-          <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-2">
-            <span className="text-sm font-semibold text-accent">{t("planSelector.header.badge")}</span>
+          <div className="inline-block px-6 py-2.5 rounded-full bg-accent/20 border-2 border-accent/40 mb-2 shadow-lg shadow-accent/10">
+            <span className="text-base font-bold text-accent">{t("planSelector.header.badge")}</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold">
             {t("planSelector.header.title")} <span className="gradient-text">Spotlight</span>
