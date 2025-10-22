@@ -473,7 +473,7 @@ const Index = () => {
             
             {/* Live Stats Counter */}
             <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 lg:gap-12 justify-center pt-8 sm:pt-12 px-4">
-              <div className="flex flex-col items-center gap-1.5 sm:gap-2">
+              <div className="flex flex-col items-center gap-2">
                 <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary">
                   <AnimatedCounter end={2547} suffix="+" />
                 </div>
