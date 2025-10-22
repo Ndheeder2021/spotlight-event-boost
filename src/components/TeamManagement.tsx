@@ -312,7 +312,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-accent/5">
-                  <TableHead className="font-semibold">{t('email')}</TableHead>
+                  <TableHead className="font-semibold">{t('teamEmail')}</TableHead>
                   <TableHead className="font-semibold">{t('role')}</TableHead>
                   <TableHead className="font-semibold">{t('addedOn')}</TableHead>
                   <TableHead className="text-right font-semibold">{t('actions')}</TableHead>
@@ -377,7 +377,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
               <Table>
                 <TableHeader>
                   <TableRow className="hover:bg-accent/5">
-                    <TableHead className="font-semibold">{t('email')}</TableHead>
+                    <TableHead className="font-semibold">{t('teamEmail')}</TableHead>
                     <TableHead className="font-semibold">{t('role')}</TableHead>
                     <TableHead className="font-semibold">{t('expires')}</TableHead>
                     <TableHead className="text-right font-semibold">{t('actions')}</TableHead>

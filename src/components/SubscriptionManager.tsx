@@ -212,7 +212,7 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                   className="w-fit mt-2"
                 >
                   <ExternalLink className="h-4 w-4 mr-2" />
-                  {t('manageSubscription')}
+                  {t('manageSubscriptionButton')}
                 </Button>
               )}
             </div>
@@ -242,7 +242,7 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
             >
               {isCurrent && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-accent to-accent-glow text-primary-foreground text-xs font-bold rounded-full">
-                  {t('currentPlan')}
+                  {t('currentPlanBadge')}
                 </div>
               )}
               {plan === "professional" && !isCurrent && (
@@ -311,7 +311,7 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                       className="w-full"
                       onClick={() => toast.info(t('contactUsForEnterpriseEmail'))}
                     >
-                      {t('contactUs')}
+                      {t('contactUsButton')}
                     </Button>
                   )}
                   {isCurrent && plan !== "enterprise" && stripeSubscription?.subscribed && (
