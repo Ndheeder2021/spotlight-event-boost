@@ -198,10 +198,6 @@ export const ExitIntentPopup = () => {
             <div className="flex flex-wrap items-center justify-center gap-4 pt-4 text-xs text-muted-foreground border-t">
               <div className="flex items-center gap-1">
                 <Check className="h-3 w-3 text-primary" />
-                <span>500+ nöjda kunder</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Check className="h-3 w-3 text-primary" />
                 <span>5/5 i snittbetyg</span>
               </div>
               <div className="flex items-center gap-1">

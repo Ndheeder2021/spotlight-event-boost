@@ -75,12 +75,6 @@ const featureShowcase = [
   },
 ];
 
-const stats = [
-  { value: "500+", label: "Nöjda företag" },
-  { value: "10,000+", label: "Kampanjer skapade" },
-  { value: "40%", label: "Genomsnittlig försäljningsökning" },
-  { value: "15min", label: "Sparad tid per kampanj" },
-];
 
 const plans = [
   {
@@ -616,19 +610,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
-            {stats.map((stat, i) => (
-              <div key={i} className="text-center">
-                <div className="text-5xl font-bold mb-2">{stat.value}</div>
-                <div className="text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* User Ratings Section */}
       <section className="py-32 bg-gradient-to-b from-primary/5 via-accent/10 to-background relative overflow-hidden">

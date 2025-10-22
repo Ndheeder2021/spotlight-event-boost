@@ -363,20 +363,6 @@ export default function Auth() {
               </div>
             </div>
 
-            <div className="flex items-center gap-8 pt-8">
-              <div>
-                <div className="text-4xl font-bold text-primary">500+</div>
-                <div className="text-sm text-muted-foreground">Nöjda kunder</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-primary">10k+</div>
-                <div className="text-sm text-muted-foreground">Kampanjer</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-primary">40%</div>
-                <div className="text-sm text-muted-foreground">Mer försäljning</div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

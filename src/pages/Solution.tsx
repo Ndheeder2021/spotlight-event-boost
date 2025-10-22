@@ -257,10 +257,6 @@ export default function Solution() {
               <div className="text-5xl font-bold gradient-text mb-2 group-hover:scale-110 transition-transform">3x</div>
               <p className="text-sm text-muted-foreground">Fler kampanjer per månad</p>
             </Card>
-            <Card className="text-center p-6 border-2 glass-card hover:border-accent/50 transition-all hover:scale-105 premium-glow group">
-              <div className="text-5xl font-bold gradient-text mb-2 group-hover:scale-110 transition-transform">500+</div>
-              <p className="text-sm text-muted-foreground">Nöjda företag</p>
-            </Card>
           </div>
         </div>
       </section>
