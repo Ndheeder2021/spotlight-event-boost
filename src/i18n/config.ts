@@ -673,9 +673,9 @@ const resources = {
       fri: "Fre",
       sat: "Lör",
       sun: "Sön",
-      calendarDownloaded: "Kalenderfil nedladdad!",
+      campaignStartsIn24Hours: "Din kampanj för {{title}} startar inom 24 timmar!",
+      calendarFileDownloaded: "Kalenderfil nedladdad!",
       noEventsToExport: "Inga events att exportera",
-      campaignStarts24h: "Din kampanj för {{title}} startar inom 24 timmar!",
 
       // Settings Page
       settingsTitle: "Inställningar",
@@ -1865,9 +1865,9 @@ const resources = {
       fri: "Fri",
       sat: "Sat",
       sun: "Sun",
-      calendarDownloaded: "Calendar file downloaded!",
+      campaignStartsIn24Hours: "Your campaign for {{title}} starts within 24 hours!",
+      calendarFileDownloaded: "Calendar file downloaded!",
       noEventsToExport: "No events to export",
-      campaignStarts24h: "Your campaign for {{title}} starts within 24 hours!",
 
       // Settings Page
       settingsTitle: "Settings",

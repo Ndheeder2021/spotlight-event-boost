@@ -156,7 +156,7 @@ export default function Calendar() {
       if (hoursDiff > 0 && hoursDiff <= 24) {
         const campaign = campaigns.find(c => c.id === event.id);
         if (campaign) {
-          toast.info(`Din kampanj för ${event.title} startar inom 24 timmar!`, {
+          toast.info(t('campaignStartsIn24Hours', { title: event.title }), {
             duration: 10000,
           });
         }
@@ -270,7 +270,7 @@ export default function Calendar() {
     a.download = "calendar.ics";
     a.click();
     URL.revokeObjectURL(url);
-    toast.success("Kalenderfil nedladdad!");
+    toast.success(t('calendarFileDownloaded'));
   };
 
   const exportToGoogleCalendar = () => {
@@ -284,7 +284,7 @@ export default function Calendar() {
       start = parseISO(campaigns[0].recommended_start);
       title = encodeURIComponent(campaigns[0].title);
     } else {
-      toast.error("Inga events att exportera");
+      toast.error(t('noEventsToExport'));
       return;
     }
     
@@ -422,7 +422,7 @@ export default function Calendar() {
               </CardHeader>
             <CardContent>
               <div className="grid grid-cols-7 gap-2">
-                {["Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön"].map((day) => (
+                {[t('mon'), t('tue'), t('wed'), t('thu'), t('fri'), t('sat'), t('sun')].map((day) => (
                   <div key={day} className="text-center font-semibold text-sm text-muted-foreground p-2">
                     {day}
                   </div>
