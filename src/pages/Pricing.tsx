@@ -6,7 +6,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Zap, Check, X, ArrowRight, Shield, Sparkles, TrendingUp, Bell, BarChart, Target } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { LiveChatSupport } from "@/components/LiveChatSupport";
 import { TrustBadges } from "@/components/TrustBadges";
@@ -150,7 +149,6 @@ export default function Pricing() {
               {t('contact')}
             </Link>
             <LanguageSwitch />
-            <ThemeToggle />
             <Link to="/auth">
               <Button className="bg-accent hover:bg-accent-dark text-accent-foreground">
                 {t('login')}

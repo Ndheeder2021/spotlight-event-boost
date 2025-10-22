@@ -19,7 +19,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Footer } from "@/components/Footer";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { SEO } from "@/components/SEO";
 import { LiveChatSupport } from "@/components/LiveChatSupport";
@@ -123,7 +122,6 @@ const Contact = () => {
               {t('home')}
             </Link>
             <LanguageSwitch />
-            <ThemeToggle />
           </div>
         </div>
       </header>

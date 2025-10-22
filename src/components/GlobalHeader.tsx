@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { ThemeToggle } from "./ThemeToggle";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -345,7 +344,6 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-4">
             <LanguageSwitch />
-            <ThemeToggle />
             {isAuthenticated ? (
               <Button 
                 variant="outline" 
@@ -383,7 +381,6 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
           {/* Mobile Menu */}
           <div className="flex lg:hidden items-center gap-1.5 sm:gap-2">
             <LanguageSwitch />
-            <ThemeToggle />
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-11 sm:w-11">
