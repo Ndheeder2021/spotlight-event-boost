@@ -611,6 +611,157 @@ const Index = () => {
         </div>
       </section>
 
+      {/* User Ratings Section */}
+      <section className="py-32 bg-gradient-to-b from-primary/5 via-accent/10 to-background relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-10 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="text-center mb-16 animate-on-scroll">
+            <Badge className="mb-6 text-base px-6 py-2 bg-gradient-to-r from-primary/20 to-accent/20 border-primary/30">
+              ⭐ Kundnöjdhet
+            </Badge>
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-primary-glow to-accent bg-clip-text text-transparent">
+              Våra användare älskar oss!
+            </h2>
+            <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto">
+              Se vad våra kunder tycker om användarupplevelsen
+            </p>
+          </div>
+
+          {/* Overall Rating */}
+          <div className="max-w-2xl mx-auto mb-20 animate-on-scroll">
+            <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+              <CardContent className="pt-12 pb-12 text-center">
+                <div className="flex items-center justify-center gap-4 mb-6">
+                  <div className="text-8xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent animate-pulse">
+                    4.9
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star 
+                          key={i} 
+                          className="h-8 w-8 fill-primary text-primary animate-bounce" 
+                          style={{ animationDelay: `${i * 0.1}s` }}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-lg font-semibold text-muted-foreground">
+                      Baserat på 500+ recensioner
+                    </p>
+                  </div>
+                </div>
+                <p className="text-2xl font-bold text-primary">
+                  96% rekommenderar Spotlight till andra företag
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Rating Categories */}
+          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+            {[
+              {
+                category: "Användarvänlighet",
+                rating: 98,
+                icon: Target,
+                color: "from-blue-500 to-cyan-500",
+                bgColor: "from-blue-500/10 to-cyan-500/10"
+              },
+              {
+                category: "Kundsupport",
+                rating: 97,
+                icon: Users,
+                color: "from-purple-500 to-pink-500",
+                bgColor: "from-purple-500/10 to-pink-500/10"
+              },
+              {
+                category: "ROI & Resultat",
+                rating: 95,
+                icon: TrendingUp,
+                color: "from-green-500 to-emerald-500",
+                bgColor: "from-green-500/10 to-emerald-500/10"
+              },
+              {
+                category: "Funktioner",
+                rating: 96,
+                icon: Sparkles,
+                color: "from-amber-500 to-orange-500",
+                bgColor: "from-amber-500/10 to-orange-500/10"
+              }
+            ].map((item, index) => (
+              <Card 
+                key={index} 
+                className="border-2 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:scale-105 animate-on-scroll bg-card/80 backdrop-blur-sm"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <CardContent className="pt-8 pb-8">
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                      <div className={`p-4 rounded-2xl bg-gradient-to-br ${item.bgColor}`}>
+                        <item.icon className={`h-8 w-8 bg-gradient-to-r ${item.color} bg-clip-text text-transparent`} style={{ WebkitTextFillColor: 'transparent', WebkitBackgroundClip: 'text', backgroundClip: 'text' }} />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold mb-1">{item.category}</h3>
+                        <div className="flex items-center gap-2">
+                          <span className={`text-3xl font-bold bg-gradient-to-r ${item.color} bg-clip-text text-transparent`}>
+                            {item.rating}%
+                          </span>
+                          <div className="flex gap-0.5">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Animated Progress Bar */}
+                  <div className="relative w-full h-3 bg-muted rounded-full overflow-hidden">
+                    <div 
+                      className={`absolute top-0 left-0 h-full bg-gradient-to-r ${item.color} rounded-full transition-all duration-1000 ease-out animate-shimmer`}
+                      style={{ 
+                        width: `${item.rating}%`,
+                        animationDelay: `${index * 0.2}s`
+                      }}
+                    />
+                  </div>
+                  
+                  <p className="text-sm text-muted-foreground mt-4">
+                    {item.rating >= 97 ? "Exceptionellt högt betyg" : item.rating >= 95 ? "Mycket högt betyg" : "Högt betyg"} från våra användare
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Trust Indicators */}
+          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {[
+              { icon: "👍", value: "98%", label: "Nöjda kunder" },
+              { icon: "🚀", value: "10min", label: "Snabb igångsättning" },
+              { icon: "💡", value: "24/7", label: "AI-support" },
+              { icon: "🎯", value: "500+", label: "Företag litar på oss" }
+            ].map((stat, i) => (
+              <div 
+                key={i} 
+                className="text-center p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 hover:from-primary/10 hover:to-accent/10 transition-all duration-300 hover:scale-110 animate-on-scroll"
+                style={{ animationDelay: `${i * 0.1}s` }}
+              >
+                <div className="text-4xl mb-3 animate-bounce" style={{ animationDelay: `${i * 0.2}s` }}>
+                  {stat.icon}
+                </div>
+                <div className="text-3xl font-bold text-primary mb-2">{stat.value}</div>
+                <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Comparison Tables */}
       <section className="py-24 bg-gradient-to-b from-background via-accent/5 to-background">
         <div className="container mx-auto px-4 sm:px-6">
