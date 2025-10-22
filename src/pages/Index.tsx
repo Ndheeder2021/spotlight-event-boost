@@ -639,7 +639,7 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="text-center mb-16 animate-on-scroll">
             <Badge className="mb-6 text-base px-6 py-2 bg-gradient-to-r from-primary/20 to-accent/20 border-primary/30">
-              ⭐ Kundnöjdhet
+              {t('customerSatisfactionBadge')}
             </Badge>
             <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-primary-glow to-accent bg-clip-text text-transparent">
               {t('ratingsTitle')}
@@ -750,7 +750,12 @@ const Index = () => {
                   </div>
                   
                   <p className="text-sm text-muted-foreground mt-4">
-                    {item.rating >= 97 ? "Exceptionellt högt betyg" : item.rating >= 95 ? "Mycket högt betyg" : "Högt betyg"} från våra användare
+                    {item.rating >= 97 
+                      ? t('exceptionallyHighRating') 
+                      : item.rating >= 95 
+                        ? t('veryHighRating') 
+                        : t('highRating')
+                    } {t('fromOurUsers')}
                   </p>
                 </CardContent>
               </Card>
@@ -1250,7 +1255,20 @@ const Index = () => {
 
           <div className="max-w-4xl mx-auto">
             <Accordion type="single" collapsible className="space-y-4">
-              {faqs.map((faq, i) => (
+              {[
+                { question: t('faq1Q'), answer: t('faq1A') },
+                { question: t('faq2Q'), answer: t('faq2A') },
+                { question: t('faq3Q'), answer: t('faq3A') },
+                { question: t('faq4Q'), answer: t('faq4A') },
+                { question: t('faq5Q'), answer: t('faq5A') },
+                { question: t('faq6Q'), answer: t('faq6A') },
+                { question: t('faq7Q'), answer: t('faq7A') },
+                { question: t('faq8Q'), answer: t('faq8A') },
+                { question: t('faq9Q'), answer: t('faq9A') },
+                { question: t('faq10Q'), answer: t('faq10A') },
+                { question: t('faq11Q'), answer: t('faq11A') },
+                { question: t('faq12Q'), answer: t('faq12A') },
+              ].map((faq, i) => (
                 <AccordionItem 
                   key={i} 
                   value={`item-${i}`} 
@@ -1272,9 +1290,9 @@ const Index = () => {
 
             {/* CTA for more help */}
             <div className="mt-16 text-center p-8 bg-gradient-to-br from-primary/5 to-primary-glow/5 rounded-2xl border-2 border-primary/20 animate-on-scroll">
-              <h3 className="text-2xl font-bold mb-3">Har du fler frågor?</h3>
+              <h3 className="text-2xl font-bold mb-3">{t('moreQuestions')}</h3>
               <p className="text-muted-foreground mb-6">
-                Vårt supportteam är här för att hjälpa dig. Tveka inte att höra av dig!
+                {t('supportTeamHelp')}
               </p>
               <Link to="/contact">
                 <Button size="lg" variant="animated">
