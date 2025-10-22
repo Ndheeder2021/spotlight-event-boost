@@ -187,6 +187,8 @@ export default function Reports() {
         eventsByCity,
         topCampaigns,
       });
+      console.log("[Reports] setAnalyticsData done");
+      toast.success(`Analytics laddade: ${nearbyEvents.length} events, ${campaigns?.length || 0} kampanjer`);
     } catch (error: any) {
       console.error("Error loading analytics:", error);
       toast.error("Kunde inte ladda analytics-data");
