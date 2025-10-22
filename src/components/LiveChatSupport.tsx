@@ -40,13 +40,6 @@ export function LiveChatSupport() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Show on desktop always, on mobile only on contact page
-  const shouldShow = !isMobile || location.pathname === "/contact";
-
-  if (!shouldShow) {
-    return null;
-  }
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -54,6 +47,13 @@ export function LiveChatSupport() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Show on desktop always, on mobile only on contact page
+  const shouldShow = !isMobile || location.pathname === "/contact";
+
+  if (!shouldShow) {
+    return null;
+  }
 
   const sendMessage = async (text?: string) => {
     const messageText = text || input.trim();
