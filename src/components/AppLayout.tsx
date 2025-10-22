@@ -17,7 +17,20 @@ export function AppLayout() {
       const { data: { user } } = await supabase.auth.getUser();
       
       if (user) {
-        // Check subscription status
+        // Check if user is admin - admins bypass subscription check
+        const { data: isAdmin, error: roleError } = await supabase.rpc('has_role', {
+          _user_id: user.id,
+          _role: 'admin'
+        });
+
+        if (!roleError && isAdmin) {
+          // Admins don't need a subscription
+          setHasSubscription(true);
+          setCheckingSubscription(false);
+          return;
+        }
+
+        // For non-admins, check subscription status
         const { data: subData, error: subError } = await supabase.functions.invoke('check-subscription');
         
         if (subError) {
