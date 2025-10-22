@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Calendar, MapPin, Users, Sparkles, Loader2 } from "lucide-react";
 import { format } from "date-fns";
-import { sv } from "date-fns/locale";
+import { sv, enUS } from "date-fns/locale";
 import { toast } from "sonner";
 import { CampaignActions } from "@/components/CampaignActions";
+import { useTranslation } from "react-i18next";
 
 interface AdIdea {
   platform: "Meta" | "TikTok";
@@ -41,6 +42,7 @@ interface EventContact {
 export default function EventDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [event, setEvent] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
@@ -49,6 +51,8 @@ export default function EventDetail() {
   const [eventContact, setEventContact] = useState<EventContact | null>(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+
+  const locale = i18n.language === 'sv' ? sv : enUS;
 
   useEffect(() => {
     loadData();
@@ -80,7 +84,7 @@ export default function EventDetail() {
       setProfile(locationRes.data);
     } catch (error: any) {
       console.error("Load data error:", error);
-      toast.error(error.message);
+      toast.error(t('errorLoadingData'));
     } finally {
       setLoading(false);
     }
@@ -134,10 +138,10 @@ export default function EventDetail() {
 
       setCampaigns(data.campaigns);
       setEventContact(data.event_contact);
-      toast.success("Kampanjer genererade!");
+      toast.success(t('campaignsGenerated'));
     } catch (error: any) {
       console.error("Campaign generation error:", error);
-      toast.error(error.message || "Kunde inte generera kampanjer");
+      toast.error(error.message || t('errorGeneratingCampaigns'));
     } finally {
       setGenerating(false);
     }
@@ -148,7 +152,7 @@ export default function EventDetail() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="glass-card p-8 flex items-center gap-3">
           <Sparkles className="h-6 w-6 text-primary animate-pulse" />
-          <span className="text-lg font-medium">Laddar eventdetaljer...</span>
+          <span className="text-lg font-medium">{t('loadingEventDetails')}</span>
         </div>
       </div>
     );
@@ -157,7 +161,7 @@ export default function EventDetail() {
   if (!event) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p>Event hittades inte</p>
+        <p>{t('eventNotFound')}</p>
       </div>
     );
   }
@@ -168,7 +172,7 @@ export default function EventDetail() {
         <div className="container mx-auto px-4 py-4">
           <Button variant="ghost" onClick={() => navigate("/dashboard")} className="hover-lift">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Tillbaka
+            {t('back')}
           </Button>
         </div>
       </header>
@@ -189,7 +193,7 @@ export default function EventDetail() {
               <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 premium-glow">
                 <Calendar className="h-5 w-5 text-primary" />
               </div>
-              <span className="font-medium">{format(new Date(event.start_time), "PPP", { locale: sv })}</span>
+              <span className="font-medium">{format(new Date(event.start_time), "PPP", { locale })}</span>
             </div>
             <div className="flex items-center gap-3 p-3 rounded-lg glass-card hover-lift">
               <div className="p-2 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 premium-glow">
@@ -201,7 +205,7 @@ export default function EventDetail() {
               <div className="p-2 rounded-lg bg-gradient-to-br from-secondary/20 to-secondary/10 premium-glow">
                 <Users className="h-5 w-5 text-secondary" />
               </div>
-              <span className="font-medium">{event.expected_attendance.toLocaleString()} förväntade gäster</span>
+              <span className="font-medium">{event.expected_attendance.toLocaleString()} {t('expectedGuests')}</span>
             </div>
           </CardContent>
         </Card>
@@ -217,17 +221,17 @@ export default function EventDetail() {
               {generating ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />
-                  <span>Genererar magiska kampanjidéer...</span>
+                  <span>{t('generatingCampaigns')}</span>
                 </>
               ) : campaigns.length > 0 ? (
                 <>
                   <Sparkles className="h-5 w-5 animate-pulse" />
-                  <span>Kampanjer genererade</span>
+                  <span>{t('campaignsGenerated')}</span>
                 </>
               ) : (
                 <>
                   <Sparkles className="h-5 w-5" />
-                  <span>Generera AI-drivna kampanjidéer</span>
+                  <span>{t('generateAICampaigns')}</span>
                 </>
               )}
             </span>
@@ -243,30 +247,30 @@ export default function EventDetail() {
                     <div className="p-2 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 premium-glow">
                       <Users className="h-6 w-6 text-accent" />
                     </div>
-                    Event-kontakt & Information
+                    {t('eventContactInfo')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="p-3 rounded-lg glass-card hover-lift">
-                      <span className="text-sm text-muted-foreground">Event</span>
+                      <span className="text-sm text-muted-foreground">{t('event')}</span>
                       <p className="font-semibold mt-1">{eventContact.title}</p>
                     </div>
                     <div className="p-3 rounded-lg glass-card hover-lift">
-                      <span className="text-sm text-muted-foreground">Plats</span>
+                      <span className="text-sm text-muted-foreground">{t('venue')}</span>
                       <p className="font-semibold mt-1">{eventContact.venue}</p>
                     </div>
                     <div className="p-3 rounded-lg glass-card hover-lift">
-                      <span className="text-sm text-muted-foreground">Datum</span>
-                      <p className="font-semibold mt-1">{format(new Date(eventContact.date), "PPP", { locale: sv })}</p>
+                      <span className="text-sm text-muted-foreground">{t('date')}</span>
+                      <p className="font-semibold mt-1">{format(new Date(eventContact.date), "PPP", { locale })}</p>
                     </div>
                     <div className="p-3 rounded-lg glass-card hover-lift">
-                      <span className="text-sm text-muted-foreground">Förväntade besökare</span>
+                      <span className="text-sm text-muted-foreground">{t('expectedVisitors')}</span>
                       <p className="font-semibold mt-1">{eventContact.expected_attendance.toLocaleString()}</p>
                     </div>
                   </div>
                   <div className="p-4 rounded-lg glass-card">
-                    <span className="text-sm text-muted-foreground">Beskrivning</span>
+                    <span className="text-sm text-muted-foreground">{t('description')}</span>
                     <p className="mt-2 leading-relaxed">{eventContact.description}</p>
                   </div>
                   {eventContact.event_url && (
@@ -276,7 +280,7 @@ export default function EventDetail() {
                       onClick={() => window.open(eventContact.event_url!, '_blank')}
                     >
                       <MapPin className="h-4 w-4 mr-2" />
-                      Besök eventsidan
+                      {t('visitEventPage')}
                     </Button>
                   )}
                 </CardContent>
@@ -286,7 +290,7 @@ export default function EventDetail() {
             <div className="flex items-center gap-3 mb-6">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
               <h3 className="text-3xl font-bold gradient-text">
-                AI-genererade kampanjidéer
+                {t('aiGeneratedCampaigns')}
               </h3>
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
             </div>
@@ -299,7 +303,7 @@ export default function EventDetail() {
                 <CardHeader className="relative border-b glass-card pb-6">
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-accent/20 to-accent-glow/20 border border-accent/30 text-accent text-sm font-semibold mb-3 w-fit premium-glow">
                     <Sparkles className="h-3.5 w-3.5" />
-                    Kampanj #{idx + 1}
+                    {t('campaignNumber', { number: idx + 1 })}
                   </div>
                   <CardTitle className="text-2xl font-bold leading-tight gradient-text">{campaign.title}</CardTitle>
                   <CardDescription className="text-base mt-2 flex items-center gap-2">
@@ -311,7 +315,7 @@ export default function EventDetail() {
                   <div className="p-4 rounded-lg glass-card border border-primary/10">
                     <h4 className="font-semibold mb-2 flex items-center gap-2 text-primary">
                       <div className="w-1 h-4 bg-gradient-to-b from-primary to-primary-glow rounded-full" />
-                      Beskrivning
+                      {t('descriptionLabel')}
                     </h4>
                     <p className="leading-relaxed">{campaign.description}</p>
                   </div>
@@ -322,7 +326,7 @@ export default function EventDetail() {
                         <div className="p-1.5 rounded-md bg-gradient-to-br from-accent/20 to-accent/10">
                           <Calendar className="h-4 w-4 text-accent" />
                         </div>
-                        Timing
+                        {t('timing')}
                       </h4>
                       <p className="text-sm leading-relaxed">{campaign.recommended_timing}</p>
                     </div>
@@ -331,7 +335,7 @@ export default function EventDetail() {
                         <div className="p-1.5 rounded-md bg-gradient-to-br from-secondary/20 to-secondary/10">
                           <MapPin className="h-4 w-4 text-secondary" />
                         </div>
-                        Kanaler
+                        {t('channels')}
                       </h4>
                       <p className="text-sm leading-relaxed">{campaign.channels}</p>
                     </div>
@@ -340,7 +344,7 @@ export default function EventDetail() {
                   <div className="p-4 rounded-lg glass-card border border-accent/20 premium-glow">
                     <h4 className="font-semibold mb-2 flex items-center gap-2 text-accent">
                       <div className="w-1 h-4 bg-gradient-to-b from-accent to-accent-glow rounded-full" />
-                      Förväntade resultat
+                      {t('expectedResults')}
                     </h4>
                     <p className="text-sm leading-relaxed">{campaign.expected_outcome}</p>
                   </div>
@@ -350,7 +354,7 @@ export default function EventDetail() {
                       <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-br from-primary/20 to-primary-glow/20 text-primary text-xs font-bold premium-glow">
                         ✓
                       </div>
-                      Genomförande (steg-för-steg)
+                      {t('implementationSteps')}
                     </h4>
                     <ol className="space-y-2">
                       {campaign.action_steps.map((step, stepIdx) => (
@@ -383,7 +387,7 @@ export default function EventDetail() {
                     <div className="mt-6 p-4 rounded-lg glass-card border border-accent/20 premium-glow">
                       <h4 className="font-bold mb-4 text-lg flex items-center gap-2 gradient-text">
                         <Sparkles className="h-5 w-5 text-accent" />
-                        Genererade Mockups
+                        {t('generatedMockups')}
                       </h4>
                       <div className="grid md:grid-cols-2 gap-4">
                         {campaignMockups[campaignIds[idx]].map((mockup, mIdx) => (
@@ -408,8 +412,8 @@ export default function EventDetail() {
                               }}
                             />
                             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3">
-                              <p className="text-white text-sm font-semibold">{mockup.metadata?.platform || 'Mockup'}</p>
-                              <p className="text-white/70 text-xs mt-1">{new Date(mockup.created_at).toLocaleDateString('sv-SE')}</p>
+                              <p className="text-white text-sm font-semibold">{mockup.metadata?.platform || t('mockup')}</p>
+                              <p className="text-white/70 text-xs mt-1">{new Date(mockup.created_at).toLocaleDateString(i18n.language === 'sv' ? 'sv-SE' : 'en-US')}</p>
                             </div>
                           </div>
                         ))}
