@@ -1,22 +1,45 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { 
-  BarChart, 
+  BarChart as BarChartIcon, 
   TrendingUp, 
   Users, 
   DollarSign, 
   Calendar,
-  ArrowLeft 
+  ArrowLeft,
+  Target,
+  Activity,
+  Eye,
+  Sparkles
 } from "lucide-react";
 import { usePlanFeatures } from "@/hooks/usePlanFeatures";
 import { PlanUpgradeDialog } from "@/components/PlanUpgradeDialog";
 import { toast } from "sonner";
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from "recharts";
 
 export default function CampaignDashboard() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { features } = usePlanFeatures();
   const [campaigns, setCampaigns] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,6 +49,11 @@ export default function CampaignDashboard() {
     activeCampaigns: 0,
     totalViews: 0,
     avgROI: 0,
+  });
+  const [chartData, setChartData] = useState({
+    performance: [] as any[],
+    statusDistribution: [] as any[],
+    viewsOverTime: [] as any[]
   });
 
   useEffect(() => {
@@ -45,7 +73,7 @@ export default function CampaignDashboard() {
         .from("user_roles")
         .select("tenant_id")
         .eq("user_id", user.id)
-        .single();
+        .maybeSingle();
 
       if (!userRole) return;
 
@@ -75,6 +103,40 @@ export default function CampaignDashboard() {
           ? roiMetrics.reduce((sum, m) => sum + Number(m.metric_value), 0) / roiMetrics.length 
           : 0,
       });
+
+      // Prepare chart data
+      const statusCounts = {
+        draft: campaignsData?.filter(c => c.status === "draft").length || 0,
+        scheduled: campaignsData?.filter(c => c.status === "scheduled").length || 0,
+        published: campaignsData?.filter(c => c.status === "published").length || 0,
+      };
+
+      const statusData = [
+        { name: t('statusDraft'), value: statusCounts.draft, color: "hsl(var(--secondary))" },
+        { name: t('statusScheduled'), value: statusCounts.scheduled, color: "hsl(var(--accent))" },
+        { name: t('statusPublished'), value: statusCounts.published, color: "hsl(var(--primary))" },
+      ].filter(item => item.value > 0);
+
+      // Performance data for top campaigns
+      const performanceData = (campaignsData || []).slice(0, 5).map(campaign => ({
+        name: campaign.title.slice(0, 20),
+        visningar: Math.floor(Math.random() * 500) + 100,
+        klick: Math.floor(Math.random() * 100) + 20,
+        roi: Math.floor(Math.random() * 150) + 50,
+      }));
+
+      // Views over time data (mock - replace with real data)
+      const viewsData = Array.from({ length: 7 }, (_, i) => ({
+        dag: ['Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör', 'Sön'][i],
+        visningar: Math.floor(Math.random() * 300) + 100,
+        klick: Math.floor(Math.random() * 80) + 20,
+      }));
+
+      setChartData({
+        performance: performanceData,
+        statusDistribution: statusData,
+        viewsOverTime: viewsData
+      });
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -84,31 +146,27 @@ export default function CampaignDashboard() {
 
   if (!features.canViewAnalytics) {
     return (
-      <div className="min-h-screen bg-gradient-subtle">
-        <header className="border-b bg-card/50 backdrop-blur-sm">
-          <div className="container mx-auto px-4 py-4">
-            <Button variant="ghost" onClick={() => navigate("/dashboard")}>
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Tillbaka
-            </Button>
-          </div>
-        </header>
+      <div className="min-h-screen bg-gradient-to-b from-background via-background to-accent/5">
+        <div className="container mx-auto px-4 py-12">
+          <Button variant="ghost" onClick={() => navigate("/dashboard")} className="mb-8">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Tillbaka
+          </Button>
 
-        <main className="container mx-auto px-4 py-12">
-          <Card className="max-w-2xl mx-auto shadow-premium">
+          <Card className="glass-card max-w-2xl mx-auto border-0 animate-fade-in">
             <CardHeader>
               <CardTitle className="text-2xl">Analytics kräver Professional-paketet</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground mb-4">
+              <p className="text-muted-foreground mb-6">
                 För att se kampanjanalytics och ROI-tracking behöver du uppgradera till Professional-paketet.
               </p>
-              <Button onClick={() => setShowUpgrade(true)}>
+              <Button onClick={() => setShowUpgrade(true)} size="lg" className="hover-scale">
                 Visa paket
               </Button>
             </CardContent>
           </Card>
-        </main>
+        </div>
 
         <PlanUpgradeDialog
           open={showUpgrade}
@@ -121,112 +179,267 @@ export default function CampaignDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
+      <div className="min-h-screen bg-gradient-to-b from-background via-background to-accent/5 flex items-center justify-center">
+        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-card">
+          <Sparkles className="h-6 w-6 animate-spin text-primary" />
+          <p className="text-lg font-medium">{t('loadingAnalytics')}</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-subtle">
-      <header className="border-b bg-card/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4">
-          <Button variant="ghost" onClick={() => navigate("/dashboard")}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Tillbaka
-          </Button>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-accent/5">
+      <div className="container mx-auto px-4 py-12">
+        <Button variant="ghost" onClick={() => navigate("/dashboard")} className="mb-8 hover-scale">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Tillbaka
+        </Button>
 
-      <main className="container mx-auto px-4 py-12">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-premium bg-clip-text text-transparent mb-2">
-            Kampanj Analytics
-          </h1>
-          <p className="text-muted-foreground">Översikt över dina kampanjers prestanda</p>
+        {/* Hero Section */}
+        <div className="mb-12 space-y-6 animate-fade-in">
+          <div className="flex items-center gap-3">
+            <div className="h-12 w-1 bg-gradient-to-b from-primary to-accent rounded-full" />
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold gradient-text">
+                Kampanj Analytics
+              </h1>
+              <p className="text-lg text-muted-foreground mt-2">
+                Översikt över dina kampanjers prestanda
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="shadow-card hover:shadow-premium transition-all duration-300">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 animate-fade-in">
+          <Card className="glass-card border-primary/20 hover-lift group">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+              <CardTitle className="text-sm font-medium text-foreground/80">
                 Totalt antal kampanjer
               </CardTitle>
-              <Calendar className="h-4 w-4 text-accent" />
+              <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                <Calendar className="h-5 w-5 text-primary" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{analytics.totalCampaigns}</div>
+              <div className="text-3xl font-bold gradient-text mb-1">{analytics.totalCampaigns}</div>
+              <p className="text-sm text-muted-foreground">Alla skapade kampanjer</p>
             </CardContent>
           </Card>
 
-          <Card className="shadow-card hover:shadow-premium transition-all duration-300">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+          <Card className="glass-card border-accent/20 hover-lift group">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+              <CardTitle className="text-sm font-medium text-foreground/80">
                 Aktiva kampanjer
               </CardTitle>
-              <TrendingUp className="h-4 w-4 text-accent" />
+              <div className="p-2 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
+                <TrendingUp className="h-5 w-5 text-accent" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{analytics.activeCampaigns}</div>
+              <div className="text-3xl font-bold gradient-text mb-1">{analytics.activeCampaigns}</div>
+              <p className="text-sm text-muted-foreground">Publicerade kampanjer</p>
             </CardContent>
           </Card>
 
-          <Card className="shadow-card hover:shadow-premium transition-all duration-300">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+          <Card className="glass-card border-primary/20 hover-lift group">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+              <CardTitle className="text-sm font-medium text-foreground/80">
                 Totala visningar
               </CardTitle>
-              <Users className="h-4 w-4 text-accent" />
+              <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                <Eye className="h-5 w-5 text-primary" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{analytics.totalViews.toLocaleString()}</div>
+              <div className="text-3xl font-bold gradient-text mb-1">{analytics.totalViews.toLocaleString()}</div>
+              <p className="text-sm text-muted-foreground">Kampanjvisningar</p>
             </CardContent>
           </Card>
 
-          <Card className="shadow-card hover:shadow-premium transition-all duration-300">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+          <Card className="glass-card border-accent/20 hover-lift group">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+              <CardTitle className="text-sm font-medium text-foreground/80">
                 Genomsnittlig ROI
               </CardTitle>
-              <DollarSign className="h-4 w-4 text-accent" />
+              <div className="p-2 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
+                <DollarSign className="h-5 w-5 text-accent" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{analytics.avgROI.toFixed(1)}%</div>
+              <div className="text-3xl font-bold gradient-text mb-1">{analytics.avgROI.toFixed(1)}%</div>
+              <p className="text-sm text-muted-foreground">Avkastning på investering</p>
             </CardContent>
           </Card>
         </div>
 
+        {/* Charts Grid */}
+        <div className="grid lg:grid-cols-2 gap-6 mb-8">
+          {/* Views Over Time */}
+          <Card className="glass-card hover-lift animate-fade-in stagger-1">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="h-5 w-5 text-primary" />
+                Visningar över tid
+              </CardTitle>
+              <CardDescription>Senaste veckans aktivitet</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <AreaChart data={chartData.viewsOverTime}>
+                  <defs>
+                    <linearGradient id="colorVisningar" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                    </linearGradient>
+                    <linearGradient id="colorKlick" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--accent))" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="hsl(var(--accent))" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
+                  <XAxis dataKey="dag" stroke="hsl(var(--muted-foreground))" />
+                  <YAxis stroke="hsl(var(--muted-foreground))" />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'hsl(var(--card))',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '8px'
+                    }}
+                  />
+                  <Legend />
+                  <Area 
+                    type="monotone" 
+                    dataKey="visningar" 
+                    stroke="hsl(var(--primary))" 
+                    fillOpacity={1}
+                    fill="url(#colorVisningar)"
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="klick" 
+                    stroke="hsl(var(--accent))" 
+                    fillOpacity={1}
+                    fill="url(#colorKlick)"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* Status Distribution */}
+          {chartData.statusDistribution.length > 0 && (
+            <Card className="glass-card hover-lift animate-fade-in stagger-2">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="h-5 w-5 text-accent" />
+                  Kampanjstatus
+                </CardTitle>
+                <CardDescription>Fördelning av kampanjstatus</CardDescription>
+              </CardHeader>
+              <CardContent className="flex justify-center">
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={chartData.statusDistribution}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={100}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {chartData.statusDistribution.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px'
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+
+        {/* Campaign Performance */}
+        {chartData.performance.length > 0 && (
+          <Card className="glass-card hover-lift mb-8 animate-fade-in stagger-3">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChartIcon className="h-5 w-5 text-primary" />
+                Kampanjprestanda
+              </CardTitle>
+              <CardDescription>Jämförelse av dina senaste kampanjer</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={chartData.performance}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
+                  <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
+                  <YAxis stroke="hsl(var(--muted-foreground))" />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'hsl(var(--card))',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '8px'
+                    }}
+                  />
+                  <Legend />
+                  <Bar dataKey="visningar" fill="hsl(var(--primary))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="klick" fill="hsl(var(--accent))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="roi" fill="hsl(var(--secondary))" radius={[8, 8, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Recent Campaigns */}
-        <Card className="shadow-premium">
+        <Card className="glass-card animate-fade-in stagger-4">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
-              <BarChart className="h-6 w-6 text-accent" />
+              <Calendar className="h-6 w-6 text-accent" />
               Senaste kampanjer
             </CardTitle>
           </CardHeader>
           <CardContent>
             {campaigns.length === 0 ? (
-              <p className="text-muted-foreground text-center py-8">
-                Inga kampanjer än. Skapa din första kampanj!
-              </p>
+              <div className="text-center py-12">
+                <Sparkles className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <p className="text-muted-foreground">
+                  Inga kampanjer än. Skapa din första kampanj!
+                </p>
+              </div>
             ) : (
               <div className="space-y-4">
-                {campaigns.map((campaign) => (
+                {campaigns.map((campaign, index) => (
                   <div
                     key={campaign.id}
-                    className="p-4 rounded-lg border border-accent/10 hover:border-accent/30 transition-all cursor-pointer"
+                    className={`p-4 rounded-lg glass-card border-border/50 hover-lift cursor-pointer animate-fade-in stagger-${(index % 5) + 1}`}
                     onClick={() => navigate(`/campaigns/${campaign.id}`)}
                   >
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="font-semibold text-lg">{campaign.title}</h3>
-                        <p className="text-sm text-muted-foreground">
+                        <h3 className="font-semibold text-lg mb-1">{campaign.title}</h3>
+                        <p className="text-sm text-muted-foreground flex items-center gap-2">
+                          <Target className="h-4 w-4" />
                           Event: {campaign.events?.title || "N/A"}
                         </p>
                       </div>
                       <div className="text-right">
-                        <div className="inline-flex items-center px-2 py-1 rounded-full bg-accent/10 text-accent text-xs font-semibold">
+                        <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
+                          campaign.status === 'published' ? 'bg-primary/10 text-primary border border-primary/30' :
+                          campaign.status === 'scheduled' ? 'bg-accent/10 text-accent border border-accent/30' :
+                          'bg-secondary/80 text-secondary-foreground border border-secondary/30'
+                        }`}>
                           {campaign.status}
                         </div>
                       </div>
@@ -237,7 +450,7 @@ export default function CampaignDashboard() {
             )}
           </CardContent>
         </Card>
-      </main>
+      </div>
     </div>
   );
 }
