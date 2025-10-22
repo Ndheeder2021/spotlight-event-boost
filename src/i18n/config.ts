@@ -56,6 +56,21 @@ const resources = {
       createCampaign: "Skapa kampanj",
       expectedGuests: "förväntade gäster",
       
+      // Event Filters
+      searchEvents: "Sök event...",
+      category: "Kategori",
+      allCategories: "Alla kategorier",
+      music: "Musik",
+      sport: "Sport",
+      festival: "Festival",
+      conference: "Konferens",
+      moreFilters: "Fler filter",
+      advancedFilters: "Avancerade filter",
+      distance: "Avstånd",
+      distanceDesc: "Sök event inom denna radie från din verksamhet",
+      minAudience: "Min publikstorlek",
+      minAudienceDesc: "Visa endast event med minst detta antal förväntade besökare",
+      
       // Campaigns Page
       savedEventsAndCampaigns: "Sparade Events & Kampanjer",
       savedEventsAndCampaignsDesc: "Dina sparade events och AI-genererade kampanjer",
@@ -1873,6 +1888,21 @@ const resources = {
       // Event Card
       createCampaign: "Create Campaign",
       expectedGuests: "expected guests",
+      
+      // Event Filters
+      searchEvents: "Search events...",
+      category: "Category",
+      allCategories: "All categories",
+      music: "Music",
+      sport: "Sport",
+      festival: "Festival",
+      conference: "Conference",
+      moreFilters: "More filters",
+      advancedFilters: "Advanced filters",
+      distance: "Distance",
+      distanceDesc: "Search events within this radius from your business",
+      minAudience: "Min audience size",
+      minAudienceDesc: "Show only events with at least this many expected attendees",
 
       // Calendar Page
       calendarForecast: "Calendar & Forecast",

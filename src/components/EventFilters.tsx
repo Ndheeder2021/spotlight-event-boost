@@ -5,6 +5,8 @@ import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Label } from "./ui/label";
 import { Slider } from "./ui/slider";
+import { useTranslation } from "react-i18next";
+import { Badge } from "./ui/badge";
 
 interface EventFiltersProps {
   searchQuery: string;
@@ -27,59 +29,101 @@ export const EventFilters = ({
   minAttendance,
   onMinAttendanceChange,
 }: EventFiltersProps) => {
+  const { t } = useTranslation();
+  const activeFiltersCount = (category !== "all" ? 1 : 0) + (distance !== 10 ? 1 : 0) + (minAttendance !== 0 ? 1 : 0);
+  
   return (
-    <div className="flex flex-col gap-4 md:flex-row md:items-center">
-      <div className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+    <div className="flex flex-col gap-4 md:flex-row md:items-center animate-fade-in">
+      {/* Search Input */}
+      <div className="relative flex-1 group">
+        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 p-1.5 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+          <Search className="h-4 w-4 text-primary" />
+        </div>
         <Input
-          placeholder="Sök event..."
+          placeholder={t('searchEvents')}
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="pl-10"
+          className="pl-12 h-11 glass-card border-border/50 hover:border-primary/50 focus:border-primary transition-colors"
         />
       </div>
 
+      {/* Category Select */}
       <Select value={category} onValueChange={onCategoryChange}>
-        <SelectTrigger className="w-full md:w-[180px]">
-          <SelectValue placeholder="Kategori" />
+        <SelectTrigger className="w-full md:w-[200px] h-11 glass-card border-border/50 hover:border-accent/50 transition-colors hover-scale">
+          <SelectValue placeholder={t('category')} />
         </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">Alla kategorier</SelectItem>
-          <SelectItem value="music">Musik</SelectItem>
-          <SelectItem value="sport">Sport</SelectItem>
-          <SelectItem value="festival">Festival</SelectItem>
-          <SelectItem value="conference">Konferens</SelectItem>
+        <SelectContent className="glass-card">
+          <SelectItem value="all">{t('allCategories')}</SelectItem>
+          <SelectItem value="music">{t('music')}</SelectItem>
+          <SelectItem value="sport">{t('sport')}</SelectItem>
+          <SelectItem value="festival">{t('festival')}</SelectItem>
+          <SelectItem value="conference">{t('conference')}</SelectItem>
         </SelectContent>
       </Select>
 
+      {/* Advanced Filters Popover */}
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="gap-2">
-            <SlidersHorizontal className="h-4 w-4" />
-            Fler filter
+          <Button 
+            variant="outline" 
+            className="gap-2 h-11 relative glass-card border-border/50 hover:border-primary/50 hover-scale group"
+          >
+            <div className="p-1 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+              <SlidersHorizontal className="h-4 w-4 text-primary" />
+            </div>
+            <span>{t('moreFilters')}</span>
+            {activeFiltersCount > 0 && (
+              <Badge 
+                variant="secondary" 
+                className="ml-1 h-5 min-w-5 px-1.5 bg-primary text-primary-foreground rounded-full text-xs"
+              >
+                {activeFiltersCount}
+              </Badge>
+            )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-80">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>Avstånd: {distance} km</Label>
+        <PopoverContent className="w-80 glass-card border-border/50 premium-glow">
+          <div className="space-y-6">
+            <div>
+              <h4 className="font-semibold text-sm mb-4 gradient-text">{t('advancedFilters')}</h4>
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-medium">{t('distance')}</Label>
+                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+                  {distance} km
+                </Badge>
+              </div>
               <Slider
                 value={[distance]}
                 onValueChange={(value) => onDistanceChange(value[0])}
                 min={1}
                 max={20}
                 step={1}
+                className="cursor-pointer"
               />
+              <p className="text-xs text-muted-foreground">{t('distanceDesc')}</p>
             </div>
-            <div className="space-y-2">
-              <Label>Min publikstorlek: {minAttendance.toLocaleString()}</Label>
+            
+            <div className="h-px bg-border/50" />
+            
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-medium">{t('minAudience')}</Label>
+                <Badge variant="secondary" className="bg-accent/10 text-accent border-accent/20">
+                  {minAttendance.toLocaleString()}
+                </Badge>
+              </div>
               <Slider
                 value={[minAttendance]}
                 onValueChange={(value) => onMinAttendanceChange(value[0])}
                 min={0}
                 max={5000}
                 step={100}
+                className="cursor-pointer"
               />
+              <p className="text-xs text-muted-foreground">{t('minAudienceDesc')}</p>
             </div>
           </div>
         </PopoverContent>
