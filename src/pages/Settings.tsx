@@ -206,8 +206,8 @@ export default function Settings() {
             <Card className="glass-card border-primary/20 premium-glow">
               <CardHeader>
                 <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10">
-                    <SettingsIcon className="h-5 w-5 text-primary" />
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary via-primary-glow to-primary/50 shadow-glow animate-pulse">
+                    <SettingsIcon className="h-6 w-6 text-primary-foreground" />
                   </div>
                   <div>
                     <CardTitle className="text-xl font-bold gradient-text">
@@ -324,8 +324,8 @@ export default function Settings() {
             <Card className="glass-card border-primary/20 premium-glow">
               <CardHeader>
                 <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10">
-                    <Plug className="h-5 w-5 text-primary" />
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary via-primary-glow to-primary/50 shadow-glow animate-pulse">
+                    <Plug className="h-6 w-6 text-primary-foreground" />
                   </div>
                   <div>
                     <CardTitle className="text-xl font-bold gradient-text">
