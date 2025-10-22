@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -8,6 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageCircle, Send, X, Loader2, Sparkles, Minimize2, Zap, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Message {
   role: "user" | "assistant";
@@ -23,6 +25,8 @@ const quickReplies = [
 ];
 
 export const AILiveSupport = () => {
+  const location = useLocation();
+  const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -37,6 +41,13 @@ export const AILiveSupport = () => {
   const [showQuickReplies, setShowQuickReplies] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
+  // Show on desktop always, on mobile only on contact page
+  const shouldShow = !isMobile || location.pathname === "/contact";
+
+  if (!shouldShow) {
+    return null;
+  }
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -115,8 +126,9 @@ export const AILiveSupport = () => {
       {/* Chat Button - Animated with notification pulse */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 h-16 w-16 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-[9999] group relative"
+        className="fixed bottom-6 right-6 h-16 w-16 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-[100] group relative bg-gradient-to-r from-primary to-primary-glow"
         size="icon"
+        aria-label="Öppna AI support chat"
       >
         <div className="absolute inset-0 rounded-full bg-primary animate-pulse opacity-20 group-hover:opacity-30" />
         {isOpen ? (
