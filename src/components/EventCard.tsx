@@ -1,4 +1,5 @@
 import { Calendar, MapPin, Users, Sparkles, Bookmark } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -21,6 +22,7 @@ interface EventCardProps {
 }
 
 export const EventCard = ({ event, onClick, onGenerateCampaign, onSaveEvent, isSaved }: EventCardProps) => {
+  const { t } = useTranslation();
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       music: "bg-purple-500/10 text-purple-600 border-purple-500/20",
@@ -69,7 +71,7 @@ export const EventCard = ({ event, onClick, onGenerateCampaign, onSaveEvent, isS
               <Users className="h-4 w-4 text-primary" />
             </div>
             <span className="font-medium">
-              {event.expected_attendance.toLocaleString()} förväntade gäster
+              {event.expected_attendance.toLocaleString()} {t('expectedGuests')}
             </span>
           </div>
         </div>
@@ -85,7 +87,7 @@ export const EventCard = ({ event, onClick, onGenerateCampaign, onSaveEvent, isS
               }}
             >
               <Sparkles className="h-4 w-4 mr-2" />
-              Skapa kampanj
+              {t('createCampaign')}
             </Button>
           )}
           {onSaveEvent && (

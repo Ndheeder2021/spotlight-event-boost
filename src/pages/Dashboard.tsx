@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { EventCard } from "@/components/EventCard";
 import { EventMap } from "@/components/EventMap";
@@ -25,6 +26,7 @@ interface Event {
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [events, setEvents] = useState<Event[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
@@ -189,7 +191,7 @@ export default function Dashboard() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        toast.error("Du måste vara inloggad");
+        toast.error(t('mustBeLoggedIn'));
         return;
       }
 
@@ -201,7 +203,7 @@ export default function Dashboard() {
         .single();
 
       if (!userRole) {
-        toast.error("Kunde inte hitta användarinfo");
+        toast.error(t('couldNotFindUser'));
         return;
       }
 
@@ -217,7 +219,7 @@ export default function Dashboard() {
         if (error) throw error;
 
         setSavedEvents(savedEvents.filter(id => id !== eventId));
-        toast.success("Event borttaget från sparade");
+        toast.success(t('eventRemoved'));
       } else {
         // Save event (create campaign)
         const event = events.find(e => e.id === eventId);
@@ -229,7 +231,7 @@ export default function Dashboard() {
             event_id: eventId,
             tenant_id: userRole.tenant_id,
             title: event.title,
-            description: `Kampanj för ${event.title}`,
+            description: `${t('campaignFor')} ${event.title}`,
             recommended_start: event.start_time,
             recommended_end: event.end_time || event.start_time,
             status: 'draft'
@@ -238,10 +240,10 @@ export default function Dashboard() {
         if (error) throw error;
 
         setSavedEvents([...savedEvents, eventId]);
-        toast.success("Event sparat!");
+        toast.success(t('eventSaved'));
       }
     } catch (error: any) {
-      toast.error("Kunde inte spara/ta bort event");
+      toast.error(t('couldNotSaveEvent'));
       console.error("Error:", error);
     }
   };
@@ -255,10 +257,10 @@ export default function Dashboard() {
             <div className="h-12 w-1 bg-gradient-to-b from-primary to-accent rounded-full" />
             <div>
               <h1 className="text-4xl md:text-5xl font-bold gradient-text">
-                Event Radar
+                {t('eventRadar')}
               </h1>
               <p className="text-lg text-muted-foreground mt-2">
-                Upptäck event i närheten och skapa kraftfulla kampanjer
+                {t('eventRadarSubtitle')}
               </p>
             </div>
           </div>
@@ -268,7 +270,7 @@ export default function Dashboard() {
           <Alert className="mb-8 glass-card border-primary/50 premium-glow animate-fade-in">
             <Sparkles className="h-5 w-5 text-primary" />
             <AlertDescription className="text-base">
-              <strong className="text-primary">Stort event!</strong> {bigEvent.title} med <strong>{bigEvent.expected_attendance.toLocaleString()}</strong> gäster närmar sig!
+              <strong className="text-primary">{t('bigEventAlert')}</strong> {bigEvent.title} {t('bigEventAlertDesc')} <strong>{bigEvent.expected_attendance.toLocaleString()}</strong> {t('guestsApproaching')}
             </AlertDescription>
           </Alert>
         )}
@@ -283,9 +285,9 @@ export default function Dashboard() {
                     <Sparkles className="h-5 w-5 text-accent" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl">Sparade Events</CardTitle>
+                    <CardTitle className="text-2xl">{t('savedEvents')}</CardTitle>
                     <CardDescription className="text-base mt-1">
-                      Du har {savedEvents.length} sparade event{savedEvents.length !== 1 ? 's' : ''}
+                      {savedEvents.length === 1 ? t('savedEventsCount', { count: savedEvents.length }) : t('savedEventsCountPlural', { count: savedEvents.length })}
                     </CardDescription>
                   </div>
                 </div>
@@ -295,7 +297,7 @@ export default function Dashboard() {
                   onClick={() => navigate("/campaigns")}
                   className="hover-scale"
                 >
-                  Visa alla
+                  {t('showAll')}
                 </Button>
               </div>
             </CardHeader>
@@ -320,7 +322,7 @@ export default function Dashboard() {
           <div className="text-center py-20 animate-fade-in">
             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-card">
               <Sparkles className="h-5 w-5 text-primary animate-pulse" />
-              <p className="text-lg font-medium">Laddar event...</p>
+              <p className="text-lg font-medium">{t('loadingEvents')}</p>
             </div>
           </div>
         ) : events.length === 0 ? (
@@ -328,8 +330,8 @@ export default function Dashboard() {
             <Card className="glass-card max-w-md mx-auto">
               <CardContent className="pt-12 pb-12">
                 <Sparkles className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-xl text-muted-foreground">Inga event hittades</p>
-                <p className="text-sm text-muted-foreground mt-2">Prova att justera dina filter eller kom tillbaka senare</p>
+                <p className="text-xl text-muted-foreground">{t('noEventsFound')}</p>
+                <p className="text-sm text-muted-foreground mt-2">{t('noEventsFoundDesc')}</p>
               </CardContent>
             </Card>
           </div>
@@ -370,7 +372,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-3">
                 <div className="h-10 w-1 bg-gradient-to-b from-primary to-accent rounded-full" />
                 <h3 className="text-2xl font-bold">
-                  Alla event <span className="text-muted-foreground">({filteredEvents.length})</span>
+                  {t('allEvents')} <span className="text-muted-foreground">({filteredEvents.length})</span>
                 </h3>
               </div>
             </div>
