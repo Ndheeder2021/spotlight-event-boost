@@ -127,19 +127,19 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
   const isAuthenticated = variant === "authenticated" || user;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-24 items-center justify-between gap-8">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
+      <div className="container mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex h-16 sm:h-20 lg:h-24 items-center justify-between gap-2 sm:gap-4 lg:gap-8">
           {/* Logo */}
           <Link 
             to={isAuthenticated ? "/dashboard" : "/"} 
-            className="flex items-center gap-3 hover:opacity-90 transition-all duration-300 hover:scale-105 group"
+            className="flex items-center gap-2 sm:gap-3 hover:opacity-90 transition-all duration-300 hover:scale-105 group flex-shrink-0"
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-primary-glow/30 blur-2xl group-hover:blur-3xl transition-all duration-500 opacity-60 group-hover:opacity-100 rounded-full" />
-              <Zap className="h-10 w-10 text-primary relative z-10 transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 drop-shadow-lg" fill="currentColor" />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-primary-glow/30 blur-xl sm:blur-2xl group-hover:blur-2xl sm:group-hover:blur-3xl transition-all duration-500 opacity-60 group-hover:opacity-100 rounded-full" />
+              <Zap className="h-7 w-7 sm:h-9 sm:w-9 lg:h-10 lg:w-10 text-primary relative z-10 transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 drop-shadow-lg" fill="currentColor" />
             </div>
-            <span className="text-3xl font-bold bg-gradient-to-r from-primary via-primary-glow to-primary bg-clip-text text-transparent tracking-tight">
+            <span className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-primary via-primary-glow to-primary bg-clip-text text-transparent tracking-tight">
               Spotlight
             </span>
           </Link>
@@ -381,53 +381,57 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
           </div>
 
           {/* Mobile Menu */}
-          <div className="flex lg:hidden items-center gap-2">
+          <div className="flex lg:hidden items-center gap-1.5 sm:gap-2">
             <LanguageSwitch />
             <ThemeToggle />
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-11 w-11">
-                  <Menu className="h-6 w-6" />
+                <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-11 sm:w-11">
+                  <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
+                  <span className="sr-only">Öppna meny</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[320px] bg-background/95 backdrop-blur-xl">
-                <nav className="flex flex-col gap-2 mt-8">
+              <SheetContent side="right" className="w-[85vw] max-w-[320px] bg-background/98 backdrop-blur-xl border-l-2">
+                <nav className="flex flex-col gap-1 mt-6">
                   {navItems.map((item) => (
                     <NavLink
                       key={item.url}
                       to={item.url}
                       onClick={() => setMobileMenuOpen(false)}
                       className={({ isActive }) =>
-                        `flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all rounded-lg ${
+                        `flex items-center gap-3 px-4 py-4 text-base font-medium transition-all rounded-xl touch-manipulation ${
                           isActive 
-                            ? "text-primary bg-accent shadow-sm" 
-                            : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                            ? "text-primary bg-accent/90 shadow-sm font-semibold" 
+                            : "text-foreground hover:text-primary hover:bg-accent/60"
                         }`
                       }
                     >
-                      <item.icon className="h-5 w-5" />
-                      {item.title}
+                      <item.icon className="h-5 w-5 flex-shrink-0" />
+                      <span className="truncate">{item.title}</span>
                     </NavLink>
                   ))}
 
                   {isAuthenticated && (
                     <>
-                      <div className="border-t my-2" />
+                      <div className="border-t my-3" />
+                      <div className="px-2 py-1.5 text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                        Verktyg
+                      </div>
                       {moreMenuItems.map((item) => (
                         <NavLink
                           key={item.url}
                           to={item.url}
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all rounded-lg ${
+                            `flex items-center gap-3 px-4 py-4 text-base font-medium transition-all rounded-xl touch-manipulation ${
                               isActive 
-                                ? "text-primary bg-accent shadow-sm" 
-                                : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                                ? "text-primary bg-accent/90 shadow-sm font-semibold" 
+                                : "text-foreground hover:text-primary hover:bg-accent/60"
                             }`
                           }
                         >
-                          <item.icon className="h-5 w-5" />
-                          {item.title}
+                          <item.icon className="h-5 w-5 flex-shrink-0" />
+                          <span className="truncate">{item.title}</span>
                         </NavLink>
                       ))}
                       {isAdmin && (
@@ -435,15 +439,15 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to="/admin"
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all rounded-lg ${
+                            `flex items-center gap-3 px-4 py-4 text-base font-medium transition-all rounded-xl touch-manipulation ${
                               isActive 
-                                ? "text-primary bg-accent shadow-sm" 
-                                : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                                ? "text-primary bg-accent/90 shadow-sm font-semibold" 
+                                : "text-foreground hover:text-primary hover:bg-accent/60"
                             }`
                           }
                         >
-                          <Shield className="h-5 w-5" />
-                          {t("admin")}
+                          <Shield className="h-5 w-5 flex-shrink-0" />
+                          <span className="truncate">{t("admin")}</span>
                         </NavLink>
                       )}
                     </>
@@ -451,8 +455,8 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
 
                   {!isAuthenticated && (
                     <>
-                      <div className="border-t my-2" />
-                      <div className="px-4 py-2 text-sm font-semibold text-muted-foreground">
+                      <div className="border-t my-3" />
+                      <div className="px-2 py-1.5 text-xs font-bold text-muted-foreground uppercase tracking-wider">
                         Produkt
                       </div>
                       {productItems.map((item) => (
@@ -461,19 +465,19 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to={item.url}
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all rounded-lg ${
+                            `flex items-center gap-3 px-4 py-4 text-base font-medium transition-all rounded-xl touch-manipulation ${
                               isActive 
-                                ? "text-primary bg-accent shadow-sm" 
-                                : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                                ? "text-primary bg-accent/90 shadow-sm font-semibold" 
+                                : "text-foreground hover:text-primary hover:bg-accent/60"
                             }`
                           }
                         >
-                          <item.icon className="h-5 w-5" />
-                          {item.title}
+                          <item.icon className="h-5 w-5 flex-shrink-0" />
+                          <span className="truncate">{item.title}</span>
                         </NavLink>
                       ))}
-                      <div className="border-t my-2" />
-                      <div className="px-4 py-2 text-sm font-semibold text-muted-foreground">
+                      <div className="border-t my-3" />
+                      <div className="px-2 py-1.5 text-xs font-bold text-muted-foreground uppercase tracking-wider">
                         Blog
                       </div>
                       {blogItems.map((item) => (
@@ -482,19 +486,19 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to={item.url}
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all rounded-lg ${
+                            `flex items-center gap-3 px-4 py-4 text-base font-medium transition-all rounded-xl touch-manipulation ${
                               isActive 
-                                ? "text-primary bg-accent shadow-sm" 
-                                : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                                ? "text-primary bg-accent/90 shadow-sm font-semibold" 
+                                : "text-foreground hover:text-primary hover:bg-accent/60"
                             }`
                           }
                         >
-                          <item.icon className="h-5 w-5" />
-                          {item.title}
+                          <item.icon className="h-5 w-5 flex-shrink-0" />
+                          <span className="truncate">{item.title}</span>
                         </NavLink>
                       ))}
-                      <div className="border-t my-2" />
-                      <div className="px-4 py-2 text-sm font-semibold text-muted-foreground">
+                      <div className="border-t my-3" />
+                      <div className="px-2 py-1.5 text-xs font-bold text-muted-foreground uppercase tracking-wider">
                         Prices & Perks
                       </div>
                       {pricesPerksItems.map((item) => (
@@ -503,25 +507,25 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to={item.url}
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all rounded-lg ${
+                            `flex items-center gap-3 px-4 py-4 text-base font-medium transition-all rounded-xl touch-manipulation ${
                               isActive 
-                                ? "text-primary bg-accent shadow-sm" 
-                                : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                                ? "text-primary bg-accent/90 shadow-sm font-semibold" 
+                                : "text-foreground hover:text-primary hover:bg-accent/60"
                             }`
                           }
                         >
-                          <item.icon className="h-5 w-5" />
-                          {item.title}
+                          <item.icon className="h-5 w-5 flex-shrink-0" />
+                          <span className="truncate">{item.title}</span>
                         </NavLink>
                       ))}
                     </>
                   )}
 
-                  <div className="border-t pt-4 mt-4">
+                  <div className="border-t pt-4 mt-4 pb-safe">
                     {isAuthenticated ? (
                       <Button 
                         variant="outline" 
-                        className="w-full justify-start gap-3 h-12" 
+                        className="w-full justify-start gap-3 h-14 text-base font-semibold touch-manipulation" 
                         onClick={() => {
                           setMobileMenuOpen(false);
                           handleLogout();
@@ -532,7 +536,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       </Button>
                     ) : (
                       <Button 
-                        className="w-full h-12 gap-2 bg-gradient-to-r from-primary to-primary-glow" 
+                        className="w-full h-14 gap-2 bg-gradient-to-r from-primary to-primary-glow text-base font-bold shadow-lg touch-manipulation" 
                         asChild
                       >
                         <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>

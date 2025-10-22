@@ -429,24 +429,25 @@ const Index = () => {
       {/* Hero Section - Instantly.ai Style */}
       <section className="relative overflow-hidden bg-background">
         <AnimatedHeroBackground />
-        <div className="container relative mx-auto px-4 sm:px-6 pt-32 lg:pt-40 pb-24 lg:pb-32 z-10">
-          <div className="max-w-5xl mx-auto text-center space-y-12">
-            <div className="space-y-8">
-              <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight">
+        <div className="container relative mx-auto px-4 sm:px-6 pt-20 sm:pt-28 lg:pt-40 pb-16 sm:pb-20 lg:pb-32 z-10">
+          <div className="max-w-5xl mx-auto text-center space-y-8 sm:space-y-12">
+            <div className="space-y-6 sm:space-y-8">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.15] sm:leading-[1.1] tracking-tight px-2">
                 Förvandla lokala evenemang till{" "}
                 <span className="text-primary">försäljning</span>
               </h1>
               
-              <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
                 AI-driven plattform som automatiskt upptäcker evenemang och skapar kampanjer
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-              <Link to="/auth">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-6 sm:pt-8 px-4">
+              <Link to="/auth" className="w-full sm:w-auto">
                 <Button 
                   variant="animated"
                   size="xl"
+                  className="w-full sm:w-auto h-14 sm:h-auto text-base sm:text-lg"
                 >
                   Kom igång gratis 
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
@@ -456,12 +457,12 @@ const Index = () => {
             </div>
             
             {/* Live Stats Counter */}
-            <div className="flex flex-col sm:flex-row gap-8 sm:gap-12 justify-center pt-12">
-              <div className="flex flex-col items-center gap-2">
-                <div className="text-4xl sm:text-5xl font-bold text-primary">
+            <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 lg:gap-12 justify-center pt-8 sm:pt-12 px-4">
+              <div className="flex flex-col items-center gap-1.5 sm:gap-2">
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary">
                   <AnimatedCounter end={2547} suffix="+" />
                 </div>
-                <div className="text-sm sm:text-base text-muted-foreground">
+                <div className="text-xs sm:text-sm lg:text-base text-muted-foreground">
                   Företag använder Spotlight
                 </div>
               </div>
