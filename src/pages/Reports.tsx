@@ -86,6 +86,15 @@ export default function Reports() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Ensure visibility after data is loaded (elements may mount after observer setup)
+  useEffect(() => {
+    if (!loading && !loadingData) {
+      document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+        el.classList.add('is-visible');
+      });
+    }
+  }, [loading, loadingData]);
+
   const loadAnalytics = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
