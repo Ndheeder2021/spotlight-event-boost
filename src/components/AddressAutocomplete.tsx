@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "./ui/input";
+import { MapPin, Search } from "lucide-react";
 
 interface AddressAutocompleteProps {
   value: string;
@@ -74,24 +75,33 @@ export const AddressAutocomplete = ({
 
   return (
     <div className="relative">
-      <Input
-        type="text"
-        value={value}
-        onChange={(e) => handleInputChange(e.target.value)}
-        placeholder={placeholder}
-        required={required}
-        autoComplete="off"
-      />
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Input
+          type="text"
+          value={value}
+          onChange={(e) => handleInputChange(e.target.value)}
+          placeholder={placeholder}
+          required={required}
+          autoComplete="off"
+          className="pl-10 h-11 glass-card border-border/50 hover:border-primary/50 focus:border-primary transition-all shadow-sm hover:shadow-md focus:shadow-glow"
+        />
+      </div>
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-60 overflow-auto">
-          {suggestions.map((suggestion) => (
+        <div className="absolute z-[100] w-full mt-2 glass-card border-primary/20 rounded-lg shadow-glow max-h-60 overflow-auto animate-fade-in">
+          {suggestions.map((suggestion, index) => (
             <button
               key={suggestion.id}
               type="button"
-              className="w-full text-left px-4 py-2 hover:bg-accent hover:text-accent-foreground transition-colors"
+              className={`w-full text-left px-4 py-3 hover:bg-primary/10 hover:border-l-2 hover:border-primary transition-all flex items-start gap-3 group ${
+                index !== suggestions.length - 1 ? 'border-b border-border/30' : ''
+              }`}
               onClick={() => handleSelectSuggestion(suggestion)}
             >
-              <div className="text-sm">{suggestion.place_name}</div>
+              <MapPin className="h-4 w-4 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
+              <div className="text-sm flex-1 group-hover:text-foreground transition-colors">
+                {suggestion.place_name}
+              </div>
             </button>
           ))}
         </div>
