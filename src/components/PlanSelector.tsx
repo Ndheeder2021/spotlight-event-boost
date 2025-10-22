@@ -121,7 +121,7 @@ export function PlanSelector({ onSuccess }: PlanSelectorProps) {
           <div className="inline-flex items-center gap-4 p-1 rounded-full bg-muted">
             <button
               onClick={() => setIsYearly(false)}
-              className={`px-6 py-2 rounded-full transition-all ${
+              className={`px-6 py-2.5 rounded-full transition-all ${
                 !isYearly ? 'bg-background shadow-sm font-medium' : 'text-muted-foreground'
               }`}
             >
@@ -129,7 +129,7 @@ export function PlanSelector({ onSuccess }: PlanSelectorProps) {
             </button>
             <button
               onClick={() => setIsYearly(true)}
-              className={`px-6 py-2 rounded-full transition-all flex items-center gap-2 relative group ${
+              className={`px-6 py-2.5 rounded-full transition-all flex items-center gap-2 relative group ${
                 isYearly ? 'bg-gradient-to-r from-primary to-primary-glow shadow-lg shadow-primary/20 font-medium text-primary-foreground scale-105' : 'text-muted-foreground hover:scale-105'
               }`}
             >
