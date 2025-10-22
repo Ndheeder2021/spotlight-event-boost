@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, Zap, Users, TrendingUp, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
 export default function Auth() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
@@ -47,7 +49,7 @@ export default function Auth() {
     e.preventDefault();
     
     if (!isLogin && !formData.agreeToTerms) {
-      toast.error("Du måste acceptera villkoren för att fortsätta");
+      toast.error(t("authErrorTerms"));
       return;
     }
 
@@ -61,7 +63,7 @@ export default function Auth() {
         });
 
         if (error) throw error;
-        toast.success("Välkommen tillbaka!");
+        toast.success(t("authSuccessWelcome"));
       } else {
         // Check for referral code in localStorage
         const referralCode = localStorage.getItem('referral_code');
@@ -116,10 +118,10 @@ export default function Auth() {
           }
         }
         
-        toast.success("Konto skapat! Kontrollera din email för att verifiera.");
+        toast.success(t("authSuccessCreated"));
       }
     } catch (error: any) {
-      toast.error(error.message || "Något gick fel");
+      toast.error(error.message || t("authErrorGeneric"));
     } finally {
       setSubmitting(false);
     }
@@ -135,7 +137,7 @@ export default function Auth() {
       });
       if (error) throw error;
     } catch (error: any) {
-      toast.error(error.message || "Kunde inte logga in med Google");
+      toast.error(error.message || t("authErrorGoogle"));
     }
   };
 
@@ -171,10 +173,10 @@ export default function Auth() {
           <div className="flex flex-col justify-center max-w-md mx-auto w-full">
             <div className="mb-8">
               <h1 className="text-4xl sm:text-5xl font-bold mb-3">
-                {isLogin ? "Välkommen tillbaka" : "Skapa ett nytt konto"}
+                {isLogin ? t("authWelcomeBack") : t("authCreateAccount")}
               </h1>
               <p className="text-muted-foreground text-lg">
-                {isLogin ? "Logga in för att fortsätta" : "Kom igång med Spotlight idag"}
+                {isLogin ? t("authLoginSubtitle") : t("authSignupSubtitle")}
               </p>
             </div>
 
@@ -182,10 +184,10 @@ export default function Auth() {
               {!isLogin && (
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">Förnamn</Label>
+                    <Label htmlFor="firstName">{t("authFirstName")}</Label>
                     <Input
                       id="firstName"
-                      placeholder="Förnamn"
+                      placeholder={t("authFirstName")}
                       value={formData.firstName}
                       onChange={(e) => setFormData({...formData, firstName: e.target.value})}
                       required={!isLogin}
@@ -193,10 +195,10 @@ export default function Auth() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Efternamn</Label>
+                    <Label htmlFor="lastName">{t("authLastName")}</Label>
                     <Input
                       id="lastName"
-                      placeholder="Efternamn"
+                      placeholder={t("authLastName")}
                       value={formData.lastName}
                       onChange={(e) => setFormData({...formData, lastName: e.target.value})}
                       required={!isLogin}
@@ -207,11 +209,11 @@ export default function Auth() {
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("authEmail")}</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="din@email.com"
+                  placeholder={t("authEmailPlaceholder")}
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   required
@@ -220,11 +222,11 @@ export default function Auth() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Lösenord</Label>
+                <Label htmlFor="password">{t("authPassword")}</Label>
                 <Input
                   id="password"
                   type="password"
-                  placeholder="••••••••"
+                  placeholder={t("authPasswordPlaceholder")}
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                   required
@@ -243,13 +245,13 @@ export default function Auth() {
                     className="mt-1"
                   />
                   <Label htmlFor="terms" className="text-sm leading-relaxed cursor-pointer">
-                    Jag godkänner Spotlight's{" "}
+                    {t("authAgreeToTerms")}{" "}
                     <Link to="/terms" className="text-primary hover:underline">
-                      Användarvillkor
+                      {t("authTerms")}
                     </Link>{" "}
-                    och{" "}
+                    {t("authAnd")}{" "}
                     <Link to="/privacy" className="text-primary hover:underline">
-                      Integritetspolicy
+                      {t("authPrivacy")}
                     </Link>
                   </Label>
                 </div>
@@ -263,9 +265,9 @@ export default function Auth() {
                 {submitting ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : isLogin ? (
-                  "Logga in"
+                  t("authLoginButton")
                 ) : (
-                  "Kom igång nu"
+                  t("authSignupButton")
                 )}
               </Button>
 
@@ -274,7 +276,7 @@ export default function Auth() {
                   <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">eller</span>
+                  <span className="bg-background px-2 text-muted-foreground">{t("authOr")}</span>
                 </div>
               </div>
 
@@ -302,19 +304,19 @@ export default function Auth() {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   />
                 </svg>
-                {isLogin ? "Logga in med Google" : "Registrera med Google"}
+                {isLogin ? t("authGoogleLogin") : t("authGoogleSignup")}
               </Button>
 
               <div className="text-center text-sm">
                 <span className="text-muted-foreground">
-                  {isLogin ? "Har du inget konto?" : "Har du redan ett konto?"}{" "}
+                  {isLogin ? t("authNoAccount") : t("authHaveAccount")}{" "}
                 </span>
                 <button
                   type="button"
                   onClick={() => setIsLogin(!isLogin)}
                   className="text-primary hover:underline font-medium"
                 >
-                  {isLogin ? "Registrera dig" : "Logga in"}
+                  {isLogin ? t("authRegister") : t("authLoginButton")}
                 </button>
               </div>
             </form>
@@ -329,13 +331,10 @@ export default function Auth() {
                 </div>
               </div>
               
-              <h2 className="text-4xl sm:text-5xl font-bold leading-tight">
-                500+ företag<br />
-                får fler kunder!
-              </h2>
+              <h2 className="text-4xl sm:text-5xl font-bold leading-tight" dangerouslySetInnerHTML={{ __html: t("authSocialProofTitle") }} />
               
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Lås upp kraften i effektiv event-marketing med vår plattform och upplev en kraftig ökning i kundengagemang som aldrig förr.
+                {t("authSocialProofDesc")}
               </p>
             </div>
 
@@ -343,22 +342,22 @@ export default function Auth() {
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                 <div>
-                  <p className="font-semibold text-lg">AI-drivna kampanjer</p>
-                  <p className="text-muted-foreground">Skapa professionella kampanjer på minuter</p>
+                  <p className="font-semibold text-lg">{t("authFeature1Title")}</p>
+                  <p className="text-muted-foreground">{t("authFeature1Desc")}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                 <div>
-                  <p className="font-semibold text-lg">Automatisk event-upptäckt</p>
-                  <p className="text-muted-foreground">Vi hittar relevanta evenemang åt dig</p>
+                  <p className="font-semibold text-lg">{t("authFeature2Title")}</p>
+                  <p className="text-muted-foreground">{t("authFeature2Desc")}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                 <div>
-                  <p className="font-semibold text-lg">Resultat som syns</p>
-                  <p className="text-muted-foreground">Genomsnittligt 40% försäljningsökning</p>
+                  <p className="font-semibold text-lg">{t("authFeature3Title")}</p>
+                  <p className="text-muted-foreground">{t("authFeature3Desc")}</p>
                 </div>
               </div>
             </div>
