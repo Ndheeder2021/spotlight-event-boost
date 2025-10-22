@@ -191,7 +191,7 @@ export function PlanSelector({ onSuccess }: PlanSelectorProps) {
                     )}
                   </div>
                 </CardHeader>
-                <CardContent className="flex-grow space-y-4">
+                <CardContent className="flex-grow flex flex-col justify-between space-y-4">
                   <div className="space-y-3 min-h-[300px]">
                     {details.features.map((feature, idx) => (
                       <div key={idx} className="flex items-start gap-3">
@@ -205,7 +205,7 @@ export function PlanSelector({ onSuccess }: PlanSelectorProps) {
                     disabled={selecting !== null}
                     variant={isPopular ? "default" : "outline"}
                     size="lg"
-                    className="w-full"
+                    className="w-full mt-auto"
                   >
                     {selecting === plan ? (
                       <>
