@@ -63,8 +63,67 @@ serve(async (req) => {
       limit: 1,
     });
 
-    if (subscriptions.data.length === 0) {
-      logStep("No subscriptions found");
+    // Check Stripe first
+    if (subscriptions.data.length > 0) {
+      const subscription = subscriptions.data[0];
+      const isActive = subscription.status === "active" || subscription.status === "trialing";
+      const isTrial = subscription.status === "trialing";
+      const productId = subscription.items.data[0]?.price?.product as string;
+      
+      // Map product IDs to plan names
+      let plan = "starter";
+      const monthlyStarterId = "prod_THD16z0VLy3zOD";
+      const yearlyStarterId = "prod_THD2bzwKOM79b3";
+      const monthlyProfessionalId = "prod_THD2oIrUQoCOcj";
+      const yearlyProfessionalId = "prod_THD2mpb0QFBbAV";
+      
+      if (productId === monthlyStarterId || productId === yearlyStarterId) {
+        plan = "starter";
+      } else if (productId === monthlyProfessionalId || productId === yearlyProfessionalId) {
+        plan = "professional";
+      } else if (productId === "prod_THCXfYyIapkHHI") {
+        plan = "starter";
+      } else if (productId === "prod_THCYsFeNGHdxlP") {
+        plan = "professional";
+      }
+
+      const subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
+      const trialEnd = subscription.trial_end ? new Date(subscription.trial_end * 1000).toISOString() : null;
+
+      logStep("Stripe subscription found", { 
+        subscriptionId: subscription.id, 
+        status: subscription.status,
+        plan,
+        isTrial,
+        trialEnd,
+        subscriptionEnd 
+      });
+
+      return new Response(JSON.stringify({
+        subscribed: isActive,
+        plan,
+        trial: isTrial,
+        trial_end: trialEnd,
+        subscription_end: subscriptionEnd,
+        status: subscription.status
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
+
+    // No Stripe subscription, check database
+    logStep("No Stripe subscription, checking database");
+    
+    const { data: dbSubscription, error: dbError } = await supabaseClient
+      .from('subscriptions')
+      .select('*')
+      .eq('stripe_customer_id', customerId)
+      .eq('status', 'active')
+      .single();
+
+    if (dbError || !dbSubscription) {
+      logStep("No database subscription found");
       return new Response(JSON.stringify({ 
         subscribed: false,
         plan: "starter",
@@ -75,47 +134,18 @@ serve(async (req) => {
       });
     }
 
-    const subscription = subscriptions.data[0];
-    const isActive = subscription.status === "active" || subscription.status === "trialing";
-    const isTrial = subscription.status === "trialing";
-    const productId = subscription.items.data[0]?.price?.product as string;
-    
-    // Map product IDs to plan names
-    let plan = "starter";
-    const monthlyStarterId = "prod_THD16z0VLy3zOD";
-    const yearlyStarterId = "prod_THD2bzwKOM79b3";
-    const monthlyProfessionalId = "prod_THD2oIrUQoCOcj";
-    const yearlyProfessionalId = "prod_THD2mpb0QFBbAV";
-    
-    if (productId === monthlyStarterId || productId === yearlyStarterId) {
-      plan = "starter";
-    } else if (productId === monthlyProfessionalId || productId === yearlyProfessionalId) {
-      plan = "professional";
-    } else if (productId === "prod_THCXfYyIapkHHI") {
-      plan = "starter";
-    } else if (productId === "prod_THCYsFeNGHdxlP") {
-      plan = "professional";
-    }
-
-    const subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
-    const trialEnd = subscription.trial_end ? new Date(subscription.trial_end * 1000).toISOString() : null;
-
-    logStep("Subscription found", { 
-      subscriptionId: subscription.id, 
-      status: subscription.status,
-      plan,
-      isTrial,
-      trialEnd,
-      subscriptionEnd 
+    logStep("Database subscription found", { 
+      subscriptionId: dbSubscription.id,
+      plan: dbSubscription.plan,
+      subscriptionEnd: dbSubscription.current_period_end
     });
 
     return new Response(JSON.stringify({
-      subscribed: isActive,
-      plan,
-      trial: isTrial,
-      trial_end: trialEnd,
-      subscription_end: subscriptionEnd,
-      status: subscription.status
+      subscribed: true,
+      plan: dbSubscription.plan,
+      trial: false,
+      subscription_end: dbSubscription.current_period_end,
+      status: dbSubscription.status
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
