@@ -11,10 +11,12 @@ import { blogPosts } from "@/data/blogData";
 import { useTranslation } from "react-i18next";
 
 export default function Blog() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [email, setEmail] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  
+  const currentLang = i18n.language as 'sv' | 'en';
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 800);
@@ -85,9 +87,9 @@ export default function Blog() {
                 <Card className="overflow-hidden border-2 hover:border-accent/50 transition-all hover:shadow-xl group cursor-pointer">
                   <div className="grid md:grid-cols-2 gap-0">
                     <div className="relative overflow-hidden h-80 md:h-auto">
-                      <OptimizedImage
+                       <OptimizedImage
                         src={blogPosts[0].image}
-                        alt={t("blogFeaturedAlt")}
+                        alt={blogPosts[0].title[currentLang]}
                         width={800}
                         height={600}
                         priority
@@ -95,19 +97,23 @@ export default function Blog() {
                       />
                     </div>
                     <div className="p-8 flex flex-col justify-center">
-                      <Badge className="w-fit mb-4">{t("blogFeaturedCategory")}</Badge>
+                      <Badge className="w-fit mb-4">{blogPosts[0].category[currentLang]}</Badge>
                       <h2 className="text-3xl font-bold mb-4 group-hover:text-accent transition-colors">
-                        {t("blogFeaturedTitle")}
+                        {blogPosts[0].title[currentLang]}
                       </h2>
                       <p className="text-muted-foreground mb-6">
-                        {t("blogFeaturedDesc")}
+                        {blogPosts[0].excerpt[currentLang]}
                       </p>
                       <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
                         <div className="flex items-center gap-2">
                           <Calendar className="h-4 w-4" />
-                          {t("blogFeaturedDate")}
+                          {new Date(blogPosts[0].date).toLocaleDateString(currentLang === 'sv' ? 'sv-SE' : 'en-US', { 
+                            day: 'numeric', 
+                            month: 'short', 
+                            year: 'numeric' 
+                          })}
                         </div>
-                        <span>{t("blogFeaturedReadTime")}</span>
+                        <span>{blogPosts[0].readTime[currentLang]}</span>
                       </div>
                       <div className="text-accent group-hover:text-accent-glow flex items-center gap-2 font-semibold">
                         {t("blogReadMore")}
@@ -147,7 +153,7 @@ export default function Blog() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in">
               {blogPosts
-                .filter((post) => !selectedCategory || post.category === selectedCategory)
+                .filter((post) => !selectedCategory || post.category[currentLang] === selectedCategory)
                 .slice(selectedCategory ? 0 : 1)
                 .map((post) => {
                 return (
@@ -156,32 +162,32 @@ export default function Blog() {
                       <div className="relative overflow-hidden h-48">
                         <OptimizedImage
                           src={post.image} 
-                          alt={post.title}
+                          alt={post.title[currentLang]}
                           width={600}
                           height={400}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                       <CardHeader className="flex-1">
-                        <Badge className="w-fit mb-2">{post.category}</Badge>
+                        <Badge className="w-fit mb-2">{post.category[currentLang]}</Badge>
                         <CardTitle className="text-xl group-hover:text-accent transition-colors mb-3">
-                          {post.title}
+                          {post.title[currentLang]}
                         </CardTitle>
                         <CardDescription className="text-base">
-                          {post.excerpt}
+                          {post.excerpt[currentLang]}
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
                         <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
                           <div className="flex items-center gap-2">
                             <Calendar className="h-4 w-4" />
-                            {new Date(post.date).toLocaleDateString('sv-SE', { 
+                            {new Date(post.date).toLocaleDateString(currentLang === 'sv' ? 'sv-SE' : 'en-US', { 
                               day: 'numeric', 
                               month: 'short', 
                               year: 'numeric' 
                             })}
                           </div>
-                          <span>{post.readTime}</span>
+                          <span>{post.readTime[currentLang]}</span>
                         </div>
                         <div className="text-accent group-hover:text-accent-glow flex items-center gap-2 font-semibold">
                           {t("blogReadMore")}
@@ -209,7 +215,7 @@ export default function Blog() {
               <div className="h-8 w-8 text-accent mx-auto mb-3">📈</div>
               <h3 className="font-bold mb-1">{t("blogCategoryTipsTricks")}</h3>
               <p className="text-sm text-muted-foreground">
-                {blogPosts.filter(p => p.category === "Tips & Tricks").length} {t("blogArticles")}
+                {blogPosts.filter(p => p.category[currentLang] === t("blogCategoryTipsTricks")).length} {t("blogArticles")}
               </p>
             </Card>
             <Card 
@@ -219,7 +225,7 @@ export default function Blog() {
               <div className="h-8 w-8 text-accent mx-auto mb-3">💡</div>
               <h3 className="font-bold mb-1">{t("blogCategoryAiTech")}</h3>
               <p className="text-sm text-muted-foreground">
-                {blogPosts.filter(p => p.category === "AI & Teknologi").length} {t("blogArticles")}
+                {blogPosts.filter(p => p.category[currentLang] === t("blogCategoryAiTech")).length} {t("blogArticles")}
               </p>
             </Card>
             <Card 
@@ -229,7 +235,7 @@ export default function Blog() {
               <div className="h-8 w-8 text-accent mx-auto mb-3">👥</div>
               <h3 className="font-bold mb-1">{t("blogCategoryCaseStudies")}</h3>
               <p className="text-sm text-muted-foreground">
-                {blogPosts.filter(p => p.category === "Fallstudier").length} {t("blogArticles")}
+                {blogPosts.filter(p => p.category[currentLang] === t("blogCategoryCaseStudies")).length} {t("blogArticles")}
               </p>
             </Card>
             <Card 
@@ -239,7 +245,7 @@ export default function Blog() {
               <div className="h-8 w-8 text-accent mx-auto mb-3">🎯</div>
               <h3 className="font-bold mb-1">{t("blogCategoryStrategy")}</h3>
               <p className="text-sm text-muted-foreground">
-                {blogPosts.filter(p => p.category === "Strategi").length} {t("blogArticles")}
+                {blogPosts.filter(p => p.category[currentLang] === t("blogCategoryStrategy")).length} {t("blogArticles")}
               </p>
             </Card>
           </div>

@@ -4,18 +4,21 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import { blogPosts } from "@/data/blogData";
+import { useTranslation } from "react-i18next";
 
 export default function BlogPost() {
   const { id } = useParams();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language as 'sv' | 'en';
   const article = blogPosts.find(a => a.id === Number(id));
 
   if (!article) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Artikel hittades inte</h1>
+          <h1 className="text-4xl font-bold mb-4">{t('blogNotFound')}</h1>
           <Link to="/blog">
-            <Button>Tillbaka till bloggen</Button>
+            <Button>{t('blogBackToBlog')}</Button>
           </Link>
         </div>
       </div>
@@ -23,11 +26,18 @@ export default function BlogPost() {
   }
 
   // Om artikeln saknar content, visa en generisk placeholder
-  const defaultContent = `
-    <p>${article.excerpt}</p>
-    <h2>Mer information kommer snart</h2>
-    <p>Vi arbetar på att lägga till mer innehåll till denna artikel. Kom tillbaka snart för att läsa mer!</p>
-  `;
+  const defaultContent = {
+    sv: `
+      <p>${article.excerpt.sv}</p>
+      <h2>Mer information kommer snart</h2>
+      <p>Vi arbetar på att lägga till mer innehåll till denna artikel. Kom tillbaka snart för att läsa mer!</p>
+    `,
+    en: `
+      <p>${article.excerpt.en}</p>
+      <h2>More information coming soon</h2>
+      <p>We're working on adding more content to this article. Come back soon to read more!</p>
+    `
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -40,10 +50,10 @@ export default function BlogPost() {
           </Link>
           <div className="flex items-center gap-4">
             <Link to="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              Blogg
+              {t('blog')}
             </Link>
             <Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              Kontakt
+              {t('contact')}
             </Link>
           </div>
         </div>
@@ -53,7 +63,7 @@ export default function BlogPost() {
       <section className="relative h-[500px] overflow-hidden">
         <OptimizedImage
           src={article.image} 
-          alt={article.title}
+          alt={article.title[currentLang]}
           width={1920}
           height={500}
           priority
@@ -63,19 +73,19 @@ export default function BlogPost() {
         <div className="absolute bottom-0 left-0 right-0 container mx-auto px-4 pb-12">
           <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-6 transition-colors">
             <ArrowLeft className="h-4 w-4" />
-            Tillbaka till bloggen
+            {t('blogBackToBlog')}
           </Link>
           <div className="max-w-4xl">
             <span className="inline-block px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-bold mb-4">
-              {article.category}
+              {article.category[currentLang]}
             </span>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary-foreground drop-shadow-lg">
-              {article.title}
+              {article.title[currentLang]}
             </h1>
             <div className="flex items-center gap-6 text-sm text-primary-foreground/90">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                {new Date(article.date).toLocaleDateString('sv-SE', { 
+                {new Date(article.date).toLocaleDateString(currentLang === 'sv' ? 'sv-SE' : 'en-US', { 
                   day: 'numeric', 
                   month: 'long', 
                   year: 'numeric' 
@@ -83,7 +93,7 @@ export default function BlogPost() {
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
-                {article.readTime}
+                {article.readTime[currentLang]}
               </div>
             </div>
           </div>
@@ -100,16 +110,16 @@ export default function BlogPost() {
               prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-6
               prose-strong:text-foreground
               prose-a:text-accent prose-a:no-underline hover:prose-a:underline"
-            dangerouslySetInnerHTML={{ __html: article.content || defaultContent }}
+            dangerouslySetInnerHTML={{ __html: article.content ? article.content[currentLang] : defaultContent[currentLang] }}
           />
 
           {/* Share Section */}
           <div className="mt-16 pt-8 border-t">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold">Dela artikel:</span>
+              <span className="text-sm font-semibold">{t('blogShareArticle')}:</span>
               <Button variant="outline" size="sm">
                 <Share2 className="h-4 w-4 mr-2" />
-                Dela
+                {t('blogShare')}
               </Button>
             </div>
           </div>
@@ -119,7 +129,7 @@ export default function BlogPost() {
             <Link to="/blog">
               <Button size="lg" className="group">
                 <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-                Se fler artiklar
+                {t('blogSeeMoreArticles')}
               </Button>
             </Link>
           </div>
