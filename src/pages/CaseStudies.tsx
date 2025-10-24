@@ -14,7 +14,8 @@ import { ArrowRight, Building2, MapPin, TrendingUp, Target, Lightbulb, CheckCirc
 import { TrustBadges } from "@/components/TrustBadges";
 
 const CaseStudyCard = ({ study }: { study: CaseStudy }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language as 'sv' | 'en';
   
   return (
   <Card className="group hover-lift hover:shadow-xl transition-all duration-500 overflow-hidden border-2 hover:border-primary/50">
@@ -26,15 +27,15 @@ const CaseStudyCard = ({ study }: { study: CaseStudy }) => {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
       <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground hover-glow transition-all duration-300 hover:scale-105">
-        {study.industry}
+        {study.industry[currentLang]}
       </Badge>
     </div>
     <CardHeader>
       <CardTitle className="text-2xl group-hover:text-primary transition-colors duration-300">
-        {study.title}
+        {study.title[currentLang]}
       </CardTitle>
       <CardDescription className="text-base">
-        {study.subtitle}
+        {study.subtitle[currentLang]}
       </CardDescription>
     </CardHeader>
     <CardContent className="space-y-4">
@@ -56,7 +57,7 @@ const CaseStudyCard = ({ study }: { study: CaseStudy }) => {
               {result.value}
             </div>
             <div className="text-xs text-muted-foreground break-words">
-              {result.metric}
+              {result.metric[currentLang]}
             </div>
           </div>
         ))}
@@ -74,7 +75,8 @@ const CaseStudyCard = ({ study }: { study: CaseStudy }) => {
 };
 
 const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language as 'sv' | 'en';
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -108,9 +110,9 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title={`${study.title} - Spotlight Case Study`}
-        description={study.subtitle}
-        keywords={`case study, ${study.industry}, event marketing, ${study.company}`}
+        title={`${study.title[currentLang]} - Spotlight Case Study`}
+        description={study.subtitle[currentLang]}
+        keywords={`case study, ${study.industry[currentLang]}, event marketing, ${study.company}`}
       />
       <GlobalHeader />
 
@@ -129,12 +131,12 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary-glow/5" />
       <div className="container relative mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          <Badge className="mb-4">{study.industry}</Badge>
+          <Badge className="mb-4">{study.industry[currentLang]}</Badge>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-            {study.title}
+            {study.title[currentLang]}
           </h1>
           <p className="text-xl text-muted-foreground">
-            {study.subtitle}
+            {study.subtitle[currentLang]}
           </p>
           <div className="flex items-center justify-center gap-6 pt-4 text-muted-foreground">
             <div className="flex items-center gap-2">
@@ -165,10 +167,10 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
                     {result.value}
                   </div>
                   <div className="text-base font-semibold mb-2 break-words transition-colors duration-300 group-hover:text-primary">
-                    {result.metric}
+                    {result.metric[currentLang]}
                   </div>
                   <div className="text-sm text-muted-foreground break-words">
-                    {result.description}
+                    {result.description[currentLang]}
                   </div>
                 </CardContent>
               </Card>
@@ -187,7 +189,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
             <h2 className="text-3xl font-bold">{t("caseStudiesChallenge")}</h2>
           </div>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            {study.challenge}
+            {study.challenge[currentLang]}
           </p>
         </div>
       </div>
@@ -204,7 +206,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
             <h2 className="text-3xl font-bold">{t("caseStudiesSolution")}</h2>
           </div>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            {study.solution}
+            {study.solution[currentLang]}
           </p>
         </div>
       </div>
@@ -221,7 +223,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
             <h2 className="text-3xl font-bold">{t("caseStudiesImplementation")}</h2>
           </div>
           <div className="space-y-4">
-            {study.implementation.map((step, idx) => (
+            {study.implementation[currentLang].map((step, idx) => (
               <div key={idx} className="flex items-start gap-3 hover:translate-x-1 transition-transform duration-300" style={{ animationDelay: `${idx * 100}ms` }}>
                 <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0 mt-1 transition-all duration-300 hover:scale-110 hover:rotate-12" />
                 <p className="text-lg text-muted-foreground">{step}</p>
@@ -241,7 +243,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
               <Quote className="absolute top-8 left-8 h-16 w-16 text-primary/10 rotate-slow" />
               <div className="relative z-10 space-y-6">
                 <p className="text-xl md:text-2xl font-medium leading-relaxed">
-                  "{study.testimonial.quote}"
+                  "{study.testimonial.quote[currentLang]}"
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="h-16 w-16 rounded-full bg-primary/10 overflow-hidden hover-zoom-image">
@@ -256,7 +258,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
                       {study.testimonial.author}
                     </div>
                     <div className="text-muted-foreground">
-                      {study.testimonial.role}
+                      {study.testimonial.role[currentLang]}
                     </div>
                   </div>
                 </div>
@@ -273,7 +275,7 @@ const CaseStudyDetail = ({ study }: { study: CaseStudy }) => {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-8">{t("caseStudiesKeyTakeaways")}</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            {study.keyTakeaways.map((takeaway, idx) => (
+            {study.keyTakeaways[currentLang].map((takeaway, idx) => (
               <Card key={idx} className="border-l-4 border-l-primary">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-3">
