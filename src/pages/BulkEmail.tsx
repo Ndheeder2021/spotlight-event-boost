@@ -188,16 +188,17 @@ export default function BulkEmail() {
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             <div>
-              <strong>Ämnesrad:</strong> "Prova EventRadar gratis i 2 veckor – Ingen bindningstid"
+              <strong>Ämnesrad:</strong> "Öka gästflödet vid lokala evenemang – Spotlight Events"
             </div>
             <div>
               <strong>Innehåll:</strong>
               <ul className="list-disc ml-6 mt-2 space-y-1 text-muted-foreground">
-                <li>Personlig hälsning</li>
-                <li>Erbjudande om 2 veckors gratis test</li>
-                <li>Beskrivning av funktioner (AI-kampanjer, eventspaning, mallar, analys)</li>
-                <li>Call-to-action knapp för registrering</li>
-                <li>Professionell design med gradient och ikoner</li>
+                <li>Personlig hälsning med automatiskt företagsnamn från emailadressen</li>
+                <li>Presentation av Nabeel Heeder och Spotlight Events</li>
+                <li>Beskrivning av hur plattformen hjälper till med event-marknadsföring</li>
+                <li>Call-to-action för kort introduktion</li>
+                <li>Kontaktinformation och signatur</li>
+                <li>Professionell design med Spotlight Events logotyp</li>
               </ul>
             </div>
             <div className="pt-2 border-t">

@@ -14,90 +14,96 @@ interface BulkEmailRequest {
   senderEmail?: string;
 }
 
+const extractCompanyName = (email: string): string => {
+  // Extract domain from email
+  const domain = email.split('@')[1];
+  if (!domain) return '';
+  
+  // Remove common TLDs and format
+  const companyName = domain
+    .split('.')[0]
+    .replace(/-/g, ' ')
+    .replace(/_/g, ' ')
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+  
+  return companyName;
+};
+
 const getMarketingEmailHtml = (companyName?: string) => `
 <!DOCTYPE html>
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prova EventRadar Gratis</title>
+  <title>Spotlight Events - Event-marknadsföring för er verksamhet</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
   <table role="presentation" style="width: 100%; border-collapse: collapse;">
     <tr>
       <td align="center" style="padding: 40px 0;">
         <table role="presentation" style="width: 600px; max-width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-          <!-- Header -->
+          <!-- Header with Logo -->
           <tr>
             <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px 8px 0 0;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700;">EventRadar</h1>
-              <p style="margin: 10px 0 0; color: #ffffff; font-size: 16px; opacity: 0.9;">AI-driven eventmarknadsföring</p>
+              <img src="https://spotlightevents.online/logo.png" alt="Spotlight Events" style="height: 50px; margin-bottom: 15px;" />
+              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700;">Spotlight Events</h1>
+              <p style="margin: 10px 0 0; color: #ffffff; font-size: 16px; opacity: 0.9;">Maximera gästflödet vid lokala evenemang</p>
             </td>
           </tr>
           
           <!-- Content -->
           <tr>
             <td style="padding: 40px;">
-              <h2 style="margin: 0 0 20px; color: #1a1a1a; font-size: 24px; font-weight: 600;">
-                ${companyName ? `Hej ${companyName}!` : 'Hej!'}
+              <h2 style="margin: 0 0 20px; color: #1a1a1a; font-size: 22px; font-weight: 600;">
+                Hej${companyName ? ` ${companyName}` : ''}!
               </h2>
               
-              <p style="margin: 0 0 20px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                Vi vill bjuda in er att prova <strong>EventRadar</strong> – plattformen som revolutionerar hur lokala företag marknadsför sig kring evenemang.
+              <p style="margin: 0 0 16px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
+                Jag heter <strong>Nabeel Heeder</strong> och är grundare av <strong>Spotlight Events</strong> – en plattform som hjälper restauranger och hotell att öka synligheten och gästflödet i samband med större evenemang.
+              </p>
+              
+              <p style="margin: 0 0 16px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
+                Genom att analysera kommande event i området kan vi visa när det väntas fler besökare, och hjälpa er att planera kampanjer och marknadsföring i rätt tid.
+              </p>
+              
+              <p style="margin: 0 0 16px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
+                Flera verksamheter använder redan Spotlight för att maximera sin försäljning under helger med konserter, mässor och sportevenemang.
               </p>
               
               <div style="background-color: #f8f9ff; border-left: 4px solid #667eea; padding: 20px; margin: 30px 0; border-radius: 4px;">
-                <h3 style="margin: 0 0 15px; color: #667eea; font-size: 20px; font-weight: 600;">
-                  🎁 Specialerbjudande
-                </h3>
-                <p style="margin: 0; color: #4a4a4a; font-size: 18px; font-weight: 500;">
-                  2 veckors helt kostnadsfri provperiod
-                </p>
-                <p style="margin: 10px 0 0; color: #666; font-size: 14px;">
-                  Inget kreditkort krävs • Ingen bindningstid • Avsluta när som helst
+                <p style="margin: 0; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
+                  Jag tror att <strong>${companyName || 'er verksamhet'}</strong> skulle kunna ha stor nytta av samma insikter.
                 </p>
               </div>
               
-              <h3 style="margin: 30px 0 15px; color: #1a1a1a; font-size: 18px; font-weight: 600;">
-                Vad får ni tillgång till?
-              </h3>
-              
-              <ul style="margin: 0 0 30px; padding-left: 20px; color: #4a4a4a; font-size: 16px; line-height: 1.8;">
-                <li style="margin-bottom: 12px;">
-                  <strong style="color: #667eea;">AI-genererade kampanjer</strong> – Automatiska kampanjförslag baserade på lokala evenemang
-                </li>
-                <li style="margin-bottom: 12px;">
-                  <strong style="color: #667eea;">Eventspaning</strong> – Upptäck relevanta evenemang i er närhet automatiskt
-                </li>
-                <li style="margin-bottom: 12px;">
-                  <strong style="color: #667eea;">Färdiga reklammallar</strong> – Skapa professionella annonser på några sekunder
-                </li>
-                <li style="margin-bottom: 12px;">
-                  <strong style="color: #667eea;">Analys & rapporter</strong> – Följ er kampanjprestanda i realtid
-                </li>
-              </ul>
+              <p style="margin: 0 0 30px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
+                Skulle du vara öppen för en kort introduktion där jag visar hur ni kan använda Spotlight för att locka fler gäster under lokala event?
+              </p>
               
               <div style="text-align: center; margin: 40px 0;">
-                <a href="https://jujgbkdamkjabjuerqxt.supabase.co/auth?view=signup" 
+                <a href="https://www.spotlightevents.online" 
                    style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 6px; font-size: 18px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
-                  Starta din gratis testperiod →
+                  Besök Spotlight Events →
                 </a>
               </div>
               
-              <div style="background-color: #fff8e6; border: 1px solid #ffd966; padding: 20px; margin: 30px 0; border-radius: 6px;">
-                <p style="margin: 0; color: #856404; font-size: 15px; line-height: 1.6;">
-                  <strong>💡 Tips:</strong> Företag som använder EventRadar ser i snitt en ökning på 40% i kundengagemang under större evenemang.
+              <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #e5e5e5;">
+                <p style="margin: 0 0 8px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
+                  Med vänliga hälsningar,
+                </p>
+                <p style="margin: 0 0 4px; color: #1a1a1a; font-size: 16px; font-weight: 600;">
+                  Nabeel Heeder
+                </p>
+                <p style="margin: 0 0 16px; color: #666; font-size: 14px;">
+                  Grundare | Spotlight Events
+                </p>
+                <p style="margin: 0; color: #666; font-size: 14px; line-height: 1.6;">
+                  📩 <a href="mailto:nabeel@spotlightevents.online" style="color: #667eea; text-decoration: none;">nabeel@spotlightevents.online</a><br>
+                  🌐 <a href="https://www.spotlightevents.online" style="color: #667eea; text-decoration: none;">www.spotlightevents.online</a>
                 </p>
               </div>
-              
-              <p style="margin: 30px 0 0; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                Har ni frågor? Svara på detta mail eller kontakta oss direkt så hjälper vi er att komma igång!
-              </p>
-              
-              <p style="margin: 20px 0 0; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                Med vänliga hälsningar,<br>
-                <strong>EventRadar-teamet</strong>
-              </p>
             </td>
           </tr>
           
@@ -105,12 +111,10 @@ const getMarketingEmailHtml = (companyName?: string) => `
           <tr>
             <td style="padding: 30px 40px; background-color: #f8f9fa; border-radius: 0 0 8px 8px; text-align: center;">
               <p style="margin: 0 0 10px; color: #666; font-size: 14px;">
-                EventRadar – Smart eventmarknadsföring för lokala företag
+                Spotlight Events – Smart eventmarknadsföring för restauranger och hotell
               </p>
               <p style="margin: 0; color: #999; font-size: 12px;">
-                Du får detta mail eftersom vi tror att EventRadar kan hjälpa ert företag att växa.
-                <br>
-                Vill du inte få fler mail från oss? Ingen fara, bara svara med "avregistrera".
+                Vill du inte få fler mail från oss? Svara med "avregistrera".
               </p>
             </td>
           </tr>
@@ -154,11 +158,12 @@ const handler = async (req: Request): Promise<Response> => {
       
       const batchPromises = batch.map(async (email) => {
         try {
+          const companyName = extractCompanyName(email);
           const emailResponse = await resend.emails.send({
             from: `${fromName} <${fromAddress}>`,
             to: [email],
-            subject: "Prova EventRadar gratis i 2 veckor – Ingen bindningstid",
-            html: getMarketingEmailHtml(),
+            subject: "Öka gästflödet vid lokala evenemang – Spotlight Events",
+            html: getMarketingEmailHtml(companyName),
           });
 
           console.log(`Email sent to ${email}:`, emailResponse);
