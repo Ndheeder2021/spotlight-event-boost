@@ -531,6 +531,8 @@ export type Database = {
         Row: {
           address: string
           address_line: string | null
+          brand_tone: string | null
+          business_description: string | null
           business_type: Database["public"]["Enums"]["business_type"] | null
           city: string | null
           country: string | null
@@ -540,13 +542,19 @@ export type Database = {
           lon: number
           name: string | null
           open_hours_text: string | null
+          previous_successful_campaigns: string | null
           radius_km: number | null
+          target_customer_profile: string | null
           tenant_id: string | null
+          typical_offerings: string | null
+          unique_selling_points: string | null
           updated_at: string | null
         }
         Insert: {
           address: string
           address_line?: string | null
+          brand_tone?: string | null
+          business_description?: string | null
           business_type?: Database["public"]["Enums"]["business_type"] | null
           city?: string | null
           country?: string | null
@@ -556,13 +564,19 @@ export type Database = {
           lon: number
           name?: string | null
           open_hours_text?: string | null
+          previous_successful_campaigns?: string | null
           radius_km?: number | null
+          target_customer_profile?: string | null
           tenant_id?: string | null
+          typical_offerings?: string | null
+          unique_selling_points?: string | null
           updated_at?: string | null
         }
         Update: {
           address?: string
           address_line?: string | null
+          brand_tone?: string | null
+          business_description?: string | null
           business_type?: Database["public"]["Enums"]["business_type"] | null
           city?: string | null
           country?: string | null
@@ -572,8 +586,12 @@ export type Database = {
           lon?: number
           name?: string | null
           open_hours_text?: string | null
+          previous_successful_campaigns?: string | null
           radius_km?: number | null
+          target_customer_profile?: string | null
           tenant_id?: string | null
+          typical_offerings?: string | null
+          unique_selling_points?: string | null
           updated_at?: string | null
         }
         Relationships: [

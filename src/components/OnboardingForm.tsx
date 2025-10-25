@@ -4,10 +4,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import { Textarea } from "./ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Info } from "lucide-react";
 
 interface OnboardingFormProps {
   userId: string;
@@ -23,12 +24,16 @@ export const OnboardingForm = ({ userId, onComplete }: OnboardingFormProps) => {
     address: string;
     lat: number;
     lon: number;
+    businessDescription: string;
+    targetCustomerProfile: string;
   }>({
     businessName: "",
     businessType: "restaurant",
     address: "",
     lat: 59.3293,
     lon: 18.0686,
+    businessDescription: "",
+    targetCustomerProfile: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,6 +49,8 @@ export const OnboardingForm = ({ userId, onComplete }: OnboardingFormProps) => {
           address_line: formData.address,
           lat: formData.lat,
           lon: formData.lon,
+          business_description: formData.businessDescription || null,
+          target_customer_profile: formData.targetCustomerProfile || null,
         })
         .eq("id", userId);
 
@@ -99,6 +106,60 @@ export const OnboardingForm = ({ userId, onComplete }: OnboardingFormProps) => {
               required
             />
           </div>
+
+          <div className="space-y-4 pt-4 border-t border-border/50">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Info className="h-4 w-4" />
+              <span>{t('optional')}: Hjälp AI:n skapa bättre kampanjer</span>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="businessDescription">
+                {t('businessDescriptionLabel')}
+                <span className="text-xs text-muted-foreground ml-2">({t('optional')})</span>
+              </Label>
+              <Textarea
+                id="businessDescription"
+                value={formData.businessDescription}
+                onChange={(e) => {
+                  if (e.target.value.length <= 500) {
+                    setFormData({ ...formData, businessDescription: e.target.value });
+                  }
+                }}
+                placeholder={t('businessDescriptionPlaceholder')}
+                className="min-h-[80px]"
+              />
+              <p className="text-xs text-muted-foreground text-right">
+                {formData.businessDescription.length}/500
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="targetCustomer">
+                {t('targetCustomerLabel')}
+                <span className="text-xs text-muted-foreground ml-2">({t('optional')})</span>
+              </Label>
+              <Textarea
+                id="targetCustomer"
+                value={formData.targetCustomerProfile}
+                onChange={(e) => {
+                  if (e.target.value.length <= 300) {
+                    setFormData({ ...formData, targetCustomerProfile: e.target.value });
+                  }
+                }}
+                placeholder={t('targetCustomerPlaceholder')}
+                className="min-h-[60px]"
+              />
+              <p className="text-xs text-muted-foreground text-right">
+                {formData.targetCustomerProfile.length}/300
+              </p>
+            </div>
+
+            <p className="text-xs text-muted-foreground italic">
+              Du kan lägga till mer information senare i inställningar
+            </p>
+          </div>
+
           <Button type="submit" className="w-full" disabled={loading}>
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {t("heroCtaPrimary")}

@@ -65,7 +65,7 @@ serve(async (req) => {
     if (locationId) {
       const result = await supabase
         .from("locations")
-        .select("*")
+        .select("*, business_description, target_customer_profile, unique_selling_points, typical_offerings, brand_tone, previous_successful_campaigns")
         .eq("id", locationId)
         .maybeSingle();
       
@@ -85,7 +85,7 @@ serve(async (req) => {
       if (userRole) {
         const result = await supabase
           .from("locations")
-          .select("*")
+          .select("*, business_description, target_customer_profile, unique_selling_points, typical_offerings, brand_tone, previous_successful_campaigns")
           .eq("tenant_id", userRole.tenant_id)
           .limit(1)
           .maybeSingle();
@@ -149,17 +149,27 @@ serve(async (req) => {
                              businessType === 'bar' ? 'bar' : 
                              businessType === 'cafe' ? 'kafé' : 'verksamhet';
 
+    const hasDetailedInfo = location.business_description || location.target_customer_profile || 
+                            location.unique_selling_points || location.typical_offerings || 
+                            location.brand_tone;
+
+    let businessContext = `VERKSAMHET:\n- Typ: ${businessTypeText}`;
+    if (location.business_description) businessContext += `\n- Beskrivning: ${location.business_description}`;
+    if (location.target_customer_profile) businessContext += `\n- Målgrupp: ${location.target_customer_profile}`;
+    if (location.unique_selling_points) businessContext += `\n- Unika säljargument: ${location.unique_selling_points}`;
+    if (location.typical_offerings) businessContext += `\n- Typiska erbjudanden: ${location.typical_offerings}`;
+    if (location.brand_tone) businessContext += `\n- Önskad ton: ${location.brand_tone}`;
+    businessContext += `\n- Avstånd: ${distanceKm.toFixed(1)} km\n- Potentiella kunder: ${estimatedCustomers.toLocaleString()}`;
+
     const prompt = `Du är en marknadsföringsstrateg för besöksnäringen.
 
-KONTEXT:
-- Event: "${eventTitle}" i ${eventCity}
-- Plats: ${venueName}
-- Förväntade eventbesökare: ${expectedAttendance.toLocaleString()}
-- Verksamhet: ${businessTypeText}
-- Avstånd från verksamhet till event: ${distanceKm.toFixed(1)} km
-- Uppskattat antal potentiella kunder från eventet: ${estimatedCustomers.toLocaleString()} personer (${(estimatedCustomerRate * 100).toFixed(1)}% konverteringsgrad baserat på avstånd)
+EVENT: "${eventTitle}" i ${eventCity}
+Plats: ${venueName}
+Förväntade besökare: ${expectedAttendance.toLocaleString()}
 
-Skapa 2 detaljerade kampanjidéer för denna ${businessTypeText} som kan dra nytta av närheten till eventet.
+${businessContext}
+
+Skapa 2 detaljerade kampanjidéer${hasDetailedInfo ? ' anpassade efter verksamhetens profil' : ''}.
 
 Varje kampanjidé ska vara specifik för verksamhetstypen och inkludera:
 - title: En catchy titel på svenska

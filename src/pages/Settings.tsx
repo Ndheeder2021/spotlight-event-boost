@@ -3,16 +3,18 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Save, Sparkles, Settings as SettingsIcon, Users, Plug } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Save, Sparkles, Settings as SettingsIcon, Users, Plug, Info } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { SubscriptionManager } from "@/components/SubscriptionManager";
 import { LocationMapSelector } from "@/components/LocationMapSelector";
 import { TeamManagement } from "@/components/TeamManagement";
-import { Badge } from "@/components/ui/badge";
 
 export default function Settings() {
   const { t } = useTranslation();
@@ -40,27 +42,24 @@ export default function Settings() {
 
       if (!userRole) throw new Error("No tenant found");
       
-      // Check if user is admin
       setIsAdmin(userRole.role === 'admin');
 
-      const { data: locationByTenant, error: locByTenantErr } = await supabase
+      const { data: locationByTenant } = await supabase
         .from("locations")
-        .select("*")
+        .select("*, business_description, target_customer_profile, unique_selling_points, typical_offerings, brand_tone, previous_successful_campaigns")
         .eq("tenant_id", userRole.tenant_id)
         .maybeSingle();
 
       let resolvedLocation = locationByTenant;
       if (!resolvedLocation) {
-        // Fallback: vissa konton har location-id = user-id
         const { data: locationByUser } = await supabase
           .from("locations")
-          .select("*")
+          .select("*, business_description, target_customer_profile, unique_selling_points, typical_offerings, brand_tone, previous_successful_campaigns")
           .eq("id", user.id)
           .maybeSingle();
         resolvedLocation = locationByUser || null;
       }
 
-      // Prefill address_line från address om tom
       if (resolvedLocation && !resolvedLocation.address_line && resolvedLocation.address) {
         resolvedLocation = { ...resolvedLocation, address_line: resolvedLocation.address };
       }
@@ -83,14 +82,11 @@ export default function Settings() {
   const handleSaveLocation = async () => {
     if (!location) return;
     
-    // Validation
     if (!location.name?.trim()) {
       toast.error(t('businessNameRequired'));
       return;
     }
     
-    // If address_line exists, it's address mode - require full address
-    // If only city exists, it's city mode - only require city
     if (location.address_line && !location.address_line.trim()) {
       toast.error(t('addressRequired'));
       return;
@@ -114,6 +110,12 @@ export default function Settings() {
           lat: location.lat,
           lon: location.lon,
           radius_km: location.radius_km,
+          business_description: location.business_description || null,
+          target_customer_profile: location.target_customer_profile || null,
+          unique_selling_points: location.unique_selling_points || null,
+          typical_offerings: location.typical_offerings || null,
+          brand_tone: location.brand_tone || null,
+          previous_successful_campaigns: location.previous_successful_campaigns || null,
         })
         .eq("id", location.id);
 
@@ -129,7 +131,6 @@ export default function Settings() {
   const handleAddressChange = (address: string, coordinates?: { lat: number; lon: number }) => {
     if (!location) return;
     
-    // Extract city from address (usually after first comma)
     const addressParts = address.split(',');
     const city = addressParts.length > 1 ? addressParts[1].trim() : location.city || '';
     
@@ -142,7 +143,6 @@ export default function Settings() {
       lon: coordinates?.lon || location.lon,
     });
 
-    // Autospara direkt när en adress valts
     setTimeout(() => {
       handleSaveLocation();
     }, 300);
@@ -159,10 +159,18 @@ export default function Settings() {
     );
   }
 
+  const filledFieldsCount = [
+    location?.business_description,
+    location?.target_customer_profile,
+    location?.unique_selling_points,
+    location?.typical_offerings,
+    location?.brand_tone,
+    location?.previous_successful_campaigns
+  ].filter(Boolean).length;
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-accent/5">
       <div className="container mx-auto px-4 py-12 max-w-4xl">
-        {/* Hero Section */}
         <div className="mb-12 space-y-6 animate-fade-in">
           <div className="flex items-center gap-3">
             <div className="h-12 w-1 bg-gradient-to-b from-primary to-accent rounded-full" />
@@ -280,6 +288,197 @@ export default function Settings() {
                 )}
               </CardContent>
             </Card>
+
+            {/* Detailed Business Description - Optional */}
+            {location && (
+              <Card className="glass-card border-primary/10 mt-6">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <CardTitle className="flex items-center gap-2">
+                        {t('settingsDetailedInfoTitle')}
+                        <Badge variant="secondary" className="bg-accent/20 text-xs">
+                          {t('optional')}
+                        </Badge>
+                      </CardTitle>
+                      <CardDescription className="mt-2">
+                        {t('settingsDetailedInfoDesc')}
+                      </CardDescription>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3 mt-4 pt-4 border-t">
+                    <Badge variant="outline" className="bg-background">
+                      {filledFieldsCount}/6 {t('fieldsCompleted')}
+                    </Badge>
+                    <Progress 
+                      value={(filledFieldsCount / 6) * 100} 
+                      className="flex-1"
+                    />
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="businessDescription">{t('businessDescriptionLabel')}</Label>
+                    <Textarea
+                      id="businessDescription"
+                      value={location.business_description || ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value.length <= 500) {
+                          setLocation({ ...location, business_description: value });
+                        }
+                      }}
+                      placeholder={t('businessDescriptionPlaceholder')}
+                      className="min-h-[100px]"
+                    />
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Info className="h-3 w-3" />
+                        {t('businessDescriptionHelp')}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {(location.business_description || "").length}/500
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="targetCustomer">{t('targetCustomerLabel')}</Label>
+                    <Textarea
+                      id="targetCustomer"
+                      value={location.target_customer_profile || ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value.length <= 300) {
+                          setLocation({ ...location, target_customer_profile: value });
+                        }
+                      }}
+                      placeholder={t('targetCustomerPlaceholder')}
+                      className="min-h-[80px]"
+                    />
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Info className="h-3 w-3" />
+                        {t('targetCustomerHelp')}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {(location.target_customer_profile || "").length}/300
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="usp">{t('uspLabel')}</Label>
+                    <Textarea
+                      id="usp"
+                      value={location.unique_selling_points || ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value.length <= 300) {
+                          setLocation({ ...location, unique_selling_points: value });
+                        }
+                      }}
+                      placeholder={t('uspPlaceholder')}
+                      className="min-h-[80px]"
+                    />
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Info className="h-3 w-3" />
+                        {t('uspHelp')}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {(location.unique_selling_points || "").length}/300
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="offerings">{t('typicalOfferingsLabel')}</Label>
+                    <Textarea
+                      id="offerings"
+                      value={location.typical_offerings || ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value.length <= 300) {
+                          setLocation({ ...location, typical_offerings: value });
+                        }
+                      }}
+                      placeholder={t('typicalOfferingsPlaceholder')}
+                      className="min-h-[80px]"
+                    />
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Info className="h-3 w-3" />
+                        {t('typicalOfferingsHelp')}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {(location.typical_offerings || "").length}/300
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="brandTone">{t('brandToneLabel')}</Label>
+                    <Textarea
+                      id="brandTone"
+                      value={location.brand_tone || ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value.length <= 200) {
+                          setLocation({ ...location, brand_tone: value });
+                        }
+                      }}
+                      placeholder={t('brandTonePlaceholder')}
+                      className="min-h-[60px]"
+                    />
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Info className="h-3 w-3" />
+                        {t('brandToneHelp')}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {(location.brand_tone || "").length}/200
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="previousCampaigns">{t('previousCampaignsLabel')}</Label>
+                    <Textarea
+                      id="previousCampaigns"
+                      value={location.previous_successful_campaigns || ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value.length <= 500) {
+                          setLocation({ ...location, previous_successful_campaigns: value });
+                        }
+                      }}
+                      placeholder={t('previousCampaignsPlaceholder')}
+                      className="min-h-[100px]"
+                    />
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Info className="h-3 w-3" />
+                        {t('previousCampaignsHelp')}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {(location.previous_successful_campaigns || "").length}/500
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t">
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {t('settingsDetailedInfoHelper')}
+                    </p>
+                    <Button onClick={handleSaveLocation} disabled={saving} className="w-full md:w-auto">
+                      {saving ? t('saving') : t('saveChanges')}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
           <TabsContent value="team" className="animate-fade-in">
