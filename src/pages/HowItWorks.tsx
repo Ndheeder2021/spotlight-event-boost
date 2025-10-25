@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Zap, Bell, Sparkles, Send, BarChart, Check } from "lucide-react";
+import { Zap, Bell, Sparkles, Send, BarChart, Check, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/Footer";
 
 export default function HowItWorks() {
@@ -262,9 +262,15 @@ export default function HowItWorks() {
           <p className="text-xl text-muted-foreground">
             {t('howItWorksCtaDesc')}
           </p>
-          <Button size="lg" className="text-lg px-8 h-14 hover:scale-105 transition-transform" asChild>
-            <Link to="/auth">
+          <Button 
+            variant="animated" 
+            size="xl" 
+            className="group relative overflow-hidden bg-gradient-to-r from-primary via-primary-glow to-primary text-base font-bold shadow-xl hover:shadow-2xl transition-all duration-300 bg-[length:200%_100%] animate-gradient-x" 
+            asChild
+          >
+            <Link to="/auth" className="flex items-center gap-2">
               {t('howItWorksCtaBtn')}
+              <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </Button>
         </div>
