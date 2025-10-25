@@ -942,8 +942,14 @@ const resources = {
       pricingCtaFeatures: "✓ 14 dagars gratis provperiod  •  ✓ 30 dagars pengarna tillbaka  •  ✓ Ingen bindningstid",
       pricingPerMonth: "mån",
       pricingPerYear: "år",
-      pricingSaveAmount: "Spara $19",
-      pricingSaveAmountPro: "Spara $229",
+      pricingSaveAmount: "Spara 190 kr",
+      pricingSaveAmountPro: "Spara 2290 kr",
+      
+      // Pricing amounts
+      pricingStarterMonthly: "299 kr",
+      pricingStarterYearly: "3290 kr",
+      pricingProfessionalMonthly: "499 kr",
+      pricingProfessionalYearly: "3590 kr",
       
       // Plans
       pricingPlanStarter: "Starter",
@@ -2337,6 +2343,12 @@ const resources = {
       pricingPerYear: "yr",
       pricingSaveAmount: "Save $19",
       pricingSaveAmountPro: "Save $229",
+      
+      // Pricing amounts
+      pricingStarterMonthly: "$29",
+      pricingStarterYearly: "$329",
+      pricingProfessionalMonthly: "$49",
+      pricingProfessionalYearly: "$359",
       
       // Plans
       pricingPlanStarter: "Starter",

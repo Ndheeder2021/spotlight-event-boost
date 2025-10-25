@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import i18n from "@/i18n/config";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Zap, Check, X, ArrowRight, Shield, Sparkles, TrendingUp, Bell, BarChart, Target } from "lucide-react";
@@ -16,8 +17,8 @@ export default function Pricing() {
   const plans = [
     {
       name: t('pricingPlanStarter'),
-      monthlyPrice: "$29",
-      yearlyPrice: "$329",
+      monthlyPrice: t('pricingStarterMonthly'),
+      yearlyPrice: t('pricingStarterYearly'),
       yearlyDiscount: t('pricingSaveAmount'),
       description: t('pricingPlanStarterDesc'),
       features: [
@@ -45,8 +46,8 @@ export default function Pricing() {
     },
     {
       name: t('pricingPlanProfessional'),
-      monthlyPrice: "$49",
-      yearlyPrice: "$359",
+      monthlyPrice: t('pricingProfessionalMonthly'),
+      yearlyPrice: t('pricingProfessionalYearly'),
       yearlyDiscount: t('pricingSaveAmountPro'),
       description: t('pricingPlanProfessionalDesc'),
       features: [
@@ -119,15 +120,15 @@ export default function Pricing() {
             {
               "@type": "Offer",
               "name": "Starter",
-              "price": "29",
-              "priceCurrency": "USD",
+              "price": i18n.language === 'sv' ? "299" : "29",
+              "priceCurrency": i18n.language === 'sv' ? "SEK" : "USD",
               "priceValidUntil": "2025-12-31"
             },
             {
               "@type": "Offer",
               "name": "Professional",
-              "price": "49",
-              "priceCurrency": "USD",
+              "price": i18n.language === 'sv' ? "499" : "49",
+              "priceCurrency": i18n.language === 'sv' ? "SEK" : "USD",
               "priceValidUntil": "2025-12-31"
             }
           ]
