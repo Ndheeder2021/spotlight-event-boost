@@ -126,6 +126,10 @@ export default {
           "0%, 100%": { transform: "scale(1) rotate(0deg)" },
           "50%": { transform: "scale(1.1) rotate(5deg)" }
         },
+        "gradient-x": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" }
+        },
         "fade-in-up": {
           "0%": {
             opacity: "0",
@@ -163,6 +167,7 @@ export default {
         "scale-in": "scale-in 0.3s ease-out",
         "glow": "glow 2s ease-in-out infinite",
         "gradient-shift": "gradient-shift 10s ease-in-out infinite",
+        "gradient-x": "gradient-x 3s ease infinite",
       },
       backgroundImage: {
         "gradient-premium": "var(--gradient-premium)",

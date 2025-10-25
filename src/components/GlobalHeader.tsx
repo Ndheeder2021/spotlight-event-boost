@@ -17,7 +17,8 @@ import {
   BookOpen,
   DollarSign,
   Users,
-  Gift
+  Gift,
+  ArrowRight
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -617,11 +618,13 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                       </Button>
                     ) : (
                       <Button 
-                        className="w-full h-14 gap-2 bg-gradient-to-r from-primary to-primary-glow text-base font-bold shadow-lg touch-manipulation" 
+                        className="group relative w-full h-14 gap-2 overflow-hidden bg-gradient-to-r from-primary via-primary-glow to-primary text-base font-bold shadow-xl hover:shadow-2xl transition-all duration-300 touch-manipulation bg-[length:200%_100%] animate-gradient-x" 
                         asChild
                       >
-                        <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                          {t("heroCtaPrimary")}
+                        <Link to="/auth" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-2">
+                          <span className="relative z-10">{t("heroCtaPrimary")}</span>
+                          <ArrowRight className="h-5 w-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-primary-glow to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </Link>
                       </Button>
                     )}
