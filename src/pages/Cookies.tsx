@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Cookie, Zap } from "lucide-react";
+import { ArrowLeft, Cookie, Mail, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { Card } from "@/components/ui/card";
@@ -124,12 +124,18 @@ const Cookies = () => {
 
           <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
             <h2 className="text-2xl font-bold mb-4">{t('cookiesContactTitle')}</h2>
-            <p className="text-muted-foreground leading-relaxed">
-              {t('cookiesContactText')}{' '}
-              <a href="mailto:privacy@spotlightevents.online" className="text-accent hover:underline font-semibold ml-1">
-                privacy@spotlightevents.online
-              </a>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              {t('cookiesContactText')}
             </p>
+            <div className="mt-4">
+              <a 
+                href="mailto:privacy@spotlightevents.online" 
+                className="inline-flex items-center gap-3 px-6 py-4 bg-primary/10 border-2 border-primary/20 rounded-lg hover:bg-primary/20 hover:border-primary/40 transition-all group"
+              >
+                <Mail className="h-5 w-5 text-primary group-hover:scale-110 transition-transform" />
+                <span className="text-lg font-bold text-primary">privacy@spotlightevents.online</span>
+              </a>
+            </div>
             <p className="text-sm text-muted-foreground mt-6">
               {t('lastUpdated')} {new Date().toLocaleDateString(t('locale'))}
             </p>
