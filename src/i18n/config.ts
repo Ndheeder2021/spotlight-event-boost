@@ -3007,7 +3007,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'en',
+    fallbackLng: 'sv',
     supportedLngs: ['sv', 'en'],
     nonExplicitSupportedLngs: true,
     load: 'languageOnly',

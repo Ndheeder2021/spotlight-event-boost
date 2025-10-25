@@ -11,7 +11,7 @@ import {
 
 export function LanguageSwitch() {
   const { i18n } = useTranslation();
-  const [currentLang, setCurrentLang] = useState(i18n.language);
+  const [currentLang, setCurrentLang] = useState(i18n.language || 'sv');
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
