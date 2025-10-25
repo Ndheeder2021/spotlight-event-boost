@@ -146,8 +146,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Sending bulk emails to ${emails.length} recipients`);
 
-    const fromAddress = senderEmail || "onboarding@resend.dev";
-    const fromName = senderName || "EventRadar";
+    const fromAddress = senderEmail || "nabeel@spotlightevents.online";
+    const fromName = senderName || "Nabeel Heeder";
 
     // Send emails in batches to avoid rate limits
     const results = [];
