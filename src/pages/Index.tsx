@@ -74,11 +74,11 @@ const featureShowcase = [
 ];
 
 
-const Plans = ({ t }: { t: any }) => [
+const Plans = ({ t, i18n }: { t: any; i18n: any }) => [
   {
     name: t('planStarterName'),
-    monthlyPrice: "$29",
-    yearlyPrice: "$329",
+    monthlyPrice: t('pricingStarterMonthly'),
+    yearlyPrice: t('pricingStarterYearly'),
     yearlyDiscount: t('planStarterYearlyDiscount'),
     description: t('planStarterDesc'),
     features: [
@@ -96,8 +96,8 @@ const Plans = ({ t }: { t: any }) => [
   },
   {
     name: t('planProfessionalName'),
-    monthlyPrice: "$49",
-    yearlyPrice: "$359",
+    monthlyPrice: t('pricingProfessionalMonthly'),
+    yearlyPrice: t('pricingProfessionalYearly'),
     yearlyDiscount: t('planProfessionalYearlyDiscount'),
     description: t('planProfessionalDesc'),
     features: [
@@ -190,14 +190,14 @@ const faqs = [
 
 const Index = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const [needsSubscription, setNeedsSubscription] = useState(false);
   const [loading, setLoading] = useState(true);
   
-  const plans = Plans({ t });
+  const plans = Plans({ t, i18n });
   const [isYearly, setIsYearly] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
