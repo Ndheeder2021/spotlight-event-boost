@@ -117,11 +117,17 @@ const Privacy = () => {
               <span className="text-accent">7.</span> {t('privacyContactTitle')}
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              {t('privacyContactText')}{' '}
-              <a href="mailto:privacy@spotlightevents.online" className="text-accent hover:underline font-semibold ml-1">
+              {t('privacyContactText')}
+            </p>
+            <div className="mt-4 p-4 bg-primary/10 border-2 border-primary/30 rounded-xl hover:border-primary/50 transition-all">
+              <a 
+                href="mailto:privacy@spotlightevents.online" 
+                className="text-primary hover:text-primary-glow font-bold text-lg flex items-center gap-2 transition-colors"
+              >
+                <Shield className="h-5 w-5" />
                 privacy@spotlightevents.online
               </a>
-            </p>
+            </div>
             <p className="text-sm text-muted-foreground mt-6">
               {t('lastUpdated')} {new Date().toLocaleDateString(t('locale'))}
             </p>
