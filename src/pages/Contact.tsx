@@ -140,104 +140,117 @@ const Contact = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-card border border-border rounded-2xl p-8 md:p-12 shadow-sm">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base font-semibold">{t('contactName')}</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder={t('contactNamePlaceholder')} 
-                            className="h-12 text-base" 
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base font-semibold">{t('contactEmail')}</FormLabel>
-                        <FormControl>
-                          <Input 
-                            type="email" 
-                            placeholder={t('contactEmailPlaceholder')} 
-                            className="h-12 text-base"
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+          <div className="relative bg-gradient-to-br from-card via-card to-primary/5 border-2 border-primary/20 rounded-2xl p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all duration-300">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent/10 rounded-full blur-3xl" />
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <MessageSquare className="h-6 w-6 text-primary" />
                 </div>
+                <h2 className="text-2xl font-bold">{t('contactFormTitle')}</h2>
+              </div>
+              
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold">{t('contactName')}</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder={t('contactNamePlaceholder')} 
+                              className="h-12 text-base bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                <FormField
-                  control={form.control}
-                  name="subject"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-base font-semibold">{t('contactSubject')}</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder={t('contactSubjectPlaceholder')} 
-                          className="h-12 text-base"
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold">{t('contactEmail')}</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="email" 
+                              placeholder={t('contactEmailPlaceholder')} 
+                              className="h-12 text-base bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors"
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-base font-semibold">{t('contactMessage')}</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder={t('contactMessagePlaceholder')}
-                          className="min-h-[200px] text-base resize-none"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="subject"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-base font-semibold">{t('contactSubject')}</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder={t('contactSubjectPlaceholder')} 
+                            className="h-12 text-base bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="w-full h-14 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      {t('contactSending')}
-                    </>
-                  ) : (
-                    <>
-                      <Send className="mr-2 h-5 w-5" />
-                      {t('contactSendButton')}
-                    </>
-                  )}
-                </Button>
-              </form>
-            </Form>
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-base font-semibold">{t('contactMessage')}</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder={t('contactMessagePlaceholder')}
+                            className="min-h-[200px] text-base resize-none bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button
+                    type="submit"
+                    variant="animated"
+                    size="xl"
+                    className="group relative w-full overflow-hidden bg-gradient-to-r from-primary via-primary-glow to-primary text-base font-bold shadow-xl hover:shadow-2xl transition-all duration-300 bg-[length:200%_100%] animate-gradient-x"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin relative z-10" />
+                        <span className="relative z-10">{t('contactSending')}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-5 w-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
+                        <span className="relative z-10">{t('contactSendButton')}</span>
+                      </>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary-glow to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </Button>
+                </form>
+              </Form>
+            </div>
           </div>
 
           {/* Additional Contact Info */}
