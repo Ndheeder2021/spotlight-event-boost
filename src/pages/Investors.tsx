@@ -18,7 +18,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { TrendingUp, Target, Users, Sparkles } from "lucide-react";
+import { TrendingUp, Target, Users, Sparkles, ArrowRight } from "lucide-react";
 import { z } from "zod";
 
 type InvestorFormData = {
@@ -140,31 +140,40 @@ export default function Investors() {
 
             {/* Stats */}
             <div className="grid md:grid-cols-3 gap-6 mb-16">
-              <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
-                <CardHeader>
-                  <TrendingUp className="h-10 w-10 text-primary mb-2" />
-                  <CardTitle className="text-2xl">{t("investorStat1Title")}</CardTitle>
-                  <CardDescription>
+              <Card className="relative overflow-hidden bg-gradient-to-br from-card via-card to-primary/5 border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl group">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:blur-3xl transition-all" />
+                <CardHeader className="relative">
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                    <TrendingUp className="h-7 w-7 text-primary" />
+                  </div>
+                  <CardTitle className="text-2xl mb-2">{t("investorStat1Title")}</CardTitle>
+                  <CardDescription className="text-base">
                     {t("investorStat1Desc")}
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
-                <CardHeader>
-                  <Target className="h-10 w-10 text-primary mb-2" />
-                  <CardTitle className="text-2xl">{t("investorStat2Title")}</CardTitle>
-                  <CardDescription>
+              <Card className="relative overflow-hidden bg-gradient-to-br from-card via-card to-accent/5 border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl group">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-accent/10 rounded-full blur-2xl group-hover:blur-3xl transition-all" />
+                <CardHeader className="relative">
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                    <Target className="h-7 w-7 text-primary" />
+                  </div>
+                  <CardTitle className="text-2xl mb-2">{t("investorStat2Title")}</CardTitle>
+                  <CardDescription className="text-base">
                     {t("investorStat2Desc")}
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
-                <CardHeader>
-                  <Users className="h-10 w-10 text-primary mb-2" />
-                  <CardTitle className="text-2xl">{t("investorStat3Title")}</CardTitle>
-                  <CardDescription>
+              <Card className="relative overflow-hidden bg-gradient-to-br from-card via-card to-primary/5 border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl group">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:blur-3xl transition-all" />
+                <CardHeader className="relative">
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                    <Users className="h-7 w-7 text-primary" />
+                  </div>
+                  <CardTitle className="text-2xl mb-2">{t("investorStat3Title")}</CardTitle>
+                  <CardDescription className="text-base">
                     {t("investorStat3Desc")}
                   </CardDescription>
                 </CardHeader>
@@ -172,120 +181,136 @@ export default function Investors() {
             </div>
 
             {/* Form */}
-            <Card className="max-w-2xl mx-auto border-2">
-              <CardHeader>
-                <CardTitle className="text-3xl">{t("investorFormTitle")}</CardTitle>
-                <CardDescription className="text-base">
-                  {t("investorFormDesc")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">{t("investorFormName")}</Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder={t("investorFormNamePlaceholder")}
-                      required
-                      maxLength={100}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email">{t("investorFormEmail")}</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder={t("investorFormEmailPlaceholder")}
-                      required
-                      maxLength={255}
-                    />
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-4">
+            <Card className="relative max-w-2xl mx-auto bg-gradient-to-br from-card via-card to-primary/5 border-2 border-primary/20 shadow-xl overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent/10 rounded-full blur-3xl" />
+              <div className="relative z-10">
+                <CardHeader className="space-y-3">
+                  <CardTitle className="text-3xl bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
+                    {t("investorFormTitle")}
+                  </CardTitle>
+                  <CardDescription className="text-base">
+                    {t("investorFormDesc")}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
-                      <Label htmlFor="company">{t("investorFormCompany")}</Label>
+                      <Label htmlFor="name" className="font-semibold">{t("investorFormName")}</Label>
                       <Input
-                        id="company"
-                        name="company"
-                        value={formData.company}
+                        id="name"
+                        name="name"
+                        value={formData.name}
                         onChange={handleChange}
-                        placeholder={t("investorFormCompanyPlaceholder")}
+                        placeholder={t("investorFormNamePlaceholder")}
+                        required
                         maxLength={100}
+                        className="h-12 bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="phone">{t("investorFormPhone")}</Label>
+                      <Label htmlFor="email" className="font-semibold">{t("investorFormEmail")}</Label>
                       <Input
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        value={formData.phone}
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
                         onChange={handleChange}
-                        placeholder={t("investorFormPhonePlaceholder")}
-                        maxLength={20}
+                        placeholder={t("investorFormEmailPlaceholder")}
+                        required
+                        maxLength={255}
+                        className="h-12 bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors"
                       />
                     </div>
-                  </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="investment_range">{t("investorFormInvestmentRange")}</Label>
-                    <Select
-                      value={formData.investment_range}
-                      onValueChange={handleSelectChange}
-                      required
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="company" className="font-semibold">{t("investorFormCompany")}</Label>
+                        <Input
+                          id="company"
+                          name="company"
+                          value={formData.company}
+                          onChange={handleChange}
+                          placeholder={t("investorFormCompanyPlaceholder")}
+                          maxLength={100}
+                          className="h-12 bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="phone" className="font-semibold">{t("investorFormPhone")}</Label>
+                        <Input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          placeholder={t("investorFormPhonePlaceholder")}
+                          maxLength={20}
+                          className="h-12 bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="investment_range" className="font-semibold">{t("investorFormInvestmentRange")}</Label>
+                      <Select
+                        value={formData.investment_range}
+                        onValueChange={handleSelectChange}
+                        required
+                      >
+                        <SelectTrigger className="h-12 bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors">
+                          <SelectValue placeholder={t("investorFormInvestmentPlaceholder")} />
+                        </SelectTrigger>
+                        <SelectContent className="bg-background z-50">
+                          <SelectItem value="100k-500k">{t("investorFormInvestment1")}</SelectItem>
+                          <SelectItem value="500k-1m">{t("investorFormInvestment2")}</SelectItem>
+                          <SelectItem value="1m-5m">{t("investorFormInvestment3")}</SelectItem>
+                          <SelectItem value="5m+">{t("investorFormInvestment4")}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="message" className="font-semibold">{t("investorFormMessage")}</Label>
+                      <Textarea
+                        id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        placeholder={t("investorFormMessagePlaceholder")}
+                        required
+                        rows={6}
+                        maxLength={2000}
+                        className="resize-none bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        {formData.message.length}/2000 {t("investorFormCharCount")}
+                      </p>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      size="xl"
+                      disabled={isSubmitting}
+                      className="group relative w-full overflow-hidden bg-gradient-to-r from-primary via-primary-glow to-primary font-bold shadow-xl hover:shadow-2xl transition-all duration-300 bg-[length:200%_100%] animate-gradient-x"
                     >
-                      <SelectTrigger>
-                        <SelectValue placeholder={t("investorFormInvestmentPlaceholder")} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="100k-500k">{t("investorFormInvestment1")}</SelectItem>
-                        <SelectItem value="500k-1m">{t("investorFormInvestment2")}</SelectItem>
-                        <SelectItem value="1m-5m">{t("investorFormInvestment3")}</SelectItem>
-                        <SelectItem value="5m+">{t("investorFormInvestment4")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                      <span className="relative z-10">
+                        {isSubmitting ? t("investorFormSubmitting") : t("investorFormSubmit")}
+                      </span>
+                      {!isSubmitting && (
+                        <ArrowRight className="ml-2 h-5 w-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary-glow to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </Button>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="message">{t("investorFormMessage")}</Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder={t("investorFormMessagePlaceholder")}
-                      required
-                      rows={6}
-                      maxLength={2000}
-                      className="resize-none"
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      {formData.message.length}/2000 {t("investorFormCharCount")}
+                    <p className="text-xs text-muted-foreground text-center">
+                      {t("investorFormTerms")}
                     </p>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    size="lg"
-                    disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90 transition-all duration-300 hover:scale-[1.02] shadow-lg font-bold text-lg h-14"
-                  >
-                    {isSubmitting ? t("investorFormSubmitting") : t("investorFormSubmit")}
-                  </Button>
-
-                  <p className="text-xs text-muted-foreground text-center">
-                    {t("investorFormTerms")}
-                  </p>
-                </form>
-              </CardContent>
+                  </form>
+                </CardContent>
+              </div>
             </Card>
           </div>
         </section>
