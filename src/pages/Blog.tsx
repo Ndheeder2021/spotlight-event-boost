@@ -273,10 +273,11 @@ export default function Blog() {
               />
               <button 
                 type="submit"
-                className="px-6 py-3 bg-accent hover:bg-accent-glow text-primary-foreground font-semibold rounded-lg transition-all hover:scale-105 flex items-center justify-center gap-2"
+                className="group relative overflow-hidden px-6 py-3 bg-gradient-to-r from-primary via-primary-glow to-primary text-primary-foreground font-bold rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 bg-[length:200%_100%] animate-gradient-x flex items-center justify-center gap-2"
               >
-                <Mail className="h-4 w-4" />
-                {t('blogSubscribe')}
+                <Mail className="h-4 w-4 relative z-10" />
+                <span className="relative z-10">{t('blogSubscribe')}</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-glow to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </button>
             </form>
           </div>
