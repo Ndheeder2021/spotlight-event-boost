@@ -47,7 +47,10 @@ const getMarketingEmailHtml = (companyName?: string) => `
           <!-- Header -->
           <tr>
             <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px 8px 0 0;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700;">Spotlight Events</h1>
+              <div style="display: inline-flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                <span style="font-size: 32px;">⚡</span>
+                <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: 700; letter-spacing: -0.5px;">Spotlight</h1>
+              </div>
               <p style="margin: 10px 0 0; color: #ffffff; font-size: 16px; opacity: 0.9;">Maximera gästflödet vid lokala evenemang</p>
             </td>
           </tr>
