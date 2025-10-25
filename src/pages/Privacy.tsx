@@ -64,17 +64,17 @@ const Privacy = () => {
 
           <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-              <span className="text-accent">3.</span> {t('privacyUsageTitle')}
+              <span className="text-accent">3.</span> {t('privacyUseTitle')}
             </h2>
             <p className="text-muted-foreground mb-4">
-              {t('privacyUsageText')}
+              {t('privacyUseText')}
             </p>
             <ul className="list-disc pl-6 text-muted-foreground space-y-2">
-              <li>{t('privacyUsageList1')}</li>
-              <li>{t('privacyUsageList2')}</li>
-              <li>{t('privacyUsageList3')}</li>
-              <li>{t('privacyUsageList4')}</li>
-              <li>{t('privacyUsageList5')}</li>
+              <li>{t('privacyUseList1')}</li>
+              <li>{t('privacyUseList2')}</li>
+              <li>{t('privacyUseList3')}</li>
+              <li>{t('privacyUseList4')}</li>
+              <li>{t('privacyUseList5')}</li>
             </ul>
           </Card>
 
