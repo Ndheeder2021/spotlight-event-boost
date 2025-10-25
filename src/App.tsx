@@ -34,6 +34,7 @@ import Affiliate from "./pages/Affiliate";
 import Investors from "./pages/Investors";
 import CaseStudies from "./pages/CaseStudies";
 import BulkEmail from "./pages/BulkEmail";
+import Analytics from "./pages/Analytics";
 
 const queryClient = new QueryClient();
 
@@ -75,6 +76,7 @@ const App = () => (
             <Route path="/settings" element={<Settings />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/bulk-email" element={<BulkEmail />} />
+            <Route path="/analytics" element={<Analytics />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

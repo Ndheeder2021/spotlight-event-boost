@@ -85,7 +85,7 @@ const getMarketingEmailHtml = (companyName?: string) => `
               </p>
               
               <div style="text-align: center; margin: 40px 0;">
-                <a href="https://www.spotlightevents.online" 
+                <a href="https://www.spotlightevents.online?utm_source=email&utm_medium=marketing&utm_campaign=bulk_outreach&utm_content=${encodeURIComponent(companyName || 'prospect')}" 
                    style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 6px; font-size: 18px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
                   Besök Spotlight Events →
                 </a>

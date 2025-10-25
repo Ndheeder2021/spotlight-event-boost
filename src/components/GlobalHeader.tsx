@@ -67,6 +67,8 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
   ];
 
   const moreMenuItems = [
+    { title: "Analytics", url: "/analytics", icon: BarChart },
+    { title: "Bulk Email", url: "/bulk-email", icon: Megaphone },
     { title: t("notifications"), url: "/notifications", icon: Bell },
     { title: t("settings"), url: "/settings", icon: Settings },
   ];
