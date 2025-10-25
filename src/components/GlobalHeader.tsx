@@ -392,30 +392,45 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
               </SheetTrigger>
               <SheetContent side="right" className="w-[85vw] max-w-[320px] bg-background/98 backdrop-blur-xl border-l-2 flex flex-col p-0 pb-0">
                 <div className="p-4 flex-1 overflow-y-auto">
-                  <nav className="flex flex-col gap-1 mt-0">
+                  <nav className="flex flex-col gap-2 mt-0">
                   {navItems.map((item) => (
                     <NavLink
                       key={item.url}
                       to={item.url}
                       onClick={() => setMobileMenuOpen(false)}
                       className={({ isActive }) =>
-                        `flex items-center gap-3 px-4 py-4 text-base font-medium transition-all rounded-xl touch-manipulation ${
+                        `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-300 rounded-xl touch-manipulation relative overflow-hidden ${
                           isActive 
-                            ? "text-primary bg-accent/90 shadow-sm font-semibold" 
-                            : "text-foreground hover:text-primary hover:bg-accent/60"
+                            ? "text-primary bg-gradient-to-r from-accent/90 to-accent/70 shadow-md font-semibold scale-[0.98]" 
+                            : "text-foreground hover:text-primary hover:bg-accent/50 hover:shadow-sm active:scale-[0.97]"
                         }`
                       }
                     >
-                      <item.icon className="h-5 w-5 flex-shrink-0" />
-                      <span className="truncate">{item.title}</span>
+                      {({ isActive }) => (
+                        <>
+                          <div className={`${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-300`}>
+                            <item.icon className="h-5 w-5 flex-shrink-0" />
+                          </div>
+                          <span className="truncate">{item.title}</span>
+                          {isActive && (
+                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                          )}
+                        </>
+                      )}
                     </NavLink>
                   ))}
 
                   {isAuthenticated && (
                     <>
-                      <div className="border-t my-3" />
-                      <div className="px-2 py-1.5 text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                        Verktyg
+                      <div className="relative my-4">
+                        <div className="absolute inset-0 flex items-center">
+                          <div className="w-full border-t border-border/60" />
+                        </div>
+                        <div className="relative flex justify-center">
+                          <span className="bg-background px-3 py-1 text-xs font-bold text-muted-foreground uppercase tracking-wider rounded-full border border-border/40">
+                            Verktyg
+                          </span>
+                        </div>
                       </div>
                       {moreMenuItems.map((item) => (
                         <NavLink
@@ -423,15 +438,24 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to={item.url}
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-4 text-base font-medium transition-all rounded-xl touch-manipulation ${
+                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-300 rounded-xl touch-manipulation relative overflow-hidden ${
                               isActive 
-                                ? "text-primary bg-accent/90 shadow-sm font-semibold" 
-                                : "text-foreground hover:text-primary hover:bg-accent/60"
+                                ? "text-primary bg-gradient-to-r from-accent/90 to-accent/70 shadow-md font-semibold scale-[0.98]" 
+                                : "text-foreground hover:text-primary hover:bg-accent/50 hover:shadow-sm active:scale-[0.97]"
                             }`
                           }
                         >
-                          <item.icon className="h-5 w-5 flex-shrink-0" />
-                          <span className="truncate">{item.title}</span>
+                          {({ isActive }) => (
+                            <>
+                              <div className={`${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-300`}>
+                                <item.icon className="h-5 w-5 flex-shrink-0" />
+                              </div>
+                              <span className="truncate">{item.title}</span>
+                              {isActive && (
+                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                              )}
+                            </>
+                          )}
                         </NavLink>
                       ))}
                       {isAdmin && (
@@ -439,15 +463,24 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to="/admin"
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-4 text-base font-medium transition-all rounded-xl touch-manipulation ${
+                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-300 rounded-xl touch-manipulation relative overflow-hidden ${
                               isActive 
-                                ? "text-primary bg-accent/90 shadow-sm font-semibold" 
-                                : "text-foreground hover:text-primary hover:bg-accent/60"
+                                ? "text-primary bg-gradient-to-r from-accent/90 to-accent/70 shadow-md font-semibold scale-[0.98]" 
+                                : "text-foreground hover:text-primary hover:bg-accent/50 hover:shadow-sm active:scale-[0.97]"
                             }`
                           }
                         >
-                          <Shield className="h-5 w-5 flex-shrink-0" />
-                          <span className="truncate">{t("admin")}</span>
+                          {({ isActive }) => (
+                            <>
+                              <div className={`${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-300`}>
+                                <Shield className="h-5 w-5 flex-shrink-0" />
+                              </div>
+                              <span className="truncate">{t("admin")}</span>
+                              {isActive && (
+                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                              )}
+                            </>
+                          )}
                         </NavLink>
                       )}
                     </>
@@ -455,9 +488,15 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
 
                   {!isAuthenticated && (
                     <>
-                      <div className="border-t my-3" />
-                      <div className="px-2 py-1.5 text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                        Produkt
+                      <div className="relative my-4">
+                        <div className="absolute inset-0 flex items-center">
+                          <div className="w-full border-t border-border/60" />
+                        </div>
+                        <div className="relative flex justify-center">
+                          <span className="bg-background px-3 py-1 text-xs font-bold text-muted-foreground uppercase tracking-wider rounded-full border border-border/40">
+                            Produkt
+                          </span>
+                        </div>
                       </div>
                       {productItems.map((item) => (
                         <NavLink
@@ -465,20 +504,35 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to={item.url}
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-4 text-base font-medium transition-all rounded-xl touch-manipulation ${
+                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-300 rounded-xl touch-manipulation relative overflow-hidden ${
                               isActive 
-                                ? "text-primary bg-accent/90 shadow-sm font-semibold" 
-                                : "text-foreground hover:text-primary hover:bg-accent/60"
+                                ? "text-primary bg-gradient-to-r from-accent/90 to-accent/70 shadow-md font-semibold scale-[0.98]" 
+                                : "text-foreground hover:text-primary hover:bg-accent/50 hover:shadow-sm active:scale-[0.97]"
                             }`
                           }
                         >
-                          <item.icon className="h-5 w-5 flex-shrink-0" />
-                          <span className="truncate">{item.title}</span>
+                          {({ isActive }) => (
+                            <>
+                              <div className={`${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-300`}>
+                                <item.icon className="h-5 w-5 flex-shrink-0" />
+                              </div>
+                              <span className="truncate">{item.title}</span>
+                              {isActive && (
+                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                              )}
+                            </>
+                          )}
                         </NavLink>
                       ))}
-                      <div className="border-t my-3" />
-                      <div className="px-2 py-1.5 text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                        Blog
+                      <div className="relative my-4">
+                        <div className="absolute inset-0 flex items-center">
+                          <div className="w-full border-t border-border/60" />
+                        </div>
+                        <div className="relative flex justify-center">
+                          <span className="bg-background px-3 py-1 text-xs font-bold text-muted-foreground uppercase tracking-wider rounded-full border border-border/40">
+                            Blog
+                          </span>
+                        </div>
                       </div>
                       {blogItems.map((item) => (
                         <NavLink
@@ -486,20 +540,35 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to={item.url}
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-4 text-base font-medium transition-all rounded-xl touch-manipulation ${
+                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-300 rounded-xl touch-manipulation relative overflow-hidden ${
                               isActive 
-                                ? "text-primary bg-accent/90 shadow-sm font-semibold" 
-                                : "text-foreground hover:text-primary hover:bg-accent/60"
+                                ? "text-primary bg-gradient-to-r from-accent/90 to-accent/70 shadow-md font-semibold scale-[0.98]" 
+                                : "text-foreground hover:text-primary hover:bg-accent/50 hover:shadow-sm active:scale-[0.97]"
                             }`
                           }
                         >
-                          <item.icon className="h-5 w-5 flex-shrink-0" />
-                          <span className="truncate">{item.title}</span>
+                          {({ isActive }) => (
+                            <>
+                              <div className={`${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-300`}>
+                                <item.icon className="h-5 w-5 flex-shrink-0" />
+                              </div>
+                              <span className="truncate">{item.title}</span>
+                              {isActive && (
+                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                              )}
+                            </>
+                          )}
                         </NavLink>
                       ))}
-                      <div className="border-t my-3" />
-                      <div className="px-2 py-1.5 text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                        Prices & Perks
+                      <div className="relative my-4">
+                        <div className="absolute inset-0 flex items-center">
+                          <div className="w-full border-t border-border/60" />
+                        </div>
+                        <div className="relative flex justify-center">
+                          <span className="bg-background px-3 py-1 text-xs font-bold text-muted-foreground uppercase tracking-wider rounded-full border border-border/40">
+                            Prices & Perks
+                          </span>
+                        </div>
                       </div>
                       {pricesPerksItems.map((item) => (
                         <NavLink
@@ -507,15 +576,24 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to={item.url}
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-4 text-base font-medium transition-all rounded-xl touch-manipulation ${
+                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-300 rounded-xl touch-manipulation relative overflow-hidden ${
                               isActive 
-                                ? "text-primary bg-accent/90 shadow-sm font-semibold" 
-                                : "text-foreground hover:text-primary hover:bg-accent/60"
+                                ? "text-primary bg-gradient-to-r from-accent/90 to-accent/70 shadow-md font-semibold scale-[0.98]" 
+                                : "text-foreground hover:text-primary hover:bg-accent/50 hover:shadow-sm active:scale-[0.97]"
                             }`
                           }
                         >
-                          <item.icon className="h-5 w-5 flex-shrink-0" />
-                          <span className="truncate">{item.title}</span>
+                          {({ isActive }) => (
+                            <>
+                              <div className={`${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-300`}>
+                                <item.icon className="h-5 w-5 flex-shrink-0" />
+                              </div>
+                              <span className="truncate">{item.title}</span>
+                              {isActive && (
+                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                              )}
+                            </>
+                          )}
                         </NavLink>
                       ))}
                     </>
