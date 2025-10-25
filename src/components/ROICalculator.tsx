@@ -9,14 +9,17 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 export const ROICalculator = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [eventsPerMonth, setEventsPerMonth] = useState(10);
   const [hoursPerCampaign, setHoursPerCampaign] = useState(3);
 
-  // Calculations
+  // Calculations based on language
+  const isSwedish = i18n.language === 'sv';
+  const currency = isSwedish ? 'kr' : '$';
+  const currencySymbol = isSwedish ? '' : '$';
   const spotlightTimePerCampaign = 0.25; // 15 minutes with Spotlight
-  const hourlyRate = 50; // Average hourly rate in USD
-  const spotlightCost = 29; // Monthly cost
+  const hourlyRate = isSwedish ? 500 : 50; // Average hourly rate (SEK/USD)
+  const spotlightCost = isSwedish ? 299 : 29; // Monthly cost (SEK/USD)
 
   const timeSavedPerCampaign = hoursPerCampaign - spotlightTimePerCampaign;
   const totalTimeSaved = timeSavedPerCampaign * eventsPerMonth;
@@ -149,10 +152,10 @@ export const ROICalculator = () => {
                     <div className="flex-1">
                       <p className="text-sm text-muted-foreground mb-1">{t('valueOfTime')}</p>
                       <p className="text-3xl font-bold text-primary">
-                        ${moneySavedOnTime.toFixed(0)}
+                        {isSwedish ? `${moneySavedOnTime.toFixed(0)} kr` : `$${moneySavedOnTime.toFixed(0)}`}
                       </p>
                       <p className="text-xs text-muted-foreground mt-1">
-                        {totalTimeSaved.toFixed(1)}h × ${hourlyRate}{t('perHour')}
+                        {totalTimeSaved.toFixed(1)}h × {isSwedish ? `${hourlyRate} kr` : `$${hourlyRate}`}{t('perHour')}
                       </p>
                     </div>
                   </div>
@@ -167,7 +170,7 @@ export const ROICalculator = () => {
                     <div className="flex-1">
                       <p className="text-sm font-medium mb-1">{t('netSavingsMonth')}</p>
                       <p className="text-4xl font-bold text-primary mb-1">
-                        ${netSavings.toFixed(0)}
+                        {isSwedish ? `${netSavings.toFixed(0)} kr` : `$${netSavings.toFixed(0)}`}
                       </p>
                       <p className="text-xs text-muted-foreground">
                         {t('afterSpotlightCost')}
