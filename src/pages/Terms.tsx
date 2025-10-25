@@ -39,12 +39,12 @@ const Terms = () => {
       <main className="container mx-auto px-4 pb-16 max-w-4xl">
         <div className="space-y-6">
           <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
-            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-              <span className="text-accent">1.</span> {t('termsAcceptanceTitle')}
-            </h2>
-            <p className="text-muted-foreground leading-relaxed">
-              {t('termsAcceptanceText')}
-            </p>
+          <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+            <span className="text-accent">1.</span> {t('termsAcceptTitle')}
+          </h2>
+          <p className="text-muted-foreground leading-relaxed">
+            {t('termsAcceptText')}
+          </p>
           </Card>
 
           <Card className="p-8 glass-card border-2 hover:border-accent/30 transition-all">
