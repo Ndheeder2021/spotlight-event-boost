@@ -13,20 +13,32 @@ interface PlanSelectorProps {
 
 
 export function PlanSelector({ onSuccess }: PlanSelectorProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [isYearly, setIsYearly] = useState(false);
   const [selecting, setSelecting] = useState<"starter" | "professional" | null>(null);
+  const currency = i18n.language === 'sv' ? 'sek' : 'usd';
 
   const planDetails = {
     starter: {
       name: t("planSelector.plans.starter.name"),
       icon: Sparkles,
-      monthlyPrice: "$29",
-      yearlyPrice: "$329",
-      yearlyDiscount: t("planSelector.plans.starter.yearlyDiscount"),
-      monthlyPriceId: "price_1SKebgAixmGbMRBlFvakW9uF",
-      yearlyPriceId: "price_1SKebwAixmGbMRBlzOkLO82t",
+      usd: {
+        monthlyPrice: 29,
+        yearlyPrice: 329,
+        monthlyPriceId: "price_1SKebgAixmGbMRBlFvakW9uF",
+        yearlyPriceId: "price_1SKebwAixmGbMRBlzOkLO82t",
+        currency: "USD",
+        yearlyDiscount: t("planSelector.plans.starter.yearlyDiscount")
+      },
+      sek: {
+        monthlyPrice: 299,
+        yearlyPrice: 3290,
+        monthlyPriceId: "price_1SKe8WAixmGbMRBldRF4WL0H",
+        yearlyPriceId: "price_1SKe8WAixmGbMRBldRF4WL0H",
+        currency: "SEK",
+        yearlyDiscount: t("planSelector.plans.starter.yearlyDiscount")
+      },
       features: [
         t("planSelector.plans.starter.features.0"),
         t("planSelector.plans.starter.features.1"),
@@ -38,11 +50,22 @@ export function PlanSelector({ onSuccess }: PlanSelectorProps) {
     professional: {
       name: t("planSelector.plans.professional.name"),
       icon: Crown,
-      monthlyPrice: "$49",
-      yearlyPrice: "$359",
-      yearlyDiscount: t("planSelector.plans.professional.yearlyDiscount"),
-      monthlyPriceId: "price_1SKecbAixmGbMRBl0jqqEjby",
-      yearlyPriceId: "price_1SKecoAixmGbMRBlzgFiVNUw",
+      usd: {
+        monthlyPrice: 49,
+        yearlyPrice: 359,
+        monthlyPriceId: "price_1SKecbAixmGbMRBl0jqqEjby",
+        yearlyPriceId: "price_1SKecoAixmGbMRBlzgFiVNUw",
+        currency: "USD",
+        yearlyDiscount: t("planSelector.plans.professional.yearlyDiscount")
+      },
+      sek: {
+        monthlyPrice: 499,
+        yearlyPrice: 4990,
+        monthlyPriceId: "price_1SKe8zAixmGbMRBlNtiGg3Cj",
+        yearlyPriceId: "price_1SKe8zAixmGbMRBlNtiGg3Cj",
+        currency: "SEK",
+        yearlyDiscount: t("planSelector.plans.professional.yearlyDiscount")
+      },
       features: [
         t("planSelector.plans.professional.features.0"),
         t("planSelector.plans.professional.features.1"),
@@ -66,12 +89,13 @@ export function PlanSelector({ onSuccess }: PlanSelectorProps) {
   const handleSelectPlan = async (plan: "starter" | "professional") => {
     setSelecting(plan);
     try {
+      const currencyPrices = planDetails[plan][currency];
       const priceId = isYearly 
-        ? planDetails[plan].yearlyPriceId 
-        : planDetails[plan].monthlyPriceId;
+        ? currencyPrices.yearlyPriceId 
+        : currencyPrices.monthlyPriceId;
 
       const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { priceId }
+        body: { priceId, language: i18n.language }
       });
 
       if (error) throw error;
@@ -177,21 +201,25 @@ export function PlanSelector({ onSuccess }: PlanSelectorProps) {
                     <CardTitle className="text-2xl">{details.name}</CardTitle>
                   </div>
                   <div className="pt-2">
-                    {isYearly && details.yearlyPrice ? (
+                    {isYearly && details[currency].yearlyPrice ? (
                       <>
                         <div className="mb-2">
-                          <span className="text-4xl font-bold">{details.yearlyPrice}</span>
+                          <span className="text-4xl font-bold">
+                            {currency === 'sek' ? `${details[currency].yearlyPrice} kr` : `$${details[currency].yearlyPrice}`}
+                          </span>
                           <span className="text-muted-foreground text-lg ml-1">{t("planSelector.billing.yearSuffix")}</span>
                         </div>
-                        {details.yearlyDiscount && (
+                        {details[currency].yearlyDiscount && (
                           <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent/20 text-accent text-sm font-bold">
-                            💰 {details.yearlyDiscount}
+                            💰 {details[currency].yearlyDiscount}
                           </div>
                         )}
                       </>
                     ) : (
                       <div>
-                        <span className="text-4xl font-bold">{details.monthlyPrice}</span>
+                        <span className="text-4xl font-bold">
+                          {currency === 'sek' ? `${details[currency].monthlyPrice} kr` : `$${details[currency].monthlyPrice}`}
+                        </span>
                         <span className="text-muted-foreground text-lg ml-1">{t("planSelector.billing.monthSuffix")}</span>
                       </div>
                     )}

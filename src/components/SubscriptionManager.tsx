@@ -26,11 +26,22 @@ const planDetails = {
   starter: {
     name: "Starter",
     icon: Sparkles,
-    monthlyPrice: "$29/mån",
-    yearlyPrice: "$329/år",
-    yearlyDiscount: "Spara $19",
-    monthlyPriceId: "price_1SKebgAixmGbMRBlFvakW9uF",
-    yearlyPriceId: "price_1SKebwAixmGbMRBlzOkLO82t",
+    usd: {
+      monthlyPrice: 29,
+      yearlyPrice: 329,
+      monthlyPriceId: "price_1SKebgAixmGbMRBlFvakW9uF",
+      yearlyPriceId: "price_1SKebwAixmGbMRBlzOkLO82t",
+      currency: "USD",
+      yearlyDiscount: "Spara $19"
+    },
+    sek: {
+      monthlyPrice: 299,
+      yearlyPrice: 3290,
+      monthlyPriceId: "price_1SKe8WAixmGbMRBldRF4WL0H",
+      yearlyPriceId: "price_1SKe8WAixmGbMRBldRF4WL0H",
+      currency: "SEK",
+      yearlyDiscount: "Spara 299 kr"
+    },
     features: [
       "14 dagars gratis provperiod",
       "Spara kampanjer till databasen",
@@ -42,11 +53,22 @@ const planDetails = {
   professional: {
     name: "Professional",
     icon: Crown,
-    monthlyPrice: "$49/mån",
-    yearlyPrice: "$359/år",
-    yearlyDiscount: "Spara $229",
-    monthlyPriceId: "price_1SKecbAixmGbMRBl0jqqEjby",
-    yearlyPriceId: "price_1SKecoAixmGbMRBlzgFiVNUw",
+    usd: {
+      monthlyPrice: 49,
+      yearlyPrice: 359,
+      monthlyPriceId: "price_1SKecbAixmGbMRBl0jqqEjby",
+      yearlyPriceId: "price_1SKecoAixmGbMRBlzgFiVNUw",
+      currency: "USD",
+      yearlyDiscount: "Spara $229"
+    },
+    sek: {
+      monthlyPrice: 499,
+      yearlyPrice: 4990,
+      monthlyPriceId: "price_1SKe8zAixmGbMRBlNtiGg3Cj",
+      yearlyPriceId: "price_1SKe8zAixmGbMRBlNtiGg3Cj",
+      currency: "SEK",
+      yearlyDiscount: "Spara 2498 kr"
+    },
     features: [
       "14 dagars gratis provperiod",
       "Alla Starter-funktioner",
@@ -84,11 +106,12 @@ const planDetails = {
 };
 
 export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: SubscriptionManagerProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [updating, setUpdating] = useState<PlanType | null>(null);
   const [stripeSubscription, setStripeSubscription] = useState<StripeSubscription | null>(null);
   const [loadingStripe, setLoadingStripe] = useState(true);
   const [isYearly, setIsYearly] = useState(false);
+  const currency = i18n.language === 'sv' ? 'sek' : 'usd';
 
   useEffect(() => {
     checkStripeSubscription();
@@ -117,11 +140,12 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
 
     setUpdating(newPlan);
     try {
-      const priceId = isYearly ? planDetails[newPlan].yearlyPriceId : planDetails[newPlan].monthlyPriceId;
+      const currencyPrices = planDetails[newPlan][currency];
+      const priceId = isYearly ? currencyPrices.yearlyPriceId : currencyPrices.monthlyPriceId;
       if (!priceId) throw new Error(t('priceIdMissing'));
 
       const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { priceId }
+        body: { priceId, language: i18n.language }
       });
 
       if (error) throw error;
@@ -259,23 +283,27 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                   <CardTitle className="text-2xl">{details.name}</CardTitle>
                 </div>
                 <div className="pt-2">
-                  {isYearly && details.yearlyPrice ? (
+                  {isYearly && details[currency].yearlyPrice ? (
                     <>
                       <div className="mb-2">
-                        <span className="text-4xl font-bold">{details.yearlyPrice.replace('/år', '')}</span>
+                        <span className="text-4xl font-bold">
+                          {currency === 'sek' ? `${details[currency].yearlyPrice} kr` : `$${details[currency].yearlyPrice}`}
+                        </span>
                         <span className="text-muted-foreground text-lg ml-1">/år</span>
                       </div>
-                      {details.yearlyDiscount && (
+                      {details[currency].yearlyDiscount && (
                         <div className="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground text-base font-extrabold shadow-glow animate-pulse border-2 border-accent/70 hover-scale">
                           <span className="text-xl">💰</span>
-                          <span className="relative z-10">{details.yearlyDiscount}</span>
+                          <span className="relative z-10">{details[currency].yearlyDiscount}</span>
                           <span className="absolute inset-0 rounded-full bg-accent/40 animate-[ping_2s_ease-in-out_infinite]"></span>
                         </div>
                       )}
                     </>
                   ) : (
                     <div>
-                      <span className="text-4xl font-bold">{details.monthlyPrice.replace('/mån', '')}</span>
+                      <span className="text-4xl font-bold">
+                        {currency === 'sek' ? `${details[currency].monthlyPrice} kr` : `$${details[currency].monthlyPrice}`}
+                      </span>
                       <span className="text-muted-foreground text-lg ml-1">/mån</span>
                     </div>
                   )}

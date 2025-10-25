@@ -25,11 +25,11 @@ serve(async (req) => {
   try {
     logStep("Function started");
 
-    const { priceId } = await req.json();
+    const { priceId, language } = await req.json();
     if (!priceId) {
       throw new Error("Price ID is required");
     }
-    logStep("Price ID received", { priceId });
+    logStep("Price ID and language received", { priceId, language });
 
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("No authorization header provided");
