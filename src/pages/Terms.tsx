@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, FileText, Zap } from "lucide-react";
+import { ArrowLeft, FileText, Mail, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { Card } from "@/components/ui/card";
@@ -142,12 +142,18 @@ const Terms = () => {
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
               <span className="text-accent">10.</span> {t('termsContactTitle')}
             </h2>
-            <p className="text-muted-foreground leading-relaxed">
-              {t('termsContactText')}{' '}
-              <a href="mailto:legal@spotlightevents.online" className="text-accent hover:underline font-semibold ml-1">
-                legal@spotlightevents.online
-              </a>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              {t('termsContactText')}
             </p>
+            <div className="mt-4">
+              <a 
+                href="mailto:legal@spotlightevents.online" 
+                className="inline-flex items-center gap-3 px-6 py-4 bg-primary/10 border-2 border-primary/20 rounded-lg hover:bg-primary/20 hover:border-primary/40 transition-all group"
+              >
+                <Mail className="h-5 w-5 text-primary group-hover:scale-110 transition-transform" />
+                <span className="text-lg font-bold text-primary">legal@spotlightevents.online</span>
+              </a>
+            </div>
             <p className="text-sm text-muted-foreground mt-6">
               {t('lastUpdated')} {new Date().toLocaleDateString(t('locale'))}
             </p>
