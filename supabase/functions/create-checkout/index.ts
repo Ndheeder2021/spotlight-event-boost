@@ -68,6 +68,9 @@ serve(async (req) => {
 
     const origin = req.headers.get("origin") || "https://jujgbkdamkjabjuerqxt.supabase.co";
     
+    // Add Klarna for Swedish customers
+    const paymentMethodTypes = language === 'sv' ? ['card', 'klarna'] : ['card'];
+    
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
@@ -78,7 +81,7 @@ serve(async (req) => {
         },
       ],
       mode: "subscription",
-      payment_method_types: ['card'],
+      payment_method_types: paymentMethodTypes,
       allow_promotion_codes: true,
       subscription_data: {
         trial_period_days: 14,
