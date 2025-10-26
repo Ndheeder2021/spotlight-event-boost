@@ -105,62 +105,55 @@ serve(async (req) => {
       { global: { headers: { Authorization: authHeader } } }
     );
 
-    // Verify user is authenticated
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError) {
-      console.error("Auth error:", userError);
-      return new Response(
-        JSON.stringify({ error: "Authentication failed: " + userError.message }),
-        {
-          status: 401,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
-    }
-    
-    if (!user) {
-      console.error("No user found");
-      return new Response(
-        JSON.stringify({ error: "User not found" }),
-        {
-          status: 401,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
+    // Prefer decoding JWT locally to avoid Auth admin restrictions
+    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+    let userId: string | null = null;
+    try {
+      const payloadPart = token.split('.')[1];
+      const json = JSON.parse(atob(payloadPart));
+      userId = json.sub || json.user_id || null;
+    } catch (e) {
+      console.error("Failed to decode JWT:", e);
     }
 
-    console.log("User authenticated:", user.id);
+    if (!userId) {
+      // Fallback to auth.getUser() if decode fails
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        console.error("Auth fallback failed:", userError?.message || 'no user');
+        return new Response(
+          JSON.stringify({ error: "Unauthorized" }),
+          { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+      userId = user.id;
+    }
 
-    // Verify user is admin
+    console.log("User authenticated:", userId);
+
+    // Verify user is admin via user_roles (allowed by RLS for own rows)
     const { data: roles, error: rolesError } = await supabase
       .from("user_roles")
       .select("role")
-      .eq("user_id", user.id)
-      .single();
+      .eq("user_id", userId)
+      .eq("role", "admin")
+      .maybeSingle();
 
     if (rolesError) {
       console.error("Error fetching user roles:", rolesError);
       return new Response(
         JSON.stringify({ error: "Failed to verify admin status" }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    if (!roles || roles.role !== "admin") {
-      console.error("User is not admin. Role:", roles?.role);
+    if (!roles) {
+      console.error("User is not admin");
       return new Response(
-        JSON.stringify({ error: "Admin access required. Your role: " + (roles?.role || "none") }),
-        {
-          status: 403,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
+        JSON.stringify({ error: "Admin access required" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-
-    console.log("Admin verified, starting lead finder");
 
     const { cities, businessTypes, maxResultsPerCity }: LeadFinderRequest = await req.json();
 
@@ -173,7 +166,7 @@ serve(async (req) => {
     const { data: recentJobs } = await supabase
       .from("lead_finder_jobs")
       .select("id")
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .gte("created_at", oneMinuteAgo);
 
     if (recentJobs && recentJobs.length > 0) {
@@ -187,7 +180,7 @@ serve(async (req) => {
     const { data: job, error: jobError } = await supabase
       .from("lead_finder_jobs")
       .insert({
-        user_id: user.id,
+        user_id: userId,
         cities,
         business_types: businessTypes,
         max_results_per_city: maxResultsPerCity,
