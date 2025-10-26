@@ -60,18 +60,23 @@ export default function Investors() {
       const validatedData = investorSchema.parse(formData);
       setIsSubmitting(true);
 
-      const { error } = await supabase
-        .from("investor_applications")
-        .insert([{
-          name: validatedData.name,
-          email: validatedData.email,
-          company: validatedData.company || null,
-          phone: validatedData.phone || null,
-          investment_range: validatedData.investment_range,
-          message: validatedData.message,
-        }]);
+      // Submit through secure Edge Function with rate limiting
+      const { data, error } = await supabase.functions.invoke(
+        "submit-investor-application",
+        {
+          body: {
+            name: validatedData.name,
+            email: validatedData.email,
+            company: validatedData.company || null,
+            phone: validatedData.phone || null,
+            investment_range: validatedData.investment_range,
+            message: validatedData.message,
+          },
+        }
+      );
 
       if (error) throw error;
+      if (data?.error) throw new Error(data.error);
 
       toast.success(t("investorFormSuccess"));
       setFormData({
