@@ -283,29 +283,45 @@ export function SubscriptionManager({ currentPlan, tenantId, onPlanChange }: Sub
                   <CardTitle className="text-2xl">{details.name}</CardTitle>
                 </div>
                 <div className="pt-2">
-                  {isYearly && details[currency].yearlyPrice ? (
-                    <>
-                      <div className="mb-2">
-                        <span className="text-4xl font-bold">
-                          {currency === 'sek' ? `${details[currency].yearlyPrice} kr` : `$${details[currency].yearlyPrice}`}
-                        </span>
-                        <span className="text-muted-foreground text-lg ml-1">/år</span>
-                      </div>
-                      {details[currency].yearlyDiscount && (
-                        <div className="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground text-base font-extrabold shadow-glow animate-pulse border-2 border-accent/70 hover-scale">
-                          <span className="text-xl">💰</span>
-                          <span className="relative z-10">{details[currency].yearlyDiscount}</span>
-                          <span className="absolute inset-0 rounded-full bg-accent/40 animate-[ping_2s_ease-in-out_infinite]"></span>
-                        </div>
-                      )}
-                    </>
-                  ) : (
+                  {plan === "enterprise" ? (
                     <div>
-                      <span className="text-4xl font-bold">
-                        {currency === 'sek' ? `${details[currency].monthlyPrice} kr` : `$${details[currency].monthlyPrice}`}
-                      </span>
-                      <span className="text-muted-foreground text-lg ml-1">/mån</span>
+                      <span className="text-4xl font-bold">{typeof (details as any).monthlyPrice === 'string' ? (details as any).monthlyPrice : 'Kontakta oss'}</span>
                     </div>
+                  ) : (
+                    (() => {
+                      const currencyDetails = (details as any)[currency];
+                      if (!currencyDetails) {
+                        return (
+                          <div>
+                            <span className="text-4xl font-bold">–</span>
+                          </div>
+                        );
+                      }
+                      return isYearly && currencyDetails.yearlyPrice ? (
+                        <>
+                          <div className="mb-2">
+                            <span className="text-4xl font-bold">
+                              {currency === 'sek' ? `${currencyDetails.yearlyPrice} kr` : `$${currencyDetails.yearlyPrice}`}
+                            </span>
+                            <span className="text-muted-foreground text-lg ml-1">/år</span>
+                          </div>
+                          {currencyDetails.yearlyDiscount && (
+                            <div className="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-accent via-accent-glow to-accent text-primary-foreground text-base font-extrabold shadow-glow animate-pulse border-2 border-accent/70 hover-scale">
+                              <span className="text-xl">💰</span>
+                              <span className="relative z-10">{currencyDetails.yearlyDiscount}</span>
+                              <span className="absolute inset-0 rounded-full bg-accent/40 animate-[ping_2s_ease-in-out_infinite]"></span>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <div>
+                          <span className="text-4xl font-bold">
+                            {currency === 'sek' ? `${currencyDetails.monthlyPrice} kr` : `$${currencyDetails.monthlyPrice}`}
+                          </span>
+                          <span className="text-muted-foreground text-lg ml-1">/mån</span>
+                        </div>
+                      );
+                    })()
                   )}
                 </div>
               </CardHeader>
