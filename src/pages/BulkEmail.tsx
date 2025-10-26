@@ -4,13 +4,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Mail, Send, Users, CheckCircle, XCircle, Loader2 } from "lucide-react";
+import { Mail, Send, Users, CheckCircle, XCircle, Loader2, Upload, Download } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export default function BulkEmail() {
   const [emails, setEmails] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [results, setResults] = useState<any>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const { toast } = useToast();
 
   const parseEmails = (text: string): string[] => {
@@ -19,6 +20,108 @@ export default function BulkEmail() {
       .split(/[\n,\s]+/)
       .map(email => email.trim())
       .filter(email => email.length > 0 && email.includes("@"));
+  };
+
+  const parseCSV = (csvText: string): string[] => {
+    const lines = csvText.split('\n').filter(line => line.trim());
+    if (lines.length === 0) return [];
+
+    const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
+    const emailIndex = headers.findIndex(h => h === 'email');
+
+    if (emailIndex === -1) {
+      toast({
+        title: "Ogiltig CSV",
+        description: "CSV-filen måste ha en 'email' kolumn",
+        variant: "destructive",
+      });
+      return [];
+    }
+
+    const emails: string[] = [];
+    for (let i = 1; i < lines.length; i++) {
+      const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
+      const email = values[emailIndex];
+      if (email && email.includes('@')) {
+        emails.push(email);
+      }
+    }
+
+    return emails;
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.name.endsWith('.csv')) {
+      toast({
+        title: "Ogiltig fil",
+        description: "Vänligen ladda upp en CSV-fil",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const text = await file.text();
+      const parsedEmails = parseCSV(text);
+
+      if (parsedEmails.length === 0) {
+        toast({
+          title: "Inga emails hittades",
+          description: "Kunde inte hitta några giltiga email-adresser i CSV-filen",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Add to existing emails or replace
+      const currentEmails = emails ? emails.split('\n').filter(e => e.trim()) : [];
+      const allEmails = [...currentEmails, ...parsedEmails];
+      const uniqueEmails = Array.from(new Set(allEmails));
+      
+      setEmails(uniqueEmails.join('\n'));
+
+      toast({
+        title: "CSV uppladdad!",
+        description: `${parsedEmails.length} email-adresser importerades`,
+      });
+    } catch (error) {
+      console.error('Error parsing CSV:', error);
+      toast({
+        title: "Fel vid uppladdning",
+        description: "Kunde inte läsa CSV-filen",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+      // Reset input
+      event.target.value = '';
+    }
+  };
+
+  const downloadExampleCSV = () => {
+    const exampleCSV = `City,Business Name,Website,Email,Category
+Stockholm,Grand Hotel,https://grandhotel.se,info@grandhotel.se,hotel
+Stockholm,Restaurant Mathias Dahlgren,https://restaurang.se,contact@restaurang.se,restaurant
+Gothenburg,Clarion Hotel Post,https://clarionpost.se,info@clarionpost.se,hotel`;
+
+    const blob = new Blob([exampleCSV], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'example-leads.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+
+    toast({
+      title: "Exempel nedladdad",
+      description: "Använd denna som mall för dina CSV-filer",
+    });
   };
 
   const handleSendEmails = async () => {
@@ -101,10 +204,73 @@ export default function BulkEmail() {
           <CardHeader>
             <CardTitle>E-postadresser</CardTitle>
             <CardDescription>
-              Ange e-postadresser separerade med nyrad, kommatecken eller mellanslag
+              Ladda upp CSV-fil eller ange e-postadresser manuellt
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
+            {/* CSV Upload Section */}
+            <div className="glass-card p-4 rounded-lg space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-semibold text-sm mb-1">Ladda upp CSV-fil</h4>
+                  <p className="text-xs text-muted-foreground">
+                    Importera leads från CSV med "email" kolumn
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={downloadExampleCSV}
+                >
+                  <Download className="h-3 w-3 mr-1" />
+                  Exempel CSV
+                </Button>
+              </div>
+              
+              <div className="flex gap-2">
+                <label className="flex-1">
+                  <input
+                    type="file"
+                    accept=".csv"
+                    onChange={handleFileUpload}
+                    disabled={isUploading}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="w-full"
+                    disabled={isUploading}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      (e.currentTarget.previousElementSibling as HTMLInputElement)?.click();
+                    }}
+                  >
+                    {isUploading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Laddar upp...
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="mr-2 h-4 w-4" />
+                        Välj CSV-fil
+                      </>
+                    )}
+                  </Button>
+                </label>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">eller ange manuellt</span>
+              </div>
+            </div>
+
             <Textarea
               placeholder="exempel@företag.se&#10;kontakt@företag.com&#10;info@företag.se"
               value={emails}
