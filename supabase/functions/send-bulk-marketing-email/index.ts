@@ -33,11 +33,11 @@ const extractCompanyName = (email: string): string => {
 
 const getMarketingEmailHtml = (companyName?: string) => `
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spotlight Events - Event-marknadsföring för er verksamhet</title>
+  <title>Spotlight Events - Event Marketing for Your Business</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
   <table role="presentation" style="width: 100%; border-collapse: collapse;">
@@ -51,7 +51,7 @@ const getMarketingEmailHtml = (companyName?: string) => `
                 <span style="font-size: 32px;">⚡</span>
                 <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: 700; letter-spacing: -0.5px;">Spotlight</h1>
               </div>
-              <p style="margin: 10px 0 0; color: #ffffff; font-size: 16px; opacity: 0.9;">Maximera gästflödet vid lokala evenemang</p>
+              <p style="margin: 10px 0 0; color: #ffffff; font-size: 16px; opacity: 0.9;">Maximize Guest Flow During Local Events</p>
             </td>
           </tr>
           
@@ -59,47 +59,47 @@ const getMarketingEmailHtml = (companyName?: string) => `
           <tr>
             <td style="padding: 40px;">
               <h2 style="margin: 0 0 20px; color: #1a1a1a; font-size: 22px; font-weight: 600;">
-                Hej${companyName ? ` ${companyName}` : ''}!
+                Hi${companyName ? ` ${companyName}` : ''}!
               </h2>
               
               <p style="margin: 0 0 16px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                Jag heter <strong>Nabeel Heeder</strong> och är grundare av <strong>Spotlight Events</strong> – en plattform som hjälper restauranger och hotell att öka synligheten och gästflödet i samband med större evenemang.
+                My name is <strong>Nabeel Heeder</strong> and I'm the founder of <strong>Spotlight Events</strong> – a platform that helps restaurants and hotels increase visibility and guest flow during major events.
               </p>
               
               <p style="margin: 0 0 16px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                Genom att analysera kommande event i området kan vi visa när det väntas fler besökare, och hjälpa er att planera kampanjer och marknadsföring i rätt tid.
+                By analyzing upcoming events in your area, we can show when more visitors are expected and help you plan campaigns and marketing at the right time.
               </p>
               
               <p style="margin: 0 0 16px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                Flera verksamheter använder redan Spotlight för att maximera sin försäljning under helger med konserter, mässor och sportevenemang.
+                Several businesses already use Spotlight to maximize their sales during weekends with concerts, fairs, and sporting events.
               </p>
               
               <div style="background-color: #f8f9ff; border-left: 4px solid #667eea; padding: 20px; margin: 30px 0; border-radius: 4px;">
                 <p style="margin: 0; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                  Jag tror att <strong>${companyName || 'er verksamhet'}</strong> skulle kunna ha stor nytta av samma insikter.
+                  I believe <strong>${companyName || 'your business'}</strong> could greatly benefit from the same insights.
                 </p>
               </div>
               
               <p style="margin: 0 0 30px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                Skulle du vara öppen för en kort introduktion där jag visar hur ni kan använda Spotlight för att locka fler gäster under lokala event?
+                Would you be open to a brief introduction where I show you how you can use Spotlight to attract more guests during local events?
               </p>
               
               <div style="text-align: center; margin: 40px 0;">
                 <a href="https://www.spotlightevents.online?utm_source=email&utm_medium=marketing&utm_campaign=bulk_outreach&utm_content=${encodeURIComponent(companyName || 'prospect')}" 
                    style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 6px; font-size: 18px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
-                  Besök Spotlight Events →
+                  Visit Spotlight Events →
                 </a>
               </div>
               
               <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #e5e5e5;">
                 <p style="margin: 0 0 8px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                  Med vänliga hälsningar,
+                  Best regards,
                 </p>
                 <p style="margin: 0 0 4px; color: #1a1a1a; font-size: 16px; font-weight: 600;">
                   Nabeel Heeder
                 </p>
                 <p style="margin: 0 0 16px; color: #666; font-size: 14px;">
-                  Grundare | Spotlight Events
+                  Founder | Spotlight Events
                 </p>
                 <p style="margin: 0; color: #666; font-size: 14px; line-height: 1.6;">
                   📩 <a href="mailto:nabeel@spotlightevents.online" style="color: #667eea; text-decoration: none;">nabeel@spotlightevents.online</a><br>
@@ -113,10 +113,10 @@ const getMarketingEmailHtml = (companyName?: string) => `
           <tr>
             <td style="padding: 30px 40px; background-color: #f8f9fa; border-radius: 0 0 8px 8px; text-align: center;">
               <p style="margin: 0 0 10px; color: #666; font-size: 14px;">
-                Spotlight Events – Smart eventmarknadsföring för restauranger och hotell
+                Spotlight Events – Smart Event Marketing for Restaurants and Hotels
               </p>
               <p style="margin: 0; color: #999; font-size: 12px;">
-                Vill du inte få fler mail från oss? Svara med "avregistrera".
+                Don't want to receive more emails from us? Reply with "unsubscribe".
               </p>
             </td>
           </tr>
@@ -138,7 +138,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (!emails || emails.length === 0) {
       return new Response(
-        JSON.stringify({ error: "Inga e-postadresser angivna" }),
+        JSON.stringify({ error: "No email addresses provided" }),
         {
           status: 400,
           headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -164,7 +164,7 @@ const handler = async (req: Request): Promise<Response> => {
           const emailResponse = await resend.emails.send({
             from: `${fromName} <${fromAddress}>`,
             to: [email],
-            subject: "Öka gästflödet vid lokala evenemang – Spotlight Events",
+            subject: "Increase Guest Flow During Local Events – Spotlight Events",
             html: getMarketingEmailHtml(companyName),
           });
 
@@ -196,7 +196,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     return new Response(
       JSON.stringify({
-        message: `E-post skickade: ${successCount} lyckades, ${failureCount} misslyckades`,
+        message: `Emails sent: ${successCount} succeeded, ${failureCount} failed`,
         results,
         successCount,
         failureCount,
