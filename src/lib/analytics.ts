@@ -17,12 +17,23 @@ export default async function readProjectAnalytics(
     const url = `/.lovable/api/analytics?startdate=${encodeURIComponent(startDate)}&enddate=${encodeURIComponent(endDate)}&granularity=${granularity}`;
     console.log("Fetching analytics from:", url);
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
       console.error("Analytics API error:", errorText);
       throw new Error(`Failed to fetch analytics: ${response.status} ${response.statusText}`);
+    }
+
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      const text = await response.text();
+      console.error("Unexpected analytics response content-type:", contentType, text.slice(0, 200));
+      throw new Error("Kunde inte läsa statistik: servern returnerade oväntat svar. Försök igen senare.");
     }
 
     const data = await response.json();

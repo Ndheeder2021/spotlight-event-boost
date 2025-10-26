@@ -31,13 +31,9 @@ export default function Analytics() {
       // Import the analytics tool dynamically
       const { default: readProjectAnalytics } = await import("@/lib/analytics");
       
-      // Format dates as RFC3339 datetime (ISO) and include full day range
-      const startISO = new Date(startDate);
-      startISO.setHours(0, 0, 0, 0);
-      const endISO = new Date(endDate);
-      endISO.setHours(23, 59, 59, 999);
-      const formattedStartDate = startISO.toISOString();
-      const formattedEndDate = endISO.toISOString();
+      // Format dates as YYYY-MM-DD (API expects date-only)
+      const formattedStartDate = format(startDate, "yyyy-MM-dd");
+      const formattedEndDate = format(endDate, "yyyy-MM-dd");
       
       console.log("Fetching analytics:", { formattedStartDate, formattedEndDate });
       const data = await readProjectAnalytics(
