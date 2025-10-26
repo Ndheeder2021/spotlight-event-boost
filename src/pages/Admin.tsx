@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Users, MessageSquare, Building2, BarChart, Eye, Trash2, Gift, UserCheck, Sparkles, Shield, Search, Download } from "lucide-react";
+import { Users, MessageSquare, Building2, BarChart, Eye, Trash2, Gift, UserCheck, Sparkles, Shield, Search, Download, History as HistoryIcon } from "lucide-react";
 import { toast } from "sonner";
 
 interface Tenant {
@@ -103,6 +103,7 @@ export default function Admin() {
   const [leadFinderJobId, setLeadFinderJobId] = useState<string | null>(null);
   const [leadFinderProgress, setLeadFinderProgress] = useState(0);
   const [leadFinderStatus, setLeadFinderStatus] = useState<string>("");
+  const [leadFinderHistory, setLeadFinderHistory] = useState<any[]>([]);
 
   useEffect(() => {
     checkAdminAccess();
@@ -426,6 +427,18 @@ export default function Admin() {
           
           if (job.status === 'completed') {
             setLeadFinderStatus("Completed! Ready to download.");
+            
+            // Reload history to show the new completed job
+            const { data: historyData } = await supabase
+              .from("lead_finder_jobs")
+              .select("*")
+              .eq("status", "completed")
+              .order("completed_at", { ascending: false })
+              .limit(20);
+            
+            if (historyData) {
+              setLeadFinderHistory(historyData);
+            }
           } else {
             setLeadFinderStatus("Failed. Please try again.");
           }
@@ -438,14 +451,15 @@ export default function Admin() {
     }, 2000); // Poll every 2 seconds
   };
   
-  const downloadLeadCSV = async (city?: string) => {
-    if (!leadFinderJobId) {
+  const downloadLeadCSV = async (jobId?: string, city?: string) => {
+    const targetJobId = jobId || leadFinderJobId;
+    if (!targetJobId) {
       toast.error("No job to download");
       return;
     }
     
     try {
-      const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/download-lead-csv?jobId=${leadFinderJobId}${city ? `&city=${encodeURIComponent(city)}` : ''}`;
+      const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/download-lead-csv?jobId=${targetJobId}${city ? `&city=${encodeURIComponent(city)}` : ''}`;
       
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("Not authenticated");
@@ -1118,7 +1132,7 @@ export default function Admin() {
                           key={city}
                           variant="outline"
                           size="sm"
-                          onClick={() => downloadLeadCSV(city)}
+                          onClick={() => downloadLeadCSV(undefined, city)}
                         >
                           <Download className="h-3 w-3 mr-1" />
                           {city}
@@ -1130,6 +1144,83 @@ export default function Admin() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Lead Finder History */}
+          {leadFinderHistory.length > 0 && (
+            <Card className="glass-card premium-glow animate-fade-in mt-6">
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10">
+                    <HistoryIcon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle className="gradient-text">Lead Finder History</CardTitle>
+                    <CardDescription>Past lead generation jobs - download anytime</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {leadFinderHistory.map((job) => {
+                    const businessTypes = job.business_types?.join(', ') || 'N/A';
+                    const cities = job.cities?.join(', ') || 'N/A';
+                    const resultsCount = Array.isArray(job.results_json) ? job.results_json.length : 0;
+                    
+                    return (
+                      <div key={job.id} className="glass-card p-4 rounded-lg hover:border-primary/30 transition-colors">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1 space-y-1">
+                            <div className="flex items-center gap-2">
+                              <h4 className="font-semibold text-sm">
+                                {businessTypes} & {cities}
+                              </h4>
+                              <Badge variant="secondary" className="text-xs">
+                                {resultsCount} leads
+                              </Badge>
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              Completed: {new Date(job.completed_at).toLocaleString('sv-SE')}
+                            </p>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => downloadLeadCSV(job.id)}
+                            >
+                              <Download className="h-3 w-3 mr-1" />
+                              Download All
+                            </Button>
+                          </div>
+                        </div>
+                        
+                        {/* Download by individual city for historical jobs */}
+                        {job.cities && job.cities.length > 1 && (
+                          <div className="mt-3 pt-3 border-t border-border/50">
+                            <p className="text-xs text-muted-foreground mb-2">Download by city:</p>
+                            <div className="flex flex-wrap gap-2">
+                              {job.cities.map((city: string) => (
+                                <Button
+                                  key={city}
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => downloadLeadCSV(job.id, city)}
+                                  className="h-7 text-xs"
+                                >
+                                  <Download className="h-2.5 w-2.5 mr-1" />
+                                  {city}
+                                </Button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
       </Tabs>
 
