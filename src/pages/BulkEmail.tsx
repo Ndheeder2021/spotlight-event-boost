@@ -6,13 +6,27 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Mail, Send, Users, CheckCircle, XCircle, Loader2, Upload, Download } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useAdminCheck } from "@/hooks/useAdminCheck";
 
 export default function BulkEmail() {
+  const { isAdmin, loading: adminLoading } = useAdminCheck();
   const [emails, setEmails] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [results, setResults] = useState<any>(null);
   const [isUploading, setIsUploading] = useState(false);
   const { toast } = useToast();
+
+  if (adminLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return null;
+  }
 
   const parseEmails = (text: string): string[] => {
     // Split by newlines, commas, or spaces and filter out empty strings

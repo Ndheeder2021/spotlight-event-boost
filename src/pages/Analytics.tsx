@@ -1,7 +1,22 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, TrendingUp, Users, Eye, MousePointerClick } from "lucide-react";
+import { BarChart3, TrendingUp, Users, Eye, MousePointerClick, Loader2 } from "lucide-react";
+import { useAdminCheck } from "@/hooks/useAdminCheck";
 
 export default function Analytics() {
+  const { isAdmin, loading } = useAdminCheck();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return null;
+  }
+
   return (
     <div className="container mx-auto py-8 px-4 max-w-7xl">
       <div className="mb-8">
