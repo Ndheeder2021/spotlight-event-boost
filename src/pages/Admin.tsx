@@ -359,8 +359,19 @@ export default function Admin() {
       
       if (cities.length === 0 || businessTypes.length === 0) {
         toast.error("Please enter at least one city and one business type");
+        setLeadFinderRunning(false);
         return;
       }
+      
+      // Verify user is authenticated and get session
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast.error("You must be logged in to use this feature");
+        setLeadFinderRunning(false);
+        return;
+      }
+      
+      console.log('Starting lead finder with:', { cities, businessTypes, maxResultsPerCity: leadFinderMaxResults });
       
       const { data, error } = await supabase.functions.invoke('start-lead-finder', {
         body: {
@@ -370,11 +381,20 @@ export default function Admin() {
         },
       });
       
-      if (error) throw error;
+      if (error) {
+        console.error('Edge function error:', error);
+        throw error;
+      }
+      
+      if (!data) {
+        throw new Error('No data returned from edge function');
+      }
+      
+      console.log('Lead finder started:', data);
       
       setLeadFinderJobId(data.jobId);
-      setLeadFinderStatus(`Job started! Found ${data.totalLeads} leads.`);
-      toast.success(`Lead finder completed! Found ${data.totalLeads} leads.`);
+      setLeadFinderStatus(`Job started! Processing ${cities.length} cities and ${businessTypes.length} business types.`);
+      toast.success(`Lead finder started! Job ID: ${data.jobId}`);
       
       // Poll for job status
       pollLeadFinderStatus(data.jobId);
@@ -382,6 +402,7 @@ export default function Admin() {
       console.error('Error starting lead finder:', error);
       toast.error(error.message || "Failed to start lead finder");
       setLeadFinderRunning(false);
+      setLeadFinderStatus("");
     }
   };
   

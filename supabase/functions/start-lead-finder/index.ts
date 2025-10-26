@@ -89,7 +89,14 @@ serve(async (req) => {
   try {
     const authHeader = req.headers.get("authorization");
     if (!authHeader) {
-      throw new Error("No authorization header");
+      console.error("No authorization header provided");
+      return new Response(
+        JSON.stringify({ error: "No authorization header" }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
     }
 
     const supabase = createClient(
@@ -98,21 +105,62 @@ serve(async (req) => {
       { global: { headers: { Authorization: authHeader } } }
     );
 
-    // Verify user is admin
+    // Verify user is authenticated
     const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError || !user) {
-      throw new Error("Unauthorized");
+    if (userError) {
+      console.error("Auth error:", userError);
+      return new Response(
+        JSON.stringify({ error: "Authentication failed: " + userError.message }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+    
+    if (!user) {
+      console.error("No user found");
+      return new Response(
+        JSON.stringify({ error: "User not found" }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
     }
 
-    const { data: roles } = await supabase
+    console.log("User authenticated:", user.id);
+
+    // Verify user is admin
+    const { data: roles, error: rolesError } = await supabase
       .from("user_roles")
       .select("role")
       .eq("user_id", user.id)
       .single();
 
-    if (!roles || roles.role !== "admin") {
-      throw new Error("Admin access required");
+    if (rolesError) {
+      console.error("Error fetching user roles:", rolesError);
+      return new Response(
+        JSON.stringify({ error: "Failed to verify admin status" }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
     }
+
+    if (!roles || roles.role !== "admin") {
+      console.error("User is not admin. Role:", roles?.role);
+      return new Response(
+        JSON.stringify({ error: "Admin access required. Your role: " + (roles?.role || "none") }),
+        {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    console.log("Admin verified, starting lead finder");
 
     const { cities, businessTypes, maxResultsPerCity }: LeadFinderRequest = await req.json();
 
