@@ -503,6 +503,54 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_finder_jobs: {
+        Row: {
+          business_types: string[]
+          cities: string[]
+          completed_at: string | null
+          created_at: string
+          error_message: string | null
+          id: string
+          max_results_per_city: number
+          progress: number
+          results_json: Json | null
+          started_at: string | null
+          status: string
+          total_steps: number
+          user_id: string
+        }
+        Insert: {
+          business_types: string[]
+          cities: string[]
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          max_results_per_city?: number
+          progress?: number
+          results_json?: Json | null
+          started_at?: string | null
+          status?: string
+          total_steps?: number
+          user_id: string
+        }
+        Update: {
+          business_types?: string[]
+          cities?: string[]
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          max_results_per_city?: number
+          progress?: number
+          results_json?: Json | null
+          started_at?: string | null
+          status?: string
+          total_steps?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           created_at: string | null

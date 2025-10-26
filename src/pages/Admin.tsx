@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Users, MessageSquare, Building2, BarChart, Eye, Trash2, Gift, UserCheck, Sparkles, Shield } from "lucide-react";
+import { Users, MessageSquare, Building2, BarChart, Eye, Trash2, Gift, UserCheck, Sparkles, Shield, Search, Download } from "lucide-react";
 import { toast } from "sonner";
 
 interface Tenant {
@@ -94,6 +94,15 @@ export default function Admin() {
   const [affiliates, setAffiliates] = useState<Affiliate[]>([]);
   const [selectedReferral, setSelectedReferral] = useState<Referral | null>(null);
   const [selectedAffiliate, setSelectedAffiliate] = useState<Affiliate | null>(null);
+  
+  // Lead Finder state
+  const [leadFinderCities, setLeadFinderCities] = useState("Stockholm, Gothenburg, Malmö, Uppsala, Västerås, Copenhagen, Oslo");
+  const [leadFinderBusinessTypes, setLeadFinderBusinessTypes] = useState("hotel, restaurant, cafeteria, bar");
+  const [leadFinderMaxResults, setLeadFinderMaxResults] = useState(150);
+  const [leadFinderRunning, setLeadFinderRunning] = useState(false);
+  const [leadFinderJobId, setLeadFinderJobId] = useState<string | null>(null);
+  const [leadFinderProgress, setLeadFinderProgress] = useState(0);
+  const [leadFinderStatus, setLeadFinderStatus] = useState<string>("");
 
   useEffect(() => {
     checkAdminAccess();
@@ -339,6 +348,115 @@ export default function Admin() {
     }
   };
 
+  const startLeadFinder = async () => {
+    setLeadFinderRunning(true);
+    setLeadFinderProgress(0);
+    setLeadFinderStatus("Starting...");
+    
+    try {
+      const cities = leadFinderCities.split(',').map(c => c.trim()).filter(Boolean);
+      const businessTypes = leadFinderBusinessTypes.split(',').map(b => b.trim()).filter(Boolean);
+      
+      if (cities.length === 0 || businessTypes.length === 0) {
+        toast.error("Please enter at least one city and one business type");
+        return;
+      }
+      
+      const { data, error } = await supabase.functions.invoke('start-lead-finder', {
+        body: {
+          cities,
+          businessTypes,
+          maxResultsPerCity: leadFinderMaxResults,
+        },
+      });
+      
+      if (error) throw error;
+      
+      setLeadFinderJobId(data.jobId);
+      setLeadFinderStatus(`Job started! Found ${data.totalLeads} leads.`);
+      toast.success(`Lead finder completed! Found ${data.totalLeads} leads.`);
+      
+      // Poll for job status
+      pollLeadFinderStatus(data.jobId);
+    } catch (error: any) {
+      console.error('Error starting lead finder:', error);
+      toast.error(error.message || "Failed to start lead finder");
+      setLeadFinderRunning(false);
+    }
+  };
+  
+  const pollLeadFinderStatus = async (jobId: string) => {
+    const interval = setInterval(async () => {
+      try {
+        const { data: job, error } = await supabase
+          .from('lead_finder_jobs')
+          .select('status, progress')
+          .eq('id', jobId)
+          .single();
+        
+        if (error) throw error;
+        
+        setLeadFinderProgress(job.progress || 0);
+        setLeadFinderStatus(`Running... ${job.progress}% complete`);
+        
+        if (job.status === 'completed' || job.status === 'failed') {
+          clearInterval(interval);
+          setLeadFinderRunning(false);
+          
+          if (job.status === 'completed') {
+            setLeadFinderStatus("Completed! Ready to download.");
+          } else {
+            setLeadFinderStatus("Failed. Please try again.");
+          }
+        }
+      } catch (error) {
+        console.error('Error polling job status:', error);
+        clearInterval(interval);
+        setLeadFinderRunning(false);
+      }
+    }, 2000); // Poll every 2 seconds
+  };
+  
+  const downloadLeadCSV = async (city?: string) => {
+    if (!leadFinderJobId) {
+      toast.error("No job to download");
+      return;
+    }
+    
+    try {
+      const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/download-lead-csv?jobId=${leadFinderJobId}${city ? `&city=${encodeURIComponent(city)}` : ''}`;
+      
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
+      
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to download CSV');
+      }
+      
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = `leads_${city || 'all'}_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(downloadUrl);
+      
+      toast.success("CSV downloaded successfully!");
+    } catch (error: any) {
+      console.error('Error downloading CSV:', error);
+      toast.error(error.message || "Failed to download CSV");
+    }
+  };
+
   const addAdmin = async () => {
     if (!newAdminEmail.trim()) {
       toast.error("Ange en email-adress");
@@ -550,6 +668,10 @@ export default function Admin() {
           <TabsTrigger value="affiliates" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary-glow data-[state=active]:text-primary-foreground">
             <UserCheck className="h-4 w-4 mr-2" />
             Affiliates
+          </TabsTrigger>
+          <TabsTrigger value="lead-finder" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary-glow data-[state=active]:text-primary-foreground">
+            <Search className="h-4 w-4 mr-2" />
+            Lead Finder
           </TabsTrigger>
         </TabsList>
 
@@ -848,6 +970,142 @@ export default function Admin() {
                   )}
                 </TableBody>
               </Table>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="lead-finder" className="space-y-4">
+          <Card className="glass-card premium-glow animate-fade-in">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10">
+                  <Search className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <CardTitle className="gradient-text">AI Lead Finder</CardTitle>
+                  <CardDescription>Find businesses and extract contact information using Google Places</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="cities">Cities (comma-separated)</Label>
+                  <Input
+                    id="cities"
+                    value={leadFinderCities}
+                    onChange={(e) => setLeadFinderCities(e.target.value)}
+                    placeholder="Stockholm, Gothenburg, Malmö"
+                    disabled={leadFinderRunning}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Enter city names separated by commas
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="businessTypes">Business Types (comma-separated)</Label>
+                  <Input
+                    id="businessTypes"
+                    value={leadFinderBusinessTypes}
+                    onChange={(e) => setLeadFinderBusinessTypes(e.target.value)}
+                    placeholder="hotel, restaurant, cafeteria, bar"
+                    disabled={leadFinderRunning}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Enter business types separated by commas (e.g., hotel, restaurant)
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="maxResults">Max Results per City</Label>
+                  <Input
+                    id="maxResults"
+                    type="number"
+                    value={leadFinderMaxResults}
+                    onChange={(e) => setLeadFinderMaxResults(Number(e.target.value))}
+                    min={1}
+                    max={500}
+                    disabled={leadFinderRunning}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Maximum number of results per city (1-500)
+                  </p>
+                </div>
+
+                <div className="flex gap-3">
+                  <Button
+                    onClick={startLeadFinder}
+                    disabled={leadFinderRunning}
+                    className="flex-1"
+                  >
+                    <Search className="h-4 w-4 mr-2" />
+                    {leadFinderRunning ? "Running..." : "Run Lead Finder"}
+                  </Button>
+                  
+                  {leadFinderJobId && !leadFinderRunning && (
+                    <Button
+                      onClick={() => downloadLeadCSV()}
+                      variant="outline"
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      Download All CSV
+                    </Button>
+                  )}
+                </div>
+
+                {leadFinderStatus && (
+                  <div className="glass-card p-4 rounded-lg">
+                    <p className="text-sm font-medium mb-2">Status:</p>
+                    <p className="text-sm text-muted-foreground">{leadFinderStatus}</p>
+                    {leadFinderRunning && leadFinderProgress > 0 && (
+                      <div className="mt-3">
+                        <div className="flex justify-between text-xs text-muted-foreground mb-1">
+                          <span>Progress</span>
+                          <span>{leadFinderProgress}%</span>
+                        </div>
+                        <div className="w-full bg-secondary rounded-full h-2">
+                          <div
+                            className="bg-primary h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${leadFinderProgress}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="glass-card p-4 rounded-lg">
+                  <h4 className="font-semibold mb-2 text-primary">How it works:</h4>
+                  <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                    <li>Searches Google Places for businesses matching your criteria</li>
+                    <li>Extracts official websites from Place Details</li>
+                    <li>Crawls websites to find business email addresses (info@, contact@, etc.)</li>
+                    <li>Filters out personal emails (gmail, outlook, etc.)</li>
+                    <li>Generates downloadable CSV files with all findings</li>
+                    <li>Rate limited to 1 job per minute per admin</li>
+                  </ul>
+                </div>
+
+                {leadFinderJobId && !leadFinderRunning && (
+                  <div className="glass-card p-4 rounded-lg">
+                    <h4 className="font-semibold mb-3 text-primary">Download by City:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {leadFinderCities.split(',').map(city => city.trim()).filter(Boolean).map(city => (
+                        <Button
+                          key={city}
+                          variant="outline"
+                          size="sm"
+                          onClick={() => downloadLeadCSV(city)}
+                        >
+                          <Download className="h-3 w-3 mr-1" />
+                          {city}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

@@ -3,6 +3,12 @@ project_id = "jujgbkdamkjabjuerqxt"
 [functions.generate-campaign]
 verify_jwt = true
 
+[functions.start-lead-finder]
+verify_jwt = true
+
+[functions.download-lead-csv]
+verify_jwt = true
+
 [functions.generate-pdf]
 verify_jwt = true
 
