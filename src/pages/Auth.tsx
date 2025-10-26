@@ -87,29 +87,16 @@ export default function Auth() {
         // If signup successful and there was a referral code, track it
         if (referralCode) {
           try {
-            // Insert into referred_users
-            await supabase
-              .from('referred_users')
-              .insert({
+            // Track referral through Edge Function with service role
+            const { error: trackError } = await supabase.functions.invoke('track-referral-signup', {
+              body: {
                 referral_code: referralCode,
-                referred_email: formData.email,
-                status: 'signed_up'
-              });
-            
-            // Update referral count
-            const { data: referralData } = await supabase
-              .from('referrals')
-              .select('referred_count')
-              .eq('referral_code', referralCode)
-              .single();
-            
-            if (referralData) {
-              await supabase
-                .from('referrals')
-                .update({ 
-                  referred_count: (referralData.referred_count || 0) + 1 
-                })
-                .eq('referral_code', referralCode);
+                referred_email: formData.email
+              }
+            });
+
+            if (trackError) {
+              console.error('Error tracking referral:', trackError);
             }
             
             // Clear referral code from localStorage

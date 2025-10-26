@@ -45,59 +45,20 @@ export default function ReferFriend() {
     setLoading(true);
 
     try {
-      // Check if email already has a referral code
-      const { data: existing, error: checkError } = await supabase
-        .from('referrals')
-        .select('*')
-        .eq('email', email)
-        .maybeSingle();
+      // Use secure Edge Function to create/get referral
+      const { data, error } = await supabase.functions.invoke('create-referral', {
+        body: { email: email.toLowerCase() }
+      });
 
-      if (checkError) throw checkError;
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
 
-      if (existing) {
-        setReferralData(existing);
-        toast.success(t('referFriendWelcomeBack'));
+      setReferralData(data.referral);
+
+      if (data.isNew) {
+        toast.success(t('referFriendCreatedWithEmail'));
       } else {
-        // Generate new referral code using the database function
-        const { data: codeData, error: codeError } = await supabase
-          .rpc('generate_referral_code');
-
-        if (codeError) throw codeError;
-
-        // Create new referral entry
-        const { data: newReferral, error: insertError } = await supabase
-          .from('referrals')
-          .insert({
-            email: email,
-            referral_code: codeData
-          })
-          .select()
-          .single();
-
-        if (insertError) throw insertError;
-
-        setReferralData(newReferral);
-
-        // Send welcome email with referral link
-        try {
-          const { error: emailError } = await supabase.functions.invoke('send-referral-welcome', {
-            body: {
-              email: email,
-              referralCode: codeData,
-              commissionRate: 0.20 // 20% commission
-            }
-          });
-
-          if (emailError) {
-            console.error('Error sending welcome email:', emailError);
-            toast.success(t('referFriendCreatedNoEmail'));
-          } else {
-            toast.success(t('referFriendCreatedWithEmail'));
-          }
-        } catch (emailError) {
-          console.error('Error sending welcome email:', emailError);
-          toast.success(t('referFriendCreated'));
-        }
+        toast.success(t('referFriendWelcomeBack'));
       }
     } catch (error: any) {
       console.error('Error:', error);
