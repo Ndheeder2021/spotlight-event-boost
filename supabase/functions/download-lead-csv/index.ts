@@ -45,21 +45,19 @@ serve(async (req) => {
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-      {
-        global: {
-          headers: {
-            Authorization: authHeader,
-            apikey: Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-          },
-        },
-      }
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
 
-    // Verify user from JWT
+    // Extract user ID from JWT (function requires a valid JWT)
     const token = authHeader.replace(/^Bearer\s+/i, "");
-    const { data: { user }, error: userError } = await supabase.auth.getUser(token);
-    if (userError || !user) {
+    const [, payloadB64] = token.split(".");
+    if (!payloadB64) {
+      throw new Error("Invalid token");
+    }
+    const base64 = payloadB64.replace(/-/g, "+").replace(/_/g, "/") + "=".repeat((4 - (payloadB64.length % 4)) % 4);
+    const payloadJson = JSON.parse(atob(base64));
+    const userId = payloadJson.sub as string;
+    if (!userId) {
       throw new Error("Unauthorized");
     }
 
@@ -82,7 +80,7 @@ serve(async (req) => {
       .from("lead_finder_jobs")
       .select("*")
       .eq("id", jobId)
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .single();
 
     if (jobError || !job) {
