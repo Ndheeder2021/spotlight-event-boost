@@ -156,6 +156,22 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
 
       if (error) throw error;
 
+      // Send email invitation via Edge Function (non-blocking)
+      try {
+        await supabase.functions.invoke('send-team-invitation', {
+          body: {
+            email: newEmail.toLowerCase().trim(),
+            token,
+            role: newRole,
+            inviterEmail: user.email,
+            tenantId,
+            appUrl: window.location.origin,
+          },
+        });
+      } catch (e) {
+        console.warn('Invitation email send failed (non-blocking):', e);
+      }
+
       toast.success(t('invitationSentTo', { email: newEmail }));
       setNewEmail("");
       loadTeamData();
