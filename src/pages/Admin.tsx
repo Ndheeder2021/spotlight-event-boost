@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Users, MessageSquare, Building2, BarChart, Eye, Trash2, Gift, UserCheck, Sparkles, Shield, Search, Download, History as HistoryIcon } from "lucide-react";
 import { toast } from "sonner";
+import { showErrorToast } from "@/utils/errorMessages";
 
 interface Tenant {
   id: string;
@@ -242,7 +243,7 @@ export default function Admin() {
       setSelectedTenant(null);
       loadAdminData();
     } catch (error: any) {
-      toast.error(error.message);
+      showErrorToast(toast, error, 'Kunde inte ta bort företag');
     }
   };
 
@@ -268,7 +269,7 @@ export default function Admin() {
       setSelectedUser(null);
       loadAdminData();
     } catch (error: any) {
-      toast.error(error.message);
+      showErrorToast(toast, error, 'Kunde inte ta bort användare');
     }
   };
 
@@ -309,7 +310,7 @@ export default function Admin() {
 
       loadAdminData();
     } catch (error: any) {
-      toast.error(error.message);
+      showErrorToast(toast, error, 'Kunde inte ändra admin-roll');
     }
   };
 
@@ -325,7 +326,7 @@ export default function Admin() {
       setSelectedAffiliate(null);
       loadAdminData();
     } catch (error: any) {
-      toast.error(error.message);
+      showErrorToast(toast, error, 'Kunde inte uppdatera status');
     }
   };
 
@@ -345,7 +346,7 @@ export default function Admin() {
       setSelectedAffiliate(null);
       loadAdminData();
     } catch (error: any) {
-      toast.error(error.message);
+      showErrorToast(toast, error, 'Kunde inte ta bort affiliate');
     }
   };
 
@@ -401,7 +402,7 @@ export default function Admin() {
       pollLeadFinderStatus(data.jobId);
     } catch (error: any) {
       console.error('Error starting lead finder:', error);
-      toast.error(error.message || "Failed to start lead finder");
+      showErrorToast(toast, error, 'Kunde inte starta lead finder');
       setLeadFinderRunning(false);
       setLeadFinderStatus("");
     }
@@ -488,7 +489,7 @@ export default function Admin() {
       toast.success("CSV downloaded successfully!");
     } catch (error: any) {
       console.error('Error downloading CSV:', error);
-      toast.error(error.message || "Failed to download CSV");
+      showErrorToast(toast, error, 'Kunde inte ladda ner CSV');
     }
   };
 
@@ -551,7 +552,7 @@ export default function Admin() {
       setNewAdminEmail("");
       loadAdminData();
     } catch (error: any) {
-      toast.error(error.message);
+      showErrorToast(toast, error, 'Kunde inte lägga till admin');
     } finally {
       setAddingAdmin(false);
     }

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
+import { showErrorToast } from "@/utils/errorMessages";
 
 export default function Auth() {
   const { t } = useTranslation();
@@ -121,7 +122,7 @@ export default function Auth() {
         toast.success(t("authSuccessCreated"));
       }
     } catch (error: any) {
-      toast.error(error.message || t("authErrorGeneric"));
+      showErrorToast(toast, error, t("authErrorGeneric"));
     } finally {
       setSubmitting(false);
     }
@@ -137,7 +138,7 @@ export default function Auth() {
       });
       if (error) throw error;
     } catch (error: any) {
-      toast.error(error.message || t("authErrorGoogle"));
+      showErrorToast(toast, error, t("authErrorGoogle"));
     }
   };
 

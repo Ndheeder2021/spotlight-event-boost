@@ -9,6 +9,7 @@ import { Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
+import { showErrorToast } from "@/utils/errorMessages";
 
 interface AddInternalEventDialogProps {
   onEventAdded: () => void;
@@ -62,7 +63,7 @@ export const AddInternalEventDialog = ({ onEventAdded }: AddInternalEventDialogP
       });
       onEventAdded();
     } catch (error: any) {
-      toast.error(error.message);
+      showErrorToast(toast, error, 'Kunde inte lägga till event');
     } finally {
       setLoading(false);
     }

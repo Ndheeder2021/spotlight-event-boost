@@ -11,6 +11,7 @@ import { UserPlus, Trash2, Mail, Crown, Edit3, Eye, Loader2, Users, Sparkles } f
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import type { PlanType } from "@/hooks/usePlanFeatures";
+import { showErrorToast } from "@/utils/errorMessages";
 
 interface TeamMember {
   user_id: string;
@@ -159,7 +160,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
       setNewEmail("");
       loadTeamData();
     } catch (error: any) {
-      toast.error(error.message);
+      showErrorToast(toast, error, 'Kunde inte skicka inbjudan');
     } finally {
       setInviting(false);
     }
@@ -183,7 +184,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
       toast.success(t('userRemoved'));
       loadTeamData();
     } catch (error: any) {
-      toast.error(error.message);
+      showErrorToast(toast, error, 'Kunde inte ta bort användare');
     }
   };
 
@@ -199,7 +200,7 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
       toast.success(t('invitationCancelled'));
       loadTeamData();
     } catch (error: any) {
-      toast.error(error.message);
+      showErrorToast(toast, error, 'Kunde inte avbryta inbjudan');
     }
   };
 
