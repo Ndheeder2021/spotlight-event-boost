@@ -5,13 +5,16 @@ export default async function readProjectAnalytics(
   granularity: "hourly" | "daily"
 ) {
   try {
-    // Validate date format (YYYY-MM-DD)
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dateRegex.test(startDate) || !dateRegex.test(endDate)) {
-      throw new Error(`Invalid date format. Expected YYYY-MM-DD, got: ${startDate} to ${endDate}`);
+    // Validate date format: allow YYYY-MM-DD or RFC3339 datetime
+    const dateOnlyRegex = /^\d{4}-\d{2}-\d{2}$/;
+    const rfc3339Regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/;
+    const validStart = dateOnlyRegex.test(startDate) || rfc3339Regex.test(startDate);
+    const validEnd = dateOnlyRegex.test(endDate) || rfc3339Regex.test(endDate);
+    if (!validStart || !validEnd) {
+      throw new Error(`Invalid date format. Expected YYYY-MM-DD or RFC3339, got: ${startDate} to ${endDate}`);
     }
 
-    const url = `/.lovable/api/analytics?startdate=${startDate}&enddate=${endDate}&granularity=${granularity}`;
+    const url = `/.lovable/api/analytics?startdate=${encodeURIComponent(startDate)}&enddate=${encodeURIComponent(endDate)}&granularity=${granularity}`;
     console.log("Fetching analytics from:", url);
 
     const response = await fetch(url);
