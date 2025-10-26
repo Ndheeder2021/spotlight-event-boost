@@ -58,8 +58,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send application email to affiliate team
     const emailResponse = await resend.emails.send({
-      from: "Spotlight Affiliate <onboarding@resend.dev>",
-      to: ["affiliate@spotlightevents.online"],
+      from: "Spotlight Affiliate <invest@spotlightevents.online>",
+      to: ["invest@spotlightevents.online"],
       reply_to: email,
       subject: `Ny Affiliate-ansökan från ${name}`,
       html: `
@@ -178,7 +178,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email to applicant
     await resend.emails.send({
-      from: "Spotlight Affiliate <onboarding@resend.dev>",
+      from: "Spotlight Affiliate <invest@spotlightevents.online>",
       to: [email],
       subject: "Tack för din Affiliate-ansökan till Spotlight",
       html: `

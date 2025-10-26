@@ -38,7 +38,7 @@ const handler = async (req: Request): Promise<Response> => {
     );
 
     const emailResponse = await resend.emails.send({
-      from: "Spotlight Events Support <support@spotlightevents.online>",
+      from: "Spotlight Events <info@spotlightevents.online>",
       to: [email],
       subject: "Välkommen till Spotlight Events! 🎉",
       html: emailHtml,

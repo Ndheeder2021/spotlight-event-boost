@@ -44,7 +44,7 @@ const handler = async (req: Request): Promise<Response> => {
     );
 
     const emailResponse = await resend.emails.send({
-      from: "Spotlight Events Legal <legal@spotlightevents.online>",
+      from: "Spotlight Events <noreply@spotlightevents.online>",
       to: [email],
       subject: `Tack för ditt köp - ${planName}`,
       html: emailHtml,

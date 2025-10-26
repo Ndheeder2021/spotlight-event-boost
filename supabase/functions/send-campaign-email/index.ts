@@ -178,7 +178,7 @@ serve(async (req) => {
     `;
 
     const emailResponse = await resend.emails.send({
-      from: "Spotlight Events <onboarding@resend.dev>",
+      from: "Spotlight News <news@spotlightevents.online>",
       to: [recipientEmail],
       subject: `Kampanjförslag: ${campaign.title}`,
       html: htmlContent,

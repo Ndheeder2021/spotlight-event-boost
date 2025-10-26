@@ -67,7 +67,7 @@ serve(async (req) => {
     `;
 
     const { data, error } = await resend.emails.send({
-      from: "Lovable <onboarding@resend.dev>",
+      from: "Spotlight <noreply@spotlightevents.online>",
       to: [email],
       subject,
       html,

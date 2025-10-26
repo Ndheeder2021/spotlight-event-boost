@@ -41,7 +41,7 @@ const handler = async (req: Request): Promise<Response> => {
     );
 
     const emailResponse = await resend.emails.send({
-      from: "Spotlight Events <noreply@spotlightevents.online>",
+      from: "Spotlight Referral <referral@spotlightevents.online>",
       to: [email],
       subject: "🎉 Välkommen till Spotlight Referral Program - Din unika länk är klar!",
       html: emailHtml,
