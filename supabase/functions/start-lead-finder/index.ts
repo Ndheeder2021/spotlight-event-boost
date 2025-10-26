@@ -6,6 +6,17 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Helper to schedule background work safely in Edge runtime
+function waitUntil(p: Promise<any>) {
+  const er: any = (globalThis as any).EdgeRuntime;
+  if (er && typeof er.waitUntil === 'function') {
+    er.waitUntil(p);
+  } else {
+    // Best-effort fallback
+    setTimeout(() => { p.catch((e) => console.error('Background task error:', e)); }, 0);
+  }
+}
+
 interface LeadFinderRequest {
   cities: string[];
   businessTypes: string[];
@@ -194,138 +205,122 @@ serve(async (req) => {
 
     if (jobError) throw jobError;
 
-    const GOOGLE_PLACES_API_KEY = Deno.env.get("GOOGLE_PLACES_API_KEY");
-    if (!GOOGLE_PLACES_API_KEY) {
-      throw new Error("Google Places API key not configured");
-    }
+    // Kick off background processing and return immediately
+    const jobId = job.id as string;
+    waitUntil((async () => {
+      try {
+        const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+        const service = createClient(
+          Deno.env.get("SUPABASE_URL") ?? "",
+          SERVICE_KEY
+        );
 
-    const allLeads: BusinessLead[] = [];
-    let currentStep = 0;
-
-    // Process each city and business type
-    for (const city of cities) {
-      for (const businessType of businessTypes) {
-        currentStep++;
-        console.log(`Processing ${city} - ${businessType} (${currentStep}/${totalSteps})`);
-
-        try {
-          // Search Google Places
-          const searchQuery = `${businessType}s in ${city}`;
-          let nextPageToken: string | null = null;
-          let resultsForThisCategory = 0;
-
-          do {
-            const searchUrl = new URL("https://places.googleapis.com/v1/places:searchText");
-            
-            const searchResponse: Response = await fetch(searchUrl, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "X-Goog-Api-Key": GOOGLE_PLACES_API_KEY,
-                "X-Goog-FieldMask": "places.id,places.displayName,places.websiteUri,nextPageToken",
-              },
-              body: JSON.stringify({
-                textQuery: searchQuery,
-                pageSize: Math.min(20, maxResultsPerCity - resultsForThisCategory),
-                ...(nextPageToken && { pageToken: nextPageToken }),
-              }),
-            });
-
-            if (!searchResponse.ok) {
-              const errorText = await searchResponse.text();
-              console.error(`Google Places API error: ${searchResponse.status} - ${errorText}`);
-              break;
-            }
-
-            const searchData: any = await searchResponse.json();
-            const places = searchData.places || [];
-            nextPageToken = searchData.nextPageToken || null;
-
-            // Process each place
-            for (const place of places) {
-              if (resultsForThisCategory >= maxResultsPerCity) break;
-
-              const businessName = place.displayName?.text || "Unknown";
-              const website = place.websiteUri || "";
-
-              if (!website) {
-                console.log(`No website for ${businessName}, skipping`);
-                continue;
-              }
-
-              // Crawl website for emails
-              console.log(`Crawling ${website} for emails...`);
-              const emails = await crawlWebsiteForEmails(website);
-
-              if (emails.length > 0) {
-                for (const email of emails) {
-                  allLeads.push({
-                    city,
-                    businessName,
-                    website,
-                    email,
-                    category: businessType,
-                  });
-                  resultsForThisCategory++;
-                }
-              } else {
-                // Add entry with empty email
-                allLeads.push({
-                  city,
-                  businessName,
-                  website,
-                  email: "",
-                  category: businessType,
-                });
-                resultsForThisCategory++;
-              }
-            }
-
-            // Delay between pagination requests
-            if (nextPageToken) {
-              await new Promise(resolve => setTimeout(resolve, 2000));
-            }
-
-          } while (nextPageToken && resultsForThisCategory < maxResultsPerCity);
-
-        } catch (error) {
-          console.error(`Error processing ${city} - ${businessType}:`, error);
+        const GOOGLE_PLACES_API_KEY = Deno.env.get("GOOGLE_PLACES_API_KEY");
+        if (!GOOGLE_PLACES_API_KEY) {
+          await service
+            .from("lead_finder_jobs")
+            .update({ status: "failed", error_message: "Google Places API key not configured" })
+            .eq("id", jobId);
+          return;
         }
 
-        // Update progress
-        const progressPercent = Math.round((currentStep / totalSteps) * 100);
-        await supabase
+        const allLeads: BusinessLead[] = [];
+        let currentStep = 0;
+
+        for (const city of cities) {
+          for (const businessType of businessTypes) {
+            currentStep++;
+            console.log(`Processing ${city} - ${businessType} (${currentStep}/${totalSteps})`);
+
+            try {
+              const searchQuery = `${businessType}s in ${city}`;
+              let nextPageToken: string | null = null;
+              let resultsForThisCategory = 0;
+
+              do {
+                const searchUrl = new URL("https://places.googleapis.com/v1/places:searchText");
+                const searchResponse: Response = await fetch(searchUrl, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-Goog-Api-Key": GOOGLE_PLACES_API_KEY,
+                    "X-Goog-FieldMask": "places.id,places.displayName,places.websiteUri,nextPageToken",
+                  },
+                  body: JSON.stringify({
+                    textQuery: searchQuery,
+                    pageSize: Math.min(20, maxResultsPerCity - resultsForThisCategory),
+                    ...(nextPageToken && { pageToken: nextPageToken }),
+                  }),
+                });
+
+                if (!searchResponse.ok) {
+                  const errorText = await searchResponse.text();
+                  console.error(`Google Places API error: ${searchResponse.status} - ${errorText}`);
+                  break;
+                }
+
+                const searchData: any = await searchResponse.json();
+                const places = searchData.places || [];
+                nextPageToken = searchData.nextPageToken || null;
+
+                for (const place of places) {
+                  if (resultsForThisCategory >= maxResultsPerCity) break;
+                  const businessName = place.displayName?.text || "Unknown";
+                  const website = place.websiteUri || "";
+                  if (!website) continue;
+
+                  console.log(`Crawling ${website} for emails...`);
+                  const emails = await crawlWebsiteForEmails(website);
+
+                  if (emails.length > 0) {
+                    for (const email of emails) {
+                      allLeads.push({ city, businessName, website, email, category: businessType });
+                      resultsForThisCategory++;
+                    }
+                  } else {
+                    allLeads.push({ city, businessName, website, email: "", category: businessType });
+                    resultsForThisCategory++;
+                  }
+                }
+
+                if (nextPageToken) {
+                  await new Promise(resolve => setTimeout(resolve, 2000));
+                }
+              } while (nextPageToken && resultsForThisCategory < maxResultsPerCity);
+            } catch (err) {
+              console.error(`Error processing ${city} - ${businessType}:`, err);
+            }
+
+            const progressPercent = Math.round((currentStep / totalSteps) * 100);
+            await service.from("lead_finder_jobs").update({ progress: progressPercent }).eq("id", jobId);
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          }
+        }
+
+        await service
           .from("lead_finder_jobs")
-          .update({ progress: progressPercent })
-          .eq("id", job.id);
+          .update({ status: "completed", progress: 100, results_json: allLeads, completed_at: new Date().toISOString() })
+          .eq("id", jobId);
 
-        // Small delay between city/type combinations
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        console.log(`Job ${jobId} completed with ${allLeads.length} leads`);
+      } catch (bgErr) {
+        console.error("Background job failed:", bgErr);
+        const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+        const service = createClient(
+          Deno.env.get("SUPABASE_URL") ?? "",
+          SERVICE_KEY
+        );
+        await service
+          .from("lead_finder_jobs")
+          .update({ status: "failed", error_message: bgErr instanceof Error ? bgErr.message : String(bgErr) })
+          .eq("id", jobId);
       }
-    }
+    })());
 
-    // Update job with results
-    await supabase
-      .from("lead_finder_jobs")
-      .update({
-        status: "completed",
-        progress: 100,
-        results_json: allLeads,
-        completed_at: new Date().toISOString(),
-      })
-      .eq("id", job.id);
-
-    console.log(`Job ${job.id} completed with ${allLeads.length} leads`);
-
+    // Respond immediately so the client doesn't time out
     return new Response(
-      JSON.stringify({
-        success: true,
-        jobId: job.id,
-        totalLeads: allLeads.length,
-      }),
-      {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      JSON.stringify({ success: true, jobId }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
     console.error("Error in start-lead-finder:", error);
