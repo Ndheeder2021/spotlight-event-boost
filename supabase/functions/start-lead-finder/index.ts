@@ -105,19 +105,20 @@ serve(async (req) => {
       { global: { headers: { Authorization: authHeader } } }
     );
 
-    // Prefer decoding JWT locally to avoid Auth admin restrictions
-    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+    // Decode JWT locally (base64url-safe)
+    const bearer = authHeader.replace(/^Bearer\s+/i, "").trim();
     let userId: string | null = null;
     try {
-      const payloadPart = token.split('.')[1];
-      const json = JSON.parse(atob(payloadPart));
-      userId = json.sub || json.user_id || null;
+      const payloadPart = bearer.split(".")[1];
+      const pad = payloadPart.length % 4 ? "=".repeat(4 - (payloadPart.length % 4)) : "";
+      const base64 = payloadPart.replace(/-/g, "+").replace(/_/g, "/") + pad;
+      const json = JSON.parse(atob(base64));
+      userId = (json.sub || json.user_id || null) as string | null;
     } catch (e) {
-      console.error("Failed to decode JWT:", e);
+      console.error("JWT decode failed, will fallback to auth.getUser():", e);
     }
 
     if (!userId) {
-      // Fallback to auth.getUser() if decode fails
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       if (userError || !user) {
         console.error("Auth fallback failed:", userError?.message || 'no user');
@@ -131,7 +132,7 @@ serve(async (req) => {
 
     console.log("User authenticated:", userId);
 
-    // Verify user is admin via user_roles (allowed by RLS for own rows)
+    // Verify user is admin via user_roles
     const { data: roles, error: rolesError } = await supabase
       .from("user_roles")
       .select("role")
