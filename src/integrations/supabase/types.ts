@@ -503,6 +503,33 @@ export type Database = {
         }
         Relationships: []
       }
+      invitation_access_logs: {
+        Row: {
+          created_at: string
+          id: string
+          ip_address: string | null
+          success: boolean
+          token: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          success: boolean
+          token: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          success?: boolean
+          token?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       lead_finder_jobs: {
         Row: {
           business_types: string[]
