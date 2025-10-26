@@ -19,12 +19,27 @@ export default function Analytics() {
   const fetchAnalytics = async () => {
     setIsLoading(true);
     try {
+      if (!startDate || !endDate) {
+        throw new Error("Vänligen välj både start- och slutdatum");
+      }
+
+      // Ensure dates are valid
+      if (startDate > endDate) {
+        throw new Error("Startdatum måste vara före slutdatum");
+      }
+
       // Import the analytics tool dynamically
       const { default: readProjectAnalytics } = await import("@/lib/analytics");
       
+      // Format dates as RFC3339 (YYYY-MM-DD)
+      const formattedStartDate = format(startDate, "yyyy-MM-dd");
+      const formattedEndDate = format(endDate, "yyyy-MM-dd");
+      
+      console.log("Fetching analytics:", { formattedStartDate, formattedEndDate });
+      
       const data = await readProjectAnalytics(
-        format(startDate, "yyyy-MM-dd"),
-        format(endDate, "yyyy-MM-dd"),
+        formattedStartDate,
+        formattedEndDate,
         "daily"
       );
       
@@ -37,7 +52,7 @@ export default function Analytics() {
       console.error("Error fetching analytics:", error);
       toast({
         title: "Kunde inte hämta statistik",
-        description: error.message || "Ett fel uppstod",
+        description: error.message || "Ett fel uppstod vid hämtning av statistik",
         variant: "destructive",
       });
     } finally {
