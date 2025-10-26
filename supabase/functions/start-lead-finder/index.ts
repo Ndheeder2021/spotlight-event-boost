@@ -229,6 +229,10 @@ serve(async (req) => {
 
         for (const city of cities) {
           for (const businessType of businessTypes) {
+            // Update progress at the start of this step
+            const prevProgress = Math.round(((currentStep) / Math.max(totalSteps, 1)) * 100);
+            await service.from("lead_finder_jobs").update({ progress: Math.max(prevProgress - Math.round(100/Math.max(totalSteps,1)), 0) }).eq("id", jobId);
+
             currentStep++;
             console.log(`Processing ${city} - ${businessType} (${currentStep}/${totalSteps})`);
 
@@ -282,6 +286,13 @@ serve(async (req) => {
                     resultsForThisCategory++;
                   }
                 }
+
+                // Update partial progress within this step after each page
+                const stepWeight = 100 / Math.max(totalSteps, 1);
+                const base = Math.round(((currentStep - 1) / Math.max(totalSteps, 1)) * 100);
+                const partial = Math.min(stepWeight * (resultsForThisCategory / Math.max(maxResultsPerCity, 1)), stepWeight * 0.95);
+                const updatedProgress = Math.min(99, Math.round(base + partial));
+                await service.from("lead_finder_jobs").update({ progress: updatedProgress }).eq("id", jobId);
 
                 if (nextPageToken) {
                   await new Promise(resolve => setTimeout(resolve, 2000));
