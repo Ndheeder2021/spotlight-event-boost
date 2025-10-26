@@ -67,10 +67,11 @@ serve(async (req) => {
     `;
 
     const { data, error } = await resend.emails.send({
-      from: "Spotlight <noreply@spotlight.local>",
+      from: "Lovable <onboarding@resend.dev>",
       to: [email],
       subject,
       html,
+      reply_to: inviterEmail || undefined,
     });
 
     if (error) {
