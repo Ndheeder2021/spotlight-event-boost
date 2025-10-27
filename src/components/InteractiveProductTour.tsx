@@ -31,61 +31,6 @@ interface TourStep {
   color: string;
 }
 
-const tourSteps: TourStep[] = [
-  {
-    id: 1,
-    title: "Upptäck lokala evenemang automatiskt",
-    description: "Spotlight övervakar kontinuerligt alla evenemang i ditt område och notifierar dig när det händer något relevant för din verksamhet.",
-    icon: <MapPin className="h-6 w-6" />,
-    image: featureEvents,
-    features: [
-      "Realtidsbevakning av 10,000+ evenemang",
-      "Filtrera efter typ, storlek och avstånd",
-      "Direkta notiser vid nya events"
-    ],
-    color: "from-blue-500 to-cyan-500"
-  },
-  {
-    id: 2,
-    title: "AI skapar kampanjer på 60 sekunder",
-    description: "Välj ett evenemang och låt vår AI generera professionella, skräddarsydda kampanjtexter som matchar din målgrupp och varumärke.",
-    icon: <Sparkles className="h-6 w-6" />,
-    image: featureAiCampaign,
-    features: [
-      "ChatGPT-driven copywriting",
-      "Anpassat efter din bransch",
-      "Flera varianter att välja mellan"
-    ],
-    color: "from-purple-500 to-pink-500"
-  },
-  {
-    id: 3,
-    title: "Spåra och optimera dina resultat",
-    description: "Se exakt hur dina kampanjer presterar med detaljerad analytics, ROI-tracking och A/B-testning i realtid.",
-    icon: <BarChart3 className="h-6 w-6" />,
-    image: featureAnalytics,
-    features: [
-      "Real-time analytics dashboard",
-      "ROI-beräkning per kampanj",
-      "A/B-testning för optimering"
-    ],
-    color: "from-green-500 to-emerald-500"
-  },
-  {
-    id: 4,
-    title: "Planera framåt med Event Calendar",
-    description: "Få full översikt över kommande evenemang och planera dina kampanjer i förväg för maximalt genomslag.",
-    icon: <Calendar className="h-6 w-6" />,
-    image: "/hero-video.mp4",
-    features: [
-      "Kalendervy över alla events",
-      "Prognoser för kundflöde",
-      "Automatiska påminnelser"
-    ],
-    color: "from-orange-500 to-red-500"
-  }
-];
-
 export const InteractiveProductTour = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -97,7 +42,7 @@ export const InteractiveProductTour = () => {
       title: t('tourStep1Title'),
       description: t('tourStep1Desc'),
       icon: <MapPin className="h-6 w-6" />,
-      image: featureEvents,
+      image: "/empty-restaurant-video.mp4",
       features: [
         t('tourStep1Feature1'),
         t('tourStep1Feature2'),

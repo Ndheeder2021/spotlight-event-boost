@@ -594,11 +594,11 @@ const resources = {
       next: "Nästa",
       tools: "Verktyg",
       
-      tourStep1Title: "Upptäck lokala evenemang automatiskt",
-      tourStep1Desc: "Spotlight övervakar kontinuerligt alla evenemang i ditt område och notifierar dig när det händer något relevant för din verksamhet.",
-      tourStep1Feature1: "Realtidsbevakning av 10,000+ evenemang",
-      tourStep1Feature2: "Filtrera efter typ, storlek och avstånd",
-      tourStep1Feature3: "Direkta notiser vid nya events",
+      tourStep1Title: "Är du trött på att missa lokala events?",
+      tourStep1Desc: "Vi hjälper dig att aldrig mer missa ett event som kan fylla dina bord eller rum. Upptäck evenemang i närheten automatiskt och se exakt hur många som förväntas komma.",
+      tourStep1Feature1: "Hitta alla lokala events automatiskt",
+      tourStep1Feature2: "Se förväntat antal besökare",
+      tourStep1Feature3: "Få notiser 1-2 veckor i förväg",
 
       tourStep2Title: "AI skapar kampanjer på 60 sekunder",
       tourStep2Desc: "Välj ett evenemang och låt vår AI generera professionella, skräddarsydda kampanjtexter som matchar din målgrupp och varumärke.",
@@ -1965,11 +1965,11 @@ const resources = {
       next: "Next",
       tools: "Tools",
       
-      tourStep1Title: "Discover local events automatically",
-      tourStep1Desc: "Spotlight continuously monitors all events in your area and notifies you when something relevant happens for your business.",
-      tourStep1Feature1: "Real-time monitoring of 10,000+ events",
-      tourStep1Feature2: "Filter by type, size and distance",
-      tourStep1Feature3: "Direct notifications for new events",
+      tourStep1Title: "Tired of missing local events?",
+      tourStep1Desc: "We help you never miss another event that could fill your tables or rooms. Discover nearby events automatically and see exactly how many people are expected to attend.",
+      tourStep1Feature1: "Find all local events automatically",
+      tourStep1Feature2: "See expected visitor count",
+      tourStep1Feature3: "Get notified 1-2 weeks in advance",
 
       tourStep2Title: "AI creates campaigns in 60 seconds",
       tourStep2Desc: "Choose an event and let our AI generate professional, customized campaign texts that match your target audience and brand.",
