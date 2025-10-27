@@ -37,7 +37,7 @@ const getMarketingEmailHtml = (companyName?: string) => `
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spotlight Events - Event Marketing for Your Business</title>
+  <title>Spotlight Events - Never Miss Local Events Again</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
   <table role="presentation" style="width: 100%; border-collapse: collapse;">
@@ -51,7 +51,7 @@ const getMarketingEmailHtml = (companyName?: string) => `
                 <span style="font-size: 32px;">⚡</span>
                 <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: 700; letter-spacing: -0.5px;">Spotlight</h1>
               </div>
-              <p style="margin: 10px 0 0; color: #ffffff; font-size: 16px; opacity: 0.9;">Maximize Guest Flow During Local Events</p>
+              <p style="margin: 10px 0 0; color: #ffffff; font-size: 16px; opacity: 0.9;">Never Miss an Opportunity Again</p>
             </td>
           </tr>
           
@@ -59,35 +59,39 @@ const getMarketingEmailHtml = (companyName?: string) => `
           <tr>
             <td style="padding: 40px;">
               <h2 style="margin: 0 0 20px; color: #1a1a1a; font-size: 22px; font-weight: 600;">
-                Hi${companyName ? ` ${companyName}` : ''}!
+                Hi${companyName ? ` ${companyName}` : ''},
               </h2>
               
               <p style="margin: 0 0 16px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                My name is <strong>Nabeel Heeder</strong> and I'm the founder of <strong>Spotlight Events</strong> – a platform that helps restaurants and hotels increase visibility and guest flow during major events.
+                Are you tired of always finding out afterwards that there was a big event near your restaurant or hotel — one that could have filled your tables or rooms?
               </p>
               
               <p style="margin: 0 0 16px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                By analyzing upcoming events in your area, we can show when more visitors are expected and help you plan campaigns and marketing at the right time.
+                That's exactly why we built <strong>Spotlight Events</strong>.
               </p>
               
               <p style="margin: 0 0 16px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                Several businesses already use Spotlight to maximize their sales during weekends with concerts, fairs, and sporting events.
+                Our platform helps you discover upcoming events around your business, understand how many people are expected to attend, and use this data to create targeted marketing campaigns that actually bring guests in.
               </p>
               
               <div style="background-color: #f8f9ff; border-left: 4px solid #667eea; padding: 20px; margin: 30px 0; border-radius: 4px;">
-                <p style="margin: 0; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                  I believe <strong>${companyName || 'your business'}</strong> could greatly benefit from the same insights.
+                <p style="margin: 0; color: #1a1a1a; font-size: 17px; font-weight: 600; line-height: 1.6;">
+                  With Spotlight, you'll never miss an opportunity again.
                 </p>
               </div>
               
+              <p style="margin: 0 0 24px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
+                👉 Try Spotlight Events completely free for 14 days — no commitment, just results.
+              </p>
+              
               <p style="margin: 0 0 30px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                Would you be open to a brief introduction where I show you how you can use Spotlight to attract more guests during local events?
+                Sign up today and see how easy it is to turn nearby events into real customers.
               </p>
               
               <div style="text-align: center; margin: 40px 0;">
                 <a href="https://www.spotlightevents.online?utm_source=email&utm_medium=marketing&utm_campaign=bulk_outreach&utm_content=${encodeURIComponent(companyName || 'prospect')}" 
                    style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 6px; font-size: 18px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
-                  Visit Spotlight Events →
+                  Try now for free →
                 </a>
               </div>
               
@@ -99,10 +103,9 @@ const getMarketingEmailHtml = (companyName?: string) => `
                   Nabeel Heeder
                 </p>
                 <p style="margin: 0 0 16px; color: #666; font-size: 14px;">
-                  Founder | Spotlight Events
+                  Founder, Spotlight Events
                 </p>
                 <p style="margin: 0; color: #666; font-size: 14px; line-height: 1.6;">
-                  📩 <a href="mailto:nabeel@spotlightevents.online" style="color: #667eea; text-decoration: none;">nabeel@spotlightevents.online</a><br>
                   🌐 <a href="https://www.spotlightevents.online" style="color: #667eea; text-decoration: none;">www.spotlightevents.online</a>
                 </p>
               </div>
@@ -164,7 +167,7 @@ const handler = async (req: Request): Promise<Response> => {
           const emailResponse = await resend.emails.send({
             from: `${fromName} <${fromAddress}>`,
             to: [email],
-            subject: "Increase Guest Flow During Local Events – Spotlight Events",
+            subject: "Are you tired of missing the events happening around your business?",
             html: getMarketingEmailHtml(companyName),
           });
 
