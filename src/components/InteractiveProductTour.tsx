@@ -68,7 +68,7 @@ export const InteractiveProductTour = () => {
       title: t('tourStep3Title'),
       description: t('tourStep3Desc'),
       icon: <BarChart3 className="h-6 w-6" />,
-      image: featureAnalytics,
+      image: "/analytics-demo.mp4",
       features: [
         t('tourStep3Feature1'),
         t('tourStep3Feature2'),
