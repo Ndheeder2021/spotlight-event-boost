@@ -168,6 +168,7 @@ export const InteractiveProductTour = () => {
                 {step.image ? (
                   step.image.endsWith('.mp4') ? (
                     <video 
+                      key={currentStep}
                       autoPlay 
                       loop 
                       muted 
