@@ -231,10 +231,10 @@ export const InteractiveProductTour = () => {
           <div className="border-t bg-gradient-to-r from-accent/20 via-accent/30 to-accent/20 p-6 flex-shrink-0 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <Button
-                variant="outline"
+                variant="animated"
                 onClick={handlePrev}
                 disabled={isFirstStep}
-                className="gap-2 h-12 px-6 text-base"
+                className="gap-2 h-12 px-6 text-base shadow-xl"
               >
                 <ArrowLeft className="h-5 w-5" />
                 {t('previous')}
