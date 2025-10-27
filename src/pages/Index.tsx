@@ -205,7 +205,7 @@ const Index = () => {
     {
       title: t('featureAnalytics'),
       description: t('featureAnalyticsDesc'),
-      media: "/feature-showcase.mp4",
+      media: "/analytics-showcase.mp4",
       type: "video"
     },
     {
