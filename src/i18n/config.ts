@@ -612,7 +612,7 @@ const resources = {
       tourStep3Feature2: "ROI-beräkning per kampanj",
       tourStep3Feature3: "A/B-testning för optimering",
 
-      tourStep4Title: "Planera framåt med Event Calendar",
+      tourStep4Title: "Gör som alla våra nöjda kunder",
       tourStep4Desc: "Få full översikt över kommande evenemang och planera dina kampanjer i förväg för maximalt genomslag.",
       tourStep4Feature1: "Kalendervy över alla events",
       tourStep4Feature2: "Prognoser för kundflöde",
@@ -1983,7 +1983,7 @@ const resources = {
       tourStep3Feature2: "ROI calculation per campaign",
       tourStep3Feature3: "A/B testing for optimization",
 
-      tourStep4Title: "Plan ahead with Event Calendar",
+      tourStep4Title: "Join all our satisfied customers",
       tourStep4Desc: "Get a full overview of upcoming events and plan your campaigns in advance for maximum impact.",
       tourStep4Feature1: "Calendar view of all events",
       tourStep4Feature2: "Customer flow forecasts",

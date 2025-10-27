@@ -81,7 +81,7 @@ export const InteractiveProductTour = () => {
       title: t('tourStep4Title'),
       description: t('tourStep4Desc'),
       icon: <Calendar className="h-6 w-6" />,
-      image: "/hero-video.mp4",
+      image: "/happy-customers-demo.mp4",
       features: [
         t('tourStep4Feature1'),
         t('tourStep4Feature2'),
