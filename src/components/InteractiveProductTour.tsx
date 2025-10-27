@@ -55,7 +55,7 @@ export const InteractiveProductTour = () => {
       title: t('tourStep2Title'),
       description: t('tourStep2Desc'),
       icon: <Sparkles className="h-6 w-6" />,
-      image: featureAiCampaign,
+      image: "/ai-campaign-demo.mp4",
       features: [
         t('tourStep2Feature1'),
         t('tourStep2Feature2'),
