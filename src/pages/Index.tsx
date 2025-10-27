@@ -211,8 +211,8 @@ const Index = () => {
     {
       title: t('featureAi'),
       description: t('featureAiDesc'),
-      media: featureAiCampaign,
-      type: "image"
+      media: "/ai-feature-showcase.mp4",
+      type: "video"
     },
     {
       title: t('featureEvents'),
