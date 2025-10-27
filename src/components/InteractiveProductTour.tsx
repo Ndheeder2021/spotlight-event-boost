@@ -127,7 +127,7 @@ export const InteractiveProductTour = () => {
       </Button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-6xl h-[95vh] p-0 border-2 border-primary/20 flex flex-col bg-background overflow-hidden">
+        <DialogContent className="max-w-[98vw] h-[98vh] p-0 border-2 border-primary/30 flex flex-col bg-background overflow-hidden shadow-2xl rounded-2xl">
           <DialogTitle className="sr-only">
             {t('interactiveDemo')} - {t('tourStep')} {currentStep + 1} {t('of')} {tourSteps.length}
           </DialogTitle>
@@ -136,35 +136,35 @@ export const InteractiveProductTour = () => {
           </DialogDescription>
           
           {/* Header */}
-          <div className="relative bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 p-4 border-b flex-shrink-0">
+          <div className="relative bg-gradient-to-r from-primary/10 via-accent/20 to-primary/10 p-6 border-b flex-shrink-0 backdrop-blur-sm">
             <button
               onClick={handleClose}
-              className="absolute right-4 top-4 rounded-full p-2 hover:bg-background/80 transition-colors z-10"
+              className="absolute right-6 top-6 rounded-full p-2.5 hover:bg-background/80 transition-all hover:scale-110 z-10 border border-border/50"
               aria-label={t('close')}
             >
-              <X className="h-4 w-4" />
+              <X className="h-5 w-5" />
             </button>
 
-            <div className="flex items-center gap-3 mb-3">
-              <div className={`rounded-full bg-gradient-to-br ${step.color} p-2.5 text-white shadow-lg`}>
+            <div className="flex items-center gap-4 mb-4">
+              <div className={`rounded-2xl bg-gradient-to-br ${step.color} p-3.5 text-white shadow-xl`}>
                 {step.icon}
               </div>
               <div>
-                <Badge variant="outline" className="mb-1.5 border-primary/30 bg-primary/5 text-xs">
+                <Badge variant="outline" className="mb-2 border-primary/40 bg-primary/10 text-sm font-semibold px-3 py-1">
                   {t('tourStep')} {currentStep + 1} {t('of')} {tourSteps.length}
                 </Badge>
-                <h2 className="text-xl font-bold tracking-tight">{step.title}</h2>
+                <h2 className="text-2xl lg:text-3xl font-bold tracking-tight">{step.title}</h2>
               </div>
             </div>
 
-            <Progress value={progress} className="h-1.5" />
+            <Progress value={progress} className="h-2" />
           </div>
 
           {/* Content */}
-          <div className="flex-1 flex flex-col lg:flex-row gap-6 p-6 overflow-hidden">
+          <div className="flex-1 flex flex-col lg:flex-row gap-8 p-8 overflow-hidden">
             {/* Left side - Image/Video */}
             <div className="lg:w-3/5 flex-shrink-0">
-              <Card className="relative h-full rounded-xl overflow-hidden border-2 shadow-xl">
+              <Card className="relative h-full rounded-2xl overflow-hidden border-2 border-primary/20 shadow-2xl hover:border-primary/30 transition-all">
                 {step.image ? (
                   step.image.endsWith('.mp4') ? (
                     <video 
@@ -187,12 +187,12 @@ export const InteractiveProductTour = () => {
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center p-8 bg-gradient-to-br from-accent/50 to-background">
                     <div className="text-center space-y-4">
-                      <div className={`w-20 h-20 mx-auto rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center text-white shadow-lg`}>
+                      <div className={`w-24 h-24 mx-auto rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center text-white shadow-xl`}>
                         {step.icon}
                       </div>
                       <div className="space-y-2">
-                        <div className="inline-block px-4 py-2 bg-background/90 backdrop-blur-sm rounded-lg border shadow-sm">
-                          <p className="text-sm font-medium">{t('interactiveDemo')}</p>
+                        <div className="inline-block px-5 py-3 bg-background/90 backdrop-blur-sm rounded-xl border shadow-lg">
+                          <p className="text-base font-medium">{t('interactiveDemo')}</p>
                         </div>
                       </div>
                     </div>
@@ -202,24 +202,24 @@ export const InteractiveProductTour = () => {
             </div>
 
             {/* Right side - Description and Features */}
-            <div className="lg:w-2/5 flex flex-col justify-center space-y-4">
-              <p className="text-base text-muted-foreground leading-relaxed">
+            <div className="lg:w-2/5 flex flex-col justify-center space-y-6">
+              <p className="text-lg text-muted-foreground leading-relaxed">
                 {step.description}
               </p>
 
               {/* Features List */}
-              <div className="space-y-2">
-                <h3 className="font-semibold text-base">{t('keyFeatures')}</h3>
-                <div className="grid gap-2">
+              <div className="space-y-3">
+                <h3 className="font-semibold text-lg">{t('keyFeatures')}</h3>
+                <div className="grid gap-3">
                   {step.features.map((feature, index) => (
                     <div 
                       key={index} 
-                      className="flex items-start gap-2 p-3 rounded-lg bg-accent/30 border border-border/50 transition-all hover:bg-accent/50 hover:border-primary/20"
+                      className="flex items-start gap-3 p-4 rounded-xl bg-accent/30 border border-border/50 transition-all hover:bg-accent/50 hover:border-primary/30 hover:scale-[1.02] hover:shadow-md"
                     >
-                      <div className={`rounded-full bg-gradient-to-br ${step.color} p-1 mt-0.5 flex-shrink-0`}>
-                        <Check className="h-3 w-3 text-white" />
+                      <div className={`rounded-full bg-gradient-to-br ${step.color} p-1.5 mt-0.5 flex-shrink-0 shadow-lg`}>
+                        <Check className="h-4 w-4 text-white" />
                       </div>
-                      <span className="text-sm font-medium leading-relaxed">{feature}</span>
+                      <span className="text-base font-medium leading-relaxed">{feature}</span>
                     </div>
                   ))}
                 </div>
@@ -228,27 +228,27 @@ export const InteractiveProductTour = () => {
           </div>
 
           {/* Footer Navigation */}
-          <div className="border-t bg-gradient-to-r from-accent/20 via-accent/30 to-accent/20 p-4 flex-shrink-0">
+          <div className="border-t bg-gradient-to-r from-accent/20 via-accent/30 to-accent/20 p-6 flex-shrink-0 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <Button
                 variant="outline"
                 onClick={handlePrev}
                 disabled={isFirstStep}
-                className="gap-2"
+                className="gap-2 h-12 px-6 text-base"
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-5 w-5" />
                 {t('previous')}
               </Button>
 
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 {tourSteps.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentStep(index)}
-                    className={`h-2 rounded-full transition-all ${
+                    className={`h-3 rounded-full transition-all ${
                       index === currentStep 
-                        ? 'w-8 bg-primary' 
-                        : 'w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                        ? 'w-10 bg-primary shadow-lg' 
+                        : 'w-3 bg-muted-foreground/30 hover:bg-muted-foreground/50'
                     }`}
                     aria-label={`${t('goToStep')} ${index + 1}`}
                   />
@@ -257,19 +257,19 @@ export const InteractiveProductTour = () => {
 
               {isLastStep ? (
                 <Link to="/auth" onClick={handleClose}>
-                  <Button variant="animated" className="gap-2">
+                  <Button variant="animated" className="gap-2 h-12 px-6 text-base shadow-xl">
                     {t('getStartedFree')}
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-5 w-5" />
                   </Button>
                 </Link>
               ) : (
                 <Button
                   onClick={handleNext}
                   variant="animated"
-                  className="gap-2"
+                  className="gap-2 h-12 px-6 text-base shadow-xl"
                 >
                   {t('next')}
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-5 w-5" />
                 </Button>
               )}
             </div>
