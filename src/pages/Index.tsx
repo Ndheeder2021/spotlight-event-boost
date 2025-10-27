@@ -211,14 +211,14 @@ const Index = () => {
     {
       title: t('featureAi'),
       description: t('featureAiDesc'),
-      media: "/ai-feature-showcase.mp4",
-      type: "video"
+      media: featureAiCampaign,
+      type: "image"
     },
     {
       title: t('featureEvents'),
       description: t('featureEventsDesc'),
-      media: featureEvents,
-      type: "image"
+      media: "/events-feature-showcase.mp4",
+      type: "video"
     },
   ];
 
