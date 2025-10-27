@@ -245,10 +245,10 @@ export const InteractiveProductTour = () => {
                   <button
                     key={index}
                     onClick={() => setCurrentStep(index)}
-                    className={`h-3 rounded-full transition-all ${
+                    className={`h-3 rounded-full transition-all duration-300 ${
                       index === currentStep 
-                        ? 'w-10 bg-primary shadow-lg' 
-                        : 'w-3 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                        ? 'w-10 bg-gradient-to-r from-primary to-primary-glow shadow-lg scale-110' 
+                        : 'w-3 bg-muted-foreground/40 hover:bg-primary/50 hover:scale-110'
                     }`}
                     aria-label={`${t('goToStep')} ${index + 1}`}
                   />
