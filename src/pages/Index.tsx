@@ -205,17 +205,20 @@ const Index = () => {
     {
       title: t('featureAnalytics'),
       description: t('featureAnalyticsDesc'),
-      image: featureAnalytics,
+      media: "/feature-showcase.mp4",
+      type: "video"
     },
     {
       title: t('featureAi'),
       description: t('featureAiDesc'),
-      image: featureAiCampaign,
+      media: featureAiCampaign,
+      type: "image"
     },
     {
       title: t('featureEvents'),
       description: t('featureEventsDesc'),
-      image: featureEvents,
+      media: featureEvents,
+      type: "image"
     },
   ];
 
@@ -558,12 +561,24 @@ const Index = () => {
                 </div>
                 <div className={`${index % 2 === 1 ? 'lg:order-1' : ''}`}>
                   <div className="rounded-2xl overflow-hidden border shadow-2xl">
-                    <img 
-                      src={feature.image} 
-                      alt={feature.title}
-                      className="w-full h-auto"
-                      loading="lazy"
-                    />
+                    {feature.type === 'video' ? (
+                      <video 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                        className="w-full h-auto"
+                      >
+                        <source src={feature.media} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <img 
+                        src={feature.media} 
+                        alt={feature.title}
+                        className="w-full h-auto"
+                        loading="lazy"
+                      />
+                    )}
                   </div>
                 </div>
               </div>
