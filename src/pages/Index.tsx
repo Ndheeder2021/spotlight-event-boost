@@ -444,7 +444,18 @@ const Index = () => {
 
       {/* Hero Section - Instantly.ai Style */}
       <section className="relative overflow-hidden bg-background">
-        <AnimatedHeroBackground />
+        <div className="absolute inset-0 overflow-hidden">
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover opacity-30"
+          >
+            <source src="/hero-showcase.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background"></div>
+        </div>
         <div className="container relative mx-auto px-4 sm:px-6 pt-20 sm:pt-28 lg:pt-40 pb-16 sm:pb-20 lg:pb-32 z-10">
           <div className="max-w-5xl mx-auto text-center space-y-8 sm:space-y-12">
             <div className="space-y-6 sm:space-y-8">
