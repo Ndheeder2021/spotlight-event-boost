@@ -142,35 +142,18 @@ export function TeamManagement({ currentPlan, tenantId }: TeamManagementProps) {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const token = crypto.randomUUID();
-
-      const { error } = await supabase
-        .from("team_invitations")
-        .insert({
-          tenant_id: tenantId,
+      // Use the secure edge function to create invitation with hashed token
+      const { data, error } = await supabase.functions.invoke('create-team-invitation', {
+        body: {
           email: newEmail.toLowerCase().trim(),
           role: newRole,
-          invited_by: user.id,
-          token,
-        });
+          tenantId,
+          appUrl: window.location.origin,
+        },
+      });
 
       if (error) throw error;
-
-      // Send email invitation via Edge Function (non-blocking)
-      try {
-        await supabase.functions.invoke('send-team-invitation', {
-          body: {
-            email: newEmail.toLowerCase().trim(),
-            token,
-            role: newRole,
-            inviterEmail: user.email,
-            tenantId,
-            appUrl: window.location.origin,
-          },
-        });
-      } catch (e) {
-        console.warn('Invitation email send failed (non-blocking):', e);
-      }
+      if (data?.error) throw new Error(data.error);
 
       toast.success(t('invitationSentTo', { email: newEmail }));
       setNewEmail("");

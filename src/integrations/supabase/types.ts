@@ -856,6 +856,7 @@ export type Database = {
           role: Database["public"]["Enums"]["app_role"]
           tenant_id: string
           token: string
+          token_hash: string | null
         }
         Insert: {
           accepted_at?: string | null
@@ -867,6 +868,7 @@ export type Database = {
           role: Database["public"]["Enums"]["app_role"]
           tenant_id: string
           token: string
+          token_hash?: string | null
         }
         Update: {
           accepted_at?: string | null
@@ -878,6 +880,7 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
           tenant_id?: string
           token?: string
+          token_hash?: string | null
         }
         Relationships: [
           {
@@ -977,6 +980,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      hash_token: { Args: { _token: string }; Returns: string }
     }
     Enums: {
       app_role: "owner" | "staff" | "admin" | "moderator" | "viewer" | "editor"
