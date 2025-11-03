@@ -479,11 +479,13 @@ All colors MUST be HSL.
 
   .auth-eye-icon {
     position: absolute;
-    right: 16px;
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
-    color: hsl(var(--muted-foreground));
+    border: none;
+    background: transparent;
     cursor: pointer;
+    color: hsl(var(--muted-foreground));
     transition: color 0.2s;
   }
 
