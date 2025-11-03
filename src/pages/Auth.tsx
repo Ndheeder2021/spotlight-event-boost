@@ -279,14 +279,14 @@ export default function Auth() {
               </div>
             ) : (
               <div className="text-center lg:text-right space-y-6 p-8">
-                <h2 className="text-4xl font-bold text-white">Already have an account?</h2>
-                <p className="text-lg text-white/90">
+                <h2 className="text-4xl font-bold text-foreground">Already have an account?</h2>
+                <p className="text-lg text-muted-foreground">
                   Sign in to see your notifications and post your favorite photos
                 </p>
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-primary transition-all px-12 py-6 text-lg rounded-full"
+                  className="border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-white transition-all px-12 py-6 text-lg rounded-full"
                   onClick={() => setIsLogin(true)}
                 >
                   SIGN IN
