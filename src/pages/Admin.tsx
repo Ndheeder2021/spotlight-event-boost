@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Users, MessageSquare, Building2, BarChart, Eye, Trash2, Gift, UserCheck, Sparkles, Shield, Search, Download, History as HistoryIcon } from "lucide-react";
+import { Users, MessageSquare, Building2, BarChart, Eye, Trash2, Gift, UserCheck, Sparkles, Shield, Search, Download, History as HistoryIcon, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { showErrorToast } from "@/utils/errorMessages";
 
@@ -452,6 +452,53 @@ export default function Admin() {
     }, 2000); // Poll every 2 seconds
   };
   
+  const importEmailsToBulkEmail = async (jobId?: string, city?: string) => {
+    const targetJobId = jobId || leadFinderJobId;
+    if (!targetJobId) {
+      toast.error("No job to import from");
+      return;
+    }
+    
+    try {
+      const { data: job, error } = await supabase
+        .from('lead_finder_jobs')
+        .select('results_json')
+        .eq('id', targetJobId)
+        .single();
+      
+      if (error || !job) {
+        throw new Error('Failed to fetch job results');
+      }
+      
+      let leads = job.results_json as any[];
+      
+      // Filter by city if specified
+      if (city) {
+        leads = leads.filter(lead => 
+          lead.city?.toLowerCase().includes(city.toLowerCase())
+        );
+      }
+      
+      // Extract emails
+      const emails = leads
+        .map(lead => lead.email)
+        .filter(email => email && email.includes('@'));
+      
+      if (emails.length === 0) {
+        toast.error("Inga e-postadresser hittades");
+        return;
+      }
+      
+      // Navigate to bulk email with emails
+      navigate('/bulk-email', { state: { emails } });
+      
+      toast.success(`${emails.length} e-postadresser importerade till Bulk Email`);
+    } catch (error: any) {
+      console.error('Error importing emails:', error);
+      toast.error(error.message || 'Failed to import emails');
+    }
+  };
+
   const downloadLeadCSV = async (jobId?: string, city?: string) => {
     const targetJobId = jobId || leadFinderJobId;
     if (!targetJobId) {
@@ -1125,20 +1172,45 @@ export default function Admin() {
                 </div>
 
                 {leadFinderJobId && !leadFinderRunning && (
-                  <div className="glass-card p-4 rounded-lg">
-                    <h4 className="font-semibold mb-3 text-primary">Download by City:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {leadFinderCities.split(',').map(city => city.trim()).filter(Boolean).map(city => (
-                        <Button
-                          key={city}
-                          variant="outline"
-                          size="sm"
-                          onClick={() => downloadLeadCSV(undefined, city)}
-                        >
-                          <Download className="h-3 w-3 mr-1" />
-                          {city}
-                        </Button>
-                      ))}
+                  <div className="space-y-4">
+                    <div className="glass-card p-4 rounded-lg">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-semibold text-primary">Importera alla e-postadresser</h4>
+                      </div>
+                      <Button
+                        variant="default"
+                        size="sm"
+                        onClick={() => importEmailsToBulkEmail()}
+                        className="w-full"
+                      >
+                        <Mail className="h-3 w-3 mr-2" />
+                        Importera alla till Bulk Email
+                      </Button>
+                    </div>
+                    
+                    <div className="glass-card p-4 rounded-lg">
+                      <h4 className="font-semibold mb-3 text-primary">Download eller Importera per Stad:</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {leadFinderCities.split(',').map(city => city.trim()).filter(Boolean).map(city => (
+                          <div key={city} className="flex gap-1">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => downloadLeadCSV(undefined, city)}
+                            >
+                              <Download className="h-3 w-3 mr-1" />
+                              {city}
+                            </Button>
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              onClick={() => importEmailsToBulkEmail(undefined, city)}
+                            >
+                              <Mail className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -1192,6 +1264,14 @@ export default function Admin() {
                               <Download className="h-3 w-3 mr-1" />
                               Download All
                             </Button>
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              onClick={() => importEmailsToBulkEmail(job.id)}
+                            >
+                              <Mail className="h-3 w-3 mr-1" />
+                              Importera
+                            </Button>
                           </div>
                         </div>
                         
@@ -1201,16 +1281,25 @@ export default function Admin() {
                             <p className="text-xs text-muted-foreground mb-2">Download by city:</p>
                             <div className="flex flex-wrap gap-2">
                               {job.cities.map((city: string) => (
-                                <Button
-                                  key={city}
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => downloadLeadCSV(job.id, city)}
-                                  className="h-7 text-xs"
-                                >
-                                  <Download className="h-2.5 w-2.5 mr-1" />
-                                  {city}
-                                </Button>
+                                <div key={city} className="flex gap-1">
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => downloadLeadCSV(job.id, city)}
+                                    className="h-7 text-xs"
+                                  >
+                                    <Download className="h-2.5 w-2.5 mr-1" />
+                                    {city}
+                                  </Button>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => importEmailsToBulkEmail(job.id, city)}
+                                    className="h-7 text-xs"
+                                  >
+                                    <Mail className="h-2.5 w-2.5" />
+                                  </Button>
+                                </div>
                               ))}
                             </div>
                           </div>

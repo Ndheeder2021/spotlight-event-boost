@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,11 +11,26 @@ import { useAdminCheck } from "@/hooks/useAdminCheck";
 
 export default function BulkEmail() {
   const { isAdmin, loading: adminLoading } = useAdminCheck();
+  const location = useLocation();
   const [emails, setEmails] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [results, setResults] = useState<any>(null);
   const [isUploading, setIsUploading] = useState(false);
   const { toast } = useToast();
+
+  // Load emails from navigation state if provided
+  useEffect(() => {
+    if (location.state?.emails && Array.isArray(location.state.emails)) {
+      const importedEmails = location.state.emails.filter((e: string) => e && e.includes('@'));
+      if (importedEmails.length > 0) {
+        setEmails(importedEmails.join('\n'));
+        toast({
+          title: "E-postadresser importerade!",
+          description: `${importedEmails.length} e-postadresser laddades från Lead Finder`,
+        });
+      }
+    }
+  }, [location.state, toast]);
 
   if (adminLoading) {
     return (
