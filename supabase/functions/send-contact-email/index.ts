@@ -20,15 +20,101 @@ interface ContactEmailRequest {
   message: string;
 }
 
+// Rate limiting map: IP -> [timestamps]
+const rateLimitMap = new Map<string, number[]>();
+const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
+const MAX_REQUESTS = 3; // Max 3 requests per window
+
+// Clean old entries every 30 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, timestamps] of rateLimitMap.entries()) {
+    const validTimestamps = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW);
+    if (validTimestamps.length === 0) {
+      rateLimitMap.delete(ip);
+    } else {
+      rateLimitMap.set(ip, validTimestamps);
+    }
+  }
+}, 30 * 60 * 1000);
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const timestamps = rateLimitMap.get(ip) || [];
+  
+  // Remove expired timestamps
+  const validTimestamps = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW);
+  
+  if (validTimestamps.length >= MAX_REQUESTS) {
+    return false; // Rate limit exceeded
+  }
+  
+  // Add current timestamp
+  validTimestamps.push(now);
+  rateLimitMap.set(ip, validTimestamps);
+  
+  return true; // Request allowed
+}
+
+function getClientIP(req: Request): string {
+  // Try to get real IP from various headers
+  const forwarded = req.headers.get("x-forwarded-for");
+  if (forwarded) {
+    return forwarded.split(",")[0].trim();
+  }
+  
+  const realIp = req.headers.get("x-real-ip");
+  if (realIp) {
+    return realIp;
+  }
+  
+  return "unknown";
+}
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    // Get client IP for rate limiting
+    const clientIP = getClientIP(req);
+    
+    // Check rate limit
+    if (!checkRateLimit(clientIP)) {
+      console.warn(`Rate limit exceeded for IP: ${clientIP}`);
+      return new Response(
+        JSON.stringify({ 
+          error: "Too many requests. Please try again in 15 minutes." 
+        }),
+        {
+          status: 429,
+          headers: { 
+            "Content-Type": "application/json", 
+            ...corsHeaders,
+            "Retry-After": "900" // 15 minutes in seconds
+          },
+        }
+      );
+    }
+
     const { name, email, subject, message }: ContactEmailRequest = await req.json();
 
-    console.log("Processing contact form submission from:", email);
+    // Validate input lengths (server-side validation)
+    if (!name || name.trim().length === 0 || name.length > 100) {
+      throw new Error("Invalid name");
+    }
+    if (!email || email.trim().length === 0 || email.length > 255 || !email.includes("@")) {
+      throw new Error("Invalid email");
+    }
+    if (!subject || subject.trim().length === 0 || subject.length > 200) {
+      throw new Error("Invalid subject");
+    }
+    if (!message || message.trim().length < 10 || message.length > 2000) {
+      throw new Error("Invalid message");
+    }
+
+    console.log("Processing contact form submission from:", email, "IP:", clientIP);
 
     // Create Supabase client
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;

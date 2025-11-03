@@ -72,11 +72,23 @@ const Contact = () => {
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     try {
-      const { error } = await supabase.functions.invoke("send-contact-email", {
+      const { data: result, error } = await supabase.functions.invoke("send-contact-email", {
         body: data,
       });
 
-      if (error) throw error;
+      if (error) {
+        // Check if it's a rate limit error
+        if (error.message?.includes("429") || error.message?.includes("Too many requests")) {
+          toast({
+            title: t('contactRateLimitTitle') || "För många förfrågningar",
+            description: t('contactRateLimitDesc') || "Du har skickat för många meddelanden. Försök igen om 15 minuter.",
+            variant: "destructive",
+          });
+          setIsSubmitting(false);
+          return;
+        }
+        throw error;
+      }
 
       toast({
         title: t('contactSuccess'),
@@ -84,13 +96,23 @@ const Contact = () => {
       });
       
       form.reset();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error sending contact form:", error);
-      toast({
-        title: t('contactError'),
-        description: t('contactErrorDesc'),
-        variant: "destructive",
-      });
+      
+      // Check for rate limit in catch block too
+      if (error?.message?.includes("429") || error?.message?.includes("Too many requests")) {
+        toast({
+          title: t('contactRateLimitTitle') || "För många förfrågningar",
+          description: t('contactRateLimitDesc') || "Du har skickat för många meddelanden. Försök igen om 15 minuter.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: t('contactError'),
+          description: t('contactErrorDesc'),
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }
