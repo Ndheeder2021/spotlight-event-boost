@@ -24,64 +24,114 @@ const getGuideEmailHtml = (name: string) => `
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Din Event Marketing Guide</title>
 </head>
-<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, sans-serif; background-color: #f6f9fc; margin: 0; padding: 0;">
-  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 40px 20px;">
-    <h1 style="color: #333; font-size: 32px; font-weight: bold; margin: 0 0 24px 0;">🎉 Tack för ditt intresse!</h1>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, sans-serif; background-color: #f4f7fa; margin: 0; padding: 0;">
+  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
     
-    <p style="color: #333; font-size: 16px; line-height: 24px; margin: 16px 0;">
-      Hej ${name},
-    </p>
-    
-    <p style="color: #333; font-size: 16px; line-height: 24px; margin: 16px 0;">
-      Tack för att du vill lära dig mer om event marketing! Här kommer din gratis guide med allt du behöver för att lyckas med eventbaserad marknadsföring.
-    </p>
-
-    <div style="background-color: #f8f9fa; border-radius: 8px; padding: 24px; margin: 32px 0;">
-      <h2 style="color: #333; font-size: 24px; font-weight: bold; margin: 0 0 16px 0;">📚 I din guide får du:</h2>
-      
-      <p style="color: #333; font-size: 16px; line-height: 28px; margin: 8px 0;">✓ 7 beprövade strategier för event marketing</p>
-      <p style="color: #333; font-size: 16px; line-height: 28px; margin: 8px 0;">✓ Kampanjmallar du kan använda direkt</p>
-      <p style="color: #333; font-size: 16px; line-height: 28px; margin: 8px 0;">✓ Checklista för varje event-typ</p>
-      <p style="color: #333; font-size: 16px; line-height: 28px; margin: 8px 0;">✓ ROI-kalkylator för eventbaserad marknadsföring</p>
+    <!-- Header -->
+    <div style="background: linear-gradient(135deg, #5046e4 0%, #6b63ff 100%); padding: 48px 40px; text-align: center;">
+      <h1 style="color: #ffffff; font-size: 28px; font-weight: 600; margin: 0; letter-spacing: -0.5px;">Välkommen till Spotlight Events</h1>
+      <p style="color: rgba(255, 255, 255, 0.9); font-size: 16px; margin: 12px 0 0 0; font-weight: 400;">Din guide till framgångsrik event marketing</p>
     </div>
 
-    <div style="text-align: center; margin: 32px 0;">
-      <a href="https://spotlight-event-marketing.com/guide.pdf" 
-         style="background-color: #5046e4; color: #fff; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-size: 18px; font-weight: bold; display: inline-block;">
-        📥 Ladda ner din guide här
-      </a>
-    </div>
-
-    <hr style="border: none; border-top: 1px solid #e6ebf1; margin: 32px 0;">
-
-    <div style="background-color: #f0f7ff; border-radius: 8px; padding: 32px; margin: 32px 0; text-align: center;">
-      <h3 style="color: #333; font-size: 20px; font-weight: bold; margin: 0 0 12px 0;">Redo att ta nästa steg?</h3>
-      <p style="color: #333; font-size: 16px; line-height: 24px; margin: 16px 0;">
-        Med Spotlight kan du automatisera hela processen - från att hitta events till att skapa kampanjer med AI.
+    <!-- Content -->
+    <div style="padding: 48px 40px;">
+      <p style="color: #1a1a1a; font-size: 16px; line-height: 24px; margin: 0 0 24px 0;">
+        Hej ${name},
       </p>
       
-      <p style="color: #555; font-size: 15px; line-height: 24px; margin: 16px 0;">
-        🚀 Skapa kampanjer på 60 sekunder med AI<br>
-        📍 Automatisk bevakning av lokala events<br>
-        📊 Real-time analytics & ROI-tracking<br>
-        💰 Från $29/månad med 14 dagars gratis provperiod
+      <p style="color: #4a4a4a; font-size: 15px; line-height: 24px; margin: 0 0 32px 0;">
+        Tack för ditt intresse för Spotlight Events. Vi är glada att kunna dela med oss av vår omfattande guide om eventbaserad marknadsföring.
       </p>
 
-      <a href="https://64879faf-7b1e-407e-8edb-6e8199bc4d8d.lovableproject.com/auth" 
-         style="background-color: #5046e4; color: #fff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-size: 16px; font-weight: bold; display: inline-block; margin-top: 16px;">
-        Starta gratis provperiod →
-      </a>
+      <!-- Guide Benefits -->
+      <div style="background-color: #f8f9fb; border-left: 4px solid #5046e4; border-radius: 8px; padding: 32px; margin: 0 0 40px 0;">
+        <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin: 0 0 20px 0;">Vad guiden innehåller</h2>
+        
+        <div style="margin-bottom: 16px;">
+          <div style="display: inline-block; width: 24px; height: 24px; background-color: #5046e4; border-radius: 4px; text-align: center; line-height: 24px; margin-right: 12px; vertical-align: middle;">
+            <span style="color: #ffffff; font-size: 14px; font-weight: bold;">✓</span>
+          </div>
+          <span style="color: #2d2d2d; font-size: 15px; line-height: 24px; vertical-align: middle;">7 beprövade strategier för event marketing</span>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <div style="display: inline-block; width: 24px; height: 24px; background-color: #5046e4; border-radius: 4px; text-align: center; line-height: 24px; margin-right: 12px; vertical-align: middle;">
+            <span style="color: #ffffff; font-size: 14px; font-weight: bold;">✓</span>
+          </div>
+          <span style="color: #2d2d2d; font-size: 15px; line-height: 24px; vertical-align: middle;">Kampanjmallar redo att användas</span>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <div style="display: inline-block; width: 24px; height: 24px; background-color: #5046e4; border-radius: 4px; text-align: center; line-height: 24px; margin-right: 12px; vertical-align: middle;">
+            <span style="color: #ffffff; font-size: 14px; font-weight: bold;">✓</span>
+          </div>
+          <span style="color: #2d2d2d; font-size: 15px; line-height: 24px; vertical-align: middle;">Omfattande checklista för varje event-typ</span>
+        </div>
+        
+        <div>
+          <div style="display: inline-block; width: 24px; height: 24px; background-color: #5046e4; border-radius: 4px; text-align: center; line-height: 24px; margin-right: 12px; vertical-align: middle;">
+            <span style="color: #ffffff; font-size: 14px; font-weight: bold;">✓</span>
+          </div>
+          <span style="color: #2d2d2d; font-size: 15px; line-height: 24px; vertical-align: middle;">ROI-kalkylator för mätbar avkastning</span>
+        </div>
+      </div>
+
+      <!-- CTA Button -->
+      <div style="text-align: center; margin: 0 0 48px 0;">
+        <a href="https://spotlight-event-marketing.com/guide.pdf" 
+           style="display: inline-block; background-color: #5046e4; color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 8px; font-size: 16px; font-weight: 600; box-shadow: 0 4px 12px rgba(80, 70, 228, 0.3); transition: all 0.3s ease;">
+          Ladda ner din guide
+        </a>
+      </div>
+
+      <!-- Separator -->
+      <div style="border-top: 1px solid #e8eaed; margin: 48px 0;"></div>
+
+      <!-- Platform Benefits -->
+      <div style="background: linear-gradient(135deg, #f8f9fb 0%, #ffffff 100%); border: 1px solid #e8eaed; border-radius: 12px; padding: 40px; text-align: center; margin: 0 0 32px 0;">
+        <h3 style="color: #1a1a1a; font-size: 22px; font-weight: 600; margin: 0 0 16px 0;">Redo att automatisera din event marketing?</h3>
+        <p style="color: #4a4a4a; font-size: 15px; line-height: 24px; margin: 0 0 28px 0;">
+          Spotlight Events automatiserar hela processen – från eventbevakning till AI-genererade kampanjer och detaljerad analys.
+        </p>
+        
+        <div style="text-align: left; margin: 0 0 32px 0;">
+          <div style="margin-bottom: 14px;">
+            <span style="color: #5046e4; font-size: 18px; margin-right: 8px;">●</span>
+            <span style="color: #2d2d2d; font-size: 15px; line-height: 24px;">Skapa kampanjer på 60 sekunder med AI</span>
+          </div>
+          <div style="margin-bottom: 14px;">
+            <span style="color: #5046e4; font-size: 18px; margin-right: 8px;">●</span>
+            <span style="color: #2d2d2d; font-size: 15px; line-height: 24px;">Automatisk bevakning av lokala events</span>
+          </div>
+          <div style="margin-bottom: 14px;">
+            <span style="color: #5046e4; font-size: 18px; margin-right: 8px;">●</span>
+            <span style="color: #2d2d2d; font-size: 15px; line-height: 24px;">Real-time analytics och ROI-tracking</span>
+          </div>
+          <div>
+            <span style="color: #5046e4; font-size: 18px; margin-right: 8px;">●</span>
+            <span style="color: #2d2d2d; font-size: 15px; line-height: 24px;">Från 299 kr/månad med 14 dagars gratis provperiod</span>
+          </div>
+        </div>
+
+        <a href="https://64879faf-7b1e-407e-8edb-6e8199bc4d8d.lovableproject.com/auth" 
+           style="display: inline-block; background-color: #5046e4; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; box-shadow: 0 2px 8px rgba(80, 70, 228, 0.25);">
+          Starta gratis provperiod
+        </a>
+      </div>
     </div>
 
-    <hr style="border: none; border-top: 1px solid #e6ebf1; margin: 32px 0;">
-
-    <p style="color: #898989; font-size: 14px; line-height: 22px; text-align: center; margin: 16px 0;">
-      <a href="https://64879faf-7b1e-407e-8edb-6e8199bc4d8d.lovableproject.com" style="color: #5046e4; text-decoration: underline;">Spotlight</a> - AI-driven event marketing för lokala företag
-    </p>
-
-    <p style="color: #b0b0b0; font-size: 12px; line-height: 20px; text-align: center; margin: 12px 0;">
-      Du får detta email för att du bad om vår Event Marketing Guide.
-    </p>
+    <!-- Footer -->
+    <div style="background-color: #f8f9fb; padding: 32px 40px; text-align: center; border-top: 1px solid #e8eaed;">
+      <p style="color: #6b7280; font-size: 14px; line-height: 20px; margin: 0 0 8px 0;">
+        <a href="https://64879faf-7b1e-407e-8edb-6e8199bc4d8d.lovableproject.com" style="color: #5046e4; text-decoration: none; font-weight: 500;">Spotlight Events</a>
+      </p>
+      <p style="color: #9ca3af; font-size: 13px; line-height: 18px; margin: 0;">
+        AI-driven event marketing för lokala företag
+      </p>
+      <p style="color: #9ca3af; font-size: 12px; line-height: 18px; margin: 16px 0 0 0;">
+        Du får detta email för att du begärde vår Event Marketing Guide
+      </p>
+    </div>
   </div>
 </body>
 </html>
