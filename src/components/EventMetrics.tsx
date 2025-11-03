@@ -45,7 +45,7 @@ export const EventMetrics = ({ events }: EventMetricsProps) => {
           </div>
         </CardHeader>
         <CardContent className="relative z-10">
-          <div className="text-4xl font-bold bg-gradient-to-br from-primary via-primary-glow to-primary bg-clip-text text-transparent mb-2 group-hover:scale-105 transition-transform duration-300">
+          <div className="text-4xl font-bold text-primary mb-2 group-hover:scale-105 transition-transform duration-300">
             {eventsThisWeek.length}
           </div>
           <p className="text-sm text-muted-foreground leading-snug font-medium">{t('withinRadius')}</p>
@@ -63,7 +63,7 @@ export const EventMetrics = ({ events }: EventMetricsProps) => {
           </div>
         </CardHeader>
         <CardContent className="relative z-10">
-          <div className="text-4xl font-bold bg-gradient-to-br from-accent via-accent/90 to-accent bg-clip-text text-transparent mb-2 group-hover:scale-105 transition-transform duration-300">
+          <div className="text-4xl font-bold text-accent mb-2 group-hover:scale-105 transition-transform duration-300">
             {events.length}
           </div>
           <p className="text-sm text-muted-foreground leading-snug font-medium">{t('eventsTotal')}</p>
@@ -81,7 +81,7 @@ export const EventMetrics = ({ events }: EventMetricsProps) => {
           </div>
         </CardHeader>
         <CardContent className="relative z-10">
-          <div className="text-4xl font-bold bg-gradient-to-br from-primary via-primary-glow to-primary bg-clip-text text-transparent mb-2 group-hover:scale-105 transition-transform duration-300">
+          <div className="text-4xl font-bold text-primary mb-2 group-hover:scale-105 transition-transform duration-300">
             {totalExpectedAttendance.toLocaleString()}
           </div>
           <p className="text-sm text-muted-foreground leading-snug font-medium">{t('totalThisWeek')}</p>
@@ -99,7 +99,7 @@ export const EventMetrics = ({ events }: EventMetricsProps) => {
           </div>
         </CardHeader>
         <CardContent className="relative z-10">
-          <div className="text-4xl font-bold bg-gradient-to-br from-accent via-accent/90 to-accent bg-clip-text text-transparent mb-2 group-hover:scale-105 transition-transform duration-300">
+          <div className="text-4xl font-bold text-accent mb-2 group-hover:scale-105 transition-transform duration-300">
             {biggestEvent?.expected_attendance?.toLocaleString() || 0}
           </div>
           <p className="text-sm text-muted-foreground truncate leading-snug font-medium">
