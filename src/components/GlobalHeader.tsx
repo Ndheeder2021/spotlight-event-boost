@@ -375,8 +375,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                   className="gap-2.5 px-8 py-3 bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl rounded-xl font-bold text-base relative overflow-hidden group"
                 >
                   <Link to="/auth">
-                    <span className="relative z-10">{t("heroCtaPrimary")}</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary-glow to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    {t("heroCtaPrimary")}
                   </Link>
                 </Button>
               </>
@@ -624,9 +623,8 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                         asChild
                       >
                         <Link to="/auth" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-2">
-                          <span className="relative z-10">{t("heroCtaPrimary")}</span>
-                          <ArrowRight className="h-5 w-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
-                          <div className="absolute inset-0 bg-gradient-to-r from-primary-glow to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          {t("heroCtaPrimary")}
+                          <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                         </Link>
                       </Button>
                     )}
