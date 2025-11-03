@@ -276,15 +276,10 @@ serve(async (req) => {
                   console.log(`Crawling ${website} for emails...`);
                   const emails = await crawlWebsiteForEmails(website);
 
-                  if (emails.length > 0) {
-                    for (const email of emails) {
-                      allLeads.push({ city, businessName, website, email, category: businessType });
-                      resultsForThisCategory++;
-                    }
-                  } else {
-                    allLeads.push({ city, businessName, website, email: "", category: businessType });
-                    resultsForThisCategory++;
-                  }
+                  // Only add the first email found per business
+                  const email = emails.length > 0 ? emails[0] : "";
+                  allLeads.push({ city, businessName, website, email, category: businessType });
+                  resultsForThisCategory++;
                 }
 
                 // Update partial progress within this step after each page
