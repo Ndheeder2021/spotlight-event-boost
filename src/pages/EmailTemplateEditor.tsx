@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Upload, Save, Eye } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { FileUploadButton } from "@/components/ui/file-upload-button";
 
 interface EmailTemplate {
   headerTitle: string;
@@ -145,15 +146,23 @@ const EmailTemplateEditor = () => {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="logoUpload">Logo</Label>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Input
+                  <div className="mt-2">
+                    <input
                       id="logoUpload"
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleImageUpload(e, 'logo')}
                       disabled={uploading}
+                      className="hidden"
                     />
-                    <Upload className="w-4 h-4 text-muted-foreground" />
+                    <FileUploadButton
+                      type="button"
+                      onClick={() => document.getElementById('logoUpload')?.click()}
+                      disabled={uploading}
+                      icon={<Upload className="w-5 h-5" />}
+                    >
+                      {uploading ? 'Laddar upp...' : 'Lägg till fil'}
+                    </FileUploadButton>
                   </div>
                 </div>
                 <div>
@@ -179,15 +188,23 @@ const EmailTemplateEditor = () => {
               <h2 className="text-xl font-semibold mb-4">Hero Bild</h2>
               <div>
                 <Label htmlFor="heroUpload">Ladda upp bild/video</Label>
-                <div className="flex items-center gap-2 mt-1">
-                  <Input
+                <div className="mt-2">
+                  <input
                     id="heroUpload"
                     type="file"
                     accept="image/*,video/*"
                     onChange={(e) => handleImageUpload(e, 'hero')}
                     disabled={uploading}
+                    className="hidden"
                   />
-                  <Upload className="w-4 h-4 text-muted-foreground" />
+                  <FileUploadButton
+                    type="button"
+                    onClick={() => document.getElementById('heroUpload')?.click()}
+                    disabled={uploading}
+                    icon={<Upload className="w-5 h-5" />}
+                  >
+                    {uploading ? 'Laddar upp...' : 'Lägg till fil'}
+                  </FileUploadButton>
                 </div>
               </div>
             </Card>

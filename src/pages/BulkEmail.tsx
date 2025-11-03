@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Mail, Send, Users, CheckCircle, XCircle, Loader2, Upload, Download } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
+import { FileUploadButton } from "@/components/ui/file-upload-button";
 
 export default function BulkEmail() {
   const { isAdmin, loading: adminLoading } = useAdminCheck();
@@ -266,28 +267,18 @@ Gothenburg,Clarion Hotel Post,https://clarionpost.se,info@clarionpost.se,hotel`;
                     disabled={isUploading}
                     className="hidden"
                   />
-                  <Button
+                  <FileUploadButton
                     type="button"
-                    variant="secondary"
                     className="w-full"
                     disabled={isUploading}
                     onClick={(e) => {
                       e.preventDefault();
-                      (e.currentTarget.previousElementSibling as HTMLInputElement)?.click();
+                      (e.currentTarget.parentElement?.querySelector('input[type="file"]') as HTMLInputElement)?.click();
                     }}
+                    icon={isUploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Upload className="w-5 h-5" />}
                   >
-                    {isUploading ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Laddar upp...
-                      </>
-                    ) : (
-                      <>
-                        <Upload className="mr-2 h-4 w-4" />
-                        Välj CSV-fil
-                      </>
-                    )}
-                  </Button>
+                    {isUploading ? 'Laddar upp...' : 'Välj CSV-fil'}
+                  </FileUploadButton>
                 </label>
               </div>
             </div>
