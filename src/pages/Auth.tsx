@@ -204,9 +204,14 @@ export default function Auth() {
                   </Button>
                 </form>
               </div> : <div className="text-center lg:text-right space-y-6 p-8">
-                <h2 className="text-4xl font-bold text-white">Already have an account?</h2>
+                <h2 className="text-4xl font-bold text-primary">Already have an account?</h2>
                 
-                <Button variant="outline" size="lg" className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-primary transition-all px-12 py-6 text-lg rounded-full" onClick={() => setIsLogin(true)}>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-white transition-all px-12 py-6 text-lg rounded-full"
+                  onClick={() => setIsLogin(true)}
+                >
                   SIGN IN
                 </Button>
               </div>}
