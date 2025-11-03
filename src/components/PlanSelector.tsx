@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Check, Crown, Sparkles, Loader2, ArrowRight, LogOut } from "lucide-react";
 import { toast } from "sonner";
+import { PriceToggle } from "./ui/price-toggle";
 
 interface PlanSelectorProps {
   onSuccess: () => void;
@@ -142,35 +143,19 @@ export function PlanSelector({ onSuccess }: PlanSelectorProps) {
 
         {/* Billing Period Toggle */}
         <div className="flex justify-center">
-          <div className="inline-flex items-center gap-4 p-1 rounded-full bg-muted">
-            <button
-              onClick={() => setIsYearly(false)}
-              className={`px-6 py-2.5 rounded-full transition-all ${
-                !isYearly ? 'bg-background shadow-sm font-medium' : 'text-muted-foreground'
-              }`}
-            >
+          <div className="inline-flex items-center gap-4">
+            <span className={`text-lg font-medium transition-colors ${!isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
               {t("planSelector.billing.monthly")}
-            </button>
-            <button
-              onClick={() => setIsYearly(true)}
-              className={`px-7 py-3 rounded-full transition-all flex items-center gap-2 relative group overflow-hidden ${
-                isYearly 
-                  ? 'bg-gradient-to-r from-primary via-accent to-primary-glow shadow-2xl shadow-primary/30 font-bold text-primary-foreground scale-110 ring-2 ring-accent/50 ring-offset-2 ring-offset-background' 
-                  : 'text-muted-foreground hover:scale-105 hover:text-foreground'
-              }`}
-            >
-              {isYearly && (
-                <>
-                  <span className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/30 via-accent/30 to-primary-glow/30 animate-pulse" />
-                  <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary via-accent to-primary-glow opacity-20 blur-md" />
-                </>
-              )}
-              <Sparkles className="relative z-10 h-4 w-4" />
-              <span className="relative z-10 text-base">{t("planSelector.billing.yearly")}</span>
-              <span className="relative z-10 px-3 py-1 bg-gradient-to-r from-accent to-accent-glow text-primary-foreground text-xs font-extrabold rounded-full shadow-xl border border-accent-foreground/20 animate-pulse">
+            </span>
+            <PriceToggle isYearly={isYearly} onToggle={setIsYearly} />
+            <span className={`text-lg font-medium transition-colors ${isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
+              {t("planSelector.billing.yearly")}
+            </span>
+            {isYearly && (
+              <span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-accent/20 text-accent">
                 ✨ {t("planSelector.billing.save")}
               </span>
-            </button>
+            )}
           </div>
         </div>
 

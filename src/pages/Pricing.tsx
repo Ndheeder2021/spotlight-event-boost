@@ -9,6 +9,7 @@ import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { TrustBadges } from "@/components/TrustBadges";
+import { PriceToggle } from "@/components/ui/price-toggle";
 
 export default function Pricing() {
   const { t } = useTranslation();
@@ -194,14 +195,7 @@ export default function Pricing() {
             <span className={`text-lg font-medium transition-colors ${!isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
               {t('pricingMonthly')}
             </span>
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={() => setIsYearly(!isYearly)}
-              className="relative w-12 h-6 p-0 border-2"
-            >
-              <div className={`absolute h-4 w-4 rounded-full bg-primary transition-all ${isYearly ? 'right-1' : 'left-1'}`} />
-            </Button>
+            <PriceToggle isYearly={isYearly} onToggle={setIsYearly} />
             <span className={`text-lg font-medium transition-colors ${isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
               {t('pricingYearly')}
             </span>
