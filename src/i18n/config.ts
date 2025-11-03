@@ -1406,6 +1406,13 @@ const resources = {
       cookiesContactTitle: "Kontakta oss",
       cookiesContactText: "Om du har frågor om vår cookie-användning, kontakta oss på:",
 
+      // Cookie Consent
+      cookieConsentTitle: "Vi använder cookies",
+      cookieConsentDescription: "Vi använder cookies för att förbättra din upplevelse. Genom att använda vår sida godkänner du vår",
+      cookiePolicy: "cookie-policy",
+      cookiePreferences: "Hantera inställningar",
+      cookieAccept: "Acceptera alla",
+
       // Plan Selector
       planSelector: {
         logout: "Logga ut",
@@ -2967,6 +2974,13 @@ const resources = {
       cookiesBrowser: "aboutcookies.org",
       cookiesContactTitle: "Contact us",
       cookiesContactText: "If you have questions about our cookie usage, contact us at:",
+
+      // Cookie Consent
+      cookieConsentTitle: "We use cookies",
+      cookieConsentDescription: "We use cookies to improve your experience. By using our site, you agree to our",
+      cookiePolicy: "cookie policy",
+      cookiePreferences: "Manage preferences",
+      cookieAccept: "Accept all",
 
       // Plan Selector
       planSelector: {
