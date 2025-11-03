@@ -80,7 +80,8 @@ export const EventCard = ({ event, onClick, onGenerateCampaign, onSaveEvent, isS
           {onGenerateCampaign && (
             <Button
               size="lg"
-              className="flex-1 hover-scale"
+              variant="default"
+              className="flex-1 hover-scale premium-glow"
               onClick={(e) => {
                 e.stopPropagation();
                 onGenerateCampaign(event.id);
@@ -93,7 +94,7 @@ export const EventCard = ({ event, onClick, onGenerateCampaign, onSaveEvent, isS
           {onSaveEvent && (
             <Button
               size="lg"
-              variant={isSaved ? "secondary" : "outline"}
+              variant={isSaved ? "default" : "outline"}
               className="hover-scale"
               onClick={(e) => {
                 e.stopPropagation();

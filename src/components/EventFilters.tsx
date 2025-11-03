@@ -1,5 +1,5 @@
 import { Search, SlidersHorizontal } from "lucide-react";
-import { Input } from "./ui/input";
+import { AnimatedInput } from "./ui/animated-input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -35,15 +35,13 @@ export const EventFilters = ({
   return (
     <div className="flex flex-col gap-4 md:flex-row md:items-center animate-fade-in">
       {/* Search Input */}
-      <div className="relative flex-1 group">
-        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 p-1.5 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-          <Search className="h-4 w-4 text-primary" />
-        </div>
-        <Input
+      <div className="relative flex-1">
+        <AnimatedInput
+          type="text"
           placeholder={t('searchEvents')}
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="pl-12 h-11 glass-card border-border/50 hover:border-primary/50 focus:border-primary transition-colors"
+          icon={<Search className="h-5 w-5" />}
         />
       </div>
 
@@ -66,11 +64,9 @@ export const EventFilters = ({
         <PopoverTrigger asChild>
           <Button 
             variant="outline" 
-            className="gap-2 h-11 relative glass-card border-border/50 hover:border-primary/50 hover-scale group"
+            className="gap-2 h-11 relative glass-card border-2 hover:border-primary/50 hover-scale group"
           >
-            <div className="p-1 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-              <SlidersHorizontal className="h-4 w-4 text-primary" />
-            </div>
+            <SlidersHorizontal className="h-4 w-4 text-primary" />
             <span>{t('moreFilters')}</span>
             {activeFiltersCount > 0 && (
               <Badge 

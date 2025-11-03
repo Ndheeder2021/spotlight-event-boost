@@ -9,6 +9,7 @@ import { EventMetrics } from "@/components/EventMetrics";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
@@ -292,10 +293,10 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <Button 
-                  variant="outline" 
+                  variant="default" 
                   size="lg"
                   onClick={() => navigate("/campaigns")}
-                  className="hover-scale"
+                  className="hover-scale premium-glow"
                 >
                   {t('showAll')}
                 </Button>
@@ -319,11 +320,8 @@ export default function Dashboard() {
         )}
 
         {loading ? (
-          <div className="text-center py-20 animate-fade-in">
-            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-card">
-              <Sparkles className="h-5 w-5 text-primary animate-pulse" />
-              <p className="text-lg font-medium">{t('loadingEvents')}</p>
-            </div>
+          <div className="text-center py-20 animate-fade-in flex items-center justify-center">
+            <LoadingSpinner text={t('loadingEvents')} size="lg" />
           </div>
         ) : events.length === 0 ? (
           <div className="text-center py-20 animate-fade-in">
