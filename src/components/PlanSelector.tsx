@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Check, Crown, Sparkles, Loader2, ArrowRight, LogOut } from "lucide-react";
 import { toast } from "sonner";
-import { PriceToggle } from "./ui/price-toggle";
+import { GlassRadioToggle } from "./ui/glass-radio-toggle";
 
 interface PlanSelectorProps {
   onSuccess: () => void;
@@ -144,13 +144,14 @@ export function PlanSelector({ onSuccess }: PlanSelectorProps) {
         {/* Billing Period Toggle */}
         <div className="flex justify-center">
           <div className="inline-flex items-center gap-4">
-            <span className={`text-lg font-medium transition-colors ${!isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
-              {t("planSelector.billing.monthly")}
-            </span>
-            <PriceToggle isYearly={isYearly} onToggle={setIsYearly} />
-            <span className={`text-lg font-medium transition-colors ${isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
-              {t("planSelector.billing.yearly")}
-            </span>
+            <GlassRadioToggle
+              options={[
+                { id: "monthly-plan", label: t("planSelector.billing.monthly"), value: false },
+                { id: "yearly-plan", label: t("planSelector.billing.yearly"), value: true }
+              ]}
+              selected={isYearly}
+              onChange={setIsYearly}
+            />
             {isYearly && (
               <span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-accent/20 text-accent">
                 ✨ {t("planSelector.billing.save")}

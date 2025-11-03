@@ -1,0 +1,77 @@
+/* Glass Radio Toggle */
+.glass-radio-group {
+  --bg: hsl(var(--primary) / 0.06);
+  --text: hsl(var(--muted-foreground));
+
+  display: flex;
+  position: relative;
+  background: var(--bg);
+  border-radius: 1rem;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 1px 1px 4px hsl(var(--primary-foreground) / 0.2),
+    inset -1px -1px 6px hsl(var(--background) / 0.3),
+    0 4px 12px hsl(var(--background) / 0.15);
+  overflow: hidden;
+  width: fit-content;
+}
+
+.glass-radio-group input {
+  display: none;
+}
+
+.glass-radio-group label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  font-size: 14px;
+  padding: 0.8rem 1.6rem;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--text);
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease-in-out;
+}
+
+.glass-radio-group label:hover {
+  color: hsl(var(--foreground));
+}
+
+.glass-radio-group input:checked + label {
+  color: hsl(var(--primary-foreground));
+}
+
+.glass-glider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  border-radius: 1rem;
+  z-index: 1;
+  transition:
+    transform 0.5s cubic-bezier(0.37, 1.95, 0.66, 0.56),
+    background 0.4s ease-in-out,
+    box-shadow 0.4s ease-in-out;
+}
+
+/* Monthly - First option */
+.glass-radio-group input:nth-of-type(1):checked ~ .glass-glider {
+  transform: translateX(0%);
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--primary)));
+  box-shadow:
+    0 0 18px hsl(var(--primary) / 0.5),
+    0 0 10px hsl(var(--primary-foreground) / 0.4) inset;
+}
+
+/* Yearly - Second option */
+.glass-radio-group input:nth-of-type(2):checked ~ .glass-glider {
+  transform: translateX(100%);
+  background: linear-gradient(135deg, hsl(var(--accent) / 0.4), hsl(var(--accent)));
+  box-shadow:
+    0 0 18px hsl(var(--accent) / 0.5),
+    0 0 10px hsl(var(--accent-foreground) / 0.4) inset;
+}

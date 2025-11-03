@@ -9,7 +9,7 @@ import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { TrustBadges } from "@/components/TrustBadges";
-import { PriceToggle } from "@/components/ui/price-toggle";
+import { GlassRadioToggle } from "@/components/ui/glass-radio-toggle";
 
 export default function Pricing() {
   const { t } = useTranslation();
@@ -192,13 +192,14 @@ export default function Pricing() {
       <section className="py-32">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-center gap-4 mb-20">
-            <span className={`text-lg font-medium transition-colors ${!isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
-              {t('pricingMonthly')}
-            </span>
-            <PriceToggle isYearly={isYearly} onToggle={setIsYearly} />
-            <span className={`text-lg font-medium transition-colors ${isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
-              {t('pricingYearly')}
-            </span>
+            <GlassRadioToggle
+              options={[
+                { id: "monthly", label: t('pricingMonthly'), value: false },
+                { id: "yearly", label: t('pricingYearly'), value: true }
+              ]}
+              selected={isYearly}
+              onChange={setIsYearly}
+            />
             {isYearly && (
               <span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary">
                 {t('pricingSave')}
