@@ -674,7 +674,7 @@ export default function Reports() {
                   {t('exportAllData')}
                 </p>
               </div>
-              <Button onClick={exportToExcel} variant="outline">
+              <Button onClick={exportToExcel} variant="outline" className="premium-glow">
                 <Download className="h-4 w-4 mr-2" />
                 {t('export')}
               </Button>
