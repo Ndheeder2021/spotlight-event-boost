@@ -149,24 +149,26 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-3 xl:gap-6 flex-1 justify-center">
+          <nav className="hidden lg:flex items-center gap-2 flex-1 justify-center p-2 bg-card rounded-[15px] shadow-[0_10px_25px_0_rgba(0,0,0,0.075)]">
             {navItems.map((item) => (
               <NavLink
                 key={item.url}
                 to={item.url}
                 className={({ isActive }) =>
-                  `flex items-center gap-2.5 px-5 py-3 text-base font-semibold transition-all duration-300 rounded-xl hover:scale-105 whitespace-nowrap relative group ${
+                  `relative flex items-center justify-center w-[70px] h-[50px] rounded-lg overflow-hidden transition-all duration-200 ease-in origin-left hover:w-[130px] group ${
                     isActive 
-                      ? "text-primary bg-gradient-to-r from-accent/80 to-accent/60 shadow-md" 
-                      : "text-muted-foreground hover:text-foreground hover:bg-accent/60"
+                      ? "text-primary" 
+                      : "text-muted-foreground hover:text-foreground"
                   }`
                 }
               >
                 {({ isActive }) => (
                   <>
-                    <item.icon className={`h-5 w-5 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
-                    <span>{item.title}</span>
-                    {!isActive && <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />}
+                    <div className={`absolute inset-0 rounded-lg bg-accent translate-x-full transition-transform duration-200 ease-in origin-right group-hover:translate-x-0 ${isActive ? 'translate-x-0' : ''}`} />
+                    <item.icon className="w-7 h-7 flex-shrink-0 absolute left-[18px] z-10" />
+                    <span className="block text-center w-full translate-x-full transition-transform duration-200 ease-in origin-right group-hover:translate-x-0 text-sm font-medium indent-[28px] opacity-0 group-hover:opacity-100">
+                      {item.title}
+                    </span>
                   </>
                 )}
               </NavLink>
