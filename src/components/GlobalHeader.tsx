@@ -23,6 +23,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { LanguageSwitch } from "./LanguageSwitch";
+import { ThemeToggle } from "./ThemeToggle";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
@@ -350,6 +351,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-4">
+            <ThemeToggle />
             <LanguageSwitch />
             {isAuthenticated ? (
               <Button 
@@ -386,6 +388,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
 
           {/* Mobile Menu */}
           <div className="flex lg:hidden items-center gap-1.5 sm:gap-2">
+            <ThemeToggle />
             <LanguageSwitch />
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
