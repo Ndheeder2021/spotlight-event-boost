@@ -1,0 +1,121 @@
+/* Cookie Consent Overlay */
+.cookie-consent-overlay {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  animation: slide-in-up 0.3s ease-out;
+}
+
+@keyframes slide-in-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .cookie-consent-overlay {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+  }
+}
+
+/* Cookie Card */
+.cookie-card {
+  max-width: 320px;
+  padding: 1rem;
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 10px;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 640px) {
+  .cookie-card {
+    max-width: 100%;
+  }
+}
+
+.cookie-card .title {
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+.cookie-card .description {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.cookie-card .description a {
+  color: hsl(var(--primary));
+  font-weight: 500;
+}
+
+.cookie-card .description a:hover {
+  text-decoration-line: underline;
+}
+
+.cookie-card .actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  column-gap: 1rem;
+  flex-shrink: 0;
+}
+
+.cookie-card .pref {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: hsl(var(--foreground));
+  text-decoration-line: underline;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.cookie-card .pref:hover {
+  color: hsl(var(--primary));
+}
+
+.cookie-card .pref:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.cookie-card .accept {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  background-color: hsl(var(--primary));
+  font-weight: 500;
+  border-radius: 0.5rem;
+  color: hsl(var(--primary-foreground));
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  border: none;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.cookie-card .accept:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.cookie-card .accept:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
