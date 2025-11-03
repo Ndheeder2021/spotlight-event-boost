@@ -116,10 +116,8 @@ export default function Auth() {
           {/* Left Side - Changes based on mode */}
           <div className={`flex flex-col justify-center ${isLogin ? 'order-1' : 'order-2'}`}>
             {isLogin ? <div className="text-center lg:text-left space-y-6 p-8">
-                <h2 className="text-4xl font-bold !text-white">Don't have an account?</h2>
-                <p className="text-lg !text-white/90">
-                  Create your account now to follow people and like publications
-                </p>
+                <h2 className="text-4xl font-bold text-violet-500">Don't have an ac count?</h2>
+                
                 <Button variant="outline" size="lg" className="border-2 border-white !text-white bg-transparent hover:bg-white hover:!text-primary transition-all px-12 py-6 text-lg rounded-full" onClick={() => setIsLogin(false)}>
                   SIGN UP
                 </Button>
@@ -206,12 +204,7 @@ export default function Auth() {
               </div> : <div className="text-center lg:text-right space-y-6 p-8 lg:pr-32 xl:pr-48 2xl:pr-64">
                 <h2 className="text-4xl font-bold text-primary break-words">Already have an account?</h2>
                 
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-white transition-all px-12 py-6 text-lg rounded-full"
-                  onClick={() => setIsLogin(true)}
-                >
+                <Button variant="outline" size="lg" className="border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-white transition-all px-12 py-6 text-lg rounded-full" onClick={() => setIsLogin(true)}>
                   SIGN IN
                 </Button>
               </div>}
