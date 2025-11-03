@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { showErrorToast } from "@/utils/errorMessages";
+import { TermsModal } from "@/components/TermsModal";
 export default function Auth() {
   const {
     t
@@ -17,6 +18,7 @@ export default function Auth() {
   const [isLogin, setIsLogin] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -156,9 +158,16 @@ export default function Auth() {
                 })} />
                     <label htmlFor="terms" className="text-sm text-muted-foreground cursor-pointer">
                       I accept the{" "}
-                      <Link to="/terms" className="text-primary hover:underline">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setTermsModalOpen(true);
+                        }}
+                        className="text-primary hover:underline"
+                      >
                         terms and conditions
-                      </Link>
+                      </button>
                     </label>
                   </div>
 
@@ -218,5 +227,8 @@ export default function Auth() {
           ✕
         </Button>
       </Link>
+
+      {/* Terms Modal */}
+      <TermsModal open={termsModalOpen} onOpenChange={setTermsModalOpen} />
     </div>;
 }
