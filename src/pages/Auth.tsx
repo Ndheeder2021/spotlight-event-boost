@@ -204,7 +204,7 @@ export default function Auth() {
                   </Button>
                 </form>
               </div> : <div className="text-center lg:text-right space-y-6 p-8">
-                <h2 className="text-4xl font-bold text-primary">Already have an account?</h2>
+                <h2 className="text-4xl font-bold text-primary break-words">Already have an account?</h2>
                 
                 <Button
                   variant="outline"
