@@ -56,6 +56,10 @@ All colors MUST be HSL.
     --gradient-glass: linear-gradient(135deg, hsla(40 20% 99% / 0.9), hsla(40 15% 97% / 0.85));
     --gradient-overlay: linear-gradient(135deg, hsla(262 83% 58% / 0.05) 0%, hsla(270 90% 68% / 0.03) 100%);
     
+    /* Animated circle gradients for auth page */
+    --circle-gradient-start: 262 83% 58%;
+    --circle-gradient-end: 270 90% 68%;
+    
     
     /* Enhanced shadow system - layered and dimensional */
     --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.04);
@@ -115,6 +119,10 @@ All colors MUST be HSL.
     --gradient-subtle: linear-gradient(180deg, hsl(20 8% 8%), hsl(20 10% 12%));
     --gradient-glass: linear-gradient(135deg, hsla(20 10% 12% / 0.95), hsla(20 8% 10% / 0.9));
     --gradient-overlay: linear-gradient(135deg, hsla(262 80% 65% / 0.08) 0%, hsla(270 85% 70% / 0.05) 100%);
+    
+    /* Animated circle gradients for auth page - dark mode */
+    --circle-gradient-start: 262 80% 65%;
+    --circle-gradient-end: 270 85% 70%;
     
     /* Enhanced shadow system - dark mode with more contrast */
     --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.2);
@@ -431,6 +439,30 @@ All colors MUST be HSL.
   .stagger-3 { animation-delay: 0.3s; }
   .stagger-4 { animation-delay: 0.4s; }
   .stagger-5 { animation-delay: 0.5s; }
+  
+  /* Animated circle for auth page */
+  .animated-circle {
+    content: "";
+    position: absolute;
+    width: 2000px;
+    height: 2000px;
+    border-radius: 50%;
+    background: linear-gradient(-45deg, 
+      hsl(var(--circle-gradient-start)), 
+      hsl(var(--circle-gradient-end))
+    );
+    top: -10%;
+    right: 48%;
+    transform: translateY(-50%);
+    z-index: 0;
+    transition: 1.25s cubic-bezier(0.68, -0.25, 0.265, 1.35);
+    pointer-events: none;
+  }
+  
+  .auth-wrapper.register-active .animated-circle {
+    transform: translate(100%, -50%);
+    right: 52%;
+  }
   
   /* Accessibility - Screen reader only */
   .sr-only {
