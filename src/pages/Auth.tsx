@@ -116,7 +116,7 @@ export default function Auth() {
           {/* Left Side - Changes based on mode */}
           <div className={`flex flex-col justify-center ${isLogin ? 'order-1' : 'order-2'}`}>
             {isLogin ? <div className="text-center lg:text-left space-y-6 p-8">
-                <h2 className="text-4xl font-bold text-violet-500">Don't have an ac count?</h2>
+                <h2 className="text-4xl font-bold text-[#0b000e]/[0.31]">Don't have an ac count?</h2>
                 
                 <Button variant="outline" size="lg" className="border-2 border-white !text-white bg-transparent hover:bg-white hover:!text-primary transition-all px-12 py-6 text-lg rounded-full" onClick={() => setIsLogin(false)}>
                   SIGN UP
