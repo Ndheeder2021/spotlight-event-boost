@@ -63,18 +63,43 @@ export function CampaignActions({ campaign, eventId, campaignId, onCampaignSaved
 
     setGenerating("pdf");
     try {
+      console.log("Calling generate-pdf with campaignId:", campaignId);
+      
       const { data, error } = await supabase.functions.invoke("generate-pdf", {
         body: { campaignId },
       });
 
-      if (error) throw error;
+      console.log("PDF response:", data);
+
+      if (error) {
+        console.error("PDF generation error:", error);
+        throw error;
+      }
       
-      // Open PDF in new window for printing
-      const pdfWindow = window.open("", "_blank");
+      if (!data || !data.html) {
+        throw new Error("Ingen PDF-data mottagen");
+      }
+      
+      // Create blob from HTML and open in new window
+      const blob = new Blob([data.html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      
+      const pdfWindow = window.open(url, "_blank");
       if (pdfWindow) {
-        pdfWindow.document.write(data.html);
-        pdfWindow.document.close();
-        setTimeout(() => pdfWindow.print(), 500);
+        // Trigger print dialog after content loads
+        pdfWindow.onload = () => {
+          setTimeout(() => {
+            pdfWindow.print();
+            URL.revokeObjectURL(url);
+          }, 500);
+        };
+      } else {
+        // Fallback: download as HTML file
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `kampanj-${campaignId}.html`;
+        link.click();
+        URL.revokeObjectURL(url);
       }
       
       toast.success("PDF öppnad för utskrift!");

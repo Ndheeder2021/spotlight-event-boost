@@ -12,7 +12,10 @@ serve(async (req) => {
   }
 
   try {
+    console.log("PDF generation request received");
+    
     const { campaignId } = await req.json();
+    console.log("Campaign ID:", campaignId);
 
     if (!campaignId) {
       return new Response(JSON.stringify({ error: "Campaign ID required" }), {
@@ -46,6 +49,8 @@ serve(async (req) => {
       });
     }
 
+    console.log("Campaign found:", campaign.title);
+
     // Use AI generated data for PDF content
     const campaignData = campaign.ai_generated_data || {};
 
@@ -55,16 +60,22 @@ serve(async (req) => {
 <html>
 <head>
   <meta charset="utf-8">
+  <title>${campaign.title}</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 40px; }
-    h1 { color: #333; border-bottom: 3px solid #0EA5E9; padding-bottom: 10px; }
-    h2 { color: #0EA5E9; margin-top: 30px; }
+    body { font-family: Arial, sans-serif; padding: 40px; line-height: 1.6; }
+    h1 { color: #333; border-bottom: 3px solid #8B5CF6; padding-bottom: 10px; }
+    h2 { color: #8B5CF6; margin-top: 30px; }
+    h3 { color: #6366F1; }
     .section { margin: 20px 0; }
     .label { font-weight: bold; color: #666; }
     .content { margin: 10px 0; }
-    .ad-box { border: 2px solid #0EA5E9; padding: 20px; margin: 15px 0; border-radius: 8px; }
+    .ad-box { border: 2px solid #8B5CF6; padding: 20px; margin: 15px 0; border-radius: 8px; background: #f9fafb; }
     ol { margin-left: 20px; }
     li { margin: 5px 0; }
+    @media print {
+      body { padding: 20px; }
+      .ad-box { page-break-inside: avoid; }
+    }
   </style>
 </head>
 <body>
@@ -72,7 +83,7 @@ serve(async (req) => {
   
   <div class="section">
     <p class="label">Beskrivning:</p>
-    <p class="content">${campaign.description}</p>
+    <p class="content">${campaign.description || 'Ingen beskrivning tillgänglig'}</p>
   </div>
 
   ${campaignData.target_audience ? `
@@ -114,26 +125,26 @@ serve(async (req) => {
   <h2>Annonsidéer</h2>
   ${campaignData.ad_ideas.map((ad: any) => `
     <div class="ad-box">
-      <h3>${ad.platform}</h3>
+      <h3>${ad.platform || 'Annonseringplattform'}</h3>
       <div class="section">
         <p class="label">Annonstext:</p>
-        <p class="content">${ad.ad_copy}</p>
+        <p class="content">${ad.ad_copy || 'Ingen text tillgänglig'}</p>
       </div>
       <div class="section">
         <p class="label">Visuellt koncept:</p>
-        <p class="content">${ad.visual_concept}</p>
+        <p class="content">${ad.visual_concept || 'Inget koncept beskrivet'}</p>
       </div>
       <div class="section">
         <p class="label">Call-to-Action:</p>
-        <p class="content">${ad.cta}</p>
+        <p class="content">${ad.cta || 'Ingen CTA angiven'}</p>
       </div>
       <div class="section">
         <p class="label">Målgrupp:</p>
-        <p class="content">${ad.targeting}</p>
+        <p class="content">${ad.targeting || 'Ingen målgrupp angiven'}</p>
       </div>
       <div class="section">
         <p class="label">Budget:</p>
-        <p class="content">${ad.budget_recommendation}</p>
+        <p class="content">${ad.budget_recommendation || 'Ingen budget angiven'}</p>
       </div>
     </div>
   `).join('')}
@@ -142,13 +153,12 @@ serve(async (req) => {
 </html>
     `;
 
-    // Return HTML as base64 (client will print to PDF)
-    const base64Html = btoa(unescape(encodeURIComponent(html)));
+    console.log("PDF HTML generated successfully");
 
     return new Response(
       JSON.stringify({
-        pdf: base64Html,
         html: html,
+        success: true
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
