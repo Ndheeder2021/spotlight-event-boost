@@ -129,7 +129,7 @@ export default function Auth() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-[hsl(var(--auth-teal))] transition-all px-12 py-6 text-lg rounded-full"
+                  className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-primary transition-all px-12 py-6 text-lg rounded-full"
                   onClick={() => setIsLogin(false)}
                 >
                   SIGN UP
@@ -146,7 +146,7 @@ export default function Auth() {
                       value={formData.username}
                       onChange={(e) => setFormData({...formData, username: e.target.value})}
                       required
-                      className="auth-input-with-icon h-14 bg-[hsl(var(--auth-input-bg))] border-0 rounded-2xl text-base"
+                      className="auth-input-with-icon h-14 bg-muted border-0 rounded-2xl text-base"
                     />
                   </div>
 
@@ -158,7 +158,7 @@ export default function Auth() {
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
                       required
-                      className="auth-input-with-icon h-14 bg-[hsl(var(--auth-input-bg))] border-0 rounded-2xl text-base"
+                      className="auth-input-with-icon h-14 bg-muted border-0 rounded-2xl text-base"
                     />
                   </div>
 
@@ -170,7 +170,7 @@ export default function Auth() {
                       value={formData.password}
                       onChange={(e) => setFormData({...formData, password: e.target.value})}
                       required
-                      className="auth-input-with-icon h-14 bg-[hsl(var(--auth-input-bg))] border-0 rounded-2xl text-base pr-12"
+                      className="auth-input-with-icon h-14 bg-muted border-0 rounded-2xl text-base pr-12"
                     />
                     {showPassword ? (
                       <EyeOff 
@@ -195,7 +195,7 @@ export default function Auth() {
                     />
                     <label htmlFor="terms" className="text-sm text-muted-foreground cursor-pointer">
                       I accept the{" "}
-                      <Link to="/terms" className="text-[hsl(var(--auth-teal))] hover:underline">
+                      <Link to="/terms" className="text-primary hover:underline">
                         terms and conditions
                       </Link>
                     </label>
@@ -203,7 +203,7 @@ export default function Auth() {
 
                   <Button
                     type="submit"
-                    className="w-full h-14 bg-[hsl(var(--auth-teal))] hover:bg-[hsl(var(--auth-teal-dark))] text-white text-lg font-semibold rounded-full transition-all"
+                    className="w-full h-14 bg-primary hover:bg-primary-dark text-white text-lg font-semibold rounded-full transition-all"
                     disabled={submitting}
                   >
                     {submitting ? (
@@ -231,7 +231,7 @@ export default function Auth() {
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
                       required
-                      className="auth-input-with-icon h-14 bg-[hsl(var(--auth-input-bg))] border-0 rounded-2xl text-base"
+                      className="auth-input-with-icon h-14 bg-muted border-0 rounded-2xl text-base"
                     />
                   </div>
 
@@ -243,7 +243,7 @@ export default function Auth() {
                       value={formData.password}
                       onChange={(e) => setFormData({...formData, password: e.target.value})}
                       required
-                      className="auth-input-with-icon h-14 bg-[hsl(var(--auth-input-bg))] border-0 rounded-2xl text-base pr-12"
+                      className="auth-input-with-icon h-14 bg-muted border-0 rounded-2xl text-base pr-12"
                     />
                     {showPassword ? (
                       <EyeOff 
@@ -259,14 +259,14 @@ export default function Auth() {
                   </div>
 
                   <div className="text-right">
-                    <Link to="/reset-password" className="text-sm text-muted-foreground hover:text-[hsl(var(--auth-teal))]">
+                    <Link to="/reset-password" className="text-sm text-muted-foreground hover:text-primary">
                       Forgot your password?
                     </Link>
                   </div>
 
                   <Button
                     type="submit"
-                    className="w-full h-14 bg-[hsl(var(--auth-teal))] hover:bg-[hsl(var(--auth-teal-dark))] text-white text-lg font-semibold rounded-full transition-all"
+                    className="w-full h-14 bg-primary hover:bg-primary-dark text-white text-lg font-semibold rounded-full transition-all"
                     disabled={submitting}
                   >
                     {submitting ? (
@@ -286,7 +286,7 @@ export default function Auth() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-[hsl(var(--auth-teal))] transition-all px-12 py-6 text-lg rounded-full"
+                  className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-primary transition-all px-12 py-6 text-lg rounded-full"
                   onClick={() => setIsLogin(true)}
                 >
                   SIGN IN
