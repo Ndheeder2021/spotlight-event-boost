@@ -203,7 +203,7 @@ export default function Auth() {
                     {submitting ? <Loader2 className="h-5 w-5 animate-spin" /> : "LOGIN"}
                   </Button>
                 </form>
-              </div> : <div className="text-center lg:text-right space-y-6 p-8">
+              </div> : <div className="text-center lg:text-right space-y-6 p-8 lg:pr-32 xl:pr-48 2xl:pr-64">
                 <h2 className="text-4xl font-bold text-primary break-words">Already have an account?</h2>
                 
                 <Button
