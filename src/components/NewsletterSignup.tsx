@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Mail, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
+import "./newsletter-signup.css";
 
 export const NewsletterSignup = () => {
   const { t } = useTranslation();
@@ -47,7 +46,7 @@ export const NewsletterSignup = () => {
 
   if (isSubmitted) {
     return (
-      <div className="flex items-center justify-center gap-3 text-primary">
+      <div className="newsletter-success">
         <CheckCircle2 className="h-6 w-6" />
         <p className="font-medium">{t('newsletterSuccess')}</p>
       </div>
@@ -55,25 +54,25 @@ export const NewsletterSignup = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-      <div className="relative flex-1">
-        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-        <Input
-          type="email"
-          placeholder={t('newsletterEmailPlaceholder')}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="pl-10"
-          required
-        />
-      </div>
-      <Button 
-        type="submit" 
-        disabled={isSubmitting}
-        className="whitespace-nowrap"
-      >
-        {isSubmitting ? t('newsletterSubscribing') : t('newsletterSubscribe')}
-      </Button>
-    </form>
+    <div className="newsletter-form">
+      <h3 className="newsletter-title">{t('newsletterTitle') || 'Stay Updated'}</h3>
+      <p className="newsletter-description">
+        {t('newsletterDescription') || 'Subscribe to our newsletter for the latest updates'}
+      </p>
+      <form onSubmit={handleSubmit}>
+        <div className="newsletter-form-inputs">
+          <input
+            type="email"
+            placeholder={t('newsletterEmailPlaceholder')}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? t('newsletterSubscribing') : t('newsletterSubscribe')}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };

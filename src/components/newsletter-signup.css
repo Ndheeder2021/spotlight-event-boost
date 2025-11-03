@@ -1,0 +1,92 @@
+/* Newsletter Form Styling */
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to right, hsl(var(--primary) / 0.8), hsl(var(--primary) / 0.6));
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.newsletter-title {
+  font-size: 2rem;
+  line-height: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #fff;
+}
+
+.newsletter-description {
+  line-height: 1.5rem;
+  font-size: 1rem;
+  margin-top: 1rem;
+  color: rgb(209 213 219);
+}
+
+.newsletter-form-inputs {
+  display: flex;
+  max-width: 28rem;
+  margin-top: 1rem;
+  column-gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .newsletter-form-inputs {
+    flex-direction: row;
+  }
+}
+
+.newsletter-form-inputs input {
+  outline: none;
+  line-height: 1.5rem;
+  font-size: 0.875rem;
+  color: rgb(255 255 255);
+  padding: 0.5rem 0.875rem;
+  background-color: rgb(255 255 255 / 0.05);
+  border: 1px solid rgba(253, 253, 253, 0.363);
+  border-radius: 0.375rem;
+  flex: 1 1 auto;
+}
+
+.newsletter-form-inputs input::placeholder {
+  color: rgb(216, 212, 212);
+}
+
+.newsletter-form-inputs input:focus {
+  border: 1px solid hsl(var(--primary));
+}
+
+.newsletter-form-inputs button {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 0.625rem 0.875rem;
+  background-color: hsl(var(--primary));
+  border-radius: 0.375rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.newsletter-form-inputs button:hover {
+  opacity: 0.9;
+}
+
+.newsletter-form-inputs button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.newsletter-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: #fff;
+  padding: 1rem;
+}
