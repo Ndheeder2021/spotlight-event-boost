@@ -121,9 +121,9 @@ export default function Auth() {
           {/* Left Side - Changes based on mode */}
           <div className={`flex flex-col justify-center ${isLogin ? 'order-1' : 'order-2'}`}>
             {isLogin ? (
-              <div className="text-center lg:text-left text-white space-y-6 p-8">
-                <h2 className="text-4xl font-bold">Don't have an account?</h2>
-                <p className="text-lg opacity-90">
+              <div className="text-center lg:text-left space-y-6 p-8">
+                <h2 className="text-4xl font-bold text-white">Don't have an account?</h2>
+                <p className="text-lg text-white/90">
                   Create your account now to follow people and like publications
                 </p>
                 <Button
@@ -278,9 +278,9 @@ export default function Auth() {
                 </form>
               </div>
             ) : (
-              <div className="text-center lg:text-right text-white space-y-6 p-8">
-                <h2 className="text-4xl font-bold">Already have an account?</h2>
-                <p className="text-lg opacity-90">
+              <div className="text-center lg:text-right space-y-6 p-8">
+                <h2 className="text-4xl font-bold text-white">Already have an account?</h2>
+                <p className="text-lg text-white/90">
                   Sign in to see your notifications and post your favorite photos
                 </p>
                 <Button
