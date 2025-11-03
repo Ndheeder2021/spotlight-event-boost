@@ -35,6 +35,7 @@ import Investors from "./pages/Investors";
 import CaseStudies from "./pages/CaseStudies";
 import BulkEmail from "./pages/BulkEmail";
 import Analytics from "./pages/Analytics";
+import EmailTemplateEditor from "./pages/EmailTemplateEditor";
 
 const queryClient = new QueryClient();
 
@@ -75,6 +76,7 @@ const App = () => (
             <Route path="/reports" element={<Reports />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/email-template" element={<EmailTemplateEditor />} />
             <Route path="/bulk-email" element={<BulkEmail />} />
             <Route path="/analytics" element={<Analytics />} />
           </Route>
