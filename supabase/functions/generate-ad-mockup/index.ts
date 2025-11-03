@@ -16,12 +16,12 @@ serve(async (req) => {
 
     console.log("Generating ad mockup for:", adIdea);
 
-    const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
-    if (!OPENAI_API_KEY) {
-      throw new Error("OPENAI_API_KEY not configured");
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    if (!LOVABLE_API_KEY) {
+      throw new Error("LOVABLE_API_KEY not configured");
     }
 
-    // Generate image using OpenAI's gpt-image-1 model
+    // Generate image using Lovable AI Gateway
     const imagePrompt = `Create a professional ${adIdea.platform} social media advertisement mockup for a marketing campaign. 
 
 Visual concept: ${adIdea.visual_concept}
@@ -39,38 +39,48 @@ Style requirements:
 - Professional product/food photography style
 - High quality, photorealistic rendering`;
 
-    const response = await fetch("https://api.openai.com/v1/images/generations", {
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-image-1",
-        prompt: imagePrompt,
-        n: 1,
-        size: adIdea.platform === "Meta" ? "1536x1024" : "1024x1536",
-        quality: "high",
-        output_format: "png",
+        model: "google/gemini-2.5-flash-image-preview",
+        messages: [
+          {
+            role: "user",
+            content: imagePrompt
+          }
+        ],
+        modalities: ["image", "text"]
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("OpenAI error:", response.status, errorText);
+      console.error("Lovable AI error:", response.status, errorText);
+      
+      if (response.status === 429) {
+        throw new Error("Rate limit överskriden, försök igen senare");
+      }
+      if (response.status === 402) {
+        throw new Error("Lovable AI-krediter saknas, kontakta support");
+      }
+      
       throw new Error(`Failed to generate image: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
-    const imageUrl = data.data?.[0]?.b64_json;
+    const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
 
     if (!imageUrl) {
       console.error("No image in response:", data);
       throw new Error("No image generated");
     }
 
-    // Convert base64 to data URL
-    const dataUrl = `data:image/png;base64,${imageUrl}`;
+    // Image URL is already a data URL from Lovable AI
+    const dataUrl = imageUrl;
 
     // Save to attachments if campaignId provided
     if (campaignId) {
