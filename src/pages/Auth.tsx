@@ -116,15 +116,15 @@ export default function Auth() {
           {/* Left Side - Changes based on mode */}
           <div className={`flex flex-col justify-center ${isLogin ? 'order-1' : 'order-2'}`}>
             {isLogin ? <div className="text-center lg:text-left space-y-6 p-8">
-                <h2 className="text-4xl font-bold text-white">Don't have an account?</h2>
-                <p className="text-lg text-white/90">
+                <h2 className="text-4xl font-bold !text-white">Don't have an account?</h2>
+                <p className="text-lg !text-white/90">
                   Create your account now to follow people and like publications
                 </p>
-                <Button variant="outline" size="lg" className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-primary transition-all px-12 py-6 text-lg rounded-full" onClick={() => setIsLogin(false)}>
+                <Button variant="outline" size="lg" className="border-2 border-white !text-white bg-transparent hover:bg-white hover:!text-primary transition-all px-12 py-6 text-lg rounded-full" onClick={() => setIsLogin(false)}>
                   SIGN UP
                 </Button>
               </div> : <div className="bg-background rounded-3xl p-8 lg:p-12 shadow-2xl">
-                <h1 className="text-4xl font-bold mb-8 text-foreground">Create Account</h1>
+                <h1 className="text-4xl font-bold mb-8 !text-foreground">Create Account</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="relative">
                     <User className="auth-input-icon h-5 w-5" />
@@ -174,7 +174,7 @@ export default function Auth() {
           {/* Right Side - Changes based on mode */}
           <div className={`flex flex-col justify-center ${isLogin ? 'order-2' : 'order-1'}`}>
             {isLogin ? <div className="bg-background rounded-3xl p-8 lg:p-12 shadow-2xl">
-                <h1 className="text-4xl font-bold mb-8 text-foreground">Sign In</h1>
+                <h1 className="text-4xl font-bold mb-8 !text-foreground">Sign In</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="relative">
                     <User className="auth-input-icon h-5 w-5" />
@@ -204,12 +204,12 @@ export default function Auth() {
                   </Button>
                 </form>
               </div> : <div className="text-center lg:text-right space-y-6 p-8">
-                <h2 className="text-4xl font-bold text-primary">Already have an account?</h2>
+                <h2 className="text-4xl font-bold !text-primary">Already have an account?</h2>
                 
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-white transition-all px-12 py-6 text-lg rounded-full"
+                  className="border-2 border-primary !text-primary bg-transparent hover:bg-primary hover:!text-white transition-all px-12 py-6 text-lg rounded-full"
                   onClick={() => setIsLogin(true)}
                 >
                   SIGN IN
