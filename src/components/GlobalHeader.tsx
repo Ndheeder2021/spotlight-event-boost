@@ -150,7 +150,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-2 flex-1 min-w-0 justify-center p-2 bg-card rounded-[15px] shadow-[0_10px_25px_0_rgba(0,0,0,0.075)] overflow-x-auto whitespace-nowrap">
+          <nav className="hidden xl:flex items-center gap-2 flex-1 min-w-0 max-w-[50%] justify-center p-2 bg-card rounded-[15px] shadow-[0_10px_25px_0_rgba(0,0,0,0.075)] overflow-x-auto whitespace-nowrap">
             {navItems.map((item) => (
               <NavLink
                 key={item.url}
@@ -394,6 +394,15 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
             <div className="scale-90 sm:scale-100">
               <LanguageSwitch />
             </div>
+            {!isAuthenticated && (
+              <Button 
+                variant="outline" 
+                className="inline-flex h-9 sm:h-10 px-3 sm:px-4 rounded-xl font-semibold shrink-0"
+                asChild
+              >
+                <Link to="/auth">{t("login")}</Link>
+              </Button>
+            )}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="h-9 w-9 sm:h-10 sm:w-10 min-h-[44px] min-w-[44px]">
