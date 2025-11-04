@@ -553,6 +553,7 @@ const Index = () => {
                     <Button 
                       variant="animated"
                       size="xl"
+                      className="bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90"
                     >
                       {t('readMore')}
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
