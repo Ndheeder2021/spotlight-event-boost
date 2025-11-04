@@ -134,7 +134,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
       <div className="container mx-auto px-2 sm:px-6 lg:px-8">
-        <div className="flex h-14 sm:h-16 md:h-20 lg:h-24 items-center justify-between gap-1 sm:gap-4 lg:gap-8">
+        <div className="grid grid-cols-[auto_1fr_auto] min-h-14 sm:min-h-16 md:min-h-20 lg:min-h-24 h-auto items-center gap-1 sm:gap-4 lg:gap-8 py-2">
           {/* Logo */}
           <Link 
             to={isAuthenticated ? "/dashboard" : "/"} 
@@ -150,7 +150,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-2 flex-1 min-w-0 max-w-[50%] justify-center p-2 bg-card rounded-[15px] shadow-[0_10px_25px_0_rgba(0,0,0,0.075)] overflow-x-auto whitespace-nowrap">
+          <nav className="hidden xl:flex items-center gap-2 flex-1 min-w-0 max-w-[50%] justify-center p-2 bg-card rounded-[15px] shadow-[0_10px_25px_0_rgba(0,0,0,0.075)] overflow-x-auto whitespace-nowrap col-start-2">
             {navItems.map((item) => (
               <NavLink
                 key={item.url}
