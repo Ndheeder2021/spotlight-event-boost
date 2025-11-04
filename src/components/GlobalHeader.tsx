@@ -150,7 +150,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-2 flex-1 justify-center p-2 bg-card rounded-[15px] shadow-[0_10px_25px_0_rgba(0,0,0,0.075)]">
+          <nav className="hidden xl:flex items-center gap-2 flex-1 min-w-0 justify-center p-2 bg-card rounded-[15px] shadow-[0_10px_25px_0_rgba(0,0,0,0.075)] overflow-x-auto whitespace-nowrap">
             {navItems.map((item) => (
               <NavLink
                 key={item.url}
@@ -350,7 +350,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden xl:flex items-center gap-4 flex-shrink-0">
             <ThemeToggle />
             <LanguageSwitch />
             {isAuthenticated ? (
@@ -387,7 +387,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
           </div>
 
           {/* Mobile Menu */}
-          <div className="flex lg:hidden items-center gap-0.5 sm:gap-1.5">
+          <div className="flex xl:hidden items-center gap-0.5 sm:gap-1.5">
             <div className="scale-90 sm:scale-100">
               <ThemeToggle />
             </div>
