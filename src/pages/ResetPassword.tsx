@@ -98,14 +98,13 @@ export default function ResetPassword() {
                 </div>
               </div>
 
-              <Button
+              <button
                 type="submit"
-                className="w-full"
-                size="lg"
+                className="btn"
                 disabled={loading}
               >
                 {loading ? "Sending..." : "Send Reset Link"}
-              </Button>
+              </button>
             </form>
           )}
 
