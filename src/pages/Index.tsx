@@ -30,6 +30,7 @@ import reviewMaria from "@/assets/review-maria.jpg";
 import featureAnalytics from "@/assets/feature-analytics-new.png";
 import featureAiCampaign from "@/assets/feature-ai-campaign-new.png";
 import featureEvents from "@/assets/feature-event-radar-new.png";
+import "@/components/testimonial-card.css";
 
 const testimonials = [
   {
@@ -1001,29 +1002,29 @@ const Index = () => {
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {testimonials.map((t, i) => (
-              <Card key={i} className="border hover:shadow-xl transition-shadow">
-                <CardContent className="pt-8 pb-8">
-                  <div className="flex gap-1 mb-6">
+              <div key={i} className="testimonial-card">
+                <div className="testimonial-card-content">
+                  <div className="testimonial-card-rating">
                     {[...Array(t.rating)].map((_, j) => (
-                      <Star key={j} className="h-5 w-5 fill-primary text-primary" />
+                      <Star key={j} className="h-5 w-5 fill-current" />
                     ))}
                   </div>
-                  <p className="text-lg mb-8 leading-relaxed text-foreground">
+                  <p className="testimonial-card-text">
                     "{t.content}"
                   </p>
-                  <div className="flex items-center gap-4 pt-6 border-t">
+                  <div className="testimonial-card-author">
                     <img 
                       src={t.image} 
                       alt={t.name}
-                      className="h-14 w-14 rounded-full object-cover"
+                      className="testimonial-card-avatar"
                     />
                     <div>
-                      <p className="font-semibold text-foreground">{t.name}</p>
-                      <p className="text-sm text-muted-foreground">{t.role}</p>
+                      <p className="testimonial-card-name">{t.name}</p>
+                      <p className="testimonial-card-role">{t.role}</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         </div>
