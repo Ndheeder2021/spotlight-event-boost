@@ -133,18 +133,18 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
-      <div className="container mx-auto px-3 sm:px-6 lg:px-8">
-        <div className="flex h-16 sm:h-20 lg:h-24 items-center justify-between gap-2 sm:gap-4 lg:gap-8">
+      <div className="container mx-auto px-2 sm:px-6 lg:px-8">
+        <div className="flex h-14 sm:h-16 md:h-20 lg:h-24 items-center justify-between gap-1 sm:gap-4 lg:gap-8">
           {/* Logo */}
           <Link 
             to={isAuthenticated ? "/dashboard" : "/"} 
-            className="flex items-center gap-2 sm:gap-3 hover:opacity-90 transition-all duration-300 hover:scale-105 group flex-shrink-0"
+            className="flex items-center gap-1.5 sm:gap-2 md:gap-3 hover:opacity-90 transition-all duration-300 hover:scale-105 group flex-shrink-0"
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-primary-glow/30 blur-xl sm:blur-2xl group-hover:blur-2xl sm:group-hover:blur-3xl transition-all duration-500 opacity-60 group-hover:opacity-100 rounded-full" />
-              <Zap className="h-7 w-7 sm:h-9 sm:w-9 lg:h-10 lg:w-10 text-primary relative z-10 transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 drop-shadow-lg" fill="currentColor" />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-primary-glow/30 blur-lg sm:blur-xl md:blur-2xl group-hover:blur-xl sm:group-hover:blur-2xl md:group-hover:blur-3xl transition-all duration-500 opacity-60 group-hover:opacity-100 rounded-full" />
+              <Zap className="h-6 w-6 sm:h-7 sm:w-7 md:h-9 md:w-9 lg:h-10 lg:w-10 text-primary relative z-10 transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 drop-shadow-lg" fill="currentColor" />
             </div>
-            <span className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-primary via-primary-glow to-primary bg-clip-text text-transparent tracking-tight">
+            <span className="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-primary via-primary-glow to-primary bg-clip-text text-transparent tracking-tight">
               Spotlight
             </span>
           </Link>
@@ -387,12 +387,16 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
           </div>
 
           {/* Mobile Menu */}
-          <div className="flex lg:hidden items-center gap-1.5 sm:gap-2">
-            <ThemeToggle />
-            <LanguageSwitch />
+          <div className="flex lg:hidden items-center gap-0.5 sm:gap-1.5">
+            <div className="scale-90 sm:scale-100">
+              <ThemeToggle />
+            </div>
+            <div className="scale-90 sm:scale-100">
+              <LanguageSwitch />
+            </div>
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-11 sm:w-11">
+                <Button variant="ghost" size="icon" className="h-9 w-9 sm:h-10 sm:w-10 min-h-[44px] min-w-[44px]">
                   <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
                   <span className="sr-only">Öppna meny</span>
                 </Button>
