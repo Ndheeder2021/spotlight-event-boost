@@ -4,8 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Mail, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import "./reset-password.css";
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -84,15 +84,15 @@ export default function ResetPassword() {
                 <label htmlFor="email" className="text-sm font-medium text-foreground">
                   Email address
                 </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
+                <div className="group">
+                  <Mail className="icon" />
+                  <input
                     id="email"
                     type="email"
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10"
+                    className="input"
                     required
                   />
                 </div>
