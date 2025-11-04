@@ -166,4 +166,9 @@ html {
     padding-left: max(1rem, env(safe-area-inset-left));
     padding-right: max(1rem, env(safe-area-inset-right));
   }
+
+  /* Ensure header content is not hidden under the notch */
+  header {
+    padding-top: max(0.5rem, env(safe-area-inset-top));
+  }
 }
