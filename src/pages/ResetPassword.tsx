@@ -32,11 +32,12 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div className="reset-password-container">
       <div className="form-container">
         <Link 
           to="/auth" 
-          className="link inline-flex items-center gap-2 text-sm hover:underline mb-4"
+          className="link inline-flex items-center gap-2 text-sm"
+          style={{ alignSelf: 'flex-start' }}
         >
           <ArrowLeft className="h-4 w-4" />
           Back to login
@@ -46,18 +47,18 @@ export default function ResetPassword() {
           Reset Password
         </div>
 
-        <p className="text-gray-600 text-center text-sm">
+        <p className="description-text">
           Enter your email address and we'll send you a link to reset your password.
         </p>
 
         {sent ? (
-          <div className="space-y-4">
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <p className="text-green-800 text-sm">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="success-box">
+              <p className="success-text">
                 ✓ Password reset email sent to <strong>{email}</strong>
               </p>
             </div>
-            <p className="text-sm text-gray-600">
+            <p className="description-text">
               Check your inbox and click the link to reset your password. The link will expire in 1 hour.
             </p>
             <button
