@@ -462,7 +462,7 @@ const Index = () => {
                 <Button 
                   variant="animated"
                   size="xl"
-                  className="w-full h-14 text-base sm:text-lg"
+                  className="w-full h-14 text-base sm:text-lg bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90"
                 >
                   {t('heroCtaPrimary')}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
