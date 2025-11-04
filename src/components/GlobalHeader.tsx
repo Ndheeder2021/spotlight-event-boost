@@ -349,8 +349,10 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
             )}
           </nav>
 
-          {/* Desktop Actions */}
-          <div className="hidden xl:flex items-center gap-4 flex-shrink-0">
+          {/* Right-side actions wrapper */}
+          <div className="flex items-center gap-2 sm:gap-3 ml-auto">
+            {/* Desktop Actions */}
+            <div className="hidden xl:flex items-center gap-4 flex-shrink-0">
             <ThemeToggle />
             <LanguageSwitch />
             {isAuthenticated ? (
@@ -649,6 +651,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                   </div>
               </SheetContent>
             </Sheet>
+          </div>
           </div>
         </div>
       </div>
