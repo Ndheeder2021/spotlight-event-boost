@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
+import { AnimatedInput } from "@/components/ui/animated-input";
 import "./reset-password.css";
 
 export default function ResetPassword() {
@@ -72,7 +73,7 @@ export default function ResetPassword() {
           <form onSubmit={handleResetPassword} className="form">
             <div className="form-group">
               <label htmlFor="email">Email address</label>
-              <input
+              <AnimatedInput
                 id="email"
                 type="email"
                 placeholder="Enter your email"
