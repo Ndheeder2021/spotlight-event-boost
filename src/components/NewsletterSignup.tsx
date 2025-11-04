@@ -57,7 +57,7 @@ export const NewsletterSignup = () => {
     <div className="newsletter-form">
       <h3 className="newsletter-title">{t('newsletterTitle') || 'Stay Updated'}</h3>
       <p className="newsletter-description">
-        {t('newsletterDescription') || 'Subscribe to our newsletter for the latest updates'}
+        Newsletter
       </p>
       <form onSubmit={handleSubmit}>
         <div className="newsletter-form-inputs">
