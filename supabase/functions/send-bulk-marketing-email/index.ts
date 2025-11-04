@@ -65,7 +65,7 @@ const getMarketingEmailHtml = (companyName?: string, businessName?: string, city
                                       <tr>
                                         <td style="text-align:center;padding:5px">
                                           <a href="https://www.spotlightevents.online" target="_blank" style="display:block;text-decoration:none">
-                                            <img src="https://jujgbkdamkjabjuerqxt.supabase.co/storage/v1/object/public/email-templates/spotlight-logo-white.png" alt="SpotlightEvents" width="495" style="display:block;width:100%;max-width:495px;height:auto">
+                                            <img src="https://www.spotlightevents.online/email-assets/spotlight-logo.png" alt="SpotlightEvents" width="495" style="display:block;width:100%;max-width:495px;height:auto">
                                           </a>
                                         </td>
                                       </tr>
@@ -148,7 +148,7 @@ const getMarketingEmailHtml = (companyName?: string, businessName?: string, city
                               </tr>
                               <tr>
                                 <td style="padding:0px 20px">
-                                  <img src="https://jujgbkdamkjabjuerqxt.supabase.co/storage/v1/object/public/email-templates/analytics-preview.gif" 
+                                  <img src="https://www.spotlightevents.online/email-assets/analytics-preview.gif" 
                                        alt="Real-time event insights" 
                                        width="560" 
                                        style="display:block;width:100%;max-width:560px;height:auto;border-radius:12px">
