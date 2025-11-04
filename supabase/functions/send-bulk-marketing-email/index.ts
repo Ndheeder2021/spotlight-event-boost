@@ -12,6 +12,8 @@ interface BulkEmailRequest {
   emails: string[];
   senderName?: string;
   senderEmail?: string;
+  businessName?: string;
+  city?: string;
 }
 
 const extractCompanyName = (email: string): string => {
@@ -31,101 +33,207 @@ const extractCompanyName = (email: string): string => {
   return companyName;
 };
 
-const getMarketingEmailHtml = (companyName?: string) => `
-<!DOCTYPE html>
-<html lang="en">
+const getMarketingEmailHtml = (companyName?: string, businessName?: string, city?: string) => `
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
 <head>
-  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spotlight Events - Never Miss Local Events Again</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+  <meta name="x-apple-disable-message-reformatting">
 </head>
-<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
-  <table role="presentation" style="width: 100%; border-collapse: collapse;">
-    <tr>
-      <td align="center" style="padding: 40px 0;">
-        <table role="presentation" style="width: 600px; max-width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-          <!-- Header -->
-          <tr>
-            <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px 8px 0 0;">
-              <div style="display: inline-flex; align-items: center; gap: 12px; margin-bottom: 15px;">
-                <span style="font-size: 32px;">⚡</span>
-                <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: 700; letter-spacing: -0.5px;">Spotlight</h1>
-              </div>
-              <p style="margin: 10px 0 0; color: #ffffff; font-size: 16px; opacity: 0.9;">Never Miss an Opportunity Again</p>
-            </td>
-          </tr>
-          
-          <!-- Content -->
-          <tr>
-            <td style="padding: 40px;">
-              <h2 style="margin: 0 0 20px; color: #1a1a1a; font-size: 22px; font-weight: 600;">
-                Hi${companyName ? ` ${companyName}` : ''},
-              </h2>
-              
-              <p style="margin: 0 0 16px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                Are you tired of always finding out afterwards that there was a big event near your restaurant or hotel — one that could have filled your tables or rooms?
-              </p>
-              
-              <p style="margin: 0 0 16px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                That's exactly why we built <strong>Spotlight Events</strong>.
-              </p>
-              
-              <p style="margin: 0 0 16px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                Our platform helps you discover upcoming events around your business, understand how many people are expected to attend, and use this data to create targeted marketing campaigns that actually bring guests in.
-              </p>
-              
-              <div style="background-color: #f8f9ff; border-left: 4px solid #667eea; padding: 20px; margin: 30px 0; border-radius: 4px;">
-                <p style="margin: 0; color: #1a1a1a; font-size: 17px; font-weight: 600; line-height: 1.6;">
-                  With Spotlight, you'll never miss an opportunity again.
-                </p>
-              </div>
-              
-              <p style="margin: 0 0 24px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                👉 Try Spotlight Events completely free for 14 days — no commitment, just results.
-              </p>
-              
-              <p style="margin: 0 0 30px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                Sign up today and see how easy it is to turn nearby events into real customers.
-              </p>
-              
-              <div style="text-align: center; margin: 40px 0;">
-                <a href="https://www.spotlightevents.online?utm_source=email&utm_medium=marketing&utm_campaign=bulk_outreach&utm_content=${encodeURIComponent(companyName || 'prospect')}" 
-                   style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 6px; font-size: 18px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
-                  Try now for free →
-                </a>
-              </div>
-              
-              <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #e5e5e5;">
-                <p style="margin: 0 0 8px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                  Best regards,
-                </p>
-                <p style="margin: 0 0 4px; color: #1a1a1a; font-size: 16px; font-weight: 600;">
-                  Nabeel Heeder
-                </p>
-                <p style="margin: 0 0 16px; color: #666; font-size: 14px;">
-                  Founder, Spotlight Events
-                </p>
-                <p style="margin: 0; color: #666; font-size: 14px; line-height: 1.6;">
-                  🌐 <a href="https://www.spotlightevents.online" style="color: #667eea; text-decoration: none;">www.spotlightevents.online</a>
-                </p>
-              </div>
-            </td>
-          </tr>
-          
-          <!-- Footer -->
-          <tr>
-            <td style="padding: 30px 40px; background-color: #f8f9fa; border-radius: 0 0 8px 8px; text-align: center;">
-              <p style="margin: 0 0 10px; color: #666; font-size: 14px;">
-                Spotlight Events – Smart Event Marketing for Restaurants and Hotels
-              </p>
-              <p style="margin: 0; color: #999; font-size: 12px;">
-                Don't want to receive more emails from us? Reply with "unsubscribe".
-              </p>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
+<body style="width:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%;background-color:#f0f1f5;margin:0;padding:0">
+  <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f0f1f5" style="background-color:#f0f1f5">
+    <tbody>
+      <tr>
+        <td style="background-color:#f0f1f5">
+          <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="max-width:600px;margin:0 auto;background-color:#ffffff">
+            <tbody>
+              <!-- Logo Header -->
+              <tr>
+                <td style="padding:10px 0px 0px 0px">
+                  <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+                    <tbody>
+                      <tr>
+                        <td style="padding:10px 0 10px 0">
+                          <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+                            <tbody>
+                              <tr>
+                                <td style="padding:0px 20px">
+                                  <table border="0" cellpadding="0" cellspacing="0" align="center" style="width:100%;background-color:#7630d7;border-radius:45px">
+                                    <tbody>
+                                      <tr>
+                                        <td style="text-align:center;padding:5px">
+                                          <a href="https://www.spotlightevents.online" target="_blank" style="display:block;text-decoration:none">
+                                            <img src="https://jujgbkdamkjabjuerqxt.supabase.co/storage/v1/object/public/email-templates/spotlight-logo-white.png" alt="SpotlightEvents" width="495" style="display:block;width:100%;max-width:495px;height:auto">
+                                          </a>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                              
+                              <!-- Main Headline -->
+                              <tr>
+                                <td style="font-size:0;height:16px" height="16">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td dir="ltr" style="font-size:21px;text-align:center;padding:0px 20px;font-family:Arial,Helvetica,sans-serif">
+                                  <span style="white-space:pre-wrap">Get more guests from nearby events – </span>
+                                  <span style="font-weight:700;font-style:italic;white-space:pre-wrap">free for 14 days</span>
+                                </td>
+                              </tr>
+                              
+                              <!-- Description -->
+                              <tr>
+                                <td style="font-size:0;height:16px" height="16">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td dir="ltr" style="font-size:14px;text-align:justify;padding:0px 20px;font-family:Arial,Helvetica,sans-serif;line-height:1.5">
+                                  SpotlightEvents automatically finds local concerts, matches, and festivals near ${businessName || 'your business'} in ${city || 'your area'}, helping you attract more guests when it matters most.
+                                </td>
+                              </tr>
+                              
+                              <!-- CTA Button -->
+                              <tr>
+                                <td style="font-size:0;height:16px" height="16">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td style="padding:0px 20px">
+                                  <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+                                    <tbody>
+                                      <tr>
+                                        <td align="center">
+                                          <a href="https://www.spotlightevents.online?utm_source=email&utm_medium=bulk&utm_campaign=canva_template" 
+                                             style="display:inline-block;padding:12px 24px;background:linear-gradient(90deg,#7e1ad8,#992bff,#d6abff);color:#ffffff;font-size:18px;font-weight:bold;text-decoration:none;border-radius:12px;border:2px solid #992bff">
+                                            Start free trial
+                                          </a>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                              
+                              <!-- Benefits -->
+                              <tr>
+                                <td style="font-size:0;height:20px" height="20">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td style="padding:0px 20px">
+                                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                      <td style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;padding:8px 0">
+                                        🎯 Perfect timing – we alert you before major events nearby
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;padding:8px 0">
+                                        📈 More bookings – get ready-to-use promo ideas instantly
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;padding:8px 0">
+                                        ⏱️ No hassle – setup takes 2 minutes, no credit card needed
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </td>
+                              </tr>
+                              
+                              <!-- Analytics Preview Image -->
+                              <tr>
+                                <td style="font-size:0;height:20px" height="20">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td style="padding:0px 20px">
+                                  <img src="https://jujgbkdamkjabjuerqxt.supabase.co/storage/v1/object/public/email-templates/analytics-preview.gif" 
+                                       alt="Real-time event insights" 
+                                       width="560" 
+                                       style="display:block;width:100%;max-width:560px;height:auto;border-radius:12px">
+                                </td>
+                              </tr>
+                              
+                              <!-- Secondary CTA -->
+                              <tr>
+                                <td style="font-size:0;height:20px" height="20">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td dir="ltr" style="font-size:16px;text-align:center;padding:0px 20px;font-family:Arial,Helvetica,sans-serif;font-style:italic">
+                                  "Real-time event insights around your venue."
+                                </td>
+                              </tr>
+                              <tr>
+                                <td style="font-size:0;height:16px" height="16">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td dir="ltr" style="font-size:14px;text-align:center;padding:0px 20px;font-family:Arial,Helvetica,sans-serif;font-weight:bold">
+                                  14 days free. No credit card. Cancel anytime.
+                                </td>
+                              </tr>
+                              
+                              <!-- How It Works Button -->
+                              <tr>
+                                <td style="font-size:0;height:16px" height="16">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td style="padding:0px 20px">
+                                  <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+                                    <tbody>
+                                      <tr>
+                                        <td align="center">
+                                          <a href="https://www.spotlightevents.online/how-it-works" 
+                                             style="display:inline-block;padding:10px 20px;background-color:#ffffff;color:#7630d7;font-size:16px;font-weight:600;text-decoration:none;border-radius:8px;border:2px solid #7630d7">
+                                            See How It Works
+                                          </a>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                              
+                              <!-- FAQ Section -->
+                              <tr>
+                                <td style="font-size:0;height:24px" height="24">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td style="padding:0px 20px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#666">
+                                  ❓ <strong>What happens after 14 days?</strong> → You can upgrade or cancel anytime.<br>
+                                  🔐 <strong>GDPR & data?</strong> → We only use public event data + your business info.<br>
+                                  🧩 <strong>Integrations?</strong> → Connect with your calendar or marketing tools.
+                                </td>
+                              </tr>
+                              
+                              <!-- Signature -->
+                              <tr>
+                                <td style="font-size:0;height:24px" height="24">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td style="padding:0px 20px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6">
+                                  <strong>Nabeel Heeder</strong><br>
+                                  Founder, ⚡SpotlightEvents<br>
+                                  <a href="mailto:nabeel@spotlightevents.online" style="color:#7630d7">nabeel@spotlightevents.online</a>
+                                </td>
+                              </tr>
+                              
+                              <tr>
+                                <td style="font-size:0;height:30px" height="30">&nbsp;</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </body>
 </html>
@@ -137,7 +245,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { emails, senderName, senderEmail }: BulkEmailRequest = await req.json();
+    const { emails, senderName, senderEmail, businessName, city }: BulkEmailRequest = await req.json();
 
     if (!emails || emails.length === 0) {
       return new Response(
@@ -167,8 +275,8 @@ const handler = async (req: Request): Promise<Response> => {
           const emailResponse = await resend.emails.send({
             from: `${fromName} <${fromAddress}>`,
             to: [email],
-            subject: "Are you tired of missing the events happening around your business?",
-            html: getMarketingEmailHtml(companyName),
+            subject: "Get more guests from nearby events – free for 14 days",
+            html: getMarketingEmailHtml(companyName, businessName, city),
           });
 
           console.log(`Email sent to ${email}:`, emailResponse);

@@ -14,6 +14,8 @@ export default function BulkEmail() {
   const { isAdmin, loading: adminLoading } = useAdminCheck();
   const location = useLocation();
   const [emails, setEmails] = useState("");
+  const [businessName, setBusinessName] = useState("");
+  const [city, setCity] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [results, setResults] = useState<any>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -187,6 +189,8 @@ Gothenburg,Clarion Hotel Post,https://clarionpost.se,info@clarionpost.se,hotel`;
       const { data, error } = await supabase.functions.invoke("send-bulk-marketing-email", {
         body: {
           emails: emailList,
+          businessName: businessName || undefined,
+          city: city || undefined,
         },
       });
 
@@ -239,6 +243,40 @@ Gothenburg,Clarion Hotel Post,https://clarionpost.se,info@clarionpost.se,hotel`;
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
+            {/* Dynamic Variables Section */}
+            <div className="glass-card p-4 rounded-lg space-y-3">
+              <h4 className="font-semibold text-sm mb-2">Personalisering (valfritt)</h4>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">
+                    Företagsnamn standard
+                  </label>
+                  <input
+                    type="text"
+                    value={businessName}
+                    onChange={(e) => setBusinessName(e.target.value)}
+                    placeholder="t.ex. din verksamhet"
+                    className="w-full px-3 py-2 rounded-md border bg-background text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">
+                    Stad standard
+                  </label>
+                  <input
+                    type="text"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    placeholder="t.ex. ditt område"
+                    className="w-full px-3 py-2 rounded-md border bg-background text-sm"
+                  />
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Dessa värden används om mottagaren inte har specifik information
+              </p>
+            </div>
+
             {/* CSV Upload Section */}
             <div className="glass-card p-4 rounded-lg space-y-3">
               <div className="flex items-center justify-between">
@@ -375,17 +413,20 @@ Gothenburg,Clarion Hotel Post,https://clarionpost.se,info@clarionpost.se,hotel`;
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             <div>
-              <strong>Ämnesrad:</strong> "Öka gästflödet vid lokala evenemang – Spotlight Events"
+              <strong>Ämnesrad:</strong> "Get more guests from nearby events – free for 14 days"
             </div>
             <div>
               <strong>Innehåll:</strong>
               <ul className="list-disc ml-6 mt-2 space-y-1 text-muted-foreground">
-                <li>Personlig hälsning med automatiskt företagsnamn från emailadressen</li>
-                <li>Presentation av Nabeel Heeder och Spotlight Events</li>
-                <li>Beskrivning av hur plattformen hjälper till med event-marknadsföring</li>
-                <li>Call-to-action för kort introduktion</li>
-                <li>Kontaktinformation och signatur</li>
-                <li>Professionell design med Spotlight Events logotyp</li>
+                <li>SpotlightEvents logotyp och varumärke</li>
+                <li>Huvudbudskap: Få fler gäster från närliggande evenemang</li>
+                <li>Beskrivning av hur plattformen fungerar</li>
+                <li>Tydlig call-to-action: "Start free trial"</li>
+                <li>Tre huvudsakliga fördelar med ikoner</li>
+                <li>Analytics preview bild</li>
+                <li>Sekundär CTA: "See How It Works"</li>
+                <li>FAQ-sektion med vanliga frågor</li>
+                <li>Signatur från Nabeel Heeder, Founder</li>
               </ul>
             </div>
             <div className="pt-2 border-t">
