@@ -37,7 +37,7 @@ export const LogoCarousel = () => {
       WebkitOverflowScrolling: 'touch'
     }}>
         {duplicatedCustomers.map((customer, index) => <div key={`${customer}-${index}`} className="inline-flex items-center justify-center px-8 py-4 min-w-[200px] group">
-            <span className="transition-colors duration-300 font-display text-2xl font-bold text-stone-950">
+            <span className="transition-colors duration-300 font-display text-2xl font-bold text-foreground">
               {customer}
             </span>
           </div>)}
