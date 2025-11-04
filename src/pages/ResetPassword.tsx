@@ -35,19 +35,21 @@ export default function ResetPassword() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20 p-4">
-      <Card className="w-full max-w-md shadow-2xl border-border/50 backdrop-blur-sm bg-card/95">
-        <CardHeader className="space-y-4">
+      <Card className="w-full max-w-md shadow-2xl border-border/50 backdrop-blur-sm bg-card/95 rounded-3xl">
+        <CardHeader className="space-y-6 pb-8">
           <Link 
             to="/auth" 
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to login
           </Link>
           
-          <div className="space-y-2">
-            <CardTitle className="text-2xl font-bold text-center">Reset Password</CardTitle>
-            <CardDescription className="text-center">
+          <div className="space-y-3">
+            <CardTitle className="text-3xl font-bold text-center tracking-tight bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text">
+              Reset Password
+            </CardTitle>
+            <CardDescription className="text-center text-base leading-relaxed">
               Enter your email address and we'll send you a link to reset your password
             </CardDescription>
           </div>
