@@ -139,11 +139,31 @@ export function Footer() {
                 Linkedin
               </span>
             </a>
-            <Button variant="ghost" size="icon" className="h-12 w-12 hover:text-primary hover:scale-110 hover:bg-primary/10 transition-all duration-300 hover-glow" asChild>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                <Facebook className="h-6 w-6 transition-transform duration-300 hover:rotate-12" />
-              </a>
-            </Button>
+            <a 
+              href="https://facebook.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label="Facebook"
+              className="group relative flex justify-center items-center p-2 rounded-md drop-shadow-xl bg-[#316FF6] text-white font-semibold hover:translate-y-3 hover:rounded-[50%] transition-all duration-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1.1em"
+                viewBox="0 0 448 512"
+                strokeWidth="0"
+                fill="currentColor"
+                stroke="currentColor"
+                className="w-5"
+              >
+                <path
+                  d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"
+                ></path>
+              </svg>
+              <span className="absolute opacity-0 group-hover:opacity-100 group-hover:text-gray-700 group-hover:text-sm group-hover:-translate-y-10 duration-700">
+                Facebook
+              </span>
+            </a>
             <Button variant="ghost" size="icon" className="h-12 w-12 hover:text-primary hover:scale-110 hover:bg-primary/10 transition-all duration-300 hover-glow" asChild>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
                 <X className="h-6 w-6 transition-transform duration-300 hover:rotate-12" />
