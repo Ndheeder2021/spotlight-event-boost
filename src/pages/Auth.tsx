@@ -18,13 +18,30 @@ export default function Auth() {
   const [isLogin, setIsLogin] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",
     agreeToTerms: false
   });
+
+  // Password validation
+  const passwordRequirements = {
+    minLength: formData.password.length >= 8,
+    hasUpperCase: /[A-Z]/.test(formData.password),
+    hasNumber: /[0-9]/.test(formData.password),
+  };
+
+  const isPasswordValid = !isLogin && (
+    passwordRequirements.minLength &&
+    passwordRequirements.hasUpperCase &&
+    passwordRequirements.hasNumber
+  );
+
+  const doPasswordsMatch = formData.password === formData.confirmPassword || formData.confirmPassword === "";
   useEffect(() => {
     supabase.auth.getSession().then(({
       data: {
@@ -54,6 +71,19 @@ export default function Auth() {
       toast.error(t("authErrorTerms"));
       return;
     }
+
+    // Validate password for signup
+    if (!isLogin) {
+      if (!isPasswordValid) {
+        toast.error("Password does not meet requirements");
+        return;
+      }
+      if (!doPasswordsMatch) {
+        toast.error("Passwords do not match");
+        return;
+      }
+    }
+
     setSubmitting(true);
     try {
       if (isLogin) {
@@ -150,6 +180,47 @@ export default function Auth() {
                 })} required className="auth-input-with-icon h-14 bg-muted border-0 rounded-2xl text-base pr-12" />
                     {showPassword ? <EyeOff className="auth-eye-icon h-5 w-5" onClick={() => setShowPassword(false)} /> : <Eye className="auth-eye-icon h-5 w-5" onClick={() => setShowPassword(true)} />}
                   </div>
+
+                  {/* Password validation messages */}
+                  {formData.password && (
+                    <div className="space-y-1 text-sm">
+                      <div className={passwordRequirements.minLength ? "text-green-600" : "text-red-600"}>
+                        {passwordRequirements.minLength ? "✓" : "✗"} At least 8 characters
+                      </div>
+                      <div className={passwordRequirements.hasUpperCase ? "text-green-600" : "text-red-600"}>
+                        {passwordRequirements.hasUpperCase ? "✓" : "✗"} One capital letter
+                      </div>
+                      <div className={passwordRequirements.hasNumber ? "text-green-600" : "text-red-600"}>
+                        {passwordRequirements.hasNumber ? "✓" : "✗"} One number
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="relative">
+                    <Lock className="auth-input-icon h-5 w-5" />
+                    <Input 
+                      type={showConfirmPassword ? "text" : "password"} 
+                      placeholder="Confirm Password" 
+                      value={formData.confirmPassword} 
+                      onChange={e => setFormData({
+                        ...formData,
+                        confirmPassword: e.target.value
+                      })} 
+                      required 
+                      className="auth-input-with-icon h-14 bg-muted border-0 rounded-2xl text-base pr-12" 
+                    />
+                    {showConfirmPassword ? 
+                      <EyeOff className="auth-eye-icon h-5 w-5" onClick={() => setShowConfirmPassword(false)} /> : 
+                      <Eye className="auth-eye-icon h-5 w-5" onClick={() => setShowConfirmPassword(true)} />
+                    }
+                  </div>
+
+                  {/* Password match validation */}
+                  {formData.confirmPassword && (
+                    <div className={doPasswordsMatch ? "text-green-600 text-sm" : "text-red-600 text-sm"}>
+                      {doPasswordsMatch ? "✓ Passwords match" : "✗ Passwords do not match"}
+                    </div>
+                  )}
 
                   <div className="flex items-center space-x-2">
                     <Checkbox id="terms" checked={formData.agreeToTerms} onCheckedChange={checked => setFormData({
