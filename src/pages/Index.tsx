@@ -32,6 +32,7 @@ import featureAiCampaign from "@/assets/feature-ai-campaign-new.png";
 import featureEvents from "@/assets/feature-event-radar-new.png";
 import "@/components/testimonial-card.css";
 import "@/components/ui/stats-card.css";
+import "@/components/elegant-button.css";
 import { TypingAnimation } from "@/components/TypingAnimation";
 const testimonials = [{
   name: "Anna Svensson",
@@ -1082,9 +1083,9 @@ const Index = () => {
                 {t('supportTeamHelp')}
               </p>
               <Link to="/contact">
-                <Button size="lg" variant="animated" className="bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90">
-                  {t('contactSupport')}
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                <Button size="lg" className="elegant-button px-[30px] py-[15px] border-2 border-[#2c2c2c] bg-[#1a1a1a] text-white text-xl rounded-[30px] font-bold hover:border-[#666666] hover:bg-[#292929]">
+                  <span className="relative z-10">{t('contactSupport')}</span>
+                  <ArrowRight className="ml-2 h-5 w-5 relative z-10" />
                 </Button>
               </Link>
             </div>
