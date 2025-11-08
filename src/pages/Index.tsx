@@ -31,6 +31,7 @@ import featureAnalytics from "@/assets/feature-analytics-new.png";
 import featureAiCampaign from "@/assets/feature-ai-campaign-new.png";
 import featureEvents from "@/assets/feature-event-radar-new.png";
 import "@/components/testimonial-card.css";
+import { TypingAnimation } from "@/components/TypingAnimation";
 
 const testimonials = [
   {
@@ -449,9 +450,11 @@ const Index = () => {
         <div className="container relative mx-auto px-4 sm:px-6 pt-20 sm:pt-28 lg:pt-40 pb-16 sm:pb-20 lg:pb-32 z-10">
           <div className="max-w-5xl mx-auto text-center space-y-8 sm:space-y-12">
             <div className="space-y-6 sm:space-y-8">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.15] sm:leading-[1.1] tracking-tight px-2 animate-fade-in">
-                {t('heroTitle')}
-              </h1>
+              <TypingAnimation 
+                text={t('heroTitle')}
+                speed={80}
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.15] sm:leading-[1.1] tracking-tight px-2"
+              />
               
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
                 {t('heroSubtitle')}
