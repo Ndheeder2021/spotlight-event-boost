@@ -33,201 +33,145 @@ import featureEvents from "@/assets/feature-event-radar-new.png";
 import "@/components/testimonial-card.css";
 import "@/components/ui/stats-card.css";
 import { TypingAnimation } from "@/components/TypingAnimation";
-
-const testimonials = [
-  {
-    name: "Anna Svensson",
-    role: "Ägare, Café Bröd & Salt",
-    content: "Spotlight har ökat vår försäljning med 40% under lokala evenemang. Vi vet alltid när det händer något i området och kan snabbt sätta igång kampanjer.",
-    rating: 5,
-    image: reviewAnna,
-  },
-  {
-    name: "Erik Lundberg",
-    role: "Marknadsansvarig, Restaurant Smak",
-    content: "AI-funktionen sparar oss timmar varje vecka. Kampanjerna känns personliga och träffsäkra. Bästa investeringen vi gjort!",
-    rating: 5,
-    image: reviewErik,
-  },
-  {
-    name: "Maria Andersson",
-    role: "VD, Urban Bar & Grill",
-    content: "Professionell, användarvänlig och resultatrik. Vi har fördubblat vårt antal kampanjer utan att öka arbetstiden.",
-    rating: 5,
-    image: reviewMaria,
-  },
-];
-
-const featureShowcase = [
-  {
-    title: "Kraftfull Analytics",
-    description: "Följ dina kampanjers prestanda i realtid med detaljerade insikter och ROI-tracking.",
-    image: featureAnalytics,
-  },
-  {
-    title: "AI-Driven Kampanjer",
-    description: "Låt AI skapa skräddarsydda kampanjer baserade på lokala evenemang och din målgrupp.",
-    image: featureAiCampaign,
-  },
-  {
-    title: "Event Discovery",
-    description: "Upptäck automatiskt alla relevanta lokala evenemang i ditt område.",
-    image: featureEvents,
-  },
-];
-
-
-const Plans = ({ t, i18n }: { t: any; i18n: any }) => [
-  {
-    name: t('planStarterName'),
-    monthlyPrice: t('pricingStarterMonthly'),
-    yearlyPrice: t('pricingStarterYearly'),
-    yearlyDiscount: t('planStarterYearlyDiscount'),
-    description: t('planStarterDesc'),
-    features: [
-      t('planStarterFeature1'),
-      t('planStarterFeature2'),
-      t('planStarterFeature3'),
-      t('planStarterFeature4')
-    ],
-    notIncluded: [
-      t('planStarterNotIncluded1'),
-      t('planStarterNotIncluded2'),
-      t('planStarterNotIncluded3'),
-      t('planStarterNotIncluded4')
-    ]
-  },
-  {
-    name: t('planProfessionalName'),
-    monthlyPrice: t('pricingProfessionalMonthly'),
-    yearlyPrice: t('pricingProfessionalYearly'),
-    yearlyDiscount: t('planProfessionalYearlyDiscount'),
-    description: t('planProfessionalDesc'),
-    features: [
-      t('planProfessionalFeature1'),
-      t('planProfessionalFeature2'),
-      t('planProfessionalFeature3'),
-      t('planProfessionalFeature4'),
-      t('planProfessionalFeature5'),
-      t('planProfessionalFeature6'),
-      t('planProfessionalFeature7'),
-      t('planProfessionalFeature8'),
-      t('planProfessionalFeature9'),
-      t('planProfessionalFeature10'),
-      t('planProfessionalFeature11')
-    ],
-    notIncluded: [
-      t('planProfessionalNotIncluded1')
-    ],
-    popular: true
-  },
-  {
-    name: t('planEnterpriseName'),
-    monthlyPrice: t('plansContactUs'),
-    yearlyPrice: null,
-    yearlyDiscount: null,
-    description: t('planEnterpriseDesc'),
-    features: [
-      t('planEnterpriseFeature1'),
-      t('planEnterpriseFeature2'),
-      t('planEnterpriseFeature3'),
-      t('planEnterpriseFeature4'),
-      t('planEnterpriseFeature5'),
-      t('planEnterpriseFeature6'),
-      t('planEnterpriseFeature7')
-    ],
-    notIncluded: []
-  }
-];
-
-const faqs = [
-  {
-    question: "Vad är Spotlight?",
-    answer: "Spotlight är en AI-driven plattform som hjälper lokala företag att upptäcka närliggande evenemang och automatiskt skapa marknadsföringskampanjer för att dra nytta av det ökade kundflödet."
-  },
-  {
-    question: "Hur fungerar det?",
-    answer: "Vi övervakar kontinuerligt lokala evenemang i ditt området och skickar notifieringar när relevanta evenemang hittas. Du kan sedan använda vår AI för att generera professionell kampanjtext eller skapa egna kampanjer. Allt samlas i en enkel och intuitiv dashboard."
-  },
-  {
-    question: "Vilka typer av evenemang täcker ni?",
-    answer: "Vi täcker allt från konserter, sportevenemang, festivaler, mässor till kulturella evenemang och lokala aktiviteter. Vår databas uppdateras kontinuerligt med nya evenemang från olika källor."
-  },
-  {
-    question: "Kan jag testa Spotlight gratis?",
-    answer: "Ja! Vi erbjuder en 14-dagars gratis testperiod där du får full tillgång till alla funktioner i din valda plan. Inget kreditkort krävs för att starta testperioden."
-  },
-  {
-    question: "Hur avbokar jag mitt abonnemang?",
-    answer: "Du kan när som helst avboka ditt abonnemang från inställningar i din dashboard. Abonnemanget fortsätter till slutet av din betalningsperiod, och du behåller tillgång till alla funktioner fram till dess."
-  },
-  {
-    question: "Kan jag byta plan senare?",
-    answer: "Absolut! Du kan uppgradera eller nedgradera din plan när som helst. Ändringar träder i kraft omedelbart och vi justerar faktureringen proportionellt."
-  },
-  {
-    question: "Hur exakt är event-upptäckten?",
-    answer: "Vår AI-drivna teknologi söker igenom flera datakällor och filtrerar evenemang baserat på din plats och bransch. Vi har en noggrannhet på över 95% och uppdaterar händelser i realtid."
-  },
-  {
-    question: "Kan jag använda Spotlight för flera platser?",
-    answer: "Ja, på Professional och Enterprise-planerna kan du övervaka evenemang för flera platser samtidigt. Detta är perfekt för företag med flera verksamheter."
-  },
-  {
-    question: "Hur hanteras mina kampanjer?",
-    answer: "Du kan spara, redigera, dela och exportera dina kampanjer. På Professional-planen får du även tillgång till PDF-export, delning via lösenordsskyddade länkar och möjlighet att skicka kampanjer direkt via email."
-  },
-  {
-    question: "Är mina data säkra?",
-    answer: "Ja, vi tar datasäkerhet på största allvar. All data krypteras både vid överföring och lagring. Vi följer GDPR och lagrar data i säkra datacenter i EU. Du äger alltid dina egna data."
-  },
-  {
-    question: "Vilken support får jag?",
-    answer: "Alla planer inkluderar email-support. Professional-planen får tillgång till AI Live Support för snabbare svar. Enterprise-kunder får dedikerad support med garanterad svarstid."
-  },
-  {
-    question: "Kan jag integrera Spotlight med andra verktyg?",
-    answer: "Ja! Vi erbjuder integrationer med populära marknadsföringsverktyg, CRM-system och sociala medier. Enterprise-planen inkluderar även anpassade integrationer för dina specifika behov."
-  }
-];
-
+const testimonials = [{
+  name: "Anna Svensson",
+  role: "Ägare, Café Bröd & Salt",
+  content: "Spotlight har ökat vår försäljning med 40% under lokala evenemang. Vi vet alltid när det händer något i området och kan snabbt sätta igång kampanjer.",
+  rating: 5,
+  image: reviewAnna
+}, {
+  name: "Erik Lundberg",
+  role: "Marknadsansvarig, Restaurant Smak",
+  content: "AI-funktionen sparar oss timmar varje vecka. Kampanjerna känns personliga och träffsäkra. Bästa investeringen vi gjort!",
+  rating: 5,
+  image: reviewErik
+}, {
+  name: "Maria Andersson",
+  role: "VD, Urban Bar & Grill",
+  content: "Professionell, användarvänlig och resultatrik. Vi har fördubblat vårt antal kampanjer utan att öka arbetstiden.",
+  rating: 5,
+  image: reviewMaria
+}];
+const featureShowcase = [{
+  title: "Kraftfull Analytics",
+  description: "Följ dina kampanjers prestanda i realtid med detaljerade insikter och ROI-tracking.",
+  image: featureAnalytics
+}, {
+  title: "AI-Driven Kampanjer",
+  description: "Låt AI skapa skräddarsydda kampanjer baserade på lokala evenemang och din målgrupp.",
+  image: featureAiCampaign
+}, {
+  title: "Event Discovery",
+  description: "Upptäck automatiskt alla relevanta lokala evenemang i ditt område.",
+  image: featureEvents
+}];
+const Plans = ({
+  t,
+  i18n
+}: {
+  t: any;
+  i18n: any;
+}) => [{
+  name: t('planStarterName'),
+  monthlyPrice: t('pricingStarterMonthly'),
+  yearlyPrice: t('pricingStarterYearly'),
+  yearlyDiscount: t('planStarterYearlyDiscount'),
+  description: t('planStarterDesc'),
+  features: [t('planStarterFeature1'), t('planStarterFeature2'), t('planStarterFeature3'), t('planStarterFeature4')],
+  notIncluded: [t('planStarterNotIncluded1'), t('planStarterNotIncluded2'), t('planStarterNotIncluded3'), t('planStarterNotIncluded4')]
+}, {
+  name: t('planProfessionalName'),
+  monthlyPrice: t('pricingProfessionalMonthly'),
+  yearlyPrice: t('pricingProfessionalYearly'),
+  yearlyDiscount: t('planProfessionalYearlyDiscount'),
+  description: t('planProfessionalDesc'),
+  features: [t('planProfessionalFeature1'), t('planProfessionalFeature2'), t('planProfessionalFeature3'), t('planProfessionalFeature4'), t('planProfessionalFeature5'), t('planProfessionalFeature6'), t('planProfessionalFeature7'), t('planProfessionalFeature8'), t('planProfessionalFeature9'), t('planProfessionalFeature10'), t('planProfessionalFeature11')],
+  notIncluded: [t('planProfessionalNotIncluded1')],
+  popular: true
+}, {
+  name: t('planEnterpriseName'),
+  monthlyPrice: t('plansContactUs'),
+  yearlyPrice: null,
+  yearlyDiscount: null,
+  description: t('planEnterpriseDesc'),
+  features: [t('planEnterpriseFeature1'), t('planEnterpriseFeature2'), t('planEnterpriseFeature3'), t('planEnterpriseFeature4'), t('planEnterpriseFeature5'), t('planEnterpriseFeature6'), t('planEnterpriseFeature7')],
+  notIncluded: []
+}];
+const faqs = [{
+  question: "Vad är Spotlight?",
+  answer: "Spotlight är en AI-driven plattform som hjälper lokala företag att upptäcka närliggande evenemang och automatiskt skapa marknadsföringskampanjer för att dra nytta av det ökade kundflödet."
+}, {
+  question: "Hur fungerar det?",
+  answer: "Vi övervakar kontinuerligt lokala evenemang i ditt området och skickar notifieringar när relevanta evenemang hittas. Du kan sedan använda vår AI för att generera professionell kampanjtext eller skapa egna kampanjer. Allt samlas i en enkel och intuitiv dashboard."
+}, {
+  question: "Vilka typer av evenemang täcker ni?",
+  answer: "Vi täcker allt från konserter, sportevenemang, festivaler, mässor till kulturella evenemang och lokala aktiviteter. Vår databas uppdateras kontinuerligt med nya evenemang från olika källor."
+}, {
+  question: "Kan jag testa Spotlight gratis?",
+  answer: "Ja! Vi erbjuder en 14-dagars gratis testperiod där du får full tillgång till alla funktioner i din valda plan. Inget kreditkort krävs för att starta testperioden."
+}, {
+  question: "Hur avbokar jag mitt abonnemang?",
+  answer: "Du kan när som helst avboka ditt abonnemang från inställningar i din dashboard. Abonnemanget fortsätter till slutet av din betalningsperiod, och du behåller tillgång till alla funktioner fram till dess."
+}, {
+  question: "Kan jag byta plan senare?",
+  answer: "Absolut! Du kan uppgradera eller nedgradera din plan när som helst. Ändringar träder i kraft omedelbart och vi justerar faktureringen proportionellt."
+}, {
+  question: "Hur exakt är event-upptäckten?",
+  answer: "Vår AI-drivna teknologi söker igenom flera datakällor och filtrerar evenemang baserat på din plats och bransch. Vi har en noggrannhet på över 95% och uppdaterar händelser i realtid."
+}, {
+  question: "Kan jag använda Spotlight för flera platser?",
+  answer: "Ja, på Professional och Enterprise-planerna kan du övervaka evenemang för flera platser samtidigt. Detta är perfekt för företag med flera verksamheter."
+}, {
+  question: "Hur hanteras mina kampanjer?",
+  answer: "Du kan spara, redigera, dela och exportera dina kampanjer. På Professional-planen får du även tillgång till PDF-export, delning via lösenordsskyddade länkar och möjlighet att skicka kampanjer direkt via email."
+}, {
+  question: "Är mina data säkra?",
+  answer: "Ja, vi tar datasäkerhet på största allvar. All data krypteras både vid överföring och lagring. Vi följer GDPR och lagrar data i säkra datacenter i EU. Du äger alltid dina egna data."
+}, {
+  question: "Vilken support får jag?",
+  answer: "Alla planer inkluderar email-support. Professional-planen får tillgång till AI Live Support för snabbare svar. Enterprise-kunder får dedikerad support med garanterad svarstid."
+}, {
+  question: "Kan jag integrera Spotlight med andra verktyg?",
+  answer: "Ja! Vi erbjuder integrationer med populära marknadsföringsverktyg, CRM-system och sociala medier. Enterprise-planen inkluderar även anpassade integrationer för dina specifika behov."
+}];
 const Index = () => {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const {
+    t,
+    i18n
+  } = useTranslation();
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const [needsSubscription, setNeedsSubscription] = useState(false);
   const [loading, setLoading] = useState(true);
-  
-  const plans = Plans({ t, i18n });
+  const plans = Plans({
+    t,
+    i18n
+  });
   const [isYearly, setIsYearly] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const featureShowcaseData = [
-    {
-      title: t('featureAnalytics'),
-      description: t('featureAnalyticsDesc'),
-      media: "/analytics-showcase.mp4",
-      type: "video"
-    },
-    {
-      title: t('featureAi'),
-      description: t('featureAiDesc'),
-      media: "/ai-campaign-showcase.mp4",
-      type: "video"
-    },
-    {
-      title: t('featureEvents'),
-      description: t('featureEventsDesc'),
-      media: "/events-feature-showcase.mp4",
-      type: "video"
-    },
-  ];
-
+  const featureShowcaseData = [{
+    title: t('featureAnalytics'),
+    description: t('featureAnalyticsDesc'),
+    media: "/analytics-showcase.mp4",
+    type: "video"
+  }, {
+    title: t('featureAi'),
+    description: t('featureAiDesc'),
+    media: "/ai-campaign-showcase.mp4",
+    type: "video"
+  }, {
+    title: t('featureEvents'),
+    description: t('featureEventsDesc'),
+    media: "/events-feature-showcase.mp4",
+    type: "video"
+  }];
   const scrollToFeatures = () => {
     const featuresSection = document.getElementById('features');
-    featuresSection?.scrollIntoView({ behavior: 'smooth' });
+    featuresSection?.scrollIntoView({
+      behavior: 'smooth'
+    });
   };
 
   // Scroll animations - trigger immediately on mount
@@ -235,37 +179,37 @@ const Index = () => {
     // Small delay to ensure DOM is ready
     const timer = setTimeout(() => {
       const observerCallback = (entries: IntersectionObserverEntry[]) => {
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-visible');
           }
         });
       };
-
       const observer = new IntersectionObserver(observerCallback, {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px',
+        rootMargin: '0px 0px -50px 0px'
       });
-
-      document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+      document.querySelectorAll('.animate-on-scroll').forEach(el => {
         observer.observe(el);
       });
-
       return () => observer.disconnect();
     }, 100);
-
     return () => clearTimeout(timer);
   }, []);
-
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
+    const {
+      data: {
+        subscription
       }
-    );
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+    });
+    supabase.auth.getSession().then(({
+      data: {
+        session
+      }
+    }) => {
       setSession(session);
       setUser(session?.user ?? null);
       checkProfile(session?.user);
@@ -275,15 +219,20 @@ const Index = () => {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('checkout') === 'success') {
       toast.success("Tack för din betalning! Din 14-dagars provperiod har startat.");
-      
+
       // Send purchase confirmation email
-      supabase.auth.getSession().then(async ({ data: { session } }) => {
+      supabase.auth.getSession().then(async ({
+        data: {
+          session
+        }
+      }) => {
         if (session?.user) {
           try {
-            const { data: subData } = await supabase.functions.invoke('check-subscription');
+            const {
+              data: subData
+            } = await supabase.functions.invoke('check-subscription');
             const planName = subData?.product_id?.includes('starter') ? 'Starter' : 'Professional';
             const amount = subData?.product_id?.includes('starter') ? '$29/månad' : '$49/månad';
-            
             await supabase.functions.invoke('send-purchase-email', {
               body: {
                 email: session.user.email,
@@ -298,30 +247,24 @@ const Index = () => {
           }
         }
       });
-      
+
       // Clean up URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
-
     return () => subscription.unsubscribe();
   }, []);
-
   const checkProfile = async (user: User | null | undefined) => {
     if (!user) {
       setLoading(false);
       return;
     }
-
     try {
       // Check if profile exists
-      const { data: locationData, error: locationError } = await supabase
-        .from("locations")
-        .select("name")
-        .eq("id", user.id)
-        .single();
-
+      const {
+        data: locationData,
+        error: locationError
+      } = await supabase.from("locations").select("name").eq("id", user.id).single();
       if (locationError) throw locationError;
-
       if (!locationData?.name || locationData.name === "My Business") {
         setNeedsOnboarding(true);
         setLoading(false);
@@ -329,15 +272,16 @@ const Index = () => {
       }
 
       // Check subscription status
-      const { data: subData, error: subError } = await supabase.functions.invoke('check-subscription');
-      
+      const {
+        data: subData,
+        error: subError
+      } = await supabase.functions.invoke('check-subscription');
       if (subError) {
         console.error("Subscription check error:", subError);
         setNeedsSubscription(true);
         setLoading(false);
         return;
       }
-
       if (!subData?.subscribed) {
         setNeedsSubscription(true);
         setLoading(false);
@@ -353,17 +297,19 @@ const Index = () => {
       setLoading(false);
     }
   };
-
   const handleAuthSuccess = () => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({
+      data: {
+        session
+      }
+    }) => {
       checkProfile(session?.user);
     });
   };
-
   const handleOnboardingComplete = async () => {
     setNeedsOnboarding(false);
     setNeedsSubscription(true);
-    
+
     // Send welcome email
     try {
       const session = await supabase.auth.getSession();
@@ -380,68 +326,52 @@ const Index = () => {
       // Don't block the flow if email fails
     }
   };
-
   const handleSubscriptionComplete = () => {
     setNeedsSubscription(false);
     navigate("/dashboard");
   };
-
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+    return <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-pulse flex items-center gap-2">
           <Zap className="h-8 w-8 text-primary" />
           <span className="text-2xl font-bold">Spotlight</span>
         </div>
-      </div>
-    );
+      </div>;
   }
-
   if (user && needsOnboarding) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+    return <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <div className="w-full max-w-md">
           <OnboardingForm userId={user.id} onComplete={handleOnboardingComplete} />
         </div>
-      </div>
-    );
+      </div>;
   }
-
   if (user && needsSubscription) {
     return <PlanSelector onSuccess={handleSubscriptionComplete} />;
   }
-
   if (user) {
     navigate("/dashboard");
     return null;
   }
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <SkipToContent />
-      <SEO
-        title="Spotlight - AI-Driven Event Marketing för Lokala Företag"
-        description="Förvandla lokala evenemang till ökad försäljning med AI. Spotlight hjälper dig automatiskt upptäcka närliggande evenemang och skapa datadrivna kampanjer som maximerar ditt kundflöde."
-        keywords="event marketing, AI marknadsföring, lokala evenemang, kampanjverktyg, automatiserad marknadsföring"
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          "name": "Spotlight",
-          "applicationCategory": "BusinessApplication",
-          "operatingSystem": "Web",
-          "offers": {
-            "@type": "AggregateOffer",
-            "priceCurrency": "USD",
-            "lowPrice": "29",
-            "highPrice": "49"
-          },
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "5",
-            "ratingCount": "3"
-          }
-        }}
-      />
+      <SEO title="Spotlight - AI-Driven Event Marketing för Lokala Företag" description="Förvandla lokala evenemang till ökad försäljning med AI. Spotlight hjälper dig automatiskt upptäcka närliggande evenemang och skapa datadrivna kampanjer som maximerar ditt kundflöde." keywords="event marketing, AI marknadsföring, lokala evenemang, kampanjverktyg, automatiserad marknadsföring" structuredData={{
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Spotlight",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "29",
+        "highPrice": "49"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "ratingCount": "3"
+      }
+    }} />
 
       <GlobalHeader />
 
@@ -451,11 +381,7 @@ const Index = () => {
         <div className="container relative mx-auto px-4 sm:px-6 pt-20 sm:pt-28 lg:pt-40 pb-16 sm:pb-20 lg:pb-32 z-10">
           <div className="max-w-5xl mx-auto text-center space-y-8 sm:space-y-12">
             <div className="space-y-6 sm:space-y-8">
-              <TypingAnimation 
-                text={t('heroTitle')}
-                speed={80}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.15] sm:leading-[1.1] tracking-tight px-2"
-              />
+              <TypingAnimation text={t('heroTitle')} speed={80} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.15] sm:leading-[1.1] tracking-tight px-2" />
               
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4 animate-fade-in opacity-0 [animation-delay:1s] [animation-fill-mode:forwards]">
                 {t('heroSubtitle')}
@@ -464,11 +390,7 @@ const Index = () => {
             
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch pt-6 sm:pt-8 px-4">
               <Link to="/auth" className="w-full sm:w-auto">
-                <Button 
-                  variant="animated"
-                  size="xl"
-                  className="w-full h-14 text-base sm:text-lg bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90"
-                >
+                <Button variant="animated" size="xl" className="w-full h-14 text-base sm:text-lg bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90">
                   {t('heroCtaPrimary')}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
@@ -477,37 +399,7 @@ const Index = () => {
             </div>
             
             {/* Live Stats Counter */}
-            <div className="stats-container pt-8 sm:pt-12">
-              <div className="stat-card">
-                <div className="stat-badge"></div>
-                <div className="stat-number">
-                  <AnimatedCounter end={127} suffix="+" />
-                </div>
-                <div className="stat-label">
-                  {t('companiesUsingSpotlight')}
-                </div>
-              </div>
-              
-              <div className="stat-card">
-                <div className="stat-badge"></div>
-                <div className="stat-number">
-                  <AnimatedCounter end={1834} separator="," />
-                </div>
-                <div className="stat-label">
-                  {t('campaignsThisMonth')}
-                </div>
-              </div>
-              
-              <div className="stat-card">
-                <div className="stat-badge"></div>
-                <div className="stat-number">
-                  <AnimatedCounter end={94} suffix="%" />
-                </div>
-                <div className="stat-label">
-                  {t('customerSatisfaction')}
-                </div>
-              </div>
-            </div>
+            
             
             <div className="flex flex-wrap gap-8 justify-center pt-8 text-base sm:text-lg text-foreground font-medium">
               <div className="flex items-center gap-2">
@@ -548,24 +440,14 @@ const Index = () => {
           </div>
 
           <div className="space-y-32 max-w-7xl mx-auto">
-            {featureShowcaseData.map((feature, index) => (
-              <div 
-                key={index} 
-                className={`grid lg:grid-cols-2 gap-12 items-center ${
-                  index % 2 === 1 ? 'lg:flex-row-reverse' : ''
-                }`}
-              >
+            {featureShowcaseData.map((feature, index) => <div key={index} className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
                 <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
                   <h3 className="text-4xl font-bold">{feature.title}</h3>
                   <p className="text-xl text-muted-foreground leading-relaxed">
                     {feature.description}
                   </p>
                   <Link to="/auth">
-                    <Button 
-                      variant="animated"
-                      size="xl"
-                      className="bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90"
-                    >
+                    <Button variant="animated" size="xl" className="bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90">
                       {t('readMore')}
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
@@ -573,28 +455,12 @@ const Index = () => {
                 </div>
                 <div className={`${index % 2 === 1 ? 'lg:order-1' : ''}`}>
                   <div className="rounded-2xl overflow-hidden border shadow-2xl">
-                    {feature.type === 'video' ? (
-                      <video 
-                        autoPlay 
-                        loop 
-                        muted 
-                        playsInline
-                        className="w-full h-auto"
-                      >
+                    {feature.type === 'video' ? <video autoPlay loop muted playsInline className="w-full h-auto">
                         <source src={feature.media} type="video/mp4" />
-                      </video>
-                    ) : (
-                      <img 
-                        src={feature.media} 
-                        alt={feature.title}
-                        className="w-full h-auto"
-                        loading="lazy"
-                      />
-                    )}
+                      </video> : <img src={feature.media} alt={feature.title} className="w-full h-auto" loading="lazy" />}
                   </div>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -641,7 +507,9 @@ const Index = () => {
       <section className="py-32 bg-gradient-to-b from-primary/5 via-accent/10 to-background relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-10 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse" style={{
+        animationDelay: '1s'
+      }} />
         
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="text-center mb-16 animate-on-scroll">
@@ -666,13 +534,9 @@ const Index = () => {
                   </div>
                   <div className="flex flex-col gap-2">
                     <div className="flex gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          className="h-8 w-8 fill-primary text-primary animate-bounce" 
-                          style={{ animationDelay: `${i * 0.1}s` }}
-                        />
-                      ))}
+                      {[...Array(5)].map((_, i) => <Star key={i} className="h-8 w-8 fill-primary text-primary animate-bounce" style={{
+                      animationDelay: `${i * 0.1}s`
+                    }} />)}
                     </div>
                     <p className="text-lg font-semibold text-muted-foreground">
                       {t('basedOnReviews')}
@@ -688,46 +552,42 @@ const Index = () => {
 
           {/* Rating Categories */}
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
-            {[
-              {
-                category: t('ratingsEaseOfUse'),
-                rating: 98,
-                icon: Target,
-                color: "from-blue-500 to-cyan-500",
-                bgColor: "from-blue-500/10 to-cyan-500/10"
-              },
-              {
-                category: t('ratingsSupport'),
-                rating: 97,
-                icon: Users,
-                color: "from-purple-500 to-pink-500",
-                bgColor: "from-purple-500/10 to-pink-500/10"
-              },
-              {
-                category: t('ratingsRoi'),
-                rating: 95,
-                icon: TrendingUp,
-                color: "from-green-500 to-emerald-500",
-                bgColor: "from-green-500/10 to-emerald-500/10"
-              },
-              {
-                category: t('ratingsFeatures'),
-                rating: 96,
-                icon: Sparkles,
-                color: "from-amber-500 to-orange-500",
-                bgColor: "from-amber-500/10 to-orange-500/10"
-              }
-            ].map((item, index) => (
-              <Card 
-                key={index} 
-                className="border-2 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:scale-105 animate-on-scroll bg-card/80 backdrop-blur-sm"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
+            {[{
+            category: t('ratingsEaseOfUse'),
+            rating: 98,
+            icon: Target,
+            color: "from-blue-500 to-cyan-500",
+            bgColor: "from-blue-500/10 to-cyan-500/10"
+          }, {
+            category: t('ratingsSupport'),
+            rating: 97,
+            icon: Users,
+            color: "from-purple-500 to-pink-500",
+            bgColor: "from-purple-500/10 to-pink-500/10"
+          }, {
+            category: t('ratingsRoi'),
+            rating: 95,
+            icon: TrendingUp,
+            color: "from-green-500 to-emerald-500",
+            bgColor: "from-green-500/10 to-emerald-500/10"
+          }, {
+            category: t('ratingsFeatures'),
+            rating: 96,
+            icon: Sparkles,
+            color: "from-amber-500 to-orange-500",
+            bgColor: "from-amber-500/10 to-orange-500/10"
+          }].map((item, index) => <Card key={index} className="border-2 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:scale-105 animate-on-scroll bg-card/80 backdrop-blur-sm" style={{
+            animationDelay: `${index * 0.1}s`
+          }}>
                 <CardContent className="pt-8 pb-8">
                   <div className="flex items-start justify-between mb-6">
                     <div className="flex items-center gap-4">
                       <div className={`p-4 rounded-2xl bg-gradient-to-br ${item.bgColor}`}>
-                        <item.icon className={`h-8 w-8 bg-gradient-to-r ${item.color} bg-clip-text text-transparent`} style={{ WebkitTextFillColor: 'transparent', WebkitBackgroundClip: 'text', backgroundClip: 'text' }} />
+                        <item.icon className={`h-8 w-8 bg-gradient-to-r ${item.color} bg-clip-text text-transparent`} style={{
+                      WebkitTextFillColor: 'transparent',
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text'
+                    }} />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold mb-1">{item.category}</h3>
@@ -736,9 +596,7 @@ const Index = () => {
                             {item.rating}%
                           </span>
                           <div className="flex gap-0.5">
-                            {[...Array(5)].map((_, i) => (
-                              <Star key={i} className="h-4 w-4 fill-primary text-primary" />
-                            ))}
+                            {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-primary text-primary" />)}
                           </div>
                         </div>
                       </div>
@@ -747,48 +605,48 @@ const Index = () => {
                   
                   {/* Animated Progress Bar */}
                   <div className="relative w-full h-3 bg-muted rounded-full overflow-hidden">
-                    <div 
-                      className={`absolute top-0 left-0 h-full bg-gradient-to-r ${item.color} rounded-full transition-all duration-1000 ease-out animate-shimmer`}
-                      style={{ 
-                        width: `${item.rating}%`,
-                        animationDelay: `${index * 0.2}s`
-                      }}
-                    />
+                    <div className={`absolute top-0 left-0 h-full bg-gradient-to-r ${item.color} rounded-full transition-all duration-1000 ease-out animate-shimmer`} style={{
+                  width: `${item.rating}%`,
+                  animationDelay: `${index * 0.2}s`
+                }} />
                   </div>
                   
                   <p className="text-sm text-muted-foreground mt-4">
-                    {item.rating >= 97 
-                      ? t('exceptionallyHighRating') 
-                      : item.rating >= 95 
-                        ? t('veryHighRating') 
-                        : t('highRating')
-                    } {t('fromOurUsers')}
+                    {item.rating >= 97 ? t('exceptionallyHighRating') : item.rating >= 95 ? t('veryHighRating') : t('highRating')} {t('fromOurUsers')}
                   </p>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
 
           {/* Trust Indicators */}
           <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {[
-              { icon: "👍", value: "98%", label: t('ratingsHappyCustomers') },
-              { icon: "🚀", value: "10min", label: t('ratingsQuickSetup') },
-              { icon: "💡", value: "24/7", label: t('ratingsFreeSupport') },
-              { icon: "🎯", value: "500+", label: t('happyCompanies') }
-            ].map((stat, i) => (
-              <div 
-                key={i} 
-                className="text-center p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 hover:from-primary/10 hover:to-accent/10 transition-all duration-300 hover:scale-110 animate-on-scroll"
-                style={{ animationDelay: `${i * 0.1}s` }}
-              >
-                <div className="text-4xl mb-3 animate-bounce" style={{ animationDelay: `${i * 0.2}s` }}>
+            {[{
+            icon: "👍",
+            value: "98%",
+            label: t('ratingsHappyCustomers')
+          }, {
+            icon: "🚀",
+            value: "10min",
+            label: t('ratingsQuickSetup')
+          }, {
+            icon: "💡",
+            value: "24/7",
+            label: t('ratingsFreeSupport')
+          }, {
+            icon: "🎯",
+            value: "500+",
+            label: t('happyCompanies')
+          }].map((stat, i) => <div key={i} className="text-center p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 hover:from-primary/10 hover:to-accent/10 transition-all duration-300 hover:scale-110 animate-on-scroll" style={{
+            animationDelay: `${i * 0.1}s`
+          }}>
+                <div className="text-4xl mb-3 animate-bounce" style={{
+              animationDelay: `${i * 0.2}s`
+            }}>
                   {stat.icon}
                 </div>
                 <div className="text-3xl font-bold text-primary mb-2">{stat.value}</div>
                 <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -830,34 +688,27 @@ const Index = () => {
                     </div>
                   </div>
 
-                  {[
-                    {
-                      feature: t('findEvents'),
-                      spotlight: t('autoMonitoring247'),
-                      traditional: t('manualSearchWeekly')
-                    },
-                    {
-                      feature: t('createCampaignText'),
-                      spotlight: t('aiGenerated60s'),
-                      traditional: t('manual24hours')
-                    },
-                    {
-                      feature: t('analyticsRoi'),
-                      spotlight: t('realtimeDashboard'),
-                      traditional: t('manualExcel')
-                    },
-                    {
-                      feature: t('abTesting'),
-                      spotlight: t('builtInAutomated'),
-                      traditional: t('difficultTimeConsuming')
-                    },
-                    {
-                      feature: t('costPerMonth'),
-                      spotlight: t('fromEuro29'),
-                      traditional: t('euro500Plus')
-                    }
-                  ].map((row, index) => (
-                    <div key={index} className="grid grid-cols-3">
+                  {[{
+                  feature: t('findEvents'),
+                  spotlight: t('autoMonitoring247'),
+                  traditional: t('manualSearchWeekly')
+                }, {
+                  feature: t('createCampaignText'),
+                  spotlight: t('aiGenerated60s'),
+                  traditional: t('manual24hours')
+                }, {
+                  feature: t('analyticsRoi'),
+                  spotlight: t('realtimeDashboard'),
+                  traditional: t('manualExcel')
+                }, {
+                  feature: t('abTesting'),
+                  spotlight: t('builtInAutomated'),
+                  traditional: t('difficultTimeConsuming')
+                }, {
+                  feature: t('costPerMonth'),
+                  spotlight: t('fromEuro29'),
+                  traditional: t('euro500Plus')
+                }].map((row, index) => <div key={index} className="grid grid-cols-3">
                       <div className="p-4 border-b border-r bg-background">
                         <p className="font-medium">{row.feature}</p>
                       </div>
@@ -873,8 +724,7 @@ const Index = () => {
                           <p className="text-sm text-muted-foreground">{row.traditional}</p>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </div>
             </div>
@@ -909,80 +759,53 @@ const Index = () => {
                     </div>
                   </div>
 
-                  {[
-                    {
-                      feature: t('featureAi'),
-                      spotlight: true,
-                      competitor: false
-                    },
-                    {
-                      feature: t('autoMonitoring'),
-                      spotlight: true,
-                      competitor: true
-                    },
-                    {
-                      feature: t('realtimeDashboard'),
-                      spotlight: true,
-                      competitor: false
-                    },
-                    {
-                      feature: t('abTesting'),
-                      spotlight: true,
-                      competitor: false
-                    },
-                    {
-                      feature: t('swedishSupport'),
-                      spotlight: true,
-                      competitor: false
-                    },
-                    {
-                      feature: t('pdfExport'),
-                      spotlight: true,
-                      competitor: true
-                    },
-                    {
-                      feature: t('freeTrial14Days'),
-                      spotlight: true,
-                      competitor: false
-                    },
-                    {
-                      feature: t('startingPriceMonth'),
-                      spotlight: "€29",
-                      competitor: "€79"
-                    }
-                  ].map((row, index) => (
-                    <div key={index} className="grid grid-cols-3">
+                  {[{
+                  feature: t('featureAi'),
+                  spotlight: true,
+                  competitor: false
+                }, {
+                  feature: t('autoMonitoring'),
+                  spotlight: true,
+                  competitor: true
+                }, {
+                  feature: t('realtimeDashboard'),
+                  spotlight: true,
+                  competitor: false
+                }, {
+                  feature: t('abTesting'),
+                  spotlight: true,
+                  competitor: false
+                }, {
+                  feature: t('swedishSupport'),
+                  spotlight: true,
+                  competitor: false
+                }, {
+                  feature: t('pdfExport'),
+                  spotlight: true,
+                  competitor: true
+                }, {
+                  feature: t('freeTrial14Days'),
+                  spotlight: true,
+                  competitor: false
+                }, {
+                  feature: t('startingPriceMonth'),
+                  spotlight: "€29",
+                  competitor: "€79"
+                }].map((row, index) => <div key={index} className="grid grid-cols-3">
                       <div className="p-4 border-b border-r bg-background">
                         <p className="font-medium text-sm">{row.feature}</p>
                       </div>
                       <div className="p-4 border-b border-r bg-primary/5">
                         <div className="flex items-center justify-center">
-                          {typeof row.spotlight === 'boolean' ? (
-                            row.spotlight ? (
-                              <Check className="h-6 w-6 text-primary" />
-                            ) : (
-                              <X className="h-6 w-6 text-muted-foreground" />
-                            )
-                          ) : (
-                            <span className="font-semibold text-primary">{row.spotlight}</span>
-                          )}
+                          {typeof row.spotlight === 'boolean' ? row.spotlight ? <Check className="h-6 w-6 text-primary" /> : <X className="h-6 w-6 text-muted-foreground" /> : <span className="font-semibold text-primary">{row.spotlight}</span>}
                         </div>
                       </div>
                       <div className="p-4 border-b bg-accent/10">
                         <div className="flex items-center justify-center">
-                          {typeof row.competitor === 'boolean' ? (
-                            row.competitor ? (
-                              <Check className="h-6 w-6 text-muted-foreground/50" />
-                            ) : (
-                              <X className="h-6 w-6 text-muted-foreground/30" />
-                            )
-                          ) : (
-                            <span className="text-sm text-muted-foreground">{row.competitor}</span>
-                          )}
+                          {typeof row.competitor === 'boolean' ? row.competitor ? <Check className="h-6 w-6 text-muted-foreground/50" /> : <X className="h-6 w-6 text-muted-foreground/30" /> : <span className="text-sm text-muted-foreground">{row.competitor}</span>}
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </div>
 
@@ -1011,31 +834,23 @@ const Index = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {testimonials.map((t, i) => (
-              <div key={i} className="testimonial-card">
+            {testimonials.map((t, i) => <div key={i} className="testimonial-card">
                 <div className="testimonial-card-content">
                   <div className="testimonial-card-rating">
-                    {[...Array(t.rating)].map((_, j) => (
-                      <Star key={j} className="h-5 w-5 fill-current" />
-                    ))}
+                    {[...Array(t.rating)].map((_, j) => <Star key={j} className="h-5 w-5 fill-current" />)}
                   </div>
                   <p className="testimonial-card-text">
                     "{t.content}"
                   </p>
                   <div className="testimonial-card-author">
-                    <img 
-                      src={t.image} 
-                      alt={t.name}
-                      className="testimonial-card-avatar"
-                    />
+                    <img src={t.image} alt={t.name} className="testimonial-card-avatar" />
                     <div>
                       <p className="testimonial-card-name">{t.name}</p>
                       <p className="testimonial-card-role">{t.role}</p>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -1060,32 +875,20 @@ const Index = () => {
             <span className={`text-lg font-medium transition-colors ${isYearly ? 'text-foreground' : 'text-muted-foreground'}`}>
               {t('plansBillingYearly')}
             </span>
-            {isYearly && (
-              <span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary">
+            {isYearly && <span className="px-3 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary">
                 {t('plansSave20')}
-              </span>
-            )}
+              </span>}
           </div>
 
           {/* Horizontal scroll container on mobile, grid on desktop */}
           <div className="md:hidden overflow-x-auto pb-8 -mx-4 px-4">
             <div className="flex gap-6 min-w-max">
-              {plans.map((plan) => (
-                <div 
-                  key={plan.name} 
-                  className={`relative p-8 rounded-2xl transition-all w-[85vw] max-w-[400px] flex-shrink-0 ${
-                    plan.popular 
-                      ? 'bg-primary/5 border-2 border-primary shadow-lg' 
-                      : 'bg-card border border-border hover:border-muted-foreground/30'
-                  }`}
-                >
-                  {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+              {plans.map(plan => <div key={plan.name} className={`relative p-8 rounded-2xl transition-all w-[85vw] max-w-[400px] flex-shrink-0 ${plan.popular ? 'bg-primary/5 border-2 border-primary shadow-lg' : 'bg-card border border-border hover:border-muted-foreground/30'}`}>
+                  {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                       <span className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-bold rounded-full uppercase tracking-wide">
                         {t('plansMostPopular')}
                       </span>
-                    </div>
-                  )}
+                    </div>}
                   
                   <div className="mb-8">
                     <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
@@ -1095,83 +898,52 @@ const Index = () => {
                   <div className="mb-8">
                     <div className="flex items-baseline gap-2">
                       <span className="text-5xl sm:text-6xl font-bold">
-                        {isYearly ? (plan.yearlyPrice || plan.monthlyPrice) : plan.monthlyPrice}
+                        {isYearly ? plan.yearlyPrice || plan.monthlyPrice : plan.monthlyPrice}
                       </span>
-                    {plan.monthlyPrice !== t('plansContactUs') && (
-                      <span className="text-muted-foreground text-lg">
+                    {plan.monthlyPrice !== t('plansContactUs') && <span className="text-muted-foreground text-lg">
                         {isYearly ? t('plansPerYear') : t('plansPerMonth')}
-                      </span>
-                    )}
+                      </span>}
                     </div>
-                    {isYearly && plan.yearlyDiscount && (
-                      <p className="text-sm text-primary font-medium mt-2">{plan.yearlyDiscount}</p>
-                    )}
+                    {isYearly && plan.yearlyDiscount && <p className="text-sm text-primary font-medium mt-2">{plan.yearlyDiscount}</p>}
                   </div>
 
                   <div className="space-y-4 mb-8">
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
                       {t('plansIncluded')}
                     </p>
-                    {plan.features.map((f, i) => (
-                      <div key={i} className="flex items-start gap-3">
+                    {plan.features.map((f, i) => <div key={i} className="flex items-start gap-3">
                         <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                         <span className="text-sm">{f}</span>
-                      </div>
-                    ))}
-                    {plan.notIncluded.length > 0 && plan.notIncluded.map((f, i) => (
-                      <div key={i} className="flex items-start gap-3 opacity-30">
+                      </div>)}
+                    {plan.notIncluded.length > 0 && plan.notIncluded.map((f, i) => <div key={i} className="flex items-start gap-3 opacity-30">
                         <X className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-muted-foreground">{f}</span>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
 
-                  {plan.name === t('planEnterpriseName') ? (
-                    <Link to="/contact" className="w-full">
-                      <Button 
-                        variant="animatedOutline"
-                        className="w-full"
-                        size="xl"
-                      >
+                  {plan.name === t('planEnterpriseName') ? <Link to="/contact" className="w-full">
+                      <Button variant="animatedOutline" className="w-full" size="xl">
                         {t('plansContactUs')}
                         <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                       </Button>
-                    </Link>
-                  ) : (
-                    <Link to="/auth" className="w-full">
-                      <Button 
-                        variant={plan.popular ? "animated" : "animatedOutline"}
-                        className={plan.popular ? "w-full bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90" : "w-full"}
-                        size="xl"
-                      >
+                    </Link> : <Link to="/auth" className="w-full">
+                      <Button variant={plan.popular ? "animated" : "animatedOutline"} className={plan.popular ? "w-full bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90" : "w-full"} size="xl">
                         {t('plansStartFree')}
                         <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                       </Button>
-                    </Link>
-                  )}
-                </div>
-              ))}
+                    </Link>}
+                </div>)}
             </div>
           </div>
 
           {/* Desktop grid layout */}
           <div className="hidden md:grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {plans.map((plan) => (
-              <div 
-                key={plan.name} 
-                className={`relative p-8 rounded-2xl transition-all ${
-                  plan.popular 
-                    ? 'bg-primary/5 border-2 border-primary shadow-lg' 
-                    : 'bg-card border border-border hover:border-muted-foreground/30'
-                }`}
-              >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+            {plans.map(plan => <div key={plan.name} className={`relative p-8 rounded-2xl transition-all ${plan.popular ? 'bg-primary/5 border-2 border-primary shadow-lg' : 'bg-card border border-border hover:border-muted-foreground/30'}`}>
+                {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                     <span className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-bold rounded-full uppercase tracking-wide">
                       {t('plansMostPopular')}
                     </span>
-                  </div>
-                )}
+                  </div>}
                 
                 <div className="mb-8">
                   <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
@@ -1181,62 +953,41 @@ const Index = () => {
                 <div className="mb-8">
                   <div className="flex items-baseline gap-2">
                     <span className="text-5xl sm:text-6xl font-bold">
-                      {isYearly ? (plan.yearlyPrice || plan.monthlyPrice) : plan.monthlyPrice}
+                      {isYearly ? plan.yearlyPrice || plan.monthlyPrice : plan.monthlyPrice}
                     </span>
-                    {plan.monthlyPrice !== t('plansContactUs') && (
-                      <span className="text-muted-foreground text-lg">
+                    {plan.monthlyPrice !== t('plansContactUs') && <span className="text-muted-foreground text-lg">
                         {isYearly ? t('plansPerYear') : t('plansPerMonth')}
-                      </span>
-                    )}
+                      </span>}
                   </div>
-                  {isYearly && plan.yearlyDiscount && (
-                    <p className="text-sm text-primary font-medium mt-2">{plan.yearlyDiscount}</p>
-                  )}
+                  {isYearly && plan.yearlyDiscount && <p className="text-sm text-primary font-medium mt-2">{plan.yearlyDiscount}</p>}
                 </div>
 
                 <div className="space-y-4 mb-8">
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
                     {t('plansIncluded')}
                   </p>
-                  {plan.features.map((f, i) => (
-                    <div key={i} className="flex items-start gap-3">
+                  {plan.features.map((f, i) => <div key={i} className="flex items-start gap-3">
                       <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                       <span className="text-sm">{f}</span>
-                    </div>
-                  ))}
-                  {plan.notIncluded.length > 0 && plan.notIncluded.map((f, i) => (
-                    <div key={i} className="flex items-start gap-3 opacity-30">
+                    </div>)}
+                  {plan.notIncluded.length > 0 && plan.notIncluded.map((f, i) => <div key={i} className="flex items-start gap-3 opacity-30">
                       <X className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
                       <span className="text-sm text-muted-foreground">{f}</span>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
 
-                {plan.name === t('planEnterpriseName') ? (
-                  <Link to="/contact" className="w-full">
-                    <Button 
-                      variant="animatedOutline"
-                      className="w-full"
-                      size="xl"
-                    >
+                {plan.name === t('planEnterpriseName') ? <Link to="/contact" className="w-full">
+                    <Button variant="animatedOutline" className="w-full" size="xl">
                       {t('plansContactUs')}
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
-                  </Link>
-                ) : (
-                  <Link to="/auth" className="w-full">
-                    <Button 
-                      variant={plan.popular ? "animated" : "animatedOutline"}
-                      className={plan.popular ? "w-full bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90" : "w-full"}
-                      size="xl"
-                    >
+                  </Link> : <Link to="/auth" className="w-full">
+                    <Button variant={plan.popular ? "animated" : "animatedOutline"} className={plan.popular ? "w-full bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90" : "w-full"} size="xl">
                       {t('plansStartFree')}
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
-                  </Link>
-                )}
-              </div>
-            ))}
+                  </Link>}
+              </div>)}
           </div>
 
           <div className="text-center mt-16">
@@ -1262,26 +1013,45 @@ const Index = () => {
 
           <div className="max-w-4xl mx-auto">
             <Accordion type="single" collapsible className="space-y-4">
-              {[
-                { question: t('faq1Q'), answer: t('faq1A') },
-                { question: t('faq2Q'), answer: t('faq2A') },
-                { question: t('faq3Q'), answer: t('faq3A') },
-                { question: t('faq4Q'), answer: t('faq4A') },
-                { question: t('faq5Q'), answer: t('faq5A') },
-                { question: t('faq6Q'), answer: t('faq6A') },
-                { question: t('faq7Q'), answer: t('faq7A') },
-                { question: t('faq8Q'), answer: t('faq8A') },
-                { question: t('faq9Q'), answer: t('faq9A') },
-                { question: t('faq10Q'), answer: t('faq10A') },
-                { question: t('faq11Q'), answer: t('faq11A') },
-                { question: t('faq12Q'), answer: t('faq12A') },
-              ].map((faq, i) => (
-                <AccordionItem 
-                  key={i} 
-                  value={`item-${i}`} 
-                  className="bg-card border-2 border-border rounded-2xl px-8 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover-lift animate-on-scroll group"
-                  style={{ animationDelay: `${i * 50}ms` }}
-                >
+              {[{
+              question: t('faq1Q'),
+              answer: t('faq1A')
+            }, {
+              question: t('faq2Q'),
+              answer: t('faq2A')
+            }, {
+              question: t('faq3Q'),
+              answer: t('faq3A')
+            }, {
+              question: t('faq4Q'),
+              answer: t('faq4A')
+            }, {
+              question: t('faq5Q'),
+              answer: t('faq5A')
+            }, {
+              question: t('faq6Q'),
+              answer: t('faq6A')
+            }, {
+              question: t('faq7Q'),
+              answer: t('faq7A')
+            }, {
+              question: t('faq8Q'),
+              answer: t('faq8A')
+            }, {
+              question: t('faq9Q'),
+              answer: t('faq9A')
+            }, {
+              question: t('faq10Q'),
+              answer: t('faq10A')
+            }, {
+              question: t('faq11Q'),
+              answer: t('faq11A')
+            }, {
+              question: t('faq12Q'),
+              answer: t('faq12A')
+            }].map((faq, i) => <AccordionItem key={i} value={`item-${i}`} className="bg-card border-2 border-border rounded-2xl px-8 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover-lift animate-on-scroll group" style={{
+              animationDelay: `${i * 50}ms`
+            }}>
                   <AccordionTrigger className="text-left text-xl font-semibold hover:no-underline py-7 transition-colors duration-300 group-hover:text-primary">
                     <div className="flex items-start gap-4">
                       <HelpCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
@@ -1291,8 +1061,7 @@ const Index = () => {
                   <AccordionContent className="text-lg text-muted-foreground pb-7 pl-10 leading-relaxed">
                     {faq.answer}
                   </AccordionContent>
-                </AccordionItem>
-              ))}
+                </AccordionItem>)}
             </Accordion>
 
             {/* CTA for more help */}
@@ -1327,20 +1096,12 @@ const Index = () => {
             
             <div className="flex flex-col sm:flex-row gap-5 justify-center pt-6">
               <Link to="/auth">
-                <Button 
-                  variant="animated"
-                  size="xl"
-                  className="bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90"
-                >
+                <Button variant="animated" size="xl" className="bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90">
                   {t('ctaButton')}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
-              <Button 
-                variant="animatedOutline"
-                size="xl"
-                onClick={() => navigate('/contact')}
-              >
+              <Button variant="animatedOutline" size="xl" onClick={() => navigate('/contact')}>
                 {t('contactUs')}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
@@ -1395,9 +1156,6 @@ const Index = () => {
       
       {/* Exit Intent Popup */}
       <ExitIntentPopup />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
-
