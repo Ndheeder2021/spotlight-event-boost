@@ -381,36 +381,86 @@ const Index = () => {
         <AnimatedHeroBackground />
         <div className="container relative mx-auto px-4 sm:px-6 pt-20 sm:pt-28 lg:pt-40 pb-16 sm:pb-20 lg:pb-32 z-10">
           <div className="max-w-5xl mx-auto text-center space-y-8 sm:space-y-12">
-            <div className="space-y-6 sm:space-y-8">
-              <TypingAnimation text={t('heroTitle')} speed={80} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.15] sm:leading-[1.1] tracking-tight px-2" />
+            {/* Playful badge */}
+            <div className="inline-flex items-center gap-2 bg-card/80 backdrop-blur-sm px-6 py-3 rounded-full border-2 border-border/50 shadow-lg animate-fade-in" style={{ transform: 'rotate(-1deg)' }}>
+              <span className="text-2xl">✨</span>
+              <span className="text-sm font-semibold text-foreground">AI-Driven Marketing Magic</span>
+              <span className="text-2xl">🎯</span>
+            </div>
+
+            <div className="space-y-6 sm:space-y-8 relative">
+              {/* Hand-drawn circle decoration */}
+              <div className="absolute -top-8 -left-8 text-primary/20 hidden lg:block" style={{ transform: 'rotate(-12deg)' }}>
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+                  <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="3" strokeDasharray="5 5" />
+                </svg>
+              </div>
               
-              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4 animate-fade-in opacity-0 [animation-delay:1s] [animation-fill-mode:forwards]">
+              <TypingAnimation text={t('heroTitle')} speed={80} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.15] sm:leading-[1.1] tracking-tight px-2 relative" />
+              
+              {/* Hand-drawn underline */}
+              <div className="flex justify-center -mt-2">
+                <svg width="300" height="20" viewBox="0 0 300 20" className="text-primary/40">
+                  <path d="M10 15 Q 75 5, 150 12 T 290 15" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
+                </svg>
+              </div>
+              
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4 animate-fade-in opacity-0 [animation-delay:1s] [animation-fill-mode:forwards] relative">
                 {t('heroSubtitle')}
+                {/* Small star doodle */}
+                <span className="absolute -right-4 -top-4 text-primary/30 text-3xl hidden md:inline-block" style={{ transform: 'rotate(15deg)' }}>⭐</span>
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch pt-6 sm:pt-8 px-4">
-              <Link to="/auth" className="w-full sm:w-auto">
-                <Button variant="animated" size="xl" className="w-full h-14 text-base sm:text-lg bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pt-6 sm:pt-8 px-4">
+              <div className="relative inline-flex items-center justify-center gap-4 group" style={{ transform: 'rotate(-0.5deg)' }}>
+                <div className="absolute inset-0 duration-1000 opacity-60 transition-all bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 rounded-xl blur-lg filter group-hover:opacity-100 group-hover:duration-200"></div>
+                <Link
+                  to="/auth"
+                  className="group relative inline-flex items-center justify-center text-base sm:text-lg rounded-xl bg-gray-900 px-8 sm:px-10 py-4 font-bold text-white transition-all duration-200 hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30"
+                >
                   {t('heroCtaPrimary')}
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                </Button>
-              </Link>
-              <InteractiveProductTour />
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 10 10"
+                    height="10"
+                    width="10"
+                    fill="none"
+                    className="mt-0.5 ml-2 -mr-1 stroke-white stroke-2"
+                  >
+                    <path
+                      d="M0 5h7"
+                      className="transition opacity-0 group-hover:opacity-100"
+                    ></path>
+                    <path
+                      d="M1 1l4 4-4 4"
+                      className="transition group-hover:translate-x-[3px]"
+                    ></path>
+                  </svg>
+                </Link>
+              </div>
+              <div style={{ transform: 'rotate(0.5deg)' }}>
+                <InteractiveProductTour />
+              </div>
             </div>
             
-            {/* Live Stats Counter */}
-            
-            
-            <div className="flex flex-wrap gap-8 justify-center pt-8 text-base sm:text-lg text-foreground font-medium">
-              <div className="flex items-center gap-2">
-                <Check className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-                <span>{t('noCommitment')}</span>
+            {/* Hand-drawn style benefits */}
+            <div className="flex flex-wrap gap-6 sm:gap-8 justify-center pt-8 text-base sm:text-lg">
+              <div className="flex items-center gap-2 bg-card/60 px-4 py-2 rounded-2xl border-2 border-border/40 shadow-sm" style={{ transform: 'rotate(0.5deg)' }}>
+                <span className="text-xl">✓</span>
+                <span className="font-medium">{t('noCommitment')}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Check className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-                <span>{t('daysFree')}</span>
+              <div className="flex items-center gap-2 bg-card/60 px-4 py-2 rounded-2xl border-2 border-border/40 shadow-sm" style={{ transform: 'rotate(-0.5deg)' }}>
+                <span className="text-xl">✓</span>
+                <span className="font-medium">{t('daysFree')}</span>
               </div>
+            </div>
+
+            {/* Playful arrow pointing down */}
+            <div className="pt-8 animate-bounce">
+              <svg width="40" height="40" viewBox="0 0 40 40" className="mx-auto text-primary/40">
+                <path d="M20 5 L20 30 M10 20 L20 30 L30 20" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+              </svg>
             </div>
           </div>
         </div>
