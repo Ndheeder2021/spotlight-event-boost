@@ -833,17 +833,17 @@ const Index = () => {
               </div>
 
               {/* Notebook-style table */}
-              <div className="overflow-x-auto">
-                <div className="min-w-[600px] bg-card border-2 border-border rounded-3xl shadow-2xl overflow-hidden relative" style={{ transform: 'rotate(-0.5deg)' }}>
-                  {/* Notebook holes decoration */}
-                  <div className="absolute left-4 top-0 bottom-0 flex flex-col justify-around py-8">
+              <div className="w-full">
+                <div className="bg-card border-2 border-border rounded-3xl shadow-2xl overflow-hidden relative" style={{ transform: 'rotate(-0.5deg)' }}>
+                  {/* Notebook holes decoration - hidden on mobile */}
+                  <div className="absolute left-4 top-0 bottom-0 hidden md:flex flex-col justify-around py-8">
                     {[...Array(6)].map((_, i) => (
                       <div key={i} className="w-3 h-3 rounded-full bg-muted/40" />
                     ))}
                   </div>
                   
-                  {/* Header */}
-                  <div className="grid grid-cols-3 bg-gradient-to-r from-muted/50 to-muted/30">
+                  {/* Header - Hidden on mobile, show column layout instead */}
+                  <div className="hidden md:grid grid-cols-3 bg-gradient-to-r from-muted/50 to-muted/30">
                     <div className="p-6 border-b-2 border-r-2 border-dashed border-border/60">
                       <h3 className="font-bold text-lg pl-8">{t('feature')}</h3>
                     </div>
@@ -854,7 +854,6 @@ const Index = () => {
                         </div>
                         <span className="relative">
                           Spotlight
-                          {/* Highlight effect */}
                           <span className="absolute inset-0 bg-primary/10 -z-10 rounded" style={{ width: '105%', left: '-2.5%' }} />
                         </span>
                       </h3>
@@ -867,7 +866,7 @@ const Index = () => {
                     </div>
                   </div>
 
-                  {/* Rows */}
+                  {/* Rows - Desktop 3 columns, Mobile stacked cards */}
                   {[{
                     feature: t('findEvents'),
                     spotlight: t('autoMonitoring247'),
@@ -889,30 +888,53 @@ const Index = () => {
                     spotlight: t('fromEuro29'),
                     traditional: t('euro500Plus')
                   }].map((row, index) => (
-                    <div key={index} className="grid grid-cols-3 hover:bg-accent/20 transition-colors duration-200">
-                      <div className="p-5 border-b border-r-2 border-dashed border-border/40 pl-8">
-                        <p className="font-semibold text-base relative">
-                          {row.feature}
-                          {/* Small doodle decoration */}
-                          {index === 0 && (
-                            <span className="absolute -right-2 -top-1 text-primary/30">✨</span>
-                          )}
-                        </p>
-                      </div>
-                      <div className="p-5 border-b border-r-2 border-dashed border-border/40 bg-primary/5">
-                        <div className="flex items-start gap-3">
-                          <div className="p-1 bg-primary/20 rounded-full mt-0.5">
-                            <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                    <div key={index}>
+                      {/* Desktop layout */}
+                      <div className="hidden md:grid grid-cols-3 hover:bg-accent/20 transition-colors duration-200">
+                        <div className="p-5 border-b border-r-2 border-dashed border-border/40 pl-8">
+                          <p className="font-semibold text-base relative">
+                            {row.feature}
+                            {index === 0 && (
+                              <span className="absolute -right-2 -top-1 text-primary/30">✨</span>
+                            )}
+                          </p>
+                        </div>
+                        <div className="p-5 border-b border-r-2 border-dashed border-border/40 bg-primary/5">
+                          <div className="flex items-start gap-3">
+                            <div className="p-1 bg-primary/20 rounded-full mt-0.5">
+                              <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                            </div>
+                            <p className="text-sm font-medium">{row.spotlight}</p>
                           </div>
-                          <p className="text-sm font-medium">{row.spotlight}</p>
+                        </div>
+                        <div className="p-5 border-b border-dashed border-border/40">
+                          <div className="flex items-start gap-3">
+                            <div className="p-1 bg-muted rounded-full mt-0.5">
+                              <X className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                            </div>
+                            <p className="text-sm text-muted-foreground">{row.traditional}</p>
+                          </div>
                         </div>
                       </div>
-                      <div className="p-5 border-b border-dashed border-border/40">
-                        <div className="flex items-start gap-3">
-                          <div className="p-1 bg-muted rounded-full mt-0.5">
-                            <X className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                      
+                      {/* Mobile card layout */}
+                      <div className="md:hidden p-4 border-b border-dashed border-border/40 space-y-3">
+                        <p className="font-bold text-base mb-3">{row.feature}</p>
+                        <div className="space-y-2">
+                          <div className="flex items-start gap-2 p-3 bg-primary/5 rounded-lg">
+                            <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                            <div>
+                              <p className="text-xs font-semibold text-primary mb-1">Spotlight</p>
+                              <p className="text-sm">{row.spotlight}</p>
+                            </div>
                           </div>
-                          <p className="text-sm text-muted-foreground">{row.traditional}</p>
+                          <div className="flex items-start gap-2 p-3 bg-muted/30 rounded-lg">
+                            <X className="h-4 w-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                            <div>
+                              <p className="text-xs font-semibold text-muted-foreground mb-1">{t('traditionalMarketing')}</p>
+                              <p className="text-sm text-muted-foreground">{row.traditional}</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -938,14 +960,14 @@ const Index = () => {
               </div>
 
               {/* Card-style table */}
-              <div className="overflow-x-auto">
-                <div className="min-w-[600px] relative" style={{ transform: 'rotate(0.5deg)' }}>
+              <div className="w-full">
+                <div className="relative" style={{ transform: 'rotate(0.5deg)' }}>
                   {/* Tape decoration at top */}
-                  <div className="absolute -top-4 left-1/4 w-24 h-8 bg-muted/60 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-3deg)' }} />
+                  <div className="absolute -top-4 left-1/4 w-24 h-8 bg-muted/60 backdrop-blur-sm shadow-sm z-20 hidden md:block" style={{ transform: 'rotate(-3deg)' }} />
                   
                   <div className="bg-card border-2 border-border rounded-3xl shadow-2xl overflow-hidden">
-                    {/* Header */}
-                    <div className="grid grid-cols-3 bg-gradient-to-r from-muted/50 to-muted/30 p-1">
+                    {/* Header - hidden on mobile */}
+                    <div className="hidden md:grid grid-cols-3 bg-gradient-to-r from-muted/50 to-muted/30 p-1">
                       <div className="p-6 flex items-center">
                         <h3 className="font-bold text-lg">{t('feature')}</h3>
                       </div>
@@ -955,7 +977,6 @@ const Index = () => {
                             <Zap className="h-5 w-5 text-primary" />
                           </div>
                           <h3 className="font-bold text-lg">Spotlight</h3>
-                          {/* Winner badge */}
                           <span className="absolute -top-3 -right-6 text-2xl" style={{ transform: 'rotate(15deg)' }}>🏆</span>
                         </div>
                       </div>
@@ -998,43 +1019,76 @@ const Index = () => {
                       spotlight: "€29",
                       competitor: "€79"
                     }].map((row, index) => (
-                      <div key={index} className="grid grid-cols-3 hover:bg-accent/10 transition-colors duration-200 border-t border-dashed border-border/40">
-                        <div className="p-5 flex items-center">
-                          <p className="font-medium text-sm">{row.feature}</p>
-                        </div>
-                        <div className="p-5 flex items-center justify-center bg-primary/5">
-                          {typeof row.spotlight === 'boolean' ? (
-                            row.spotlight ? (
-                              <div className="flex items-center gap-2 p-2 bg-primary/10 rounded-full">
-                                <Check className="h-6 w-6 text-primary" />
-                                <span className="text-xs font-bold text-primary">✓</span>
-                              </div>
-                            ) : (
-                              <X className="h-6 w-6 text-muted-foreground/30" />
-                            )
-                          ) : (
-                            <div className="relative">
-                              <span className="font-bold text-primary text-lg">{row.spotlight}</span>
-                              {/* Circle highlight */}
-                              <svg className="absolute inset-0 w-full h-full -z-10" viewBox="0 0 50 50">
-                                <circle cx="25" cy="25" r="22" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" opacity="0.2" />
-                              </svg>
-                            </div>
-                          )}
-                        </div>
-                        <div className="p-5 flex items-center justify-center">
-                          {typeof row.competitor === 'boolean' ? (
-                            row.competitor ? (
-                              <Check className="h-6 w-6 text-muted-foreground/40" />
+                      <div key={index}>
+                        {/* Desktop layout */}
+                        <div className="hidden md:grid grid-cols-3 hover:bg-accent/10 transition-colors duration-200 border-t border-dashed border-border/40">
+                          <div className="p-5 flex items-center">
+                            <p className="font-medium text-sm">{row.feature}</p>
+                          </div>
+                          <div className="p-5 flex items-center justify-center bg-primary/5">
+                            {typeof row.spotlight === 'boolean' ? (
+                              row.spotlight ? (
+                                <div className="flex items-center gap-2 p-2 bg-primary/10 rounded-full">
+                                  <Check className="h-6 w-6 text-primary" />
+                                  <span className="text-xs font-bold text-primary">✓</span>
+                                </div>
+                              ) : (
+                                <X className="h-6 w-6 text-muted-foreground/30" />
+                              )
                             ) : (
                               <div className="relative">
-                                <X className="h-6 w-6 text-muted-foreground/30" />
-                                <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-xs">😕</span>
+                                <span className="font-bold text-primary text-lg">{row.spotlight}</span>
+                                <svg className="absolute inset-0 w-full h-full -z-10" viewBox="0 0 50 50">
+                                  <circle cx="25" cy="25" r="22" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" opacity="0.2" />
+                                </svg>
                               </div>
-                            )
-                          ) : (
-                            <span className="text-sm text-muted-foreground line-through">{row.competitor}</span>
-                          )}
+                            )}
+                          </div>
+                          <div className="p-5 flex items-center justify-center">
+                            {typeof row.competitor === 'boolean' ? (
+                              row.competitor ? (
+                                <Check className="h-6 w-6 text-muted-foreground/40" />
+                              ) : (
+                                <div className="relative">
+                                  <X className="h-6 w-6 text-muted-foreground/30" />
+                                  <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-xs">😕</span>
+                                </div>
+                              )
+                            ) : (
+                              <span className="text-sm text-muted-foreground line-through">{row.competitor}</span>
+                            )}
+                          </div>
+                        </div>
+                        
+                        {/* Mobile card layout */}
+                        <div className="md:hidden p-4 border-t border-dashed border-border/40 space-y-3">
+                          <p className="font-bold text-sm mb-3">{row.feature}</p>
+                          <div className="grid grid-cols-2 gap-3">
+                            <div className="p-3 bg-primary/5 rounded-lg text-center">
+                              <p className="text-xs font-semibold text-primary mb-2">Spotlight 🏆</p>
+                              {typeof row.spotlight === 'boolean' ? (
+                                row.spotlight ? (
+                                  <Check className="h-8 w-8 text-primary mx-auto" />
+                                ) : (
+                                  <X className="h-8 w-8 text-muted-foreground/30 mx-auto" />
+                                )
+                              ) : (
+                                <p className="text-lg font-bold text-primary">{row.spotlight}</p>
+                              )}
+                            </div>
+                            <div className="p-3 bg-muted/30 rounded-lg text-center">
+                              <p className="text-xs font-semibold text-muted-foreground mb-2">{t('competitor')}</p>
+                              {typeof row.competitor === 'boolean' ? (
+                                row.competitor ? (
+                                  <Check className="h-8 w-8 text-muted-foreground/40 mx-auto" />
+                                ) : (
+                                  <X className="h-8 w-8 text-muted-foreground/30 mx-auto" />
+                                )
+                              ) : (
+                                <p className="text-lg text-muted-foreground line-through">{row.competitor}</p>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     ))}
