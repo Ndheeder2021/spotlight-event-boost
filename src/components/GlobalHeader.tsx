@@ -150,7 +150,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
           </Link>
 
           {/* Desktop Navigation - Human Design */}
-          <nav className="hidden xl:flex items-center gap-3 flex-1 min-w-0 max-w-[50%] justify-center p-3 bg-card rounded-2xl border-2 border-border/50 shadow-lg col-start-2" style={{ transform: 'rotate(-0.3deg)' }}>
+          <nav className="hidden xl:flex items-center flex-wrap gap-3 justify-center p-3 bg-card rounded-2xl border-2 border-border/50 shadow-lg mx-auto" style={{ transform: 'rotate(-0.3deg)' }}>
             {navItems.map((item, index) => {
               const rotations = ['-0.5deg', '0.3deg', '-0.2deg', '0.4deg'];
               return (
