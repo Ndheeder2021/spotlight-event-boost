@@ -417,41 +417,168 @@ const Index = () => {
       </section>
 
 
-      {/* Feature Showcase with Images */}
-      <section className="py-32">
+      {/* Feature Showcase with Images - Human Design */}
+      <section className="py-32 relative overflow-hidden">
+        {/* Hand-drawn doodle decorations */}
+        <div className="absolute top-20 left-10 text-primary/10">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle cx="40" cy="40" r="35" fill="none" stroke="currentColor" strokeWidth="3" />
+            <path d="M25 40 L35 50 L55 30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+        <div className="absolute bottom-40 right-20 text-primary/10" style={{ transform: 'rotate(25deg)' }}>
+          <svg width="60" height="60" viewBox="0 0 60 60">
+            <path d="M10 30 L50 30 M30 10 L30 50 M20 20 L40 40 M40 20 L20 40" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </div>
+        
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-20 relative">
-            <div className="absolute inset-0 flex items-start justify-center opacity-0 animate-fade-in [animation-delay:100ms] [animation-fill-mode:forwards]">
-              <div className="w-[600px] h-[200px] bg-gradient-to-r from-primary/20 via-accent/30 to-primary/20 blur-[80px] rounded-full" />
+          {/* Header with handwritten feel */}
+          <div className="text-center mb-24 relative">
+            {/* Hand-drawn arrow pointing to title */}
+            <div className="absolute -top-16 left-1/2 -translate-x-1/2 text-primary/30 hidden lg:block">
+              <svg width="60" height="80" viewBox="0 0 60 80" fill="none">
+                <path d="M30 5 Q 25 30, 30 60" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                <path d="M20 50 L30 65 L40 50" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </div>
-            <h2 className="text-5xl sm:text-6xl font-bold mb-6 opacity-0 animate-fade-in [animation-delay:200ms] [animation-fill-mode:forwards] relative z-10">{t('featuresTitle')}</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in [animation-delay:400ms] [animation-fill-mode:forwards] relative z-10">
+            
+            <div className="inline-block relative mb-6">
+              <h2 className="text-5xl sm:text-6xl font-bold relative">
+                {t('featuresTitle')}
+                {/* Hand-drawn highlight effect */}
+                <span className="absolute inset-0 bg-primary/10 -z-10 -rotate-1 rounded-lg" style={{ width: '105%', left: '-2.5%' }} />
+                {/* Wavy underline */}
+                <svg className="absolute -bottom-3 left-0 w-full h-4" viewBox="0 0 400 10" preserveAspectRatio="none">
+                  <path d="M0 5 Q 50 2, 100 5 T 200 5 T 300 5 T 400 5" stroke="hsl(var(--primary))" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.4" />
+                </svg>
+              </h2>
+              
+              {/* Doodle stars */}
+              <div className="absolute -right-12 top-0 text-primary/40 animate-pulse">
+                <svg width="30" height="30" viewBox="0 0 30 30">
+                  <path d="M15 2 L17 12 L27 15 L17 18 L15 28 L13 18 L3 15 L13 12 Z" fill="currentColor" />
+                </svg>
+              </div>
+            </div>
+            
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mt-8 relative">
               {t('featuresSubtitle')}
+              {/* Hand-drawn bracket */}
+              <svg className="absolute -left-6 top-0 h-full w-4 text-primary/20 hidden md:block" viewBox="0 0 10 100" preserveAspectRatio="none">
+                <path d="M8 2 Q 2 50, 8 98" stroke="currentColor" strokeWidth="2" fill="none" />
+              </svg>
             </p>
           </div>
 
-          <div className="space-y-32 max-w-7xl mx-auto">
-            {featureShowcaseData.map((feature, index) => <div key={index} className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
-                <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                  <h3 className="text-4xl font-bold">{feature.title}</h3>
-                  <p className="text-xl text-muted-foreground leading-relaxed">
-                    {feature.description}
-                  </p>
-                  <Link to="/auth">
-                    <Button variant="animated" size="xl" className="bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90">
-                      {t('readMore')}
-                      <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                    </Button>
-                  </Link>
-                </div>
-                <div className={`${index % 2 === 1 ? 'lg:order-1' : ''}`}>
-                  <div className="rounded-2xl overflow-hidden border shadow-2xl">
-                    {feature.type === 'video' ? <video autoPlay loop muted playsInline className="w-full h-auto">
-                        <source src={feature.media} type="video/mp4" />
-                      </video> : <img src={feature.media} alt={feature.title} className="w-full h-auto" loading="lazy" />}
+          <div className="space-y-40 max-w-7xl mx-auto">
+            {featureShowcaseData.map((feature, index) => {
+              const rotations = ['-1deg', '1deg', '-0.5deg'];
+              const isReversed = index % 2 === 1;
+              
+              return (
+                <div key={index} className="relative">
+                  {/* Feature number doodle */}
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 lg:left-8 lg:translate-x-0">
+                    <div className="relative w-16 h-16 flex items-center justify-center">
+                      {/* Hand-drawn circle */}
+                      <svg className="absolute inset-0 w-full h-full text-primary/30" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="3" strokeDasharray="5,5" />
+                      </svg>
+                      <span className="text-3xl font-bold text-primary/60" style={{ transform: 'rotate(-5deg)' }}>
+                        {index + 1}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className={`grid lg:grid-cols-2 gap-16 items-center ${isReversed ? 'lg:flex-row-reverse' : ''}`}>
+                    {/* Text content */}
+                    <div className={`space-y-8 ${isReversed ? 'lg:order-2' : ''} relative`}>
+                      {/* Doodle decoration */}
+                      <div className="absolute -left-8 top-0 text-primary/10 hidden lg:block">
+                        <svg width="30" height="30" viewBox="0 0 30 30">
+                          <circle cx="15" cy="15" r="12" fill="currentColor" opacity="0.3" />
+                          <circle cx="15" cy="15" r="6" fill="currentColor" />
+                        </svg>
+                      </div>
+                      
+                      <h3 className="text-4xl lg:text-5xl font-bold relative inline-block">
+                        {feature.title}
+                        {/* Highlighter mark */}
+                        <span className="absolute bottom-2 left-0 w-full h-3 bg-primary/20 -z-10" style={{ transform: 'skewX(-5deg)' }} />
+                      </h3>
+                      
+                      <p className="text-xl text-muted-foreground leading-relaxed pl-4 border-l-4 border-primary/30 italic">
+                        {feature.description}
+                      </p>
+                      
+                      <div className="relative inline-block group">
+                        <Link to="/auth">
+                          <Button className="elegant-button px-[30px] py-[22px] border-2 border-[#2c2c2c] bg-[#1a1a1a] text-white text-lg rounded-[30px] font-bold hover:border-[#666666] hover:bg-[#292929]">
+                            <span className="relative z-10">{t('readMore')}</span>
+                            <ArrowRight className="ml-2 h-5 w-5 relative z-10 transition-transform duration-300 group-hover:translate-x-2" />
+                          </Button>
+                        </Link>
+                        {/* Hand-drawn arrow pointing to button */}
+                        <svg className="absolute -bottom-12 left-1/2 -translate-x-1/2 text-primary/30 hidden lg:block" width="40" height="40" viewBox="0 0 40 40">
+                          <path d="M20 5 Q 22 20, 20 30" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                          <path d="M15 25 L20 32 L25 25" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </div>
+                    </div>
+                    
+                    {/* Media - Polaroid style */}
+                    <div className={`${isReversed ? 'lg:order-1' : ''} relative`}>
+                      <div 
+                        className="relative bg-white dark:bg-gray-900 p-4 shadow-2xl transition-all duration-500 hover:shadow-3xl group"
+                        style={{ 
+                          transform: `rotate(${rotations[index]})`,
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'rotate(0deg) scale(1.02)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = `rotate(${rotations[index]}) scale(1)`;
+                        }}
+                      >
+                        {/* Tape effect at top */}
+                        <div className="absolute -top-4 left-1/4 w-24 h-8 bg-muted/60 backdrop-blur-sm shadow-sm" style={{ transform: 'rotate(-5deg)' }} />
+                        <div className="absolute -top-4 right-1/4 w-20 h-8 bg-muted/60 backdrop-blur-sm shadow-sm" style={{ transform: 'rotate(8deg)' }} />
+                        
+                        {/* Image/Video container */}
+                        <div className="rounded-lg overflow-hidden border-4 border-border/50">
+                          {feature.type === 'video' ? (
+                            <video autoPlay loop muted playsInline className="w-full h-auto">
+                              <source src={feature.media} type="video/mp4" />
+                            </video>
+                          ) : (
+                            <img src={feature.media} alt={feature.title} className="w-full h-auto" loading="lazy" />
+                          )}
+                        </div>
+                        
+                        {/* Handwritten caption */}
+                        <div className="mt-4 text-center">
+                          <p className="text-sm font-handwriting text-muted-foreground italic" style={{ transform: 'rotate(-1deg)' }}>
+                            ✨ {feature.title}
+                          </p>
+                        </div>
+                        
+                        {/* Corner decoration */}
+                        <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-4 border-r-4 border-primary/20" />
+                      </div>
+                      
+                      {/* Floating doodles around image */}
+                      <div className="absolute -bottom-8 -left-8 text-primary/20 animate-pulse" style={{ animationDelay: '0.5s' }}>
+                        <svg width="40" height="40" viewBox="0 0 40 40">
+                          <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" strokeWidth="2" />
+                          <path d="M12 20 L18 26 L28 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>)}
+              );
+            })}
           </div>
         </div>
       </section>
