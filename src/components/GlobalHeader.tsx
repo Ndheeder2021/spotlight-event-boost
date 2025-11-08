@@ -132,7 +132,7 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
   const isAuthenticated = variant === "authenticated" || user;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-lg transition-all duration-300">
       <div className="container mx-auto px-2 sm:px-6 lg:px-8">
         <div className="grid grid-cols-[auto_1fr_auto] min-h-14 sm:min-h-16 md:min-h-20 lg:min-h-24 h-auto items-center gap-1 sm:gap-4 lg:gap-8 py-2">
           {/* Logo */}
