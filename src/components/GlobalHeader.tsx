@@ -149,31 +149,41 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-2 flex-1 min-w-0 max-w-[50%] justify-center p-2 bg-card rounded-[15px] shadow-[0_10px_25px_0_rgba(0,0,0,0.075)] overflow-x-auto whitespace-nowrap col-start-2">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.url}
-                to={item.url}
-                className={({ isActive }) =>
-                  `relative flex items-center justify-center w-[70px] h-[50px] rounded-lg overflow-hidden transition-all duration-200 ease-in origin-left hover:w-[130px] group ${
-                    isActive 
-                      ? "text-primary" 
-                      : "text-muted-foreground hover:text-foreground"
-                  }`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    <div className={`absolute inset-0 rounded-lg bg-accent translate-x-full transition-transform duration-200 ease-in origin-right group-hover:translate-x-0 ${isActive ? 'translate-x-0' : ''}`} />
-                    <item.icon className="w-7 h-7 flex-shrink-0 absolute left-[18px] z-10" />
-                    <span className="block text-center w-full translate-x-full transition-transform duration-200 ease-in origin-right group-hover:translate-x-0 text-sm font-medium indent-[28px] opacity-0 group-hover:opacity-100">
-                      {item.title}
-                    </span>
-                  </>
-                )}
-              </NavLink>
-            ))}
+          {/* Desktop Navigation - Human Design */}
+          <nav className="hidden xl:flex items-center gap-3 flex-1 min-w-0 max-w-[50%] justify-center p-3 bg-card rounded-2xl border-2 border-border/50 shadow-lg col-start-2" style={{ transform: 'rotate(-0.3deg)' }}>
+            {navItems.map((item, index) => {
+              const rotations = ['-0.5deg', '0.3deg', '-0.2deg', '0.4deg'];
+              return (
+                <NavLink
+                  key={item.url}
+                  to={item.url}
+                  className={({ isActive }) =>
+                    `relative flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all duration-200 border-2 ${
+                      isActive 
+                        ? "text-primary bg-accent/80 border-primary/30 font-semibold" 
+                        : "text-muted-foreground hover:text-foreground hover:bg-accent/40 border-transparent hover:border-border/50"
+                    }`
+                  }
+                  style={{ transform: `rotate(${rotations[index % rotations.length]})` }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'rotate(0deg) scale(1.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = `rotate(${rotations[index % rotations.length]}) scale(1)`;
+                  }}
+                >
+                  {({ isActive }) => (
+                    <>
+                      <item.icon className="w-5 h-5 flex-shrink-0" />
+                      <span className="text-sm font-medium whitespace-nowrap">
+                        {item.title}
+                      </span>
+                      {isActive && <span className="ml-1">✓</span>}
+                    </>
+                  )}
+                </NavLink>
+              );
+            })}
 
             {/* More Dropdown for Authenticated Users */}
             {isAuthenticated && (
@@ -182,51 +192,56 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                   <DropdownMenuTrigger asChild>
                     <Button 
                       variant="ghost" 
-                      className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold hover:bg-accent/60 transition-all duration-200 rounded-xl border-2 border-transparent hover:border-border/50"
+                      style={{ transform: 'rotate(0.5deg)' }}
                     >
                       <span>{t('more')}</span>
-                      <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent 
                     align="center" 
-                    className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
-                    sideOffset={12}
+                    className="w-56 bg-background border-2 border-border shadow-2xl z-50 rounded-2xl p-3"
+                    sideOffset={8}
+                    style={{ transform: 'rotate(-0.5deg)' }}
                   >
-                  <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
-                    {t('tools')}
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="my-2" />
-                  {moreMenuItems.map((item, index) => (
-                    <DropdownMenuItem key={item.url} asChild>
-                      <Link
-                        to={item.url}
-                        className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-300 rounded-xl group animate-in fade-in-0 slide-in-from-left-2"
-                        style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}
-                      >
-                        <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
-                        <span className="group-hover:translate-x-1 transition-all duration-300">{item.title}</span>
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                  {isAdmin && (
-                    <>
-                      <DropdownMenuSeparator className="my-2" />
-                      <DropdownMenuItem asChild>
+                    {/* Hand-drawn divider */}
+                    <DropdownMenuLabel className="text-sm font-bold px-3 py-2 bg-accent/30 rounded-lg mb-2 flex items-center gap-2" style={{ transform: 'rotate(0.5deg)' }}>
+                      <span>⚙️</span> {t('tools')}
+                    </DropdownMenuLabel>
+                    
+                    {moreMenuItems.map((item, index) => (
+                      <DropdownMenuItem key={item.url} asChild>
                         <Link
-                          to="/admin"
-                          className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-300 rounded-xl group animate-in fade-in-0 slide-in-from-left-2"
-                          style={{ animationDelay: `${moreMenuItems.length * 50}ms`, animationFillMode: 'backwards' }}
+                          to={item.url}
+                          className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium cursor-pointer hover:bg-accent/50 transition-all duration-200 rounded-lg my-1 border-l-2 border-transparent hover:border-primary/30"
                         >
-                          <Shield className="h-5 w-5 text-primary/70 group-hover:text-primary transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
-                          <span className="group-hover:translate-x-1 transition-all duration-300">{t("admin")}</span>
+                          <item.icon className="h-4 w-4 text-primary/70" />
+                          <span>{item.title}</span>
                         </Link>
                       </DropdownMenuItem>
-                    </>
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    ))}
+                    {isAdmin && (
+                      <>
+                        {/* Hand-drawn separator */}
+                        <div className="my-2 relative h-1">
+                          <svg className="w-full h-1" viewBox="0 0 100 4" preserveAspectRatio="none">
+                            <path d="M0 2 Q 25 1, 50 2 T 100 2" stroke="hsl(var(--border))" strokeWidth="1" fill="none" />
+                          </svg>
+                        </div>
+                        <DropdownMenuItem asChild>
+                          <Link
+                            to="/admin"
+                            className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium cursor-pointer hover:bg-accent/50 transition-all duration-200 rounded-lg border-l-2 border-transparent hover:border-primary/30"
+                          >
+                            <Shield className="h-4 w-4 text-primary/70" />
+                            <span>{t("admin")}</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             )}
 
@@ -238,34 +253,34 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                     <DropdownMenuTrigger asChild>
                       <Button 
                         variant="ghost" 
-                        className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold hover:bg-accent/60 transition-all duration-200 rounded-xl border-2 border-transparent hover:border-border/50"
+                        style={{ transform: 'rotate(-0.3deg)' }}
                       >
-                        <span>{t('product')}</span>
-                        <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
-                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <span>📦 {t('product')}</span>
+                        <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent 
                       align="center" 
-                      className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
-                      sideOffset={12}
+                      className="w-56 bg-background border-2 border-border shadow-2xl z-50 rounded-2xl p-3"
+                      sideOffset={8}
+                      style={{ transform: 'rotate(0.5deg)' }}
                     >
-                  <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
-                    {t('product')}
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="my-2" />
-                  {productItems.map((item, index) => (
-                    <DropdownMenuItem key={item.url} asChild>
-                      <Link
-                        to={item.url}
-                        className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-300 rounded-xl group animate-in fade-in-0 slide-in-from-left-2"
-                        style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}
-                      >
-                        <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
-                        <span className="group-hover:translate-x-1 transition-all duration-300">{item.title}</span>
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
+                      <DropdownMenuLabel className="text-sm font-bold px-3 py-2 bg-accent/30 rounded-lg mb-2" style={{ transform: 'rotate(-0.3deg)' }}>
+                        📦 {t('product')}
+                      </DropdownMenuLabel>
+                      
+                      {productItems.map((item) => (
+                        <DropdownMenuItem key={item.url} asChild>
+                          <Link
+                            to={item.url}
+                            className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium cursor-pointer hover:bg-accent/50 transition-all duration-200 rounded-lg my-1 border-l-2 border-transparent hover:border-primary/30"
+                          >
+                            <item.icon className="h-4 w-4 text-primary/70" />
+                            <span>{item.title}</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -276,34 +291,34 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                     <DropdownMenuTrigger asChild>
                       <Button 
                         variant="ghost" 
-                        className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold hover:bg-accent/60 transition-all duration-200 rounded-xl border-2 border-transparent hover:border-border/50"
+                        style={{ transform: 'rotate(0.4deg)' }}
                       >
-                        <span>{t('blog')}</span>
-                        <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
-                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <span>✍️ {t('blog')}</span>
+                        <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent 
                       align="center" 
-                      className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
-                      sideOffset={12}
+                      className="w-56 bg-background border-2 border-border shadow-2xl z-50 rounded-2xl p-3"
+                      sideOffset={8}
+                      style={{ transform: 'rotate(-0.4deg)' }}
                     >
-                  <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
-                    {t('blog')}
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="my-2" />
-                  {blogItems.map((item, index) => (
-                    <DropdownMenuItem key={item.url} asChild>
-                      <Link
-                        to={item.url}
-                        className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-300 rounded-xl group animate-in fade-in-0 slide-in-from-left-2"
-                        style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}
-                      >
-                        <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
-                        <span className="group-hover:translate-x-1 transition-all duration-300">{item.title}</span>
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
+                      <DropdownMenuLabel className="text-sm font-bold px-3 py-2 bg-accent/30 rounded-lg mb-2" style={{ transform: 'rotate(0.3deg)' }}>
+                        ✍️ {t('blog')}
+                      </DropdownMenuLabel>
+                      
+                      {blogItems.map((item) => (
+                        <DropdownMenuItem key={item.url} asChild>
+                          <Link
+                            to={item.url}
+                            className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium cursor-pointer hover:bg-accent/50 transition-all duration-200 rounded-lg my-1 border-l-2 border-transparent hover:border-primary/30"
+                          >
+                            <item.icon className="h-4 w-4 text-primary/70" />
+                            <span>{item.title}</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -314,34 +329,34 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                     <DropdownMenuTrigger asChild>
                       <Button 
                         variant="ghost" 
-                        className="flex items-center gap-2.5 px-5 py-3 text-base font-semibold hover:bg-accent/60 hover:scale-105 transition-all duration-300 rounded-xl group relative"
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold hover:bg-accent/60 transition-all duration-200 rounded-xl border-2 border-transparent hover:border-border/50"
+                        style={{ transform: 'rotate(-0.2deg)' }}
                       >
-                        <span>{t('pricesPerks')}</span>
-                        <ChevronDown className="h-4 w-4 transition-transform duration-300 group-data-[state=open]:rotate-180" />
-                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <span>💰 {t('pricesPerks')}</span>
+                        <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent 
                       align="center" 
-                      className="w-64 bg-background/98 backdrop-blur-xl border border-border/60 shadow-2xl animate-in fade-in-0 slide-in-from-top-4 duration-300 z-50 rounded-2xl p-2"
-                      sideOffset={12}
+                      className="w-56 bg-background border-2 border-border shadow-2xl z-50 rounded-2xl p-3"
+                      sideOffset={8}
+                      style={{ transform: 'rotate(0.3deg)' }}
                     >
-                  <DropdownMenuLabel className="text-base font-bold px-3 py-2.5 bg-gradient-to-r from-primary/10 to-primary-glow/10 rounded-lg mb-1 animate-in fade-in-0 slide-in-from-top-2 duration-300">
-                    {t('pricesBenefits')}
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="my-2" />
-                  {pricesPerksItems.map((item, index) => (
-                    <DropdownMenuItem key={item.url} asChild>
-                      <Link
-                        to={item.url}
-                        className="flex items-center gap-3 px-3 py-3 text-base font-medium cursor-pointer hover:bg-accent/90 transition-all duration-300 rounded-xl group animate-in fade-in-0 slide-in-from-left-2"
-                        style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'backwards' }}
-                      >
-                        <item.icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
-                        <span className="group-hover:translate-x-1 transition-all duration-300">{item.title}</span>
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
+                      <DropdownMenuLabel className="text-sm font-bold px-3 py-2 bg-accent/30 rounded-lg mb-2" style={{ transform: 'rotate(-0.2deg)' }}>
+                        💰 {t('pricesBenefits')}
+                      </DropdownMenuLabel>
+                      
+                      {pricesPerksItems.map((item) => (
+                        <DropdownMenuItem key={item.url} asChild>
+                          <Link
+                            to={item.url}
+                            className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium cursor-pointer hover:bg-accent/50 transition-all duration-200 rounded-lg my-1 border-l-2 border-transparent hover:border-primary/30"
+                          >
+                            <item.icon className="h-4 w-4 text-primary/70" />
+                            <span>{item.title}</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
