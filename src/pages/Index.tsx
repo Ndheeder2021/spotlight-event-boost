@@ -794,171 +794,273 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Comparison Tables */}
-      <section className="py-24 bg-gradient-to-b from-background via-accent/5 to-background">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-6xl mx-auto space-y-16">
+      {/* Comparison Tables - Human Design */}
+      <section className="py-24 relative overflow-hidden">
+        {/* Doodle decorations */}
+        <div className="absolute top-20 right-10 text-primary/10 hidden lg:block" style={{ transform: 'rotate(15deg)' }}>
+          <svg width="60" height="60" viewBox="0 0 60 60">
+            <path d="M10 30 L50 30 M30 10 L30 50" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+            <circle cx="30" cy="30" r="20" fill="none" stroke="currentColor" strokeWidth="2" />
+          </svg>
+        </div>
+        
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="max-w-6xl mx-auto space-y-20">
             {/* Spotlight vs Traditional Marketing */}
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <Badge variant="outline" className="border-primary/30 bg-primary/5">
+            <div className="space-y-12">
+              <div className="text-center space-y-6 relative">
+                {/* Hand-drawn circle around badge */}
+                <div className="inline-block relative">
+                  <Badge variant="outline" className="border-primary/30 bg-primary/5 px-6 py-2" style={{ transform: 'rotate(-1deg)' }}>
+                    ⚡ {t('comparisonTitle')}
+                  </Badge>
+                  <svg className="absolute inset-0 w-full h-full -z-10 pointer-events-none" viewBox="0 0 100 50">
+                    <ellipse cx="50" cy="25" rx="48" ry="23" fill="none" stroke="hsl(var(--primary))" strokeWidth="1.5" opacity="0.2" />
+                  </svg>
+                </div>
+                
+                <h2 className="text-4xl sm:text-5xl font-bold relative inline-block">
                   {t('comparisonTitle')}
-                </Badge>
-                <h2 className="text-4xl sm:text-5xl font-bold">
-                  {t('comparisonTitle')}
+                  {/* Wavy underline */}
+                  <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 300 8" preserveAspectRatio="none">
+                    <path d="M0 4 Q 75 2, 150 4 T 300 4" stroke="hsl(var(--primary))" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.3" />
+                  </svg>
                 </h2>
+                
                 <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                   {t('comparisonSubtitle')}
                 </p>
               </div>
 
+              {/* Notebook-style table */}
               <div className="overflow-x-auto">
-                <div className="min-w-[600px] bg-card border rounded-2xl shadow-lg overflow-hidden">
-                  <div className="grid grid-cols-3">
-                    <div className="p-6 bg-accent/30 border-b border-r">
-                      <h3 className="font-semibold text-lg">{t('feature')}</h3>
+                <div className="min-w-[600px] bg-card border-2 border-border rounded-3xl shadow-2xl overflow-hidden relative" style={{ transform: 'rotate(-0.5deg)' }}>
+                  {/* Notebook holes decoration */}
+                  <div className="absolute left-4 top-0 bottom-0 flex flex-col justify-around py-8">
+                    {[...Array(6)].map((_, i) => (
+                      <div key={i} className="w-3 h-3 rounded-full bg-muted/40" />
+                    ))}
+                  </div>
+                  
+                  {/* Header */}
+                  <div className="grid grid-cols-3 bg-gradient-to-r from-muted/50 to-muted/30">
+                    <div className="p-6 border-b-2 border-r-2 border-dashed border-border/60">
+                      <h3 className="font-bold text-lg pl-8">{t('feature')}</h3>
                     </div>
-                    <div className="p-6 bg-primary/5 border-b border-r">
-                      <h3 className="font-semibold text-lg flex items-center gap-2">
-                        <Zap className="h-5 w-5 text-primary" />
-                        Spotlight
+                    <div className="p-6 border-b-2 border-r-2 border-dashed border-border/60 bg-primary/5">
+                      <h3 className="font-bold text-lg flex items-center gap-2">
+                        <div className="p-1.5 bg-primary/20 rounded-lg rotate-3">
+                          <Zap className="h-5 w-5 text-primary" />
+                        </div>
+                        <span className="relative">
+                          Spotlight
+                          {/* Highlight effect */}
+                          <span className="absolute inset-0 bg-primary/10 -z-10 rounded" style={{ width: '105%', left: '-2.5%' }} />
+                        </span>
                       </h3>
                     </div>
-                    <div className="p-6 bg-accent/10 border-b">
-                      <h3 className="font-semibold text-lg text-muted-foreground">
+                    <div className="p-6 border-b-2 border-dashed border-border/60">
+                      <h3 className="font-bold text-lg text-muted-foreground flex items-center gap-2">
                         {t('traditionalMarketing')}
+                        <span className="text-xl">😓</span>
                       </h3>
                     </div>
                   </div>
 
+                  {/* Rows */}
                   {[{
-                  feature: t('findEvents'),
-                  spotlight: t('autoMonitoring247'),
-                  traditional: t('manualSearchWeekly')
-                }, {
-                  feature: t('createCampaignText'),
-                  spotlight: t('aiGenerated60s'),
-                  traditional: t('manual24hours')
-                }, {
-                  feature: t('analyticsRoi'),
-                  spotlight: t('realtimeDashboard'),
-                  traditional: t('manualExcel')
-                }, {
-                  feature: t('abTesting'),
-                  spotlight: t('builtInAutomated'),
-                  traditional: t('difficultTimeConsuming')
-                }, {
-                  feature: t('costPerMonth'),
-                  spotlight: t('fromEuro29'),
-                  traditional: t('euro500Plus')
-                }].map((row, index) => <div key={index} className="grid grid-cols-3">
-                      <div className="p-4 border-b border-r bg-background">
-                        <p className="font-medium">{row.feature}</p>
+                    feature: t('findEvents'),
+                    spotlight: t('autoMonitoring247'),
+                    traditional: t('manualSearchWeekly')
+                  }, {
+                    feature: t('createCampaignText'),
+                    spotlight: t('aiGenerated60s'),
+                    traditional: t('manual24hours')
+                  }, {
+                    feature: t('analyticsRoi'),
+                    spotlight: t('realtimeDashboard'),
+                    traditional: t('manualExcel')
+                  }, {
+                    feature: t('abTesting'),
+                    spotlight: t('builtInAutomated'),
+                    traditional: t('difficultTimeConsuming')
+                  }, {
+                    feature: t('costPerMonth'),
+                    spotlight: t('fromEuro29'),
+                    traditional: t('euro500Plus')
+                  }].map((row, index) => (
+                    <div key={index} className="grid grid-cols-3 hover:bg-accent/20 transition-colors duration-200">
+                      <div className="p-5 border-b border-r-2 border-dashed border-border/40 pl-8">
+                        <p className="font-semibold text-base relative">
+                          {row.feature}
+                          {/* Small doodle decoration */}
+                          {index === 0 && (
+                            <span className="absolute -right-2 -top-1 text-primary/30">✨</span>
+                          )}
+                        </p>
                       </div>
-                      <div className="p-4 border-b border-r bg-primary/5">
-                        <div className="flex items-start gap-2">
-                          <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                          <p className="text-sm">{row.spotlight}</p>
+                      <div className="p-5 border-b border-r-2 border-dashed border-border/40 bg-primary/5">
+                        <div className="flex items-start gap-3">
+                          <div className="p-1 bg-primary/20 rounded-full mt-0.5">
+                            <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                          </div>
+                          <p className="text-sm font-medium">{row.spotlight}</p>
                         </div>
                       </div>
-                      <div className="p-4 border-b bg-accent/10">
-                        <div className="flex items-start gap-2">
-                          <X className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+                      <div className="p-5 border-b border-dashed border-border/40">
+                        <div className="flex items-start gap-3">
+                          <div className="p-1 bg-muted rounded-full mt-0.5">
+                            <X className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                          </div>
                           <p className="text-sm text-muted-foreground">{row.traditional}</p>
                         </div>
                       </div>
-                    </div>)}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
 
             {/* Spotlight vs Competitors */}
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <h2 className="text-4xl sm:text-5xl font-bold">
+            <div className="space-y-12">
+              <div className="text-center space-y-6">
+                <h2 className="text-4xl sm:text-5xl font-bold relative inline-block">
                   {t('vsCompetitorsTitle')}
+                  {/* Hand-drawn box around title */}
+                  <svg className="absolute inset-0 w-full h-full -z-10 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <rect x="2" y="15" width="96" height="70" fill="none" stroke="hsl(var(--primary))" strokeWidth="1.5" rx="8" opacity="0.15" />
+                  </svg>
                 </h2>
-                <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                
+                <p className="text-xl text-muted-foreground max-w-3xl mx-auto italic">
                   {t('vsCompetitorsSubtitle')}
                 </p>
               </div>
 
+              {/* Card-style table */}
               <div className="overflow-x-auto">
-                <div className="min-w-[600px] bg-card border rounded-2xl shadow-lg overflow-hidden">
-                  <div className="grid grid-cols-3">
-                    <div className="p-6 bg-accent/30 border-b border-r">
-                      <h3 className="font-semibold text-lg">{t('feature')}</h3>
+                <div className="min-w-[600px] relative" style={{ transform: 'rotate(0.5deg)' }}>
+                  {/* Tape decoration at top */}
+                  <div className="absolute -top-4 left-1/4 w-24 h-8 bg-muted/60 backdrop-blur-sm shadow-sm z-20" style={{ transform: 'rotate(-3deg)' }} />
+                  
+                  <div className="bg-card border-2 border-border rounded-3xl shadow-2xl overflow-hidden">
+                    {/* Header */}
+                    <div className="grid grid-cols-3 bg-gradient-to-r from-muted/50 to-muted/30 p-1">
+                      <div className="p-6 flex items-center">
+                        <h3 className="font-bold text-lg">{t('feature')}</h3>
+                      </div>
+                      <div className="p-6 flex items-center justify-center bg-primary/5 rounded-2xl m-2">
+                        <div className="flex items-center gap-2 relative">
+                          <div className="p-2 bg-primary/20 rounded-full -rotate-6">
+                            <Zap className="h-5 w-5 text-primary" />
+                          </div>
+                          <h3 className="font-bold text-lg">Spotlight</h3>
+                          {/* Winner badge */}
+                          <span className="absolute -top-3 -right-6 text-2xl" style={{ transform: 'rotate(15deg)' }}>🏆</span>
+                        </div>
+                      </div>
+                      <div className="p-6 flex items-center justify-center">
+                        <h3 className="font-bold text-lg text-muted-foreground">{t('competitor')}</h3>
+                      </div>
                     </div>
-                    <div className="p-6 bg-primary/5 border-b border-r">
-                      <h3 className="font-semibold text-lg flex items-center gap-2">
-                        <Zap className="h-5 w-5 text-primary" />
-                        Spotlight
-                      </h3>
-                    </div>
-                    <div className="p-6 bg-accent/10 border-b">
-                      <h3 className="font-semibold text-lg text-muted-foreground">
-                        {t('competitor')}
-                      </h3>
-                    </div>
-                  </div>
 
-                  {[{
-                  feature: t('featureAi'),
-                  spotlight: true,
-                  competitor: false
-                }, {
-                  feature: t('autoMonitoring'),
-                  spotlight: true,
-                  competitor: true
-                }, {
-                  feature: t('realtimeDashboard'),
-                  spotlight: true,
-                  competitor: false
-                }, {
-                  feature: t('abTesting'),
-                  spotlight: true,
-                  competitor: false
-                }, {
-                  feature: t('swedishSupport'),
-                  spotlight: true,
-                  competitor: false
-                }, {
-                  feature: t('pdfExport'),
-                  spotlight: true,
-                  competitor: true
-                }, {
-                  feature: t('freeTrial14Days'),
-                  spotlight: true,
-                  competitor: false
-                }, {
-                  feature: t('startingPriceMonth'),
-                  spotlight: "€29",
-                  competitor: "€79"
-                }].map((row, index) => <div key={index} className="grid grid-cols-3">
-                      <div className="p-4 border-b border-r bg-background">
-                        <p className="font-medium text-sm">{row.feature}</p>
-                      </div>
-                      <div className="p-4 border-b border-r bg-primary/5">
-                        <div className="flex items-center justify-center">
-                          {typeof row.spotlight === 'boolean' ? row.spotlight ? <Check className="h-6 w-6 text-primary" /> : <X className="h-6 w-6 text-muted-foreground" /> : <span className="font-semibold text-primary">{row.spotlight}</span>}
+                    {/* Rows */}
+                    {[{
+                      feature: t('featureAi'),
+                      spotlight: true,
+                      competitor: false
+                    }, {
+                      feature: t('autoMonitoring'),
+                      spotlight: true,
+                      competitor: true
+                    }, {
+                      feature: t('realtimeDashboard'),
+                      spotlight: true,
+                      competitor: false
+                    }, {
+                      feature: t('abTesting'),
+                      spotlight: true,
+                      competitor: false
+                    }, {
+                      feature: t('swedishSupport'),
+                      spotlight: true,
+                      competitor: false
+                    }, {
+                      feature: t('pdfExport'),
+                      spotlight: true,
+                      competitor: true
+                    }, {
+                      feature: t('freeTrial14Days'),
+                      spotlight: true,
+                      competitor: false
+                    }, {
+                      feature: t('startingPriceMonth'),
+                      spotlight: "€29",
+                      competitor: "€79"
+                    }].map((row, index) => (
+                      <div key={index} className="grid grid-cols-3 hover:bg-accent/10 transition-colors duration-200 border-t border-dashed border-border/40">
+                        <div className="p-5 flex items-center">
+                          <p className="font-medium text-sm">{row.feature}</p>
+                        </div>
+                        <div className="p-5 flex items-center justify-center bg-primary/5">
+                          {typeof row.spotlight === 'boolean' ? (
+                            row.spotlight ? (
+                              <div className="flex items-center gap-2 p-2 bg-primary/10 rounded-full">
+                                <Check className="h-6 w-6 text-primary" />
+                                <span className="text-xs font-bold text-primary">✓</span>
+                              </div>
+                            ) : (
+                              <X className="h-6 w-6 text-muted-foreground/30" />
+                            )
+                          ) : (
+                            <div className="relative">
+                              <span className="font-bold text-primary text-lg">{row.spotlight}</span>
+                              {/* Circle highlight */}
+                              <svg className="absolute inset-0 w-full h-full -z-10" viewBox="0 0 50 50">
+                                <circle cx="25" cy="25" r="22" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" opacity="0.2" />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+                        <div className="p-5 flex items-center justify-center">
+                          {typeof row.competitor === 'boolean' ? (
+                            row.competitor ? (
+                              <Check className="h-6 w-6 text-muted-foreground/40" />
+                            ) : (
+                              <div className="relative">
+                                <X className="h-6 w-6 text-muted-foreground/30" />
+                                <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-xs">😕</span>
+                              </div>
+                            )
+                          ) : (
+                            <span className="text-sm text-muted-foreground line-through">{row.competitor}</span>
+                          )}
                         </div>
                       </div>
-                      <div className="p-4 border-b bg-accent/10">
-                        <div className="flex items-center justify-center">
-                          {typeof row.competitor === 'boolean' ? row.competitor ? <Check className="h-6 w-6 text-muted-foreground/50" /> : <X className="h-6 w-6 text-muted-foreground/30" /> : <span className="text-sm text-muted-foreground">{row.competitor}</span>}
-                        </div>
-                      </div>
-                    </div>)}
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              <div className="text-center pt-8">
-                <Link to="/auth">
-                  <Button variant="animated" size="xl" className="bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90">
-                    {t('trySpotlightFree')}
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
+              <div className="text-center pt-12">
+                <div className="relative inline-block">
+                  {/* Hand-drawn arrow pointing to button */}
+                  <svg className="absolute -top-16 left-1/2 -translate-x-1/2 text-primary/30 hidden lg:block" width="60" height="60" viewBox="0 0 60 60">
+                    <path d="M30 5 Q 32 25, 30 45" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                    <path d="M22 38 L30 50 L38 38" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  
+                  <Link to="/auth">
+                    <Button className="elegant-button px-[40px] py-[24px] border-2 border-[#2c2c2c] bg-[#1a1a1a] text-white text-xl rounded-[30px] font-bold hover:border-[#666666] hover:bg-[#292929]">
+                      <span className="relative z-10">{t('trySpotlightFree')}</span>
+                      <ArrowRight className="ml-2 h-6 w-6 relative z-10" />
+                    </Button>
+                  </Link>
+                  
+                  {/* Sparkle decorations */}
+                  <span className="absolute -top-4 -right-4 text-2xl animate-pulse" style={{ animationDelay: '0.5s' }}>✨</span>
+                  <span className="absolute -bottom-4 -left-4 text-2xl animate-pulse" style={{ animationDelay: '1s' }}>🚀</span>
+                </div>
               </div>
             </div>
           </div>
