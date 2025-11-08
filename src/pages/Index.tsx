@@ -31,6 +31,7 @@ import featureAnalytics from "@/assets/feature-analytics-new.png";
 import featureAiCampaign from "@/assets/feature-ai-campaign-new.png";
 import featureEvents from "@/assets/feature-event-radar-new.png";
 import "@/components/testimonial-card.css";
+import "@/components/ui/stats-card.css";
 import { TypingAnimation } from "@/components/TypingAnimation";
 
 const testimonials = [
@@ -476,30 +477,33 @@ const Index = () => {
             </div>
             
             {/* Live Stats Counter */}
-            <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 lg:gap-12 justify-center pt-8 sm:pt-12 px-4">
-              <div className="flex flex-col items-center gap-2">
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary">
-                  <AnimatedCounter end={2547} suffix="+" />
+            <div className="stats-container pt-8 sm:pt-12">
+              <div className="stat-card">
+                <div className="stat-badge"></div>
+                <div className="stat-number">
+                  <AnimatedCounter end={127} suffix="+" />
                 </div>
-                <div className="text-xs sm:text-sm lg:text-base text-muted-foreground">
+                <div className="stat-label">
                   {t('companiesUsingSpotlight')}
                 </div>
               </div>
               
-              <div className="flex flex-col items-center gap-2">
-                <div className="text-4xl sm:text-5xl font-bold text-primary">
-                  <AnimatedCounter end={12349} suffix="+" />
+              <div className="stat-card">
+                <div className="stat-badge"></div>
+                <div className="stat-number">
+                  <AnimatedCounter end={1834} separator="," />
                 </div>
-                <div className="text-sm sm:text-base text-muted-foreground">
+                <div className="stat-label">
                   {t('campaignsThisMonth')}
                 </div>
               </div>
               
-              <div className="flex flex-col items-center gap-2">
-                <div className="text-4xl sm:text-5xl font-bold text-primary">
-                  <AnimatedCounter end={98} suffix="%" />
+              <div className="stat-card">
+                <div className="stat-badge"></div>
+                <div className="stat-number">
+                  <AnimatedCounter end={94} suffix="%" />
                 </div>
-                <div className="text-sm sm:text-base text-muted-foreground">
+                <div className="stat-label">
                   {t('customerSatisfaction')}
                 </div>
               </div>
