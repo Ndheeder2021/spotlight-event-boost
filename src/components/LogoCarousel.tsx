@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-const customers = ["Café Bröd & Salt", "Restaurant Smak", "Urban Bar & Grill", "Bistro Kungsholmen", "Fika & Co", "Södermalm Bageri", "Norrlands Kök", "Vasastan Tapas", "Gamla Stan Bistro", "Östermalm Café", "Göteborg Bar", "Malmö Kitchen", "Uppsala Restaurang", "Lund Bistro", "Helsingborg Café"];
+const customers = ["The Daily Grind", "Blue Moon Bistro", "Urban Bar & Grill", "The Garden Café", "Brew & Co", "Corner Bakery", "Harvest Kitchen", "Tapas & Wine", "Old Town Bistro", "East Side Café", "The Harbor Bar", "Fusion Kitchen", "Central Restaurant", "Green Leaf Bistro", "Sunset Café"];
 export const LogoCarousel = () => {
   const {
     t
