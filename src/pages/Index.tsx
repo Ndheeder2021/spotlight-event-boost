@@ -509,13 +509,13 @@ const Index = () => {
               </div>
             </div>
             
-            <div className="flex flex-wrap gap-8 justify-center pt-8 text-sm text-muted-foreground">
+            <div className="flex flex-wrap gap-8 justify-center pt-8 text-base sm:text-lg text-foreground font-medium">
               <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-primary" />
+                <Check className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 <span>{t('noCommitment')}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-primary" />
+                <Check className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 <span>{t('daysFree')}</span>
               </div>
             </div>
