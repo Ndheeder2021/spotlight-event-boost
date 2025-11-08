@@ -414,28 +414,28 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
               </SheetTrigger>
               <SheetContent side="right" className="w-[85vw] max-w-[320px] bg-background/98 backdrop-blur-xl border-l-2 flex flex-col p-0 pb-0">
                 <div className="p-4 flex-1 overflow-y-auto">
-                  <nav className="flex flex-col gap-2 mt-0">
-                  {navItems.map((item) => (
+                  <nav className="flex flex-col gap-3 mt-0">
+                  {navItems.map((item, index) => (
                     <NavLink
                       key={item.url}
                       to={item.url}
                       onClick={() => setMobileMenuOpen(false)}
                       className={({ isActive }) =>
-                        `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-300 rounded-xl touch-manipulation relative overflow-hidden ${
+                        `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-200 rounded-2xl touch-manipulation relative ${
                           isActive 
-                            ? "text-primary bg-gradient-to-r from-accent/90 to-accent/70 shadow-md font-semibold scale-[0.98]" 
-                            : "text-foreground hover:text-primary hover:bg-accent/50 hover:shadow-sm active:scale-[0.97]"
+                            ? "text-primary bg-accent/80 shadow-sm font-semibold border-l-4 border-primary translate-x-1" 
+                            : "text-foreground hover:text-primary hover:bg-accent/30 active:scale-[0.98] border-l-4 border-transparent"
                         }`
                       }
                     >
                       {({ isActive }) => (
                         <>
-                          <div className={`${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-300`}>
+                          <div className={`${isActive ? '' : 'group-hover:scale-110'} transition-transform duration-200 p-2 rounded-lg ${isActive ? 'bg-primary/10' : 'bg-background'}`}>
                             <item.icon className="h-5 w-5 flex-shrink-0" />
                           </div>
                           <span className="truncate">{item.title}</span>
                           {isActive && (
-                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                            <span className="ml-auto text-xs">✓</span>
                           )}
                         </>
                       )}
@@ -444,13 +444,14 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
 
                   {isAuthenticated && (
                     <>
-                      <div className="relative my-4">
-                        <div className="absolute inset-0 flex items-center">
-                          <div className="w-full border-t border-border/60" />
-                        </div>
-                        <div className="relative flex justify-center">
-                          <span className="bg-background px-3 py-1 text-xs font-bold text-muted-foreground uppercase tracking-wider rounded-full border border-border/40">
-                            Verktyg
+                      <div className="relative my-6">
+                        {/* Hand-drawn divider */}
+                        <svg className="w-full h-2" viewBox="0 0 200 8" preserveAspectRatio="none">
+                          <path d="M0 4 Q 50 2, 100 4 T 200 4" stroke="hsl(var(--border))" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.6" />
+                        </svg>
+                        <div className="relative flex justify-center -mt-4">
+                          <span className="bg-background px-4 py-1.5 text-xs font-semibold text-muted-foreground rounded-full border border-border/50 shadow-sm" style={{ transform: 'rotate(-1deg)' }}>
+                            ⚙️ Verktyg
                           </span>
                         </div>
                       </div>
@@ -460,21 +461,21 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to={item.url}
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-300 rounded-xl touch-manipulation relative overflow-hidden ${
+                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-200 rounded-2xl touch-manipulation relative ${
                               isActive 
-                                ? "text-primary bg-gradient-to-r from-accent/90 to-accent/70 shadow-md font-semibold scale-[0.98]" 
-                                : "text-foreground hover:text-primary hover:bg-accent/50 hover:shadow-sm active:scale-[0.97]"
+                                ? "text-primary bg-accent/80 shadow-sm font-semibold border-l-4 border-primary" 
+                                : "text-foreground hover:text-primary hover:bg-accent/30 active:scale-[0.98] border-l-4 border-transparent"
                             }`
                           }
                         >
                           {({ isActive }) => (
                             <>
-                              <div className={`${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-300`}>
+                              <div className={`${isActive ? '' : 'group-hover:scale-110'} transition-transform duration-200 p-2 rounded-lg ${isActive ? 'bg-primary/10' : 'bg-background'}`}>
                                 <item.icon className="h-5 w-5 flex-shrink-0" />
                               </div>
                               <span className="truncate">{item.title}</span>
                               {isActive && (
-                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                                <span className="ml-auto text-xs">✓</span>
                               )}
                             </>
                           )}
@@ -485,21 +486,21 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to="/admin"
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-300 rounded-xl touch-manipulation relative overflow-hidden ${
+                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-200 rounded-2xl touch-manipulation relative ${
                               isActive 
-                                ? "text-primary bg-gradient-to-r from-accent/90 to-accent/70 shadow-md font-semibold scale-[0.98]" 
-                                : "text-foreground hover:text-primary hover:bg-accent/50 hover:shadow-sm active:scale-[0.97]"
+                                ? "text-primary bg-accent/80 shadow-sm font-semibold border-l-4 border-primary" 
+                                : "text-foreground hover:text-primary hover:bg-accent/30 active:scale-[0.98] border-l-4 border-transparent"
                             }`
                           }
                         >
                           {({ isActive }) => (
                             <>
-                              <div className={`${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-300`}>
+                              <div className={`${isActive ? '' : 'group-hover:scale-110'} transition-transform duration-200 p-2 rounded-lg ${isActive ? 'bg-primary/10' : 'bg-background'}`}>
                                 <Shield className="h-5 w-5 flex-shrink-0" />
                               </div>
                               <span className="truncate">{t("admin")}</span>
                               {isActive && (
-                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                                <span className="ml-auto text-xs">✓</span>
                               )}
                             </>
                           )}
@@ -510,13 +511,14 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
 
                   {!isAuthenticated && (
                     <>
-                      <div className="relative my-4">
-                        <div className="absolute inset-0 flex items-center">
-                          <div className="w-full border-t border-border/60" />
-                        </div>
-                        <div className="relative flex justify-center">
-                          <span className="bg-background px-3 py-1 text-xs font-bold text-muted-foreground uppercase tracking-wider rounded-full border border-border/40">
-                            Produkt
+                      <div className="relative my-6">
+                        {/* Hand-drawn divider */}
+                        <svg className="w-full h-2" viewBox="0 0 200 8" preserveAspectRatio="none">
+                          <path d="M0 4 Q 50 2, 100 4 T 200 4" stroke="hsl(var(--border))" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.6" />
+                        </svg>
+                        <div className="relative flex justify-center -mt-4">
+                          <span className="bg-background px-4 py-1.5 text-xs font-semibold text-muted-foreground rounded-full border border-border/50 shadow-sm" style={{ transform: 'rotate(1deg)' }}>
+                            📦 Produkt
                           </span>
                         </div>
                       </div>
@@ -526,33 +528,34 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to={item.url}
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-300 rounded-xl touch-manipulation relative overflow-hidden ${
+                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-200 rounded-2xl touch-manipulation relative ${
                               isActive 
-                                ? "text-primary bg-gradient-to-r from-accent/90 to-accent/70 shadow-md font-semibold scale-[0.98]" 
-                                : "text-foreground hover:text-primary hover:bg-accent/50 hover:shadow-sm active:scale-[0.97]"
+                                ? "text-primary bg-accent/80 shadow-sm font-semibold border-l-4 border-primary" 
+                                : "text-foreground hover:text-primary hover:bg-accent/30 active:scale-[0.98] border-l-4 border-transparent"
                             }`
                           }
                         >
                           {({ isActive }) => (
                             <>
-                              <div className={`${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-300`}>
+                              <div className={`${isActive ? '' : 'group-hover:scale-110'} transition-transform duration-200 p-2 rounded-lg ${isActive ? 'bg-primary/10' : 'bg-background'}`}>
                                 <item.icon className="h-5 w-5 flex-shrink-0" />
                               </div>
                               <span className="truncate">{item.title}</span>
                               {isActive && (
-                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                                <span className="ml-auto text-xs">✓</span>
                               )}
                             </>
                           )}
                         </NavLink>
                       ))}
-                      <div className="relative my-4">
-                        <div className="absolute inset-0 flex items-center">
-                          <div className="w-full border-t border-border/60" />
-                        </div>
-                        <div className="relative flex justify-center">
-                          <span className="bg-background px-3 py-1 text-xs font-bold text-muted-foreground uppercase tracking-wider rounded-full border border-border/40">
-                            Blog
+                      <div className="relative my-6">
+                        {/* Hand-drawn divider */}
+                        <svg className="w-full h-2" viewBox="0 0 200 8" preserveAspectRatio="none">
+                          <path d="M0 4 Q 50 2, 100 4 T 200 4" stroke="hsl(var(--border))" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.6" />
+                        </svg>
+                        <div className="relative flex justify-center -mt-4">
+                          <span className="bg-background px-4 py-1.5 text-xs font-semibold text-muted-foreground rounded-full border border-border/50 shadow-sm" style={{ transform: 'rotate(-0.5deg)' }}>
+                            ✍️ Blog
                           </span>
                         </div>
                       </div>
@@ -562,33 +565,34 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to={item.url}
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-300 rounded-xl touch-manipulation relative overflow-hidden ${
+                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-200 rounded-2xl touch-manipulation relative ${
                               isActive 
-                                ? "text-primary bg-gradient-to-r from-accent/90 to-accent/70 shadow-md font-semibold scale-[0.98]" 
-                                : "text-foreground hover:text-primary hover:bg-accent/50 hover:shadow-sm active:scale-[0.97]"
+                                ? "text-primary bg-accent/80 shadow-sm font-semibold border-l-4 border-primary" 
+                                : "text-foreground hover:text-primary hover:bg-accent/30 active:scale-[0.98] border-l-4 border-transparent"
                             }`
                           }
                         >
                           {({ isActive }) => (
                             <>
-                              <div className={`${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-300`}>
+                              <div className={`${isActive ? '' : 'group-hover:scale-110'} transition-transform duration-200 p-2 rounded-lg ${isActive ? 'bg-primary/10' : 'bg-background'}`}>
                                 <item.icon className="h-5 w-5 flex-shrink-0" />
                               </div>
                               <span className="truncate">{item.title}</span>
                               {isActive && (
-                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                                <span className="ml-auto text-xs">✓</span>
                               )}
                             </>
                           )}
                         </NavLink>
                       ))}
-                      <div className="relative my-4">
-                        <div className="absolute inset-0 flex items-center">
-                          <div className="w-full border-t border-border/60" />
-                        </div>
-                        <div className="relative flex justify-center">
-                          <span className="bg-background px-3 py-1 text-xs font-bold text-muted-foreground uppercase tracking-wider rounded-full border border-border/40">
-                            Prices & Perks
+                      <div className="relative my-6">
+                        {/* Hand-drawn divider */}
+                        <svg className="w-full h-2" viewBox="0 0 200 8" preserveAspectRatio="none">
+                          <path d="M0 4 Q 50 2, 100 4 T 200 4" stroke="hsl(var(--border))" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.6" />
+                        </svg>
+                        <div className="relative flex justify-center -mt-4">
+                          <span className="bg-background px-4 py-1.5 text-xs font-semibold text-muted-foreground rounded-full border border-border/50 shadow-sm" style={{ transform: 'rotate(1deg)' }}>
+                            💰 Prices & Perks
                           </span>
                         </div>
                       </div>
@@ -598,21 +602,21 @@ export function GlobalHeader({ variant = "default" }: GlobalHeaderProps) {
                           to={item.url}
                           onClick={() => setMobileMenuOpen(false)}
                           className={({ isActive }) =>
-                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-300 rounded-xl touch-manipulation relative overflow-hidden ${
+                            `group flex items-center gap-3 px-4 py-3.5 text-base font-medium transition-all duration-200 rounded-2xl touch-manipulation relative ${
                               isActive 
-                                ? "text-primary bg-gradient-to-r from-accent/90 to-accent/70 shadow-md font-semibold scale-[0.98]" 
-                                : "text-foreground hover:text-primary hover:bg-accent/50 hover:shadow-sm active:scale-[0.97]"
+                                ? "text-primary bg-accent/80 shadow-sm font-semibold border-l-4 border-primary" 
+                                : "text-foreground hover:text-primary hover:bg-accent/30 active:scale-[0.98] border-l-4 border-transparent"
                             }`
                           }
                         >
                           {({ isActive }) => (
                             <>
-                              <div className={`${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-300`}>
+                              <div className={`${isActive ? '' : 'group-hover:scale-110'} transition-transform duration-200 p-2 rounded-lg ${isActive ? 'bg-primary/10' : 'bg-background'}`}>
                                 <item.icon className="h-5 w-5 flex-shrink-0" />
                               </div>
                               <span className="truncate">{item.title}</span>
                               {isActive && (
-                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                                <span className="ml-auto text-xs">✓</span>
                               )}
                             </>
                           )}
