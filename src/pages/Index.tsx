@@ -1351,85 +1351,165 @@ const Index = () => {
         </div>
       </section>
 
-      {/* FAQ - Enhanced with Animations */}
-      <section className="py-32 bg-muted/20">
+      {/* FAQ - Fun & Human Design with Two Columns */}
+      <section className="py-32 bg-muted/20 relative overflow-hidden">
+        {/* Playful background decorations */}
+        <div className="absolute top-20 left-10 text-primary/10" style={{ transform: 'rotate(-15deg)' }}>
+          <span className="text-8xl">💡</span>
+        </div>
+        <div className="absolute bottom-20 right-10 text-primary/10" style={{ transform: 'rotate(25deg)' }}>
+          <span className="text-8xl">🤔</span>
+        </div>
+        
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-20 animate-on-scroll">
-            <Badge className="mb-6 text-base px-4 py-2">FAQ</Badge>
-            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
+            {/* Fun badge with emoji */}
+            <div className="inline-flex items-center gap-2 bg-card/80 backdrop-blur-sm px-6 py-3 rounded-full border-2 border-border/50 shadow-lg mb-6" style={{ transform: 'rotate(-1.5deg)' }}>
+              <span className="text-xl">❓</span>
+              <span className="text-base font-bold">FAQ</span>
+              <span className="text-xl">💬</span>
+            </div>
+            
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 relative inline-block">
               {t('faqTitle')}
+              {/* Hand-drawn underline */}
+              <div className="absolute -bottom-2 left-0 right-0 flex justify-center">
+                <svg width="250" height="15" viewBox="0 0 250 15" className="text-primary/40">
+                  <path d="M5 10 Q 60 5, 125 8 T 245 10" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
+                </svg>
+              </div>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               {t('faqSubtitle')}
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-4">
+          {/* Two-column FAQ layout */}
+          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-6">
+            {/* Left Column */}
+            <div className="space-y-4">
               {[{
-              question: t('faq1Q'),
-              answer: t('faq1A')
-            }, {
-              question: t('faq2Q'),
-              answer: t('faq2A')
-            }, {
-              question: t('faq3Q'),
-              answer: t('faq3A')
-            }, {
-              question: t('faq4Q'),
-              answer: t('faq4A')
-            }, {
-              question: t('faq5Q'),
-              answer: t('faq5A')
-            }, {
-              question: t('faq6Q'),
-              answer: t('faq6A')
-            }, {
-              question: t('faq7Q'),
-              answer: t('faq7A')
-            }, {
-              question: t('faq8Q'),
-              answer: t('faq8A')
-            }, {
-              question: t('faq9Q'),
-              answer: t('faq9A')
-            }, {
-              question: t('faq10Q'),
-              answer: t('faq10A')
-            }, {
-              question: t('faq11Q'),
-              answer: t('faq11A')
-            }, {
-              question: t('faq12Q'),
-              answer: t('faq12A')
-            }].map((faq, i) => <AccordionItem key={i} value={`item-${i}`} className="bg-card border-2 border-border rounded-2xl px-8 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover-lift animate-on-scroll group" style={{
-              animationDelay: `${i * 50}ms`
-            }}>
-                  <AccordionTrigger className="text-left text-xl font-semibold hover:no-underline py-7 transition-colors duration-300 group-hover:text-primary">
-                    <div className="flex items-start gap-4">
-                      <HelpCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
-                      <span className="pr-4">{faq.question}</span>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="text-lg text-muted-foreground pb-7 pl-10 leading-relaxed">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>)}
-            </Accordion>
-
-            {/* CTA for more help */}
-            <div className="mt-16 text-center p-8 bg-gradient-to-br from-primary/5 to-primary-glow/5 rounded-2xl border-2 border-primary/20 animate-on-scroll">
-              <h3 className="text-2xl font-bold mb-3">{t('moreQuestions')}</h3>
-              <p className="text-muted-foreground mb-6">
-                {t('supportTeamHelp')}
-              </p>
-              <Link to="/contact">
-                <Button size="lg" className="elegant-button px-[30px] py-[15px] border-2 border-[#2c2c2c] bg-[#1a1a1a] text-white text-xl rounded-[30px] font-bold hover:border-[#666666] hover:bg-[#292929]">
-                  <span className="relative z-10">{t('contactSupport')}</span>
-                  <ArrowRight className="ml-2 h-5 w-5 relative z-10" />
-                </Button>
-              </Link>
+                question: t('faq1Q'),
+                answer: t('faq1A'),
+                emoji: '✨'
+              }, {
+                question: t('faq3Q'),
+                answer: t('faq3A'),
+                emoji: '🎉'
+              }, {
+                question: t('faq5Q'),
+                answer: t('faq5A'),
+                emoji: '🔄'
+              }, {
+                question: t('faq7Q'),
+                answer: t('faq7A'),
+                emoji: '🎯'
+              }, {
+                question: t('faq9Q'),
+                answer: t('faq9A'),
+                emoji: '📋'
+              }, {
+                question: t('faq11Q'),
+                answer: t('faq11A'),
+                emoji: '💬'
+              }].map((faq, i) => {
+                const rotations = ['-0.5deg', '0.5deg', '-0.3deg', '0.4deg', '-0.4deg', '0.3deg'];
+                return (
+                  <Accordion key={i} type="single" collapsible>
+                    <AccordionItem 
+                      value={`left-${i}`} 
+                      className="bg-card/80 backdrop-blur-sm border-2 border-border rounded-2xl px-6 transition-all duration-300 hover:border-primary/40 hover:shadow-lg group" 
+                      style={{ transform: `rotate(${rotations[i]})` }}
+                    >
+                      <AccordionTrigger className="text-left text-lg font-semibold hover:no-underline py-5 transition-colors duration-300 group-hover:text-primary">
+                        <div className="flex items-start gap-3">
+                          <span className="text-2xl flex-shrink-0 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12">
+                            {faq.emoji}
+                          </span>
+                          <span className="pr-4">{faq.question}</span>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-base text-muted-foreground pb-5 pl-11 leading-relaxed">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                );
+              })}
             </div>
+
+            {/* Right Column */}
+            <div className="space-y-4">
+              {[{
+                question: t('faq2Q'),
+                answer: t('faq2A'),
+                emoji: '⚙️'
+              }, {
+                question: t('faq4Q'),
+                answer: t('faq4A'),
+                emoji: '🎁'
+              }, {
+                question: t('faq6Q'),
+                answer: t('faq6A'),
+                emoji: '📈'
+              }, {
+                question: t('faq8Q'),
+                answer: t('faq8A'),
+                emoji: '📍'
+              }, {
+                question: t('faq10Q'),
+                answer: t('faq10A'),
+                emoji: '🔒'
+              }, {
+                question: t('faq12Q'),
+                answer: t('faq12A'),
+                emoji: '🔌'
+              }].map((faq, i) => {
+                const rotations = ['0.5deg', '-0.5deg', '0.3deg', '-0.4deg', '0.4deg', '-0.3deg'];
+                return (
+                  <Accordion key={i} type="single" collapsible>
+                    <AccordionItem 
+                      value={`right-${i}`} 
+                      className="bg-card/80 backdrop-blur-sm border-2 border-border rounded-2xl px-6 transition-all duration-300 hover:border-primary/40 hover:shadow-lg group" 
+                      style={{ transform: `rotate(${rotations[i]})` }}
+                    >
+                      <AccordionTrigger className="text-left text-lg font-semibold hover:no-underline py-5 transition-colors duration-300 group-hover:text-primary">
+                        <div className="flex items-start gap-3">
+                          <span className="text-2xl flex-shrink-0 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12">
+                            {faq.emoji}
+                          </span>
+                          <span className="pr-4">{faq.question}</span>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-base text-muted-foreground pb-5 pl-11 leading-relaxed">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Fun CTA for more help */}
+          <div className="mt-16 text-center p-8 bg-gradient-to-br from-primary/10 to-primary-glow/5 rounded-3xl border-2 border-primary/30 max-w-3xl mx-auto relative animate-on-scroll" style={{ transform: 'rotate(-0.5deg)' }}>
+            {/* Decorative stars */}
+            <span className="absolute -top-4 -left-4 text-4xl" style={{ transform: 'rotate(-25deg)' }}>⭐</span>
+            <span className="absolute -top-4 -right-4 text-4xl" style={{ transform: 'rotate(25deg)' }}>💫</span>
+            
+            <h3 className="text-2xl font-bold mb-3 flex items-center justify-center gap-2">
+              <span>🤝</span>
+              <span>{t('moreQuestions')}</span>
+            </h3>
+            <p className="text-muted-foreground mb-6">
+              {t('supportTeamHelp')}
+            </p>
+            <Link to="/contact">
+              <Button size="lg" className="elegant-button px-[30px] py-[15px] border-2 border-[#2c2c2c] bg-[#1a1a1a] text-white text-xl rounded-[30px] font-bold hover:border-[#666666] hover:bg-[#292929]">
+                <span className="relative z-10">{t('contactSupport')}</span>
+                <ArrowRight className="ml-2 h-5 w-5 relative z-10" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
