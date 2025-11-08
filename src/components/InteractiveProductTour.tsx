@@ -234,9 +234,9 @@ export const InteractiveProductTour = () => {
                 variant="animated"
                 onClick={handlePrev}
                 disabled={isFirstStep}
-                className="gap-2 h-12 px-6 text-base shadow-xl"
+                className="gap-2 h-10 px-4 text-sm shadow-xl"
               >
-                <ArrowLeft className="h-5 w-5" />
+                <ArrowLeft className="h-4 w-4" />
                 {t('previous')}
               </Button>
 
@@ -257,19 +257,19 @@ export const InteractiveProductTour = () => {
 
               {isLastStep ? (
                 <Link to="/auth" onClick={handleClose}>
-                  <Button variant="animated" className="gap-2 h-12 px-6 text-base shadow-xl">
+                  <Button variant="animated" className="gap-2 h-10 px-4 text-sm shadow-xl">
                     {t('getStartedFree')}
-                    <ArrowRight className="h-5 w-5" />
+                    <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
               ) : (
                 <Button
                   onClick={handleNext}
                   variant="animated"
-                  className="gap-2 h-12 px-6 text-base shadow-xl"
+                  className="gap-2 h-10 px-4 text-sm shadow-xl"
                 >
                   {t('next')}
-                  <ArrowRight className="h-5 w-5" />
+                  <ArrowRight className="h-4 w-4" />
                 </Button>
               )}
             </div>
