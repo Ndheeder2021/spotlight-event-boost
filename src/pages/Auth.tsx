@@ -146,14 +146,14 @@ export default function Auth() {
       <div className="container mx-auto px-4 relative z-10 min-h-screen flex items-center">
         <div className="grid lg:grid-cols-2 gap-8 w-full max-w-6xl mx-auto">
           {/* Left Side - Changes based on mode */}
-          <div className={`flex flex-col justify-center ${isLogin ? 'order-1' : 'order-2'}`}>
-            {isLogin ? <div className="text-center lg:text-left space-y-6 p-8">
+          <div className={`flex flex-col justify-center transition-all duration-500 ${isLogin ? 'order-1' : 'order-2'}`}>
+            {isLogin ? <div className="text-center lg:text-left space-y-6 p-8 animate-fade-in animate-scale-in">
                 <h2 className="text-4xl font-extrabold text-foreground text-center">Don't have an account?</h2>
                 
                 <Button variant="outline" size="lg" className="border-2 border-white !text-white bg-transparent hover:bg-white hover:!text-primary transition-all px-12 py-6 text-lg rounded-full" onClick={() => setIsLogin(false)}>
                   SIGN UP
                 </Button>
-              </div> : <div className="bg-background rounded-3xl p-8 lg:p-12 shadow-2xl">
+              </div> : <div className="bg-background rounded-3xl p-8 lg:p-12 shadow-2xl animate-fade-in animate-scale-in">
                 <h1 className="text-4xl font-bold mb-8 !text-foreground">Create Account</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="relative">
@@ -250,8 +250,8 @@ export default function Auth() {
           </div>
 
           {/* Right Side - Changes based on mode */}
-          <div className={`flex flex-col justify-center ${isLogin ? 'order-2' : 'order-1'}`}>
-            {isLogin ? <div className="bg-background rounded-3xl p-8 lg:p-12 shadow-2xl">
+          <div className={`flex flex-col justify-center transition-all duration-500 ${isLogin ? 'order-2' : 'order-1'}`}>
+            {isLogin ? <div className="bg-background rounded-3xl p-8 lg:p-12 shadow-2xl animate-fade-in animate-scale-in">
                 <h1 className="text-4xl font-bold mb-8 !text-foreground">Sign In</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="relative">
@@ -281,7 +281,7 @@ export default function Auth() {
                     {submitting ? <Loader2 className="h-5 w-5 animate-spin" /> : "LOGIN"}
                   </Button>
                 </form>
-              </div> : <div className="text-center lg:text-right space-y-6 p-8 lg:pr-32 xl:pr-48 2xl:pr-64">
+              </div> : <div className="text-center lg:text-right space-y-6 p-8 lg:pr-32 xl:pr-48 2xl:pr-64 animate-fade-in animate-scale-in">
                 <h2 className="text-4xl break-words font-extrabold text-foreground">Already have an account?</h2>
                 
                 <Button variant="outline" size="lg" className="border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-white transition-all px-12 py-6 text-lg rounded-full" onClick={() => setIsLogin(true)}>
