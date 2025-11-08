@@ -14,7 +14,7 @@ export function TermsModal({ open, onOpenChange }: TermsModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[500px] w-[90vw] max-h-[85vh] p-0 rounded-2xl shadow-[0_15px_30px_0_rgba(0,0,0,0.25)] flex flex-col overflow-hidden">
+      <DialogContent className="max-w-[500px] w-[90vw] max-h-[60vh] p-0 rounded-2xl shadow-[0_15px_30px_0_rgba(0,0,0,0.25)] flex flex-col overflow-hidden">
         {/* Header */}
         <DialogHeader className="px-8 py-4 border-b border-border flex-shrink-0">
           <div className="flex items-center justify-between">
@@ -32,8 +32,8 @@ export function TermsModal({ open, onOpenChange }: TermsModalProps) {
         </DialogHeader>
 
         {/* Body */}
-        <ScrollArea className="flex-1 overflow-y-auto" style={{ maxHeight: 'calc(85vh - 160px)' }}>
-          <div className="px-8 py-6">
+        <ScrollArea className="flex-1 overflow-y-auto" style={{ maxHeight: 'calc(60vh - 160px)' }}>
+          <div className="px-6 py-4">
           <div className="space-y-6 text-sm">
             <div>
               <h3 className="text-base font-bold mb-2">{t('termsAcceptTitle')}</h3>
