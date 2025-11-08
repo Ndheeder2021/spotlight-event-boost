@@ -1232,7 +1232,11 @@ const Index = () => {
           {/* Horizontal scroll container on mobile, grid on desktop */}
           <div className="md:hidden overflow-x-auto pb-8 -mx-4 px-4">
             <div className="flex gap-6 min-w-max">
-              {plans.map(plan => <div key={plan.name} className={`group relative rounded-[20px] bg-muted border-2 p-7 transition-all duration-500 ease-out overflow-visible w-[85vw] max-w-[400px] min-h-[600px] flex-shrink-0 ${plan.popular ? 'border-primary shadow-lg' : 'border-border hover:border-primary hover:shadow-[0_4px_18px_0_rgba(0,0,0,0.25)]'}`}>
+              {plans.map((plan, index) => <div key={plan.name} className={`group relative rounded-[20px] border-2 p-7 transition-all duration-500 ease-out overflow-visible w-[85vw] max-w-[400px] min-h-[600px] flex-shrink-0 ${
+                index === 0 ? 'bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900' : 
+                index === 1 ? 'bg-gradient-to-br from-primary/10 to-primary/5' : 
+                'bg-gradient-to-br from-yellow-100 to-amber-200 dark:from-yellow-900/30 dark:to-amber-900/20'
+              } ${plan.popular ? 'border-primary shadow-lg' : 'border-border hover:border-primary hover:shadow-[0_4px_18px_0_rgba(0,0,0,0.25)]'}`}>
                   {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
                       <span className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-bold rounded-full uppercase tracking-wide">
                         {t('plansMostPopular')}
@@ -1285,7 +1289,11 @@ const Index = () => {
 
           {/* Desktop grid layout */}
           <div className="hidden md:grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {plans.map(plan => <div key={plan.name} className={`group relative rounded-[20px] bg-muted border-2 p-7 transition-all duration-500 ease-out overflow-visible min-h-[600px] ${plan.popular ? 'border-primary shadow-lg' : 'border-border hover:border-primary hover:shadow-[0_4px_18px_0_rgba(0,0,0,0.25)]'}`}>
+            {plans.map((plan, index) => <div key={plan.name} className={`group relative rounded-[20px] border-2 p-7 transition-all duration-500 ease-out overflow-visible min-h-[600px] ${
+              index === 0 ? 'bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900' : 
+              index === 1 ? 'bg-gradient-to-br from-primary/10 to-primary/5' : 
+              'bg-gradient-to-br from-yellow-100 to-amber-200 dark:from-yellow-900/30 dark:to-amber-900/20'
+            } ${plan.popular ? 'border-primary shadow-lg' : 'border-border hover:border-primary hover:shadow-[0_4px_18px_0_rgba(0,0,0,0.25)]'}`}>
                 {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
                     <span className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-bold rounded-full uppercase tracking-wide">
                       {t('plansMostPopular')}
