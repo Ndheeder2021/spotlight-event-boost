@@ -469,34 +469,49 @@ const Index = () => {
       <section className="py-24 bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-            <div className="space-y-4">
-              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <Bell className="h-7 w-7 text-primary" />
+            <div className="group relative w-full max-w-[240px] mx-auto h-[320px] rounded-[20px] bg-muted border-2 border-border p-7 transition-all duration-500 ease-out overflow-visible hover:border-primary hover:shadow-[0_4px_18px_0_rgba(0,0,0,0.25)]">
+              <div className="h-full flex flex-col items-center justify-center gap-4 text-center">
+                <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+                  <Bell className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold">{t('autoMonitoring')}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {t('autoMonitoringDesc')}
+                </p>
               </div>
-              <h3 className="text-2xl font-bold">{t('autoMonitoring')}</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {t('autoMonitoringDesc')}
-              </p>
+              <Link to="/auth" className="absolute left-1/2 bottom-0 w-[60%] -translate-x-1/2 translate-y-[125%] rounded-2xl bg-primary text-primary-foreground text-sm px-4 py-2 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-[50%] group-hover:opacity-100">
+                {t('readMore')}
+              </Link>
             </div>
 
-            <div className="space-y-4">
-              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <Sparkles className="h-7 w-7 text-primary" />
+            <div className="group relative w-full max-w-[240px] mx-auto h-[320px] rounded-[20px] bg-muted border-2 border-border p-7 transition-all duration-500 ease-out overflow-visible hover:border-primary hover:shadow-[0_4px_18px_0_rgba(0,0,0,0.25)]">
+              <div className="h-full flex flex-col items-center justify-center gap-4 text-center">
+                <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+                  <Sparkles className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold">{t('aiCampaigns')}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {t('aiCampaignsDesc')}
+                </p>
               </div>
-              <h3 className="text-2xl font-bold">{t('aiCampaigns')}</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {t('aiCampaignsDesc')}
-              </p>
+              <Link to="/auth" className="absolute left-1/2 bottom-0 w-[60%] -translate-x-1/2 translate-y-[125%] rounded-2xl bg-primary text-primary-foreground text-sm px-4 py-2 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-[50%] group-hover:opacity-100">
+                {t('readMore')}
+              </Link>
             </div>
 
-            <div className="space-y-4">
-              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <BarChart className="h-7 w-7 text-primary" />
+            <div className="group relative w-full max-w-[240px] mx-auto h-[320px] rounded-[20px] bg-muted border-2 border-border p-7 transition-all duration-500 ease-out overflow-visible hover:border-primary hover:shadow-[0_4px_18px_0_rgba(0,0,0,0.25)]">
+              <div className="h-full flex flex-col items-center justify-center gap-4 text-center">
+                <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+                  <BarChart className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold">{t('roiTracking')}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {t('roiTrackingDesc')}
+                </p>
               </div>
-              <h3 className="text-2xl font-bold">{t('roiTracking')}</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {t('roiTrackingDesc')}
-              </p>
+              <Link to="/auth" className="absolute left-1/2 bottom-0 w-[60%] -translate-x-1/2 translate-y-[125%] rounded-2xl bg-primary text-primary-foreground text-sm px-4 py-2 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-[50%] group-hover:opacity-100">
+                {t('readMore')}
+              </Link>
             </div>
           </div>
         </div>
