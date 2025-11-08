@@ -1514,51 +1514,108 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA - Instantly.ai Style */}
-      <section className="py-32 bg-muted/20">
+      {/* CTA - Fun & Human Design */}
+      <section className="py-32 bg-muted/20 relative overflow-hidden">
+        {/* Playful background decorations */}
+        <div className="absolute top-20 left-20 text-primary/10" style={{ transform: 'rotate(-20deg)' }}>
+          <span className="text-9xl">🚀</span>
+        </div>
+        <div className="absolute bottom-20 right-20 text-primary/10" style={{ transform: 'rotate(15deg)' }}>
+          <span className="text-9xl">✨</span>
+        </div>
+        <div className="absolute top-1/2 left-1/4 text-primary/5" style={{ transform: 'rotate(25deg)' }}>
+          <span className="text-7xl">💡</span>
+        </div>
+        
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-5xl mx-auto text-center space-y-14">
+          <div className="max-w-5xl mx-auto text-center space-y-14 relative">
+            {/* Fun badge */}
+            <div className="inline-flex items-center gap-2 bg-card/80 backdrop-blur-sm px-6 py-3 rounded-full border-2 border-border/50 shadow-lg mb-6" style={{ transform: 'rotate(1.5deg)' }}>
+              <span className="text-xl">👋</span>
+              <span className="text-base font-bold">Ready to Start?</span>
+              <span className="text-xl">🎉</span>
+            </div>
+            
             <div className="space-y-8">
-              <h2 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1]">
+              <h2 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[1.1] relative inline-block">
                 {t('startToday')}
+                {/* Hand-drawn circle decoration */}
+                <div className="absolute -top-8 -right-12 text-primary/20 hidden lg:block" style={{ transform: 'rotate(15deg)' }}>
+                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                    <circle cx="40" cy="40" r="35" stroke="currentColor" strokeWidth="3" strokeDasharray="8 4" />
+                  </svg>
+                </div>
               </h2>
               <p className="text-2xl sm:text-3xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
                 {t('joinHundreds')}
               </p>
             </div>
             
+            {/* Buttons with playful rotations */}
             <div className="flex flex-col sm:flex-row gap-5 justify-center pt-6">
-              <Link to="/auth">
-                <Button variant="animated" size="xl" className="bg-gradient-to-r from-primary via-primary-glow to-primary hover:opacity-90">
+              <div className="relative inline-flex items-center justify-center gap-4 group" style={{ transform: 'rotate(-1deg)' }}>
+                <div className="absolute inset-0 duration-1000 opacity-60 transition-all bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 rounded-xl blur-lg filter group-hover:opacity-100 group-hover:duration-200"></div>
+                <Link
+                  to="/auth"
+                  className="group relative inline-flex items-center justify-center text-base sm:text-lg rounded-xl bg-gray-900 px-8 sm:px-10 py-4 font-bold text-white transition-all duration-200 hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30"
+                >
                   {t('ctaButton')}
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 10 10"
+                    height="10"
+                    width="10"
+                    fill="none"
+                    className="mt-0.5 ml-2 -mr-1 stroke-white stroke-2"
+                  >
+                    <path
+                      d="M0 5h7"
+                      className="transition opacity-0 group-hover:opacity-100"
+                    ></path>
+                    <path
+                      d="M1 1l4 4-4 4"
+                      className="transition group-hover:translate-x-[3px]"
+                    ></path>
+                  </svg>
+                </Link>
+              </div>
+              
+              <div style={{ transform: 'rotate(1deg)' }}>
+                <Button 
+                  variant="outline" 
+                  size="xl" 
+                  onClick={() => navigate('/contact')}
+                  className="px-8 sm:px-10 py-4 text-base sm:text-lg rounded-xl border-2 hover:bg-accent transition-all duration-300 hover:scale-105 font-bold"
+                >
+                  {t('contactUs')}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
-              </Link>
-              <Button variant="animatedOutline" size="xl" onClick={() => navigate('/contact')}>
-                {t('contactUs')}
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-              </Button>
+              </div>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-6 sm:gap-10 justify-center pt-6">
-              <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Check className="h-5 w-5 text-primary" />
-                </div>
-                <span className="text-base text-muted-foreground">{t('daysFree')}</span>
+            {/* Benefits with handcrafted feel */}
+            <div className="flex flex-wrap gap-6 justify-center pt-8">
+              <div className="flex items-center gap-3 bg-card/60 px-5 py-3 rounded-2xl border-2 border-border/40 shadow-sm" style={{ transform: 'rotate(-0.5deg)' }}>
+                <span className="text-2xl">✓</span>
+                <span className="text-base font-medium">{t('daysFree')}</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Check className="h-5 w-5 text-primary" />
-                </div>
-                <span className="text-base text-muted-foreground">{t('noCommitment')}</span>
+              <div className="flex items-center gap-3 bg-card/60 px-5 py-3 rounded-2xl border-2 border-border/40 shadow-sm" style={{ transform: 'rotate(0.5deg)' }}>
+                <span className="text-2xl">✓</span>
+                <span className="text-base font-medium">{t('noCommitment')}</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Check className="h-5 w-5 text-primary" />
-                </div>
-                <span className="text-base text-muted-foreground">{t('noCreditCard')}</span>
+              <div className="flex items-center gap-3 bg-card/60 px-5 py-3 rounded-2xl border-2 border-border/40 shadow-sm" style={{ transform: 'rotate(-0.3deg)' }}>
+                <span className="text-2xl">✓</span>
+                <span className="text-base font-medium">{t('noCreditCard')}</span>
               </div>
+            </div>
+
+            {/* Hand-drawn arrow pointing up */}
+            <div className="pt-8" style={{ transform: 'rotate(5deg)' }}>
+              <svg width="60" height="60" viewBox="0 0 60 60" className="mx-auto text-primary/30">
+                <path d="M30 50 Q 35 30, 30 10" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
+                <path d="M20 20 L30 10 L40 20" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+              </svg>
+              <p className="text-sm text-muted-foreground mt-2 font-medium">Kom igång nu! 🎯</p>
             </div>
           </div>
         </div>
