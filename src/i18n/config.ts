@@ -631,7 +631,7 @@ const resources = {
       newsletterThankYou: "Tack! Du är nu prenumerant.",
 
       // Trust Badge
-      trustedByLocal: "TRUSTED BY LOCAL BUSINESSES ACROSS SWEDEN",
+      trustedByLocal: "TRUSTED BY LOCAL BUSINESSES ACROSS THE WORLD",
 
       // Header Menu Items
       product: "Produkt",
@@ -2009,7 +2009,7 @@ const resources = {
       newsletterThankYou: "Thank you! You are now subscribed.",
 
       // Trust Badge
-      trustedByLocal: "TRUSTED BY LOCAL BUSINESSES ACROSS SWEDEN",
+      trustedByLocal: "TRUSTED BY LOCAL BUSINESSES ACROSS THE WORLD",
 
       // Header Menu Items
       product: "Product",
