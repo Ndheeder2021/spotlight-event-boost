@@ -538,8 +538,8 @@ const Index = () => {
       <section className="py-32">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-20">
-            <h2 className="text-5xl sm:text-6xl font-bold mb-6">{t('featuresTitle')}</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-5xl sm:text-6xl font-bold mb-6 opacity-0 animate-fade-in [animation-delay:200ms] [animation-fill-mode:forwards]">{t('featuresTitle')}</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in [animation-delay:400ms] [animation-fill-mode:forwards]">
               {t('featuresSubtitle')}
             </p>
           </div>
