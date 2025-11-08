@@ -416,16 +416,6 @@ const Index = () => {
       </section>
 
 
-      {/* Social Proof */}
-      <section className="py-16 border-y">
-        <div className="container mx-auto px-4 sm:px-6">
-          <p className="text-center text-muted-foreground mb-12 text-lg">
-            {t('over')} <span className="font-semibold text-foreground">{t('companiesCount')}</span> {t('companiesUsing')}
-          </p>
-          <LogoCarousel />
-        </div>
-      </section>
-
       {/* Feature Showcase with Images */}
       <section className="py-32">
         <div className="container mx-auto px-4 sm:px-6">
@@ -462,6 +452,16 @@ const Index = () => {
                 </div>
               </div>)}
           </div>
+        </div>
+      </section>
+
+      {/* Social Proof */}
+      <section className="py-16 border-y">
+        <div className="container mx-auto px-4 sm:px-6">
+          <p className="text-center text-muted-foreground mb-12 text-lg">
+            {t('over')} <span className="font-semibold text-foreground">{t('companiesCount')}</span> {t('companiesUsing')}
+          </p>
+          <LogoCarousel />
         </div>
       </section>
 
