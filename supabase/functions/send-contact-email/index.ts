@@ -16,6 +16,8 @@ const corsHeaders = {
 interface ContactEmailRequest {
   name: string;
   email: string;
+  countryCode: string;
+  phone: string;
   subject: string;
   message: string;
 }
@@ -98,7 +100,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    const { name, email, subject, message }: ContactEmailRequest = await req.json();
+    const { name, email, countryCode, phone, subject, message }: ContactEmailRequest = await req.json();
 
     // Validate input lengths (server-side validation)
     if (!name || name.trim().length === 0 || name.length > 100) {
@@ -106,6 +108,12 @@ const handler = async (req: Request): Promise<Response> => {
     }
     if (!email || email.trim().length === 0 || email.length > 255 || !email.includes("@")) {
       throw new Error("Invalid email");
+    }
+    if (!countryCode || countryCode.trim().length === 0) {
+      throw new Error("Invalid country code");
+    }
+    if (!phone || phone.trim().length === 0 || phone.length > 20) {
+      throw new Error("Invalid phone number");
     }
     if (!subject || subject.trim().length === 0 || subject.length > 200) {
       throw new Error("Invalid subject");
@@ -127,6 +135,7 @@ const handler = async (req: Request): Promise<Response> => {
       .insert({
         name,
         email,
+        phone: `${countryCode}${phone}`,
         subject,
         message,
         status: "new",
