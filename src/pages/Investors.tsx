@@ -18,8 +18,9 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { TrendingUp, Target, Users, Sparkles, ArrowRight } from "lucide-react";
+import { TrendingUp, Target, Users, Sparkles, ArrowRight, Rocket, DollarSign, TrendingDown } from "lucide-react";
 import { z } from "zod";
+import { AnimatedCounter } from "@/components/AnimatedCounter";
 
 type InvestorFormData = {
   name: string;
@@ -126,59 +127,108 @@ export default function Investors() {
       />
       <GlobalHeader variant="default" />
       
-      <main className="min-h-screen bg-gradient-to-b from-background via-background to-accent/5">
+      <main className="min-h-screen bg-gradient-to-b from-background via-background to-accent/5 relative overflow-hidden">
+        {/* Decorative Elements */}
+        <div className="absolute top-20 left-10 text-6xl animate-bounce opacity-20">💰</div>
+        <div className="absolute top-40 right-20 text-5xl animate-pulse opacity-20">📈</div>
+        <div className="absolute bottom-40 left-20 text-5xl animate-bounce opacity-20" style={{ animationDelay: '1s' }}>🚀</div>
+        <div className="absolute bottom-20 right-10 text-6xl animate-pulse opacity-20" style={{ animationDelay: '0.5s' }}>💡</div>
+
+        {/* Hand-drawn circle decoration */}
+        <svg className="absolute top-32 right-1/4 w-32 h-32 opacity-10 animate-float" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" 
+            strokeDasharray="5,5" transform="rotate(-10 50 50)" />
+        </svg>
+        
+        {/* Hand-drawn arrow decoration */}
+        <svg className="absolute bottom-1/3 left-1/4 w-24 h-24 opacity-10 animate-float" style={{ animationDelay: '1.5s' }} viewBox="0 0 100 100">
+          <path d="M20 80 L50 20 L80 80" fill="none" stroke="currentColor" strokeWidth="3" className="text-accent" 
+            strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M50 30 L50 20 L60 30" fill="none" stroke="currentColor" strokeWidth="3" className="text-accent" 
+            strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+
         {/* Hero Section */}
-        <section className="pt-32 pb-16 px-4">
+        <section className="pt-32 pb-16 px-4 relative">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-16 space-y-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
-                <Sparkles className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium text-primary">{t("investorBadgeText")}</span>
+            <div className="text-center mb-16 space-y-6 relative">
+              {/* Sparkle decorations */}
+              <div className="absolute -top-10 left-1/4 text-4xl animate-pulse opacity-30">✨</div>
+              <div className="absolute -top-5 right-1/3 text-3xl animate-bounce opacity-30" style={{ animationDelay: '0.5s' }}>⭐</div>
+              
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4 hover:scale-105 transition-transform duration-300">
+                <Sparkles className="h-4 w-4 text-primary animate-pulse" />
+                <span className="text-sm font-medium text-primary">{t("investorBadgeText")} 💎</span>
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary via-primary-glow to-primary bg-clip-text text-transparent leading-tight">
-                {t("investorHero")} <br />{t("investorHeroLine2")}
+              
+              <h1 className="text-5xl md:text-6xl font-bold leading-tight relative inline-block">
+                <span className="bg-gradient-to-r from-primary via-primary-glow to-primary bg-clip-text text-transparent">
+                  {t("investorHero")}
+                </span>
+                <br />
+                <span className="relative inline-block bg-gradient-to-r from-primary via-primary-glow to-primary bg-clip-text text-transparent">
+                  {t("investorHeroLine2")}
+                  {/* Wavy underline */}
+                  <svg className="absolute -bottom-2 left-0 w-full" height="12" viewBox="0 0 300 12">
+                    <path d="M0 6 Q15 0, 30 6 T60 6 T90 6 T120 6 T150 6 T180 6 T210 6 T240 6 T270 6 T300 6" 
+                      fill="none" stroke="currentColor" strokeWidth="3" className="text-accent" />
+                  </svg>
+                </span>
               </h1>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                {t("investorHeroDesc")}
+              
+              <p className="text-xl text-foreground/80 max-w-3xl mx-auto leading-relaxed">
+                {t("investorHeroDesc")} 🌟
               </p>
             </div>
 
-            {/* Stats */}
+            {/* Stats with animated counters */}
             <div className="grid md:grid-cols-3 gap-6 mb-16">
-              <Card className="relative overflow-hidden bg-gradient-to-br from-card via-card to-primary/5 border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl group">
+              <Card className="relative overflow-hidden bg-card border-2 border-border hover:border-primary/40 transition-all duration-300 hover:shadow-xl group hover:-rotate-1 hover:scale-105" style={{ transform: 'rotate(-0.5deg)' }}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:blur-3xl transition-all" />
+                <div className="absolute -top-5 -right-5 text-5xl opacity-20 group-hover:scale-125 transition-transform duration-300">📈</div>
                 <CardHeader className="relative">
-                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 group-hover:rotate-12">
                     <TrendingUp className="h-7 w-7 text-primary" />
                   </div>
-                  <CardTitle className="text-2xl mb-2">{t("investorStat1Title")}</CardTitle>
-                  <CardDescription className="text-base">
+                  <CardTitle className="text-4xl font-bold text-primary mb-2">
+                    <AnimatedCounter end={250} suffix="%" />
+                  </CardTitle>
+                  <CardTitle className="text-xl mb-2 text-foreground">{t("investorStat1Title")}</CardTitle>
+                  <CardDescription className="text-base text-foreground/70">
                     {t("investorStat1Desc")}
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              <Card className="relative overflow-hidden bg-gradient-to-br from-card via-card to-accent/5 border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl group">
+              <Card className="relative overflow-hidden bg-card border-2 border-border hover:border-primary/40 transition-all duration-300 hover:shadow-xl group hover:rotate-1 hover:scale-105" style={{ transform: 'rotate(0.5deg)' }}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-accent/10 rounded-full blur-2xl group-hover:blur-3xl transition-all" />
+                <div className="absolute -top-5 -right-5 text-5xl opacity-20 group-hover:scale-125 transition-transform duration-300">💰</div>
                 <CardHeader className="relative">
-                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
-                    <Target className="h-7 w-7 text-primary" />
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 group-hover:rotate-12">
+                    <DollarSign className="h-7 w-7 text-accent" />
                   </div>
-                  <CardTitle className="text-2xl mb-2">{t("investorStat2Title")}</CardTitle>
-                  <CardDescription className="text-base">
+                  <CardTitle className="text-4xl font-bold text-primary mb-2">
+                    $<AnimatedCounter end={50} suffix="M+" />
+                  </CardTitle>
+                  <CardTitle className="text-xl mb-2 text-foreground">{t("investorStat2Title")}</CardTitle>
+                  <CardDescription className="text-base text-foreground/70">
                     {t("investorStat2Desc")}
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              <Card className="relative overflow-hidden bg-gradient-to-br from-card via-card to-primary/5 border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl group">
+              <Card className="relative overflow-hidden bg-card border-2 border-border hover:border-primary/40 transition-all duration-300 hover:shadow-xl group hover:-rotate-1 hover:scale-105" style={{ transform: 'rotate(-0.5deg)' }}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:blur-3xl transition-all" />
+                <div className="absolute -top-5 -right-5 text-5xl opacity-20 group-hover:scale-125 transition-transform duration-300">🚀</div>
                 <CardHeader className="relative">
-                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
-                    <Users className="h-7 w-7 text-primary" />
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 group-hover:rotate-12">
+                    <Rocket className="h-7 w-7 text-primary" />
                   </div>
-                  <CardTitle className="text-2xl mb-2">{t("investorStat3Title")}</CardTitle>
-                  <CardDescription className="text-base">
+                  <CardTitle className="text-4xl font-bold text-primary mb-2">
+                    <AnimatedCounter end={15000} suffix="+" separator="," />
+                  </CardTitle>
+                  <CardTitle className="text-xl mb-2 text-foreground">{t("investorStat3Title")}</CardTitle>
+                  <CardDescription className="text-base text-foreground/70">
                     {t("investorStat3Desc")}
                   </CardDescription>
                 </CardHeader>
@@ -186,16 +236,26 @@ export default function Investors() {
             </div>
 
             {/* Form */}
-            <Card className="relative max-w-2xl mx-auto bg-gradient-to-br from-card via-card to-primary/5 border-2 border-primary/20 shadow-xl overflow-hidden">
+            <Card className="relative max-w-2xl mx-auto bg-card border-2 border-border shadow-2xl overflow-hidden hover:shadow-primary/20 transition-all duration-300 hover:-rotate-0.5" style={{ transform: 'rotate(0.5deg)' }}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent/10 rounded-full blur-3xl" />
+              
+              {/* Fun decorative emojis */}
+              <div className="absolute top-4 right-4 text-4xl animate-bounce opacity-20">💼</div>
+              <div className="absolute bottom-4 left-4 text-3xl animate-pulse opacity-20">📊</div>
+              
               <div className="relative z-10">
                 <CardHeader className="space-y-3">
-                  <CardTitle className="text-3xl bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
-                    {t("investorFormTitle")}
-                  </CardTitle>
-                  <CardDescription className="text-base">
-                    {t("investorFormDesc")}
+                  <div className="flex items-center gap-3">
+                    <CardTitle className="text-3xl font-bold">
+                      <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
+                        {t("investorFormTitle")}
+                      </span>
+                    </CardTitle>
+                    <span className="text-3xl animate-bounce">🤝</span>
+                  </div>
+                  <CardDescription className="text-base text-foreground/70">
+                    {t("investorFormDesc")} ✨
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -299,10 +359,20 @@ export default function Investors() {
                       type="submit"
                       size="xl"
                       disabled={isSubmitting}
-                      className="group relative w-full overflow-hidden bg-gradient-to-r from-primary via-primary-glow to-primary font-bold shadow-xl hover:shadow-2xl transition-all duration-300 bg-[length:200%_100%] animate-gradient-x"
+                      className="group relative w-full overflow-hidden bg-gradient-to-r from-primary via-primary-glow to-primary font-bold shadow-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 bg-[length:200%_100%] animate-gradient-x hover:scale-105"
                     >
-                      <span className="relative z-10">
-                        {isSubmitting ? t("investorFormSubmitting") : t("investorFormSubmit")}
+                      <span className="relative z-10 flex items-center justify-center gap-2">
+                        {isSubmitting ? (
+                          <>
+                            {t("investorFormSubmitting")}
+                            <span className="animate-spin">⏳</span>
+                          </>
+                        ) : (
+                          <>
+                            {t("investorFormSubmit")}
+                            <span className="text-xl">🚀</span>
+                          </>
+                        )}
                       </span>
                       {!isSubmitting && (
                         <ArrowRight className="ml-2 h-5 w-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
