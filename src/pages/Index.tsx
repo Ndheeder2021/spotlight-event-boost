@@ -15,7 +15,7 @@ import { LogoCarousel } from "@/components/LogoCarousel";
 import { SEO } from "@/components/SEO";
 import { SkipToContent } from "@/components/SkipToContent";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
-import { ExitIntentPopup } from "@/components/ExitIntentPopup";
+
 import { InteractiveProductTour } from "@/components/InteractiveProductTour";
 import { ROICalculator } from "@/components/ROICalculator";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
@@ -1643,9 +1643,6 @@ const Index = () => {
       <TrustBadges />
 
       <Footer />
-      
-      {/* Exit Intent Popup */}
-      <ExitIntentPopup />
     </div>;
 };
 export default Index;
