@@ -63,14 +63,14 @@ const CaseStudyCard = ({ study, index = 0 }: { study: CaseStudy; index?: number 
       </div>
       
       {/* Results - Outside card, more readable */}
-      <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-lg p-4">
+      <div className="bg-card border-2 border-border rounded-lg p-4">
         <div className="grid grid-cols-2 gap-4">
           {study.results.slice(0, 2).map((result, idx) => (
             <div key={idx} className="text-center transition-all duration-300 hover:scale-105">
-              <div className="text-3xl font-bold gradient-text mb-1">
+              <div className="text-3xl font-bold text-primary mb-1">
                 {result.value}
               </div>
-              <div className="text-xs text-foreground font-medium leading-tight">
+              <div className="text-xs text-foreground font-semibold leading-tight">
                 {result.metric[currentLang]}
               </div>
             </div>
