@@ -12,6 +12,7 @@ const investorApplicationSchema = z.object({
   name: z.string().trim().min(2).max(100),
   email: z.string().trim().email().max(255),
   company: z.string().trim().max(100).optional(),
+  countryCode: z.string().trim().max(10).optional(),
   phone: z.string().trim().max(20).optional(),
   investment_range: z.enum(["100k-500k", "500k-1m", "1m-5m", "5m+"]),
   message: z.string().trim().min(10).max(2000),
@@ -63,6 +64,11 @@ serve(async (req) => {
       );
     }
 
+    // Combine country code and phone number if both exist
+    const fullPhone = validatedData.countryCode && validatedData.phone 
+      ? `${validatedData.countryCode} ${validatedData.phone}`
+      : validatedData.phone || null;
+
     // Insert the application
     const { error: insertError } = await supabase
       .from("investor_applications")
@@ -70,7 +76,7 @@ serve(async (req) => {
         name: validatedData.name,
         email: validatedData.email,
         company: validatedData.company || null,
-        phone: validatedData.phone || null,
+        phone: fullPhone,
         investment_range: validatedData.investment_range,
         message: validatedData.message,
       }]);

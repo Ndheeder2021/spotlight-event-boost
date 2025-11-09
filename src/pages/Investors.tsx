@@ -26,6 +26,7 @@ type InvestorFormData = {
   name: string;
   email: string;
   company: string;
+  countryCode: string;
   phone: string;
   investment_range: string;
   message: string;
@@ -39,6 +40,7 @@ export default function Investors() {
     name: "",
     email: "",
     company: "",
+    countryCode: "+46",
     phone: "",
     investment_range: "",
     message: "",
@@ -53,6 +55,7 @@ export default function Investors() {
         name: z.string().trim().min(2, t("investorFormErrorNameMin")).max(100, t("investorFormErrorNameMax")),
         email: z.string().trim().email(t("investorFormErrorEmailInvalid")).max(255, t("investorFormErrorEmailMax")),
         company: z.string().trim().max(100, t("investorFormErrorCompanyMax")).optional(),
+        countryCode: z.string().trim().optional(),
         phone: z.string().trim().max(20, t("investorFormErrorPhoneMax")).optional(),
         investment_range: z.string().min(1, t("investorFormErrorInvestmentRange")),
         message: z.string().trim().min(10, t("investorFormErrorMessageMin")).max(2000, t("investorFormErrorMessageMax")),
@@ -69,6 +72,7 @@ export default function Investors() {
             name: validatedData.name,
             email: validatedData.email,
             company: validatedData.company || null,
+            countryCode: validatedData.countryCode || null,
             phone: validatedData.phone || null,
             investment_range: validatedData.investment_range,
             message: validatedData.message,
@@ -84,6 +88,7 @@ export default function Investors() {
         name: "",
         email: "",
         company: "",
+        countryCode: "+46",
         phone: "",
         investment_range: "",
         message: "",
@@ -305,16 +310,36 @@ export default function Investors() {
 
                       <div className="space-y-2">
                         <Label htmlFor="phone" className="font-semibold">{t("investorFormPhone")}</Label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          placeholder={t("investorFormPhonePlaceholder")}
-                          maxLength={20}
-                          className="h-12 bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors"
-                        />
+                        <div className="flex gap-2">
+                          <Select
+                            value={formData.countryCode}
+                            onValueChange={(value) => setFormData(prev => ({ ...prev, countryCode: value }))}
+                          >
+                            <SelectTrigger className="h-12 w-[120px] bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-background z-50">
+                              <SelectItem value="+1">🇺🇸 +1</SelectItem>
+                              <SelectItem value="+44">🇬🇧 +44</SelectItem>
+                              <SelectItem value="+46">🇸🇪 +46</SelectItem>
+                              <SelectItem value="+47">🇳🇴 +47</SelectItem>
+                              <SelectItem value="+45">🇩🇰 +45</SelectItem>
+                              <SelectItem value="+358">🇫🇮 +358</SelectItem>
+                              <SelectItem value="+49">🇩🇪 +49</SelectItem>
+                              <SelectItem value="+33">🇫🇷 +33</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <Input
+                            id="phone"
+                            name="phone"
+                            type="tel"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder={t("investorFormPhonePlaceholder")}
+                            maxLength={20}
+                            className="h-12 flex-1 bg-background/50 border-2 border-border hover:border-primary/50 focus:border-primary transition-colors"
+                          />
+                        </div>
                       </div>
                     </div>
 
